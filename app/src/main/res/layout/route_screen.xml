@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/routeToHomeButton"
+        android:layout_width="118dp"
+        android:layout_height="53dp"
+        android:background="@android:color/white"
+        android:text="@string/HomeButton"
+        android:textColor="@android:color/black"
+        android:textSize="23sp"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="48dp" />
+
+    <TextView
+        android:id="@+id/RouteTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/RouteScreenTitle"
+        android:textColor="@android:color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:typeface="sans"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="7dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,4 +15,5 @@
     <string name="MilesTextRecent">Miles</string>
     <string name="recentRunTime">5:46 AM</string>
     <string name="HeightHintDialog">Height</string>
+    <string name="RouteScreenTitle">Your Routes</string>
 </resources>

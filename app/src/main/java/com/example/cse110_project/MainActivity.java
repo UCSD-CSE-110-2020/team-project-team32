@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,7 +29,24 @@ public class MainActivity extends AppCompatActivity {
         TextView DailyMiles = (TextView) findViewById(R.id.miles);
         updateDailyMiles(Integer.parseInt(DailySteps.getText().toString()),DailyMiles);
 
+        // Implementation of button event to route screen
+        final Button launchToRouteScreen = (Button) findViewById(R.id.RoutesButton);
+
+        launchToRouteScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchRouteActivity();
+            }
+        });
+
     }
+
+    public void launchRouteActivity() {
+        Intent intent = new Intent(this, RouteScreen.class);
+        startActivity(intent);
+    }
+    // end of to route screen implementation
+
 
     public void updateDailyMiles(int steps, TextView miles){
         double update;
