@@ -1,8 +1,5 @@
 local.properties
-./gradle/5.4.1/executionHistory/*
-./gradle/5.4.1/fileHashes/*
-./gradle/5.4.1/javaCompile/*
-.gradle/buildOutputCleanup/*
+.gradle/
 .idea/cashes/build_file_checksums.ser
 .idea/caches/gradle_models.ser
 .idea/workspace.xml
