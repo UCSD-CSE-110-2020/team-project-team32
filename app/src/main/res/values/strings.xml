@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CSE110_Project</string>
+    <string name="RoutesButton">Routes</string>
+    <string name="HomeButton">Home</string>
+    <string name="StepsToday">Steps Today:</string>
+    <string name="Title">Walk Walk Revolution</string>
+    <string name="NumbeOfSteps">5000</string>
+    <string name="miles">4.46</string>
+    <string name="startWalk">start Walk</string>
+    <string name="MilesText">Miles</string>
+    <string name="recentWalkText">recent walk:</string>
+    <string name="recentRouteSteps">986</string>
+    <string name="stepsTextRecent">steps</string>
+    <string name="MilesRecent">5.2</string>
+    <string name="MilesTextRecent">Miles</string>
+    <string name="recentRunTime">5:46 AM</string>
+    <string name="HeightHintDialog">Height</string>
+</resources>
