@@ -5,7 +5,7 @@ public class MilesCalculator {
     private final static double INCH_PER_STRIDE = 0.413;
     private final static int FT_PER_MILE = 5280;
 
-    public double calculateMiles(int height, int steps){
+    public static double calculateMiles(int height, int steps){
         double strideLength = (height * INCH_PER_STRIDE) / INCHES_PER_FT;
         double stepsPerMile = FT_PER_MILE / strideLength;
         return steps / stepsPerMile;

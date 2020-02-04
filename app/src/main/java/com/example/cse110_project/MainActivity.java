@@ -31,11 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateDailyMiles(int steps, TextView miles){
         double update;
-        double setvalue;
-        calculateData calculateDistance = new calculateData();
-        update = (calculateDistance.calculateMiles("5'11", steps));
-        setvalue  =Double.parseDouble(new DecimalFormat("##.#").format(update));
-        miles.setText(String.valueOf(setvalue));
+        update = (MilesCalculator.calculateMiles(60, steps));
+        miles.setText((int)update + "." + (int)(((update + 0.5) * 10) % 10));
     }
 
     protected void showInputDialog() {
