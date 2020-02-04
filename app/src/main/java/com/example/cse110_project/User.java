@@ -31,7 +31,7 @@ public class User {
     public Route getRecentRoute(){
         Route mostRecent = null;
         for(Route r: routes){
-            if(mostRecent == null){
+            if(mostRecent == null || r.getStartDate().after(mostRecent.getStartDate())){
                 mostRecent = r;
             }
         }
