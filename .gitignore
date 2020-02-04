@@ -4,4 +4,5 @@ local.properties
 .idea/caches/gradle_models.ser
 .idea/workspace.xml
 .idea/.name
+CSE110_Project.iml
 app/app.iml
