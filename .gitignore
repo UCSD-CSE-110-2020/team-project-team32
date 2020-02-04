@@ -3,3 +3,4 @@ local.properties
 .idea/
 CSE110_Project.iml
 app/app.iml
+gcloud-service-key.json
