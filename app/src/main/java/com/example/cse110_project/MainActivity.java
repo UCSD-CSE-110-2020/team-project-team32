@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
     private String personHeight;
 
@@ -28,8 +30,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDailyMiles(int steps, TextView miles){
+        double update;
+        double setvalue;
         calculateData calculateDistance = new calculateData();
-        miles.setText(String.valueOf(calculateDistance.calculateMiles("4'0", steps)));
+        update = (calculateDistance.calculateMiles("5'11", steps));
+        setvalue  =Double.parseDouble(new DecimalFormat("##.#").format(update));
+        miles.setText(String.valueOf(setvalue));
     }
 
     protected void showInputDialog() {
