@@ -1,6 +1,7 @@
 local.properties
 .gradle/
-.idea/cashes/build_file_checksums.ser
+.idea/caches/build_file_checksums.ser
 .idea/caches/gradle_models.ser
 .idea/workspace.xml
+.idea/.name
 app/app.iml
