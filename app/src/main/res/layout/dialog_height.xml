@@ -10,12 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Please Enter Your Height (use numbers: e.g. 5'0 or 5'11)"
+        android:text="Please Enter Your Height in inches (e.g. 60)"
         android:textStyle="bold"
         android:id="@+id/textView" />
 
     <EditText
-        android:id="@+id/edittext"
+        android:id="@+id/HeightInput"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/HeightHintDialog"
