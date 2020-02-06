@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -59,36 +60,58 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.recentTimeDisplay)).setText(recent.getDuration().toString());
     }
 
-    protected AlertDialog showInputDialog() {
+    public AlertDialog showInputDialog() {
         // get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
         View promptView = layoutInflater.inflate(R.layout.dialog_height, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this)
+                .setCancelable(false)
+                .setPositiveButton("OK", null);
         alertDialogBuilder.setView(promptView);
+
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
 
         heightEditor = promptView.findViewById(R.id.heightInput);
         heightEditor.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
         validateHeight();
 
-        // setup a dialog window
-        alertDialogBuilder.setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        int getInputLength = heightEditor.getText().toString().length();
-                        if(getInputLength > 2 || getInputLength <= 0 ) {
-                            showInputDialog();
-                        }
-                        else {
-                            UserData.saveHeight(MainActivity.this,
-                                    Integer.parseInt(heightEditor.getText().toString()));
-                        }
-                    }
-                });
+        Button positiveButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDialogClickValidate(alert);
+            }
+        });
 
-        // create an alert dialog
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
         return alert;
+    }
+
+
+    public void onDialogClickValidate(DialogInterface dialogToDismiss) {
+        boolean validHeight = true;
+        int getInputLength = heightEditor.getText().toString().length();
+
+        try {
+            long input = Long.valueOf(heightEditor.getText().toString());
+            if (input <= 0) {
+                Toast.makeText(MainActivity.this, "Invalid",Toast.LENGTH_SHORT).show();
+                validHeight = false;
+            }
+
+        } catch (NumberFormatException e) {
+        }
+
+        if(getInputLength > 2 || getInputLength <= 0) {
+            Toast.makeText(MainActivity.this, "Invalid",Toast.LENGTH_SHORT).show();
+        }
+
+        else if(validHeight) {
+            UserData.saveHeight(MainActivity.this,
+                    Integer.parseInt(heightEditor.getText().toString()));
+            dialogToDismiss.dismiss();
+        }
     }
 
     public void validateHeight() {
