@@ -57,7 +57,6 @@ public class HeightUnitTests {
 
                 }
 
-    // NEED TO FIX TESTS
     @Test
     public void HeightPassingInput() {
         scenario.onActivity(mainActivity -> {
