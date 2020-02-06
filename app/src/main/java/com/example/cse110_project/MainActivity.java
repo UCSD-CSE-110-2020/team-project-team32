@@ -24,35 +24,27 @@ import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 public class MainActivity extends AppCompatActivity {
-    private String personHeight;
-    private EditText editHeight;
+    private int userHeight;
+    private EditText heightEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView DailySteps = (TextView) findViewById(R.id.NumbeOfSteps);
-        TextView DailyMiles = (TextView) findViewById(R.id.miles);
+        TextView DailySteps = (TextView) findViewById(R.id.dailyStepsDisplay);
+        TextView DailyMiles = (TextView) findViewById(R.id.dailyMilesDisplay);
 
-        // height is already saved in system showInputDialog() shouldn't show up for now
-        if(MilesCalculator.retrieveHeight(MainActivity.this) == "") {
+        if (UserData.retrieveHeight(MainActivity.this) == UserData.NO_HEIGHT_FOUND) {
             showInputDialog();
-            personHeight = MilesCalculator.retrieveHeight(MainActivity.this);
         }
-        else {
-            // should go directly to retrieve height after asking once
-            personHeight = MilesCalculator.retrieveHeight(MainActivity.this);
-            updateDailyMiles(Integer.parseInt(DailySteps.getText().toString()),DailyMiles);
-        }
-
+        userHeight = UserData.retrieveHeight(MainActivity.this);
+        updateDailyMiles(Integer.parseInt(DailySteps.getText().toString()),DailyMiles);
     }
 
     public void updateDailyMiles(int steps, TextView miles){
-        double update;
-        update = (MilesCalculator.calculateMiles(Integer.parseInt(personHeight), steps));
-        miles.setText((int)update + "." + (int)(((update + 0.5) * 10) % 10));
-
+        double update = MilesCalculator.calculateMiles(userHeight, steps);
+        miles.setText(MilesCalculator.formatMiles(update));
     }
 
     protected AlertDialog showInputDialog() {
@@ -62,19 +54,21 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder.setView(promptView);
 
-        editHeight = (EditText) promptView.findViewById(R.id.HeightInput);
-        editHeight.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+        heightEditor = promptView.findViewById(R.id.heightInput);
+        heightEditor.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
         validateHeight();
+
         // setup a dialog window
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        int getInputLength = editHeight.getText().toString().length();
+                        int getInputLength = heightEditor.getText().toString().length();
                         if(getInputLength > 2 || getInputLength <= 0 ) {
                             showInputDialog();
                         }
                         else {
-                            saveheightInput();
+                            UserData.saveHeight(MainActivity.this,
+                                    Integer.parseInt(heightEditor.getText().toString()));
                         }
                     }
                 });
@@ -85,32 +79,32 @@ public class MainActivity extends AppCompatActivity {
         return alert;
     }
 
-    public void saveheightInput() {
-        SharedPreferences sharedPreferences = getSharedPreferences("user_height", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("editHeight", editHeight.getText().toString());
-        editor.apply();
-        Toast.makeText(MainActivity.this, "saved", Toast.LENGTH_SHORT).show();
-    }
-
     public void validateHeight() {
-        editHeight.addTextChangedListener(new TextWatcher() {
+        heightEditor.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (editHeight.getText().toString().length() > 2) {
-                    editHeight.setError("enter at most 2 digit number");
+                String textHeight = heightEditor.getText().toString();
+                if (textHeight.length() > 2) {
+                    heightEditor.setError(getString(R.string.longHeightError));
                 } else {
-                    editHeight.setError(null);
+                    try {
+                        int input = Integer.parseInt(textHeight);
+                        if (input <= 0) {
+                            heightEditor.setError(getString(R.string.nonpositiveHeightError));
+                        } else {
+                            heightEditor.setError(null);
+                        }
+                    } catch (RuntimeException e) {
+                        heightEditor.setError(getString(R.string.invalidHeightError));
+                    }
                 }
             }
-            @Override
-            public void afterTextChanged(Editable s) {
 
-            }
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
     }
 

@@ -20,12 +20,7 @@ public class MilesCalculator {
         return steps / stepsPerMile;
     }
 
-
-    //USAGE FROM OTHER CLASSES: MilesCalculator.retrieveHeight(currentClass.this) -> gives you saved height
-    //add function to USER class
-    public static String retrieveHeight(Context c){
-        SharedPreferences sharedPreferences = c.getSharedPreferences("user_height", c.MODE_PRIVATE);
-        String Height = sharedPreferences.getString("editHeight", "");
-        return Height;
+    public static String formatMiles(double miles) {
+        return (int)miles + "." + (int)((miles + 0.05) * 10 % 10);
     }
 }
