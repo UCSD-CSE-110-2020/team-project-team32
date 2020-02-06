@@ -28,14 +28,4 @@ public class User {
 
     public List<Route> getRoutes(){ return routes; }
 
-    public Route getRecentRoute(){
-        Route mostRecent = null;
-        for(Route r: routes){
-            if(mostRecent == null || r.getStartDate().after(mostRecent.getStartDate())){
-                mostRecent = r;
-            }
-        }
-        return mostRecent;
-    }
-
 }

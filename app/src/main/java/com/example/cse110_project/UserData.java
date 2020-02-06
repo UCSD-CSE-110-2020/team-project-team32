@@ -2,9 +2,8 @@ package com.example.cse110_project;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.Toast;
+
+import java.time.LocalTime;
 
 public class UserData {
     public final static int NO_HEIGHT_FOUND = 0;
@@ -19,5 +18,13 @@ public class UserData {
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt("height", height);
         editor.apply();
+    }
+
+    public static Route retrieveRecentRoute() {
+        // Dummy implementation
+        Route route = new Route("Dummy");
+        route.setSteps(970);
+        route.setDuration(LocalTime.of(5, 46));
+        return route;
     }
 }

@@ -32,19 +32,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView DailySteps = (TextView) findViewById(R.id.dailyStepsDisplay);
-        TextView DailyMiles = (TextView) findViewById(R.id.dailyMilesDisplay);
+        TextView DailySteps = findViewById(R.id.dailyStepsDisplay);
+        TextView DailyMiles = findViewById(R.id.dailyMilesDisplay);
 
         if (UserData.retrieveHeight(MainActivity.this) == UserData.NO_HEIGHT_FOUND) {
             showInputDialog();
         }
         userHeight = UserData.retrieveHeight(MainActivity.this);
         updateDailyMiles(Integer.parseInt(DailySteps.getText().toString()),DailyMiles);
+        updateRecentRoute();
     }
 
     public void updateDailyMiles(int steps, TextView miles){
         double update = MilesCalculator.calculateMiles(userHeight, steps);
         miles.setText(MilesCalculator.formatMiles(update));
+    }
+
+    public void updateRecentRoute() {
+        Route recent = UserData.retrieveRecentRoute();
+        int steps = recent.getSteps();
+
+        ((TextView)findViewById(R.id.recentStepsDisplay)).setText(Integer.toString(steps));
+        ((TextView)findViewById(R.id.recentMilesDisplay))
+                .setText(MilesCalculator.formatMiles(
+                         MilesCalculator.calculateMiles(userHeight, steps)));
+        ((TextView)findViewById(R.id.recentTimeDisplay)).setText(recent.getDuration().toString());
     }
 
     protected AlertDialog showInputDialog() {
