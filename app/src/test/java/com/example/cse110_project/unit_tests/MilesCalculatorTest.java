@@ -38,4 +38,29 @@ public class MilesCalculatorTest {
         assertEquals(652,
                 (int)(MilesCalculator.calculateMiles(10, 1000000) * 10 + .5));
     }
+
+    @Test
+    public void testMilesFormatterZero() {
+        assertEquals("0.0", MilesCalculator.formatMiles(0.0));
+    }
+
+    @Test
+    public void testMilesFormatterRoundsToZero() {
+        assertEquals("0.0", MilesCalculator.formatMiles(0.01));
+    }
+
+    @Test
+    public void testMilesFormatterRoundsToNonzero() {
+        assertEquals("0.1", MilesCalculator.formatMiles(0.05));
+    }
+
+    @Test
+    public void testMilesFormatterSmall() {
+        assertEquals("3.8", MilesCalculator.formatMiles(3.79));
+    }
+
+    @Test
+    public void testMilesFormatterLarge() {
+        assertEquals("103.4", MilesCalculator.formatMiles(103.41));
+    }
 }

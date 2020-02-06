@@ -1,5 +1,14 @@
 package com.example.cse110_project;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
 public class MilesCalculator {
     private final static int INCHES_PER_FT = 12;
     private final static double INCH_PER_STRIDE = 0.413;
@@ -9,5 +18,9 @@ public class MilesCalculator {
         double strideLength = (height * INCH_PER_STRIDE) / INCHES_PER_FT;
         double stepsPerMile = FT_PER_MILE / strideLength;
         return steps / stepsPerMile;
+    }
+
+    public static String formatMiles(double miles) {
+        return (int)miles + "." + (int)((miles + 0.05) * 10 % 10);
     }
 }

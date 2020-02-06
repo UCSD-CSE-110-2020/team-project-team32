@@ -1,12 +1,13 @@
 package com.example.cse110_project;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Route {
     private String name;
     private int steps;
-    private Calendar startDate;
-    private Calendar duration;
+    private LocalDateTime startDate;
+    private LocalTime duration;
 
     public Route(String n){
         name = n;
@@ -25,11 +26,11 @@ public class Route {
         return milesCalculator.calculateMiles(height, steps);
     }
 
-    public Calendar getStartDate() { return startDate; }
+    public LocalDateTime getStartDate() { return startDate; }
 
-    public void setStartDate(Calendar cal) { startDate = cal; }
+    public void setStartDate(LocalDateTime date) { startDate = date; }
 
-    public Calendar getDuration() { return duration; }
+    public LocalTime getDuration() { return duration; }
 
-    public void setDuration(Calendar cal) { duration = cal; }
+    public void setDuration(LocalTime time) { duration = time; }
 }

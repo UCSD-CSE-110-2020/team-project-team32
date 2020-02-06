@@ -7,17 +7,27 @@
     android:padding="10dp">
 
     <TextView
+        android:id="@+id/heightPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Please Enter Your Height (use numbers: e.g. 5'0 or 5'11)"
-        android:textStyle="bold"
-        android:id="@+id/textView" />
+        android:text="@string/heightPrompt"
+        android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/edittext"
+        android:id="@+id/heightInput"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/HeightHintDialog"
+        android:hint="@string/heightHintDialog"
         android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/heightDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/heightExplanation"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
 </LinearLayout>

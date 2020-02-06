@@ -1,18 +1,34 @@
 <resources>
+    <string name="title_activity_test">test</string>
     <string name="app_name">CSE110_Project</string>
-    <string name="RoutesButton">Routes</string>
-    <string name="HomeButton">Home</string>
-    <string name="StepsToday">Steps Today:</string>
-    <string name="Title">Walk Walk Revolution</string>
-    <string name="NumbeOfSteps">5000</string>
-    <string name="miles">4.46</string>
-    <string name="startWalk">start Walk</string>
-    <string name="MilesText">Miles</string>
-    <string name="recentWalkText">recent walk:</string>
+
+    <string name="NumberOfSteps">5000</string>
+    <string name="miles">4.5</string>
     <string name="recentRouteSteps">986</string>
-    <string name="stepsTextRecent">steps</string>
     <string name="MilesRecent">5.2</string>
-    <string name="MilesTextRecent">Miles</string>
-    <string name="recentRunTime">5:46 AM</string>
-    <string name="HeightHintDialog">Height</string>
+    <string name="recentRunTime">5:46</string>
+
+    <string name="routesButton">Routes</string>
+    <string name="homeButton">Home</string>
+    <string name="mockingButton">DEV</string>
+    <string name="startWalkButton">start Walk</string>
+    <string name="homeHeader">Walk Walk Revolution</string>
+    <string name="dailyDataText">Today, you walked...</string>
+    <string name="dailyStepsText">Steps</string>
+    <string name="dailyMilesText">Miles</string>
+    <string name="recentWalkText">Your most recent walk was...</string>
+    <string name="recentStepsText">Steps</string>
+    <string name="recentMilesText">Miles</string>
+    <string name="recentTimeText">Time:</string>
+
+    <string name="heightHintDialog">Height</string>
+    <string name="heightPrompt">Please enter your height in inches (e.g. 60):</string>
+    <string name="heightExplanation">
+        Your height will be used to calculate the distance you travel from your steps. Thank you
+        for choosing Walk Walk Revolution.
+    </string>
+
+    <string name="longHeightError">Height must have no more than 2 digits</string>
+    <string name="invalidHeightError">Height must be a whole number</string>
+    <string name="nonpositiveHeightError">Height must be a positive number</string>
 </resources>
