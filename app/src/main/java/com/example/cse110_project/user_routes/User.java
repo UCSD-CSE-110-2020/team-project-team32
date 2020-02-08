@@ -1,8 +1,8 @@
-package com.example.cse110_project;
+package com.example.cse110_project.user_routes;
 
 import android.content.Context;
 
-import java.util.*;
+import com.example.cse110_project.MilesCalculator;
 
 public class User {
     private static RouteList routes = null;

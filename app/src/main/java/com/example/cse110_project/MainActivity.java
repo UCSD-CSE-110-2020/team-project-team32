@@ -4,10 +4,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -21,32 +19,105 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.example.cse110_project.data_access.DataConstants;
+import com.example.cse110_project.data_access.UserData;
+import com.example.cse110_project.fitness_api.GoogleFitAdapter;
+import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.User;
 
-import java.text.DecimalFormat;
+import com.example.cse110_project.fitness_api.FitnessService;
+import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+
 public class MainActivity extends AppCompatActivity {
+    public static final String GOOGLE_API_KEY = "GOOGLE_FIT";
+    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+
+    private static final String TAG = "MainActivity";
+
+    // Text fields
     private EditText heightEditor;
+    private TextView stepCount;
+    private TextView milesCount;
+
+    // Fitness service fields
+    public FitnessService fitnessService;
+    Handler handler;
+    Runnable runnable;
+    final int delay = 5*1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        stepCount = findViewById(R.id.dailyStepsDisplay);
+        milesCount = findViewById(R.id.dailyMilesDisplay);
 
-        TextView DailySteps = findViewById(R.id.dailyStepsDisplay);
-        TextView DailyMiles = findViewById(R.id.dailyMilesDisplay);
+        String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
+            @Override
+            public FitnessService create(MainActivity stepCountActivity) {
+                return new GoogleFitAdapter(stepCountActivity);
+            }
+        });
+
+        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+        handler = new Handler();
 
         if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
             showInputDialog();
         }
         User.setHeight(UserData.retrieveHeight(MainActivity.this));
-        updateDailyMiles(Integer.parseInt(DailySteps.getText().toString()),DailyMiles);
+        updateDailyMiles(Integer.parseInt(stepCount.getText().toString()), milesCount);
         updateRecentRoute();
+
+        fitnessService.setup();
+    }
+
+    // Daily steps & miles methods
+
+    @Override
+    protected void onResume() {
+        //start handler as activity become visible
+        handler.postDelayed( runnable = new Runnable() {
+            public void run() {
+                handler.postDelayed(runnable, delay);
+                fitnessService.updateStepCount();
+            }
+        }, delay);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible
+        super.onPause();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Called if authentication required during google fit setup
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == fitnessService.getRequestCode()) {
+                fitnessService.updateStepCount();
+            }
+        } else {
+            Log.e(TAG, "ERROR, google fit result code: " + resultCode);
+        }
+    }
+
+    public void updateDailySteps(int steps) {
+        stepCount.setText(String.valueOf(steps));
+        updateDailyMiles(steps, milesCount);
     }
 
     public void updateDailyMiles(int steps, TextView miles){
         double update = MilesCalculator.calculateMiles(User.getHeight(), steps);
         miles.setText(MilesCalculator.formatMiles(update));
     }
+
+    // Recent route update
 
     public void updateRecentRoute() {
         Route recent = User.getRoutes(MainActivity.this).getMostRecentRoute();
@@ -69,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.recentMilesDisplay)).setText(milesDisplay);
         ((TextView)findViewById(R.id.recentTimeDisplay)).setText(timeDisplay);
     }
+
+    // Height input methods
 
     public AlertDialog showInputDialog() {
         // get prompts.xml view
