@@ -32,10 +32,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.shadows.ShadowToast;
 
 @RunWith(AndroidJUnit4.class)
-public class HeightUnitTests {
+public class HeightInputTest {
     private ActivityScenario<MainActivity> scenario;
-    private TextView DailySteps;
-    private  TextView DailyMiles;
     private EditText setHeight;
     private androidx.appcompat.app.AlertDialog dialog;
     private Button clickOk;
@@ -47,18 +45,16 @@ public class HeightUnitTests {
     public void setup() {
         scenario = scenarioRule.getScenario();
         scenario.onActivity(mainActivity -> {
-             DailySteps = (TextView) mainActivity.findViewById(R.id.dailyStepsDisplay);
-             DailyMiles = (TextView) mainActivity.findViewById(R.id.dailyMilesDisplay);
              dialog = mainActivity.showInputDialog();
              setHeight = dialog.findViewById(R.id.heightInput);
              clickOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
 
         });
 
-                }
+    }
 
     @Test
-    public void HeightPassingInput() {
+    public void heightPassingInput() {
         scenario.onActivity(mainActivity -> {
             setHeight.setText("70");
 
@@ -73,16 +69,16 @@ public class HeightUnitTests {
     }
 
     @Test
-    public void HeightInputLong() {
+    public void heightInputLong() {
         scenario.onActivity(mainActivity -> {
             setHeight.setText("707");
 
             clickOk.performClick();
 
             String latestToast = ShadowToast.getTextOfLatestToast();
-            Truth.assertThat(latestToast).isEqualTo("Invalid");
+            Truth.assertThat(latestToast).isEqualTo(R.string.invalidHeightToast);
 
-            Truth.assertThat(setHeight.getError()).isEqualTo("Height must have no more than 2 digits");
+            Truth.assertThat(setHeight.getError()).isEqualTo(R.string.longHeightError);
             Truth.assertThat(UserData.retrieveHeight(mainActivity)).isEqualTo(0);
         });
     }
@@ -95,9 +91,9 @@ public class HeightUnitTests {
             clickOk.performClick();
 
             String latestToast = ShadowToast.getTextOfLatestToast();
-            Truth.assertThat(latestToast).isEqualTo("Invalid");
+            Truth.assertThat(latestToast).isEqualTo(R.string.invalidHeightToast);
 
-            Truth.assertThat(setHeight.getError()).isEqualTo("Height must have no more than 2 digits");
+            Truth.assertThat(setHeight.getError()).isEqualTo(R.string.longHeightError);
             Truth.assertThat(UserData.retrieveHeight(mainActivity)).isEqualTo(0);
         });
     }
@@ -110,9 +106,9 @@ public class HeightUnitTests {
             clickOk.performClick();
 
             String latestToast = ShadowToast.getTextOfLatestToast();
-            Truth.assertThat(latestToast).isEqualTo("Invalid");
+            Truth.assertThat(latestToast).isEqualTo(R.string.invalidHeightToast);
 
-            Truth.assertThat(setHeight.getError()).isEqualTo("Height must be a whole number");
+            Truth.assertThat(setHeight.getError()).isEqualTo(R.string.invalidHeightError);
             Truth.assertThat(UserData.retrieveHeight(mainActivity)).isEqualTo(0);
         });
     }
@@ -125,9 +121,9 @@ public class HeightUnitTests {
             clickOk.performClick();
 
             String latestToast = ShadowToast.getTextOfLatestToast();
-            Truth.assertThat(latestToast).isEqualTo("Invalid");
+            Truth.assertThat(latestToast).isEqualTo(R.string.invalidHeightToast);
 
-            Truth.assertThat(setHeight.getError()).isEqualTo("Height must be a positive number");
+            Truth.assertThat(setHeight.getError()).isEqualTo(R.string.nonpositiveHeightError);
             Truth.assertThat(UserData.retrieveHeight(mainActivity)).isEqualTo(0);
         });
     }
