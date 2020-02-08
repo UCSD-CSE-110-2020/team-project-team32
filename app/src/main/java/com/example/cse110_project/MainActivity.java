@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     final int delay = 5*1000;
 
+    private Button launchToRouteScreen; // = findViewById(R.id.routesButton);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +65,19 @@ public class MainActivity extends AppCompatActivity {
 
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
         handler = new Handler();
+
+        // to route screen
+        launchToRouteScreen = findViewById(R.id.routesButton);
+        launchToRouteScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchRouteActivity();
+            }
+        });
+        // end To Route screen
+
+        TextView DailySteps = findViewById(R.id.dailyStepsDisplay);
+        TextView DailyMiles = findViewById(R.id.dailyMilesDisplay);
 
         if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
             showInputDialog();
@@ -111,6 +127,12 @@ public class MainActivity extends AppCompatActivity {
         stepCount.setText(String.valueOf(steps));
         updateDailyMiles(steps, milesCount);
     }
+
+    public void launchRouteActivity() {
+        Intent intent = new Intent(this, RouteScreen.class);
+        startActivity(intent);
+    }
+    // end of to route screen implementation
 
     public void updateDailyMiles(int steps, TextView miles){
         double update = MilesCalculator.calculateMiles(User.getHeight(), steps);
