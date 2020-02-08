@@ -27,10 +27,21 @@ import java.text.DecimalFormat;
 public class MainActivity extends AppCompatActivity {
     private EditText heightEditor;
 
+    private Button mocking_button;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // creating mocking button
+        mocking_button = (Button) findViewById(R.id.mockingButton);
+        mocking_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMockingActivity();
+            }
+        });
 
         TextView DailySteps = findViewById(R.id.dailyStepsDisplay);
         TextView DailyMiles = findViewById(R.id.dailyMilesDisplay);
@@ -41,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
         User.setHeight(UserData.retrieveHeight(MainActivity.this));
         updateDailyMiles(Integer.parseInt(DailySteps.getText().toString()),DailyMiles);
         updateRecentRoute();
+    }
+
+    //openMockingActivity method
+    public void openMockingActivity(){
+        Intent intent = new Intent(this, mocking.class);
+        startActivity(intent);
     }
 
     public void updateDailyMiles(int steps, TextView miles){
