@@ -6,25 +6,40 @@ import android.content.SharedPreferences;
 import java.time.LocalTime;
 
 public class UserData {
-    public final static int NO_HEIGHT_FOUND = 0;
 
     public static int retrieveHeight(Context c) {
-        SharedPreferences pref = c.getSharedPreferences("user_data", c.MODE_PRIVATE);
-        return pref.getInt("height", NO_HEIGHT_FOUND);
+        SharedPreferences pref
+                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, c.MODE_PRIVATE);
+        return pref.getInt(DataConstants.HEIGHT_KEY, DataConstants.NO_HEIGHT_FOUND);
+    }
+
+    public static String retrieveRouteList(Context c) {
+        SharedPreferences pref
+                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, c.MODE_PRIVATE);
+        return pref.getString(DataConstants.ROUTES_LIST_KEY, DataConstants.NO_ROUTES_FOUND);
     }
 
     public static void saveHeight(Context c, int height) {
-        SharedPreferences pref = c.getSharedPreferences("user_data", c.MODE_PRIVATE);
+        SharedPreferences pref
+                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, c.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putInt("height", height);
+        editor.putInt(DataConstants.HEIGHT_KEY, height);
         editor.apply();
     }
 
-    public static Route retrieveRecentRoute() {
-        // Dummy implementation
-        Route route = new Route("Dummy");
-        route.setSteps(970);
-        route.setDuration(LocalTime.of(5, 46));
-        return route;
+    public static void saveRoute(Context c, Route route) {
+        String routeList = retrieveRouteList(c);
+        String routeID = Integer.toString(route.getID());
+
+        SharedPreferences pref
+                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, c.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        if (routeList == DataConstants.NO_ROUTES_FOUND) {
+            editor.putString(DataConstants.ROUTES_LIST_KEY, routeID);
+        } else {
+            editor.putString(DataConstants.ROUTES_LIST_KEY,
+                    routeList + DataConstants.LIST_SPLIT + routeID);
+        }
     }
 }

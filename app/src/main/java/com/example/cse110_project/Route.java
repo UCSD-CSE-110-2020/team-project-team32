@@ -4,14 +4,26 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Route {
+    private int id;
     private String name;
     private int steps;
     private LocalDateTime startDate;
     private LocalTime duration;
 
-    public Route(String n){
-        name = n;
+    public Route(int id, String name){
+        this.id = id;
+        this.name = name;
     }
+
+    public Route(int id, String name, int steps, LocalTime dur, LocalDateTime start) {
+        this.id = id;
+        this.name = name;
+        this.steps = steps;
+        startDate = start;
+        duration = dur;
+    }
+
+    public int getID() { return id; }
 
     public String getName() { return name; }
 
@@ -22,8 +34,7 @@ public class Route {
     public void setSteps(int s) { steps = s; }
 
     public double getMiles(int height){
-        MilesCalculator milesCalculator = new MilesCalculator();
-        return milesCalculator.calculateMiles(height, steps);
+        return MilesCalculator.calculateMiles(height, steps);
     }
 
     public LocalDateTime getStartDate() { return startDate; }

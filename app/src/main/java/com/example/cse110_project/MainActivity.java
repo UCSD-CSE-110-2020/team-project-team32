@@ -25,7 +25,6 @@ import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 public class MainActivity extends AppCompatActivity {
-    private int userHeight;
     private EditText heightEditor;
 
     @Override
@@ -36,28 +35,39 @@ public class MainActivity extends AppCompatActivity {
         TextView DailySteps = findViewById(R.id.dailyStepsDisplay);
         TextView DailyMiles = findViewById(R.id.dailyMilesDisplay);
 
-        if (UserData.retrieveHeight(MainActivity.this) == UserData.NO_HEIGHT_FOUND) {
+        if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
             showInputDialog();
         }
-        userHeight = UserData.retrieveHeight(MainActivity.this);
+        User.setHeight(UserData.retrieveHeight(MainActivity.this));
         updateDailyMiles(Integer.parseInt(DailySteps.getText().toString()),DailyMiles);
         updateRecentRoute();
     }
 
     public void updateDailyMiles(int steps, TextView miles){
-        double update = MilesCalculator.calculateMiles(userHeight, steps);
+        double update = MilesCalculator.calculateMiles(User.getHeight(), steps);
         miles.setText(MilesCalculator.formatMiles(update));
     }
 
     public void updateRecentRoute() {
-        Route recent = UserData.retrieveRecentRoute();
-        int steps = recent.getSteps();
+        Route recent = User.getRoutes(MainActivity.this).getMostRecentRoute();
+        String stepsDisplay;
+        String milesDisplay;
+        String timeDisplay;
 
-        ((TextView)findViewById(R.id.recentStepsDisplay)).setText(Integer.toString(steps));
-        ((TextView)findViewById(R.id.recentMilesDisplay))
-                .setText(MilesCalculator.formatMiles(
-                         MilesCalculator.calculateMiles(userHeight, steps)));
-        ((TextView)findViewById(R.id.recentTimeDisplay)).setText(recent.getDuration().toString());
+        if (recent == null) {
+            stepsDisplay = DataConstants.NO_RECENT_ROUTE;
+            milesDisplay = DataConstants.NO_RECENT_ROUTE;
+            timeDisplay = DataConstants.NO_RECENT_ROUTE;
+        } else {
+            stepsDisplay = Integer.toString(recent.getSteps());
+            milesDisplay = MilesCalculator.formatMiles(
+                    MilesCalculator.calculateMiles(User.getHeight(), recent.getSteps()));
+            timeDisplay = recent.getDuration().toString();
+        }
+
+        ((TextView)findViewById(R.id.recentStepsDisplay)).setText(stepsDisplay);
+        ((TextView)findViewById(R.id.recentMilesDisplay)).setText(milesDisplay);
+        ((TextView)findViewById(R.id.recentTimeDisplay)).setText(timeDisplay);
     }
 
     public AlertDialog showInputDialog() {
@@ -66,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         View promptView = layoutInflater.inflate(R.layout.dialog_height, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this)
                 .setCancelable(false)
-                .setPositiveButton("OK", null);
+                .setPositiveButton(R.string.heightButton, null);
         alertDialogBuilder.setView(promptView);
 
         // create an alert dialog
@@ -74,11 +84,12 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
 
         heightEditor = promptView.findViewById(R.id.heightInput);
-        heightEditor.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+        heightEditor.setInputType(InputType.TYPE_CLASS_NUMBER |
+                InputType.TYPE_NUMBER_VARIATION_NORMAL);
         validateHeight();
 
-        Button positiveButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
-        positiveButton.setOnClickListener(new View.OnClickListener() {
+        Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onDialogClickValidate(alert);
@@ -90,26 +101,27 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onDialogClickValidate(DialogInterface dialogToDismiss) {
-        boolean validHeight = true;
-        int getInputLength = heightEditor.getText().toString().length();
+        String inputStr = heightEditor.getText().toString();
+        int input;
 
         try {
-            long input = Long.valueOf(heightEditor.getText().toString());
-            if (input <= 0) {
-                Toast.makeText(MainActivity.this, "Invalid",Toast.LENGTH_SHORT).show();
-                validHeight = false;
-            }
-
-        } catch (NumberFormatException e) {
+            input = Integer.parseInt(inputStr);
+        } catch (RuntimeException e) {
+            Toast.makeText(MainActivity.this, R.string.invalidHeightToast,
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        if(getInputLength > 2 || getInputLength <= 0) {
-            Toast.makeText(MainActivity.this, "Invalid",Toast.LENGTH_SHORT).show();
-        }
+        if (input <= 0) {
+            Toast.makeText(MainActivity.this, R.string.invalidHeightToast,
+                    Toast.LENGTH_SHORT).show();
 
-        else if(validHeight) {
-            UserData.saveHeight(MainActivity.this,
-                    Integer.parseInt(heightEditor.getText().toString()));
+        } else if (inputStr.length() > 2 || inputStr.length() <= 0) {
+            Toast.makeText(MainActivity.this, R.string.invalidHeightToast,
+                    Toast.LENGTH_SHORT).show();
+
+        } else {
+            UserData.saveHeight(MainActivity.this, input);
             dialogToDismiss.dismiss();
         }
     }
