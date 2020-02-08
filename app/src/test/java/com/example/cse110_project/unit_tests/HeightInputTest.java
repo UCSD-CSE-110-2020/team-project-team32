@@ -1,6 +1,7 @@
 package com.example.cse110_project.unit_tests;
 
 import static org.junit.Assert.assertEquals;
+import com.example.cse110_project.R;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -37,9 +38,14 @@ public class HeightInputTest {
     private EditText setHeight;
     private androidx.appcompat.app.AlertDialog dialog;
     private Button clickOk;
+    private String invalidHeightToast;
+    private String longHeightError;
+    private String invalidHeightError;
+    private String nonpositiveHeightError;
 
     @Rule
-    public ActivityScenarioRule<MainActivity> scenarioRule = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<MainActivity> scenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
 
     @Before
     public void setup() {
@@ -49,6 +55,14 @@ public class HeightInputTest {
              setHeight = dialog.findViewById(R.id.heightInput);
              clickOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
 
+             invalidHeightToast = mainActivity.getResources().getString(
+                     R.string.invalidHeightToast);
+             longHeightError = mainActivity.getResources().getString(
+                     R.string.longHeightError);
+             invalidHeightError = mainActivity.getResources().getString(
+                     R.string.invalidHeightError);
+             nonpositiveHeightError = mainActivity.getResources().getString(
+                     R.string.nonpositiveHeightError);
         });
 
     }
@@ -76,9 +90,9 @@ public class HeightInputTest {
             clickOk.performClick();
 
             String latestToast = ShadowToast.getTextOfLatestToast();
-            Truth.assertThat(latestToast).isEqualTo(R.string.invalidHeightToast);
+            assertEquals(latestToast, invalidHeightToast);
 
-            Truth.assertThat(setHeight.getError()).isEqualTo(R.string.longHeightError);
+            assertEquals(setHeight.getError(), longHeightError);
             Truth.assertThat(UserData.retrieveHeight(mainActivity)).isEqualTo(0);
         });
     }
@@ -91,9 +105,9 @@ public class HeightInputTest {
             clickOk.performClick();
 
             String latestToast = ShadowToast.getTextOfLatestToast();
-            Truth.assertThat(latestToast).isEqualTo(R.string.invalidHeightToast);
+            Truth.assertThat(latestToast).isEqualTo(invalidHeightToast);
 
-            Truth.assertThat(setHeight.getError()).isEqualTo(R.string.longHeightError);
+            Truth.assertThat(setHeight.getError()).isEqualTo(longHeightError);
             Truth.assertThat(UserData.retrieveHeight(mainActivity)).isEqualTo(0);
         });
     }
@@ -106,9 +120,9 @@ public class HeightInputTest {
             clickOk.performClick();
 
             String latestToast = ShadowToast.getTextOfLatestToast();
-            Truth.assertThat(latestToast).isEqualTo(R.string.invalidHeightToast);
+            Truth.assertThat(latestToast).isEqualTo(invalidHeightToast);
 
-            Truth.assertThat(setHeight.getError()).isEqualTo(R.string.invalidHeightError);
+            Truth.assertThat(setHeight.getError()).isEqualTo(invalidHeightError);
             Truth.assertThat(UserData.retrieveHeight(mainActivity)).isEqualTo(0);
         });
     }
@@ -121,9 +135,9 @@ public class HeightInputTest {
             clickOk.performClick();
 
             String latestToast = ShadowToast.getTextOfLatestToast();
-            Truth.assertThat(latestToast).isEqualTo(R.string.invalidHeightToast);
+            Truth.assertThat(latestToast).isEqualTo(invalidHeightToast);
 
-            Truth.assertThat(setHeight.getError()).isEqualTo(R.string.nonpositiveHeightError);
+            Truth.assertThat(setHeight.getError()).isEqualTo(nonpositiveHeightError);
             Truth.assertThat(UserData.retrieveHeight(mainActivity)).isEqualTo(0);
         });
     }
