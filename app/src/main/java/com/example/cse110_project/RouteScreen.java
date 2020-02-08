@@ -20,7 +20,7 @@ public class RouteScreen extends AppCompatActivity{
 
 
         // Implementation of button event to route screen
-        final Button launchToHomeScreen = (Button) findViewById(R.id.routeToHomeButton);
+        final Button launchToHomeScreen = (Button) findViewById(R.id.button_routeToHome);
 
         launchToHomeScreen.setOnClickListener(new View.OnClickListener() {
             @Override
