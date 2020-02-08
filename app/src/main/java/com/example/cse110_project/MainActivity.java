@@ -48,10 +48,14 @@ public class MainActivity extends AppCompatActivity {
     private Button launchToRouteScreen; // = findViewById(R.id.routesButton);
 
 
+    private Button mocking_button;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         stepCount = findViewById(R.id.dailyStepsDisplay);
         milesCount = findViewById(R.id.dailyMilesDisplay);
 
@@ -75,6 +79,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // end To Route screen
+
+        // creating mocking button
+        mocking_button = (Button) findViewById(R.id.mockingButton);
+        mocking_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMockingActivity();
+            }
+        });
 
         TextView DailySteps = findViewById(R.id.dailyStepsDisplay);
         TextView DailyMiles = findViewById(R.id.dailyMilesDisplay);
@@ -133,6 +146,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     // end of to route screen implementation
+
+    //openMockingActivity method
+    public void openMockingActivity(){
+        Intent intent = new Intent(this, mocking.class);
+        startActivity(intent);
+    }
 
     public void updateDailyMiles(int steps, TextView miles){
         double update = MilesCalculator.calculateMiles(User.getHeight(), steps);
