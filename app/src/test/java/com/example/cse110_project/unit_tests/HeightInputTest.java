@@ -7,25 +7,17 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.os.Build;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
-import com.example.cse110_project.R;
-import com.example.cse110_project.UserData;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.example.cse110_project.data_access.UserData;
 import com.google.common.truth.Truth;
 
-import org.apache.tools.ant.Main;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

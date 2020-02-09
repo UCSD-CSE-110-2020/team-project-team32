@@ -1,4 +1,6 @@
-package com.example.cse110_project;
+package com.example.cse110_project.user_routes;
+
+import com.example.cse110_project.MilesCalculator;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

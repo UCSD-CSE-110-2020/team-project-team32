@@ -1,9 +1,9 @@
-package com.example.cse110_project;
+package com.example.cse110_project.data_access;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.time.LocalTime;
+import com.example.cse110_project.user_routes.Route;
 
 public class UserData {
 
@@ -41,5 +41,7 @@ public class UserData {
             editor.putString(DataConstants.ROUTES_LIST_KEY,
                     routeList + DataConstants.LIST_SPLIT + routeID);
         }
+
+        editor.apply();
     }
 }
