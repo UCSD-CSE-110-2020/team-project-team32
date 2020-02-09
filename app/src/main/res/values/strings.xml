@@ -2,8 +2,8 @@
     <string name="title_activity_test">test</string>
     <string name="app_name">CSE110_Project</string>
 
-    <string name="NumberOfSteps">5000</string>
-    <string name="miles">4.5</string>
+    <string name="NumberOfSteps">0</string>
+    <string name="miles">0.0</string>
     <string name="recentRouteSteps">986</string>
     <string name="MilesRecent">5.2</string>
     <string name="recentRunTime">5:46</string>

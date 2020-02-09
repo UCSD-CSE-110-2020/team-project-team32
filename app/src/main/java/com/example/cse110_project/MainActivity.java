@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             showInputDialog();
         }
         User.setHeight(UserData.retrieveHeight(MainActivity.this));
-        updateDailyMiles(Integer.parseInt(stepCount.getText().toString()), milesCount);
+        updateDailySteps(0);
         updateRecentRoute();
 
         fitnessService.setup();
@@ -161,9 +161,7 @@ public class MainActivity extends AppCompatActivity {
     // Recent route update
 
     public void updateRecentRoute() {
-        System.out.println("Updating");
         Route recent = User.getRoutes(MainActivity.this).getMostRecentRoute();
-        System.out.println(User.getRoutes(MainActivity.this).getRoutes());
         String stepsDisplay;
         String milesDisplay;
         String timeDisplay;
@@ -173,14 +171,11 @@ public class MainActivity extends AppCompatActivity {
             milesDisplay = DataConstants.NO_RECENT_ROUTE;
             timeDisplay = DataConstants.NO_RECENT_ROUTE;
         } else {
-            System.out.println(" Step count: " + recent.getSteps());
             stepsDisplay = Integer.toString(recent.getSteps());
             milesDisplay = MilesCalculator.formatMiles(
                     MilesCalculator.calculateMiles(User.getHeight(), recent.getSteps()));
             timeDisplay = recent.getDuration().toString();
         }
-
-        System.out.println("Steps: " + stepsDisplay);
 
         ((TextView)findViewById(R.id.recentStepsDisplay)).setText(stepsDisplay);
         ((TextView)findViewById(R.id.recentMilesDisplay)).setText(milesDisplay);

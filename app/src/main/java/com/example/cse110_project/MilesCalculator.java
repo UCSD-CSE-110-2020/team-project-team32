@@ -21,6 +21,7 @@ public class MilesCalculator {
     }
 
     public static String formatMiles(double miles) {
-        return (int)miles + "." + (int)((miles + 0.05) * 10 % 10);
+        int rounded = (int)((miles + 0.05) * 10);
+        return (rounded / 10) + "." + (rounded % 10);
     }
 }
