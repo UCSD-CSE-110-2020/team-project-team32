@@ -50,7 +50,7 @@ public class MockingActivity extends AppCompatActivity {
 
                 // run a function to update steps
                 // .updateDailySteps(value + 500);
-//
+
 //               activity.updateDailySteps(current_steps);
 //                User.setSteps(current_steps);
 
