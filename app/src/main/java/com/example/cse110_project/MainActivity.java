@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView milesCount;
 
     // Fitness service fields
-    public FitnessService fitnessService;
+    private FitnessService fitnessService;
+    private boolean fitnessServiceActive;
     Handler handler;
     Runnable runnable;
     final int delay = 5*1000;
@@ -63,9 +64,12 @@ public class MainActivity extends AppCompatActivity {
         mocking_button.setOnClickListener(v -> openMockingActivity());
 
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
-        System.out.println("service key: " + fitnessServiceKey);
-        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-        handler = new Handler();
+        System.out.println("Service key: " + fitnessServiceKey);
+        fitnessServiceActive = (fitnessServiceKey != null);
+        if (fitnessServiceActive) {
+            fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+            handler = new Handler();
+        }
 
         if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
             showInputDialog();
@@ -74,26 +78,32 @@ public class MainActivity extends AppCompatActivity {
         updateDailySteps(0);
         updateRecentRoute();
 
-        fitnessService.setup();
+        if (fitnessServiceActive) {
+            fitnessService.setup();
+        }
     }
 
     // Daily steps & miles methods
 
     @Override
     protected void onResume() {
-        //start handler as activity become visible
-        handler.postDelayed( runnable = new Runnable() {
-            public void run() {
-                handler.postDelayed(runnable, delay);
-                fitnessService.updateStepCount();
-            }
-        }, delay);
+        if (fitnessServiceActive) {
+            //start handler as activity become visible
+            handler.postDelayed(runnable = new Runnable() {
+                public void run() {
+                    handler.postDelayed(runnable, delay);
+                    fitnessService.updateStepCount();
+                }
+            }, delay);
+        }
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        handler.removeCallbacks(runnable); //stop handler when activity not visible
+        if (fitnessServiceActive) {
+            handler.removeCallbacks(runnable); //stop handler when activity not visible
+        }
         super.onPause();
     }
 
@@ -117,6 +127,12 @@ public class MainActivity extends AppCompatActivity {
         updateDailyMiles(steps, milesCount);
     }
 
+    public void updateFromFitnessService() {
+        fitnessService.updateStepCount();
+    }
+
+    // To other activities
+
     public void launchRouteActivity() {
         Intent intent = new Intent(this, RouteScreen.class);
         startActivity(intent);
@@ -132,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
     public void updateDailyMiles(int steps, TextView miles){
         double update = MilesCalculator.calculateMiles(User.getHeight(), steps);
         miles.setText(MilesCalculator.formatMiles(update));
+        System.out.println(TAG + " updateDailyMiles called on " + steps + " with miles " +
+                MilesCalculator.formatMiles(update) + " [" + update + "]");
     }
 
     // Recent route update
@@ -212,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             UserData.saveHeight(MainActivity.this, input);
+            User.setHeight(input);
             dialogToDismiss.dismiss();
         }
     }

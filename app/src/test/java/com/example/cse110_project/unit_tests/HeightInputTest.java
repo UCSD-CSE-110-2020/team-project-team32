@@ -7,15 +7,19 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.data_access.UserData;
+import com.example.cse110_project.fitness_api.FitnessService;
+import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 import com.google.common.truth.Truth;
 
 import org.junit.Before;
@@ -148,5 +152,4 @@ public class HeightInputTest {
             Truth.assertThat(UserData.retrieveHeight(mainActivity)).isEqualTo(99);
         });
     }
-
 }

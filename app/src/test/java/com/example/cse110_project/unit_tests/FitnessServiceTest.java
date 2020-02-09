@@ -43,7 +43,7 @@ public class FitnessServiceTest {
             textSteps = activity.findViewById(R.id.dailyStepsDisplay);
             assertEquals("0", textSteps.getText().toString());
 
-            activity.fitnessService.updateStepCount();
+            activity.updateFromFitnessService();
 
             assertEquals(String.valueOf(nextStepCount), textSteps.getText().toString());
         });
