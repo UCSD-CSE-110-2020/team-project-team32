@@ -27,8 +27,11 @@ public class RouteList {
     public void createRoute(Context c, String name) {
         routeID++;
         Route r = new Route(routeID, name);
-        routes.add(r);
+        addRoute(c, r);
+    }
 
+    public void addRoute(Context c, Route r) {
+        routes.add(r);
         UserData.saveRoute(c, r);
         RouteData.saveRouteData(c, r);
     }
@@ -40,9 +43,14 @@ public class RouteList {
 
         Route recent = routes.get(0);
         for (Route r : routes) {
-            if (r.getStartDate().isAfter(recent.getStartDate())) {
+            if (recent.getStartDate() == null ||
+                    (r.getStartDate() != null && r.getStartDate().isAfter(recent.getStartDate()))) {
                 recent = r;
             }
+        }
+
+        if (recent.getStartDate() == null) {
+            return null;
         }
         return recent;
     }
@@ -64,10 +72,19 @@ public class RouteList {
 
             String name = RouteData.retrieveRouteName(c, id);
             int steps = RouteData.retrieveRouteSteps(c, id);
-            LocalTime time = LocalTime.parse(RouteData.retrieveRouteTime(c, id));
-            LocalDateTime date = LocalDateTime.parse(RouteData.retrieveRouteDate(c, id));
+            Route r = new Route(id, name);
+            r.setSteps(steps);
+            routes.add(r);
 
-            routes.add(new Route(id, name, steps, time, date));
+            String time = RouteData.retrieveRouteTime(c, id);
+            if (time != DataConstants.STR_NOT_FOUND) {
+                r.setDuration(LocalTime.parse(time));
+            }
+
+            String date = RouteData.retrieveRouteDate(c, id);
+            if (date != DataConstants.STR_NOT_FOUND) {
+                r.setStartDate(LocalDateTime.parse(date));
+            }
         }
 
         routeID = maxID;

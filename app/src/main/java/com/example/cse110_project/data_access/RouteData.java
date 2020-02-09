@@ -32,9 +32,18 @@ public class RouteData {
 
     public static void saveRouteData(Context c, Route route) {
         saveRouteName(c, route.getID(), route.getName());
-        saveRouteSteps(c, route.getID(), route.getSteps());
-        saveRouteTime(c, route.getID(), route.getDuration().toString());
-        saveRouteDate(c, route.getID(), route.getStartDate().toString());
+
+        if (route.getSteps() != 0) {
+            saveRouteSteps(c, route.getID(), route.getSteps());
+        }
+
+        if (route.getDuration() != null) {
+            saveRouteTime(c, route.getID(), route.getDuration().toString());
+        }
+
+        if (route.getStartDate() != null) {
+            saveRouteDate(c, route.getID(), route.getStartDate().toString());
+        }
     }
 
     public static void saveRouteName(Context c, int routeID, String routeName) {

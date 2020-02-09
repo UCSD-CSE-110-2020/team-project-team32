@@ -80,7 +80,7 @@ public class RouteDataTest {
     }
 
     @Test
-    public void testSaveRouteData() {
+    public void testSaveRouteDataComplete() {
         Route r = new Route(10, "Name", 200, LocalTime.of(5, 20),
                 LocalDateTime.of(2020, 1, 20, 10, 30));
         RouteData.saveRouteData(c, r);
@@ -90,6 +90,17 @@ public class RouteDataTest {
         assertEquals(RouteData.retrieveRouteTime(c, 10), LocalTime.of(5, 20).toString());
         assertEquals(RouteData.retrieveRouteDate(c, 10),
                 LocalDateTime.of(2020, 1, 20, 10, 30).toString());
+    }
+
+    @Test
+    public void testSaveRouteDataPartial() {
+        Route r = new Route(10, "Name");
+        RouteData.saveRouteData(c, r);
+
+        assertEquals(RouteData.retrieveRouteName(c, 10), "Name");
+        assertEquals(RouteData.retrieveRouteSteps(c, 10), DataConstants.INT_NOT_FOUND);
+        assertEquals(RouteData.retrieveRouteTime(c, 10), DataConstants.STR_NOT_FOUND);
+        assertEquals(RouteData.retrieveRouteDate(c, 10), DataConstants.STR_NOT_FOUND);
     }
 
 }
