@@ -37,4 +37,12 @@
 
     // route screen
     <string name="routeToHome">To Home</string>
+
+    <string name="walkHeader">Walk</string>
+    <string name="cancelButton">Cancel</string>
+    <string name="stopWalkButton">Stop Walk</string>
+    <string name="defaultRouteName">New Route</string>
+    <string name="defaultSteps">0</string>
+    <string name="defaultMiles">0.0</string>
+    <string name="defaultTime">00:00</string>
 </resources>
