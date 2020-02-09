@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button launchToRouteScreen; // = findViewById(R.id.routesButton);
     private Button mocking_button;
+    private Button startWalkButton;
 
 
     @Override
@@ -57,11 +58,16 @@ public class MainActivity extends AppCompatActivity {
         // to route screen
         launchToRouteScreen = findViewById(R.id.routesButton);
         launchToRouteScreen.setOnClickListener(view -> launchRouteActivity());
+
         // end To Route screen
 
         // creating mocking button
         mocking_button = findViewById(R.id.mockingButton);
         mocking_button.setOnClickListener(v -> openMockingActivity());
+
+        //to walk screen
+        startWalkButton = findViewById(R.id.startWalkButton);
+        startWalkButton.setOnClickListener(v -> launchWalkActivity());
 
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         System.out.println("Service key: " + fitnessServiceKey);
@@ -81,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         if (fitnessServiceActive) {
             fitnessService.setup();
         }
+
     }
 
     // Daily steps & miles methods
@@ -129,6 +136,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateFromFitnessService() {
         fitnessService.updateStepCount();
+    }
+
+
+    // To Walk Screen
+
+    public void launchWalkActivity() {
+        Intent intent = new Intent(this, WalkActivity.class);
+        startActivity(intent);
     }
 
     // To other activities
