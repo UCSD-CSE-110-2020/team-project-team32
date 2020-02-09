@@ -1,7 +1,6 @@
 package com.example.cse110_project.fitness_api;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,28 +1,21 @@
 package com.example.cse110_project.unit_tests;
 
 import static org.junit.Assert.assertEquals;
-import com.example.cse110_project.R;
+
+import com.example.cse110_project.MainActivity;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Button;
-import android.widget.EditText;
 
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.data_access.DataConstants;
 import com.example.cse110_project.data_access.RouteData;
-import com.example.cse110_project.data_access.UserData;
 import com.example.cse110_project.user_routes.Route;
-import com.google.common.truth.Truth;
 
 import org.junit.Before;
 import org.junit.Rule;

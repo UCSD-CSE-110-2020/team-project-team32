@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.example.cse110_project.data_access.DataConstants;
 import com.example.cse110_project.data_access.UserData;
-import com.example.cse110_project.fitness_api.GoogleFitAdapter;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
@@ -29,9 +28,7 @@ import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String GOOGLE_API_KEY = "GOOGLE_FIT";
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
-
     private static final String TAG = "MainActivity";
 
     // Text fields
@@ -46,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
     final int delay = 5*1000;
 
     private Button launchToRouteScreen; // = findViewById(R.id.routesButton);
-
-
     private Button mocking_button;
 
 
@@ -55,42 +50,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         stepCount = findViewById(R.id.dailyStepsDisplay);
         milesCount = findViewById(R.id.dailyMilesDisplay);
 
-        String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
-        FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
-            @Override
-            public FitnessService create(MainActivity stepCountActivity) {
-                return new GoogleFitAdapter(stepCountActivity);
-            }
-        });
-
-        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-        handler = new Handler();
-
         // to route screen
         launchToRouteScreen = findViewById(R.id.routesButton);
-        launchToRouteScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchRouteActivity();
-            }
-        });
+        launchToRouteScreen.setOnClickListener(view -> launchRouteActivity());
         // end To Route screen
 
         // creating mocking button
-        mocking_button = (Button) findViewById(R.id.mockingButton);
-        mocking_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMockingActivity();
-            }
-        });
+        mocking_button = findViewById(R.id.mockingButton);
+        mocking_button.setOnClickListener(v -> openMockingActivity());
 
-        TextView DailySteps = findViewById(R.id.dailyStepsDisplay);
-        TextView DailyMiles = findViewById(R.id.dailyMilesDisplay);
+        String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        System.out.println("service key: " + fitnessServiceKey);
+        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+        handler = new Handler();
 
         if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
             showInputDialog();
@@ -137,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDailySteps(int steps) {
+        System.out.println(TAG + " updateDailySteps called on " + steps);
         stepCount.setText(String.valueOf(steps));
         updateDailyMiles(steps, milesCount);
     }
