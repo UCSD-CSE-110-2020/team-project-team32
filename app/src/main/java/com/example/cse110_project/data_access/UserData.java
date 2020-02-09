@@ -41,5 +41,7 @@ public class UserData {
             editor.putString(DataConstants.ROUTES_LIST_KEY,
                     routeList + DataConstants.LIST_SPLIT + routeID);
         }
+
+        editor.apply();
     }
 }

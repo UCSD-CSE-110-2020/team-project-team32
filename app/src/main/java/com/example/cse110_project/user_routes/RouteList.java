@@ -20,6 +20,10 @@ public class RouteList {
         processRoutes(c);
     }
 
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
     public void createRoute(Context c, String name) {
         routeID++;
         Route r = new Route(routeID, name);
