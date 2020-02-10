@@ -25,10 +25,15 @@
     <string name="heightHintDialog">Height</string>
     <string name="heightButton">OK</string>
     <string name="heightPrompt">Please enter your height in inches (e.g. 60):</string>
+    <string name="saveWalk">Would you like to save your walk?</string>
+    <string name="cancelDialog">cancelled</string>
     <string name="heightExplanation">
         Your height will be used to calculate the distance you travel from your steps. Thank you
         for choosing Walk Walk Revolution.
     </string>
+    <string name="enterWalkName">Enter the name of your walk</string>
+    <string name="NameWalkHint">Name Of Walk</string>
+    <string name="sureCancelText">Are you sure you want to cancel?</string>
 
     <string name="invalidHeightToast">Invalid height. Please try again</string>
     <string name="longHeightError">Height must have no more than 2 digits</string>
