@@ -1,9 +1,13 @@
 package com.example.cse110_project.fitness_api;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 
+import com.example.cse110_project.CurrentWalkTracker;
 import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.WalkActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.fitness.Fitness;
@@ -19,10 +23,14 @@ public class GoogleFitAdapter implements FitnessService {
     private final String TAG = "GoogleFitAdapter";
     private GoogleSignInAccount account;
 
-    private MainActivity activity;
+    private AppCompatActivity activity;
 
-    public GoogleFitAdapter(MainActivity activity) {
-        this.activity = activity;
+    public GoogleFitAdapter(AppCompatActivity activity) {
+        if (activity instanceof MainActivity || activity instanceof WalkActivity) {
+            this.activity = activity;
+        } else {
+            throw new RuntimeException("Error: invalid activity argument to GoogleFitAdapter");
+        }
     }
 
 
@@ -92,7 +100,11 @@ public class GoogleFitAdapter implements FitnessService {
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                activity.updateDailySteps((int)total);
+                                if (activity instanceof MainActivity) {
+                                    ((MainActivity)activity).updateDailySteps((int)total);
+                                } else {
+                                    CurrentWalkTracker.setFinalSteps((int)total);
+                                }
                                 Log.d(TAG, "Total steps: " + total);
                             }
                         })

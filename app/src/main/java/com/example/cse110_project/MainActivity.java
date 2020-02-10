@@ -27,6 +27,9 @@ import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class MainActivity extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     private static final String TAG = "MainActivity";
@@ -67,7 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
         //to walk screen
         startWalkButton = findViewById(R.id.startWalkButton);
-        startWalkButton.setOnClickListener(v -> launchWalkActivity());
+        startWalkButton.setOnClickListener(v -> {
+            if (fitnessServiceActive) {
+                fitnessService.updateStepCount();
+            }
+            launchWalkActivity(User.getSteps(), LocalTime.now(), LocalDateTime.now());
+        });
 
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         System.out.println("Service key: " + fitnessServiceKey);
@@ -130,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateDailySteps(int steps) {
         System.out.println(TAG + " updateDailySteps called on " + steps);
+        User.setSteps(steps);
         stepCount.setText(String.valueOf(steps));
         updateDailyMiles(steps, milesCount);
     }
@@ -141,13 +150,17 @@ public class MainActivity extends AppCompatActivity {
 
     // To Walk Screen
 
-    public void launchWalkActivity() {
+    public void launchWalkActivity(int steps, LocalTime time, LocalDateTime date) {
         Intent intent = new Intent(this, WalkActivity.class);
+        intent.putExtra(MainActivity.FITNESS_SERVICE_KEY,
+                getIntent().getStringExtra(FITNESS_SERVICE_KEY));
+        CurrentWalkTracker.setInitial(steps, time, date);
         startActivity(intent);
     }
 
     // To other activities
 
+    // To routes activity
     public void launchRouteActivity() {
         Intent intent = new Intent(this, RouteScreen.class);
         startActivity(intent);

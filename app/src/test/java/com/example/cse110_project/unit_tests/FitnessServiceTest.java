@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -51,9 +52,9 @@ public class FitnessServiceTest {
 
     private class TestFitnessService implements FitnessService {
         private static final String TAG = "[TestFitnessService]: ";
-        private MainActivity mainActivity;
+        private AppCompatActivity mainActivity;
 
-        public TestFitnessService(MainActivity mainActivity) {
+        public TestFitnessService(AppCompatActivity mainActivity) {
             this.mainActivity = mainActivity;
         }
 
@@ -70,7 +71,7 @@ public class FitnessServiceTest {
         @Override
         public void updateStepCount() {
             System.out.println(TAG + "updateStepCount");
-            mainActivity.updateDailySteps((int) nextStepCount);
+            ((MainActivity)mainActivity).updateDailySteps((int) nextStepCount);
         }
     }
 }

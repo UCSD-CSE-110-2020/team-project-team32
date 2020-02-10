@@ -2,6 +2,8 @@ package com.example.cse110_project.fitness_api;
 
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +19,7 @@ public class FitnessServiceFactory {
         blueprints.put(key, bluePrint);
     }
 
-    public static FitnessService create(String key, MainActivity stepCountActivity) {
+    public static FitnessService create(String key, AppCompatActivity stepCountActivity) {
         Log.i(TAG, String.format("creating FitnessService with key %s", key));
         System.out.println(key);
         System.out.println(blueprints.get(key));
@@ -25,6 +27,6 @@ public class FitnessServiceFactory {
     }
 
     public interface BluePrint {
-        FitnessService create(MainActivity stepCountActivity);
+        FitnessService create(AppCompatActivity stepCountActivity);
     }
 }
