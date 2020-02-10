@@ -37,4 +37,6 @@
 
     // route screen
     <string name="routeToHome">To Home</string>
+    <string name="routeNewRoute">New Route</string>
+    // end route screen
 </resources>

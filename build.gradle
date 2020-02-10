@@ -18,6 +18,11 @@ allprojects {
     repositories {
         google()
         jcenter()
+        // recycler view list
+        maven () {
+            url "https://maven.google.com"
+        }
+        // end recycler view need
         
     }
 }
