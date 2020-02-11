@@ -1,43 +1,21 @@
 package com.example.cse110_project;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessActivities;
-import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataType;
-import com.google.android.gms.fitness.data.Session;
-import com.google.android.gms.fitness.request.SessionInsertRequest;
-import com.google.android.gms.fitness.request.SessionReadRequest;
-import com.google.android.gms.fitness.result.SessionReadResponse;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-
 import java.time.LocalTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
+
 
 public class WalkActivity extends AppCompatActivity {
     private Button cancelButton;
@@ -45,6 +23,7 @@ public class WalkActivity extends AppCompatActivity {
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
 
+    SaveRoute saveroute = new SaveRoute();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +35,7 @@ public class WalkActivity extends AppCompatActivity {
         stopButton = findViewById(R.id.stopWalkButton);
         stopButton.setOnClickListener(v -> {
             endWalkActivity(LocalTime.now());
-            backToHomeActivity();
+            showSaveDialog();
         });
 
         // Set up fitnessService
@@ -87,4 +66,74 @@ public class WalkActivity extends AppCompatActivity {
         //System.out.println(findViewById(R.id.walkHeader).getVisibility());
         System.out.println(findViewById(R.id.walkRouteName).getVisibility());
     }
+
+        public AlertDialog showSaveDialog () {
+            // get prompts.xml view
+            LayoutInflater layoutInflater = LayoutInflater.from(WalkActivity.this);
+            View promptView = layoutInflater.inflate(R.layout.dialog_save, null);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WalkActivity.this)
+                    .setCancelable(false)
+                    .setPositiveButton("Save", null)
+                    .setNegativeButton("Cancel", null);
+            alertDialogBuilder.setView(promptView);
+
+            // create an alert dialog
+            AlertDialog alert = alertDialogBuilder.create();
+            alert.show();
+
+            Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+            Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alert.dismiss();
+                    makeSureToCancel();
+                }
+            });
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alert.dismiss();
+                    saveroute.InputWalkDataDialog(WalkActivity.this);
+                }
+            });
+
+            return alert;
+        }
+
+        public AlertDialog makeSureToCancel () {
+            // get prompts.xml view
+            LayoutInflater layoutInflater = LayoutInflater.from(WalkActivity.this);
+            View promptView = layoutInflater.inflate(R.layout.dialog_sure_cancel, null);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WalkActivity.this)
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", null)
+                    .setNegativeButton("No", null);
+            alertDialogBuilder.setView(promptView);
+
+            // create an alert dialog
+            AlertDialog alert = alertDialogBuilder.create();
+            alert.show();
+
+            Button yesButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+            Button NoButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
+            NoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alert.dismiss();
+                    saveroute.InputWalkDataDialog(WalkActivity.this);
+                }
+            });
+            yesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(WalkActivity.this, R.string.cancelDialog,
+                            Toast.LENGTH_SHORT).show();
+                    alert.dismiss();
+                    backToHomeActivity();
+                }
+            });
+
+            return alert;
+        }
 }

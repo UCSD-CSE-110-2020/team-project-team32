@@ -24,10 +24,12 @@ public class RouteList {
         return routes;
     }
 
-    public void createRoute(Context c, String name) {
+    public void createRoute(Context c, Route r) {
         routeID++;
-        Route r = new Route(routeID, name);
+        r.setID(routeID);
         addRoute(c, r);
+        UserData.saveRoute(c, r);
+        RouteData.saveRouteData(c, r);
     }
 
     public void addRoute(Context c, Route r) {
