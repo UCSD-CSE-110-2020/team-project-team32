@@ -33,7 +33,7 @@ public class RouteData {
     public static void saveRouteData(Context c, Route route) {
         saveRouteName(c, route.getID(), route.getName());
 
-        if (route.getSteps() != 0) {
+        if (route.getSteps() >= 0) {
             saveRouteSteps(c, route.getID(), route.getSteps());
         }
 

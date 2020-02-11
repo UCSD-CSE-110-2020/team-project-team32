@@ -17,6 +17,6 @@ public class DataConstants {
     public final static int NO_HEIGHT_FOUND = 0;
     public final static String NO_ROUTES_FOUND = "";
     public final static String STR_NOT_FOUND = "";
-    public final static int INT_NOT_FOUND = -1;
+    public final static int INT_NOT_FOUND = 0;
     public final static String NO_RECENT_ROUTE = "N/A";
 }

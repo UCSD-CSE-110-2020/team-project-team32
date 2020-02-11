@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.cse110_project.CurrentWalkTracker;
 import com.example.cse110_project.MainActivity;
@@ -84,37 +85,29 @@ public class GoogleFitAdapter implements FitnessService {
      */
     public void updateStepCount() {
         if (account == null) {
+            System.out.println(TAG + " Account was null");
             return;
         }
 
         Fitness.getHistoryClient(activity, account)
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
-                        new OnSuccessListener<DataSet>() {
-                            @Override
-                            public void onSuccess(DataSet dataSet) {
-                                Log.d(TAG, dataSet.toString());
-                                System.out.println(dataSet.isEmpty());
-                                long total =
-                                        dataSet.isEmpty()
-                                                ? 0
-                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                        dataSet -> {
+                            Log.d(TAG, dataSet.toString());
+                            long total =
+                                    dataSet.isEmpty()
+                                            ? 0
+                                            : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                if (activity instanceof MainActivity) {
-                                    ((MainActivity)activity).updateDailySteps((int)total);
-                                } else {
-                                    CurrentWalkTracker.setFinalSteps((int)total);
-                                }
-                                Log.d(TAG, "Total steps: " + total);
+                            if (activity instanceof MainActivity) {
+                                ((MainActivity)activity).updateDailySteps((int)total);
+                            } else {
+                                CurrentWalkTracker.setFinalSteps((int)total);
                             }
+                            Log.d(TAG, "Total steps: " + total);
                         })
                 .addOnFailureListener(
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "There was a problem getting the step count.", e);
-                            }
-                        });
+                        e -> Log.d(TAG, "There was a problem getting the step count.", e));
     }
 
 

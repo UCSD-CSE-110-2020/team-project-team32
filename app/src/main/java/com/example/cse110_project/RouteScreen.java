@@ -50,7 +50,7 @@ public class RouteScreen extends AppCompatActivity{
     }
 
     public void launchToHomeActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, EntryActivity.class);
         startActivity(intent);
     }
 }

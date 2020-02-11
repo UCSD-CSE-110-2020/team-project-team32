@@ -15,13 +15,13 @@ public class CurrentWalkTracker {
 
     public static void setInitial(int steps, LocalTime time, LocalDateTime date) {
         initialSteps = steps;
+        finalSteps = steps;
         initialTime = time;
+        finalTime = time;
         startDate = date;
     }
 
-    public static void setFinalSteps(int steps) {
-        finalSteps = steps;
-    }
+    public static void setFinalSteps(int steps) { finalSteps = steps; }
 
     public static void setFinalTime(LocalTime time) {
         finalTime = time;

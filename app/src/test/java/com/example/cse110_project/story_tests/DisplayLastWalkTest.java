@@ -80,12 +80,12 @@ public class DisplayLastWalkTest {
     public void testDisplayWalksWithDates() {
         Route r = new Route(10, "Name", 25, LocalTime.of(10,10),
                 LocalDateTime.of(1, 1, 1, 1, 1));
-        User.getRoutes(c).addRoute(c, r);
+        User.getRoutes(c).createRoute(c, r);
         Route r2 = new Route(15, "Name2");
-        User.getRoutes(c).addRoute(c, r2);
+        User.getRoutes(c).createRoute(c, r2);
         Route r3 = new Route(100, "Name3", 50, LocalTime.of(11,10),
                 LocalDateTime.of(2, 1, 1, 1, 1));
-        User.getRoutes(c).addRoute(c, r3);
+        User.getRoutes(c).createRoute(c, r3);
 
         mainActivity.getActivity().updateRecentRoute();
         assertEquals(walkSteps.getText(), "50");
