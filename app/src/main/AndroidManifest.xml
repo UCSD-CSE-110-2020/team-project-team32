@@ -24,6 +24,7 @@
         <activity android:name=".MainActivity">
         </activity>
         <activity android:name=".RouteScreen" />
+        <activity android:name=".WalkActivity" />
     </application>
 
 </manifest>

@@ -19,7 +19,7 @@ public class EntryActivity extends AppCompatActivity {
 
         FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
             @Override
-            public FitnessService create(MainActivity homeActivity) {
+            public FitnessService create(AppCompatActivity homeActivity) {
                 return new GoogleFitAdapter(homeActivity);
             }
         });
