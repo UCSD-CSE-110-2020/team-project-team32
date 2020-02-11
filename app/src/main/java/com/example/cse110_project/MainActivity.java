@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -27,11 +27,9 @@ import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
 public class MainActivity extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
@@ -45,9 +43,7 @@ public class MainActivity extends AppCompatActivity {
     // Fitness service fields
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
-    Handler handler;
-    Runnable runnable;
-    final int delay = 5*1000;
+    final String delay = "5";
 
     private Button launchToRouteScreen; // = findViewById(R.id.routesButton);
     private Button mocking_button;
@@ -85,7 +81,10 @@ public class MainActivity extends AppCompatActivity {
         fitnessServiceActive = (fitnessServiceKey != null);
         if (fitnessServiceActive) {
             fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-            handler = new Handler();
+            fitnessService.setup();
+
+            StepsTrackerAsyncTask async = new StepsTrackerAsyncTask();
+            async.execute(delay);
         }
 
         if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
@@ -94,39 +93,11 @@ public class MainActivity extends AppCompatActivity {
         User.setHeight(UserData.retrieveHeight(MainActivity.this));
         updateDailySteps(0);
         updateRecentRoute();
-
-        if (fitnessServiceActive) {
-            fitnessService.setup();
-        }
-
-    }
-
-    // Daily steps & miles methods
-
-    @Override
-    protected void onResume() {
-        if (fitnessServiceActive) {
-            //start handler as activity become visible
-            handler.postDelayed(runnable = new Runnable() {
-                public void run() {
-                    handler.postDelayed(runnable, delay);
-                    fitnessService.updateStepCount();
-                }
-            }, delay);
-        }
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        if (fitnessServiceActive) {
-            handler.removeCallbacks(runnable); //stop handler when activity not visible
-        }
-        super.onPause();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("onActivityResult executed");
         super.onActivityResult(requestCode, resultCode, data);
 
         // Called if authentication required during google fit setup
@@ -290,6 +261,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {}
         });
+    }
+
+    private class StepsTrackerAsyncTask extends AsyncTask<String, String, String> {
+        private String resp;
+
+        @Override
+        protected String doInBackground(String... params) {
+            int delay = Integer.parseInt(params[0]) * 1000;
+
+            while (true) {
+                try {
+                    Thread.sleep(delay);
+                    fitnessService.updateStepCount();
+                    resp = "Updated step count after " + params[0] + "seconds";
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    resp = e.getMessage();
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {}
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(String... text) {}
     }
 
 }
