@@ -2,8 +2,8 @@
     <string name="title_activity_test">test</string>
     <string name="app_name">CSE110_Project</string>
 
-    <string name="NumberOfSteps">5000</string>
-    <string name="miles">4.5</string>
+    <string name="NumberOfSteps">0</string>
+    <string name="miles">0.0</string>
     <string name="recentRouteSteps">986</string>
     <string name="MilesRecent">5.2</string>
     <string name="recentRunTime">5:46</string>
@@ -25,10 +25,15 @@
     <string name="heightHintDialog">Height</string>
     <string name="heightButton">OK</string>
     <string name="heightPrompt">Please enter your height in inches (e.g. 60):</string>
+    <string name="saveWalk">Would you like to save your walk?</string>
+    <string name="cancelDialog">cancelled</string>
     <string name="heightExplanation">
         Your height will be used to calculate the distance you travel from your steps. Thank you
         for choosing Walk Walk Revolution.
     </string>
+    <string name="enterWalkName">Enter the name of your walk</string>
+    <string name="NameWalkHint">Name Of Walk</string>
+    <string name="sureCancelText">Are you sure you want to cancel?</string>
 
     <string name="invalidHeightToast">Invalid height. Please try again</string>
     <string name="longHeightError">Height must have no more than 2 digits</string>
@@ -39,4 +44,12 @@
     <string name="routeToHome">To Home</string>
     <string name="routeNewRoute">New Route</string>
     // end route screen
+
+    <string name="walkHeader">Walk</string>
+    <string name="cancelButton">Cancel</string>
+    <string name="stopWalkButton">Stop Walk</string>
+    <string name="defaultRouteName">New Route</string>
+    <string name="defaultSteps">0</string>
+    <string name="defaultMiles">0.0</string>
+    <string name="defaultTime">00:00</string>
 </resources>

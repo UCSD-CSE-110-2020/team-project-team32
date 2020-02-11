@@ -1,29 +1,32 @@
-package com.example.cse110_project;
-
+package com.example.cse110_project.unit_tests;
 
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.R;
+import com.example.cse110_project.fitness_api.FitnessService;
+import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.example.cse110_project.fitness_api.FitnessService;
-import com.example.cse110_project.fitness_api.FitnessServiceFactory;
-
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class StepCountActivityUnitTest {
+public class FitnessServiceTest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
 
     private Intent intent;
     private long nextStepCount;
+    private TextView textSteps;
 
     @Before
     public void setUp() {
@@ -33,23 +36,26 @@ public class StepCountActivityUnitTest {
     }
 
     @Test
-    public void testUpdateStepsButton() {
+    public void testUpdateSteps() {
         nextStepCount = 1337;
 
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
-            TextView textSteps = activity.findViewById(R.id.dailyStepsDisplay);
-            activity.fitnessService.updateStepCount();
-            assertThat(textSteps.getText().toString()).isEqualTo(String.valueOf(nextStepCount));
+            textSteps = activity.findViewById(R.id.dailyStepsDisplay);
+            assertEquals("0", textSteps.getText().toString());
+
+            activity.updateFromFitnessService();
+
+            assertEquals(String.valueOf(nextStepCount), textSteps.getText().toString());
         });
     }
 
     private class TestFitnessService implements FitnessService {
         private static final String TAG = "[TestFitnessService]: ";
-        private MainActivity stepCountActivity;
+        private AppCompatActivity mainActivity;
 
-        public TestFitnessService(MainActivity stepCountActivity) {
-            this.stepCountActivity = stepCountActivity;
+        public TestFitnessService(AppCompatActivity mainActivity) {
+            this.mainActivity = mainActivity;
         }
 
         @Override
@@ -65,7 +71,7 @@ public class StepCountActivityUnitTest {
         @Override
         public void updateStepCount() {
             System.out.println(TAG + "updateStepCount");
-            stepCountActivity.updateDailySteps((int)nextStepCount);
+            ((MainActivity)mainActivity).updateDailySteps((int) nextStepCount);
         }
     }
 }
