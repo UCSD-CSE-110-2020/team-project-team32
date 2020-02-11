@@ -66,6 +66,11 @@ public class WalkActivity extends AppCompatActivity {
         if (fitnessServiceActive) {
             fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
         }
+
+        //System.out.println(findViewById(R.id.walkHeader).getVisibility());
+        //findViewById(R.id.walkHeader).setVisibility(View.VISIBLE);
+        System.out.println(findViewById(R.id.walkRouteName).getVisibility());
+        findViewById(R.id.walkRouteName).setVisibility(View.VISIBLE);
     }
 
     public void backToHomeActivity() {
@@ -78,5 +83,8 @@ public class WalkActivity extends AppCompatActivity {
             fitnessService.updateStepCount();
         }
         CurrentWalkTracker.setFinalTime(finalTime);
+
+        //System.out.println(findViewById(R.id.walkHeader).getVisibility());
+        System.out.println(findViewById(R.id.walkRouteName).getVisibility());
     }
 }
