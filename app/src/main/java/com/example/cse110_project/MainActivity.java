@@ -27,8 +27,11 @@ import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 
 public class MainActivity extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
@@ -184,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateRecentRoute() {
         Route recent = User.getRoutes(MainActivity.this).getMostRecentRoute();
+        System.out.println("Routes: " + User.getRoutes(MainActivity.this));
+        System.out.println("Recent: " + recent);
         String stepsDisplay;
         String milesDisplay;
         String timeDisplay;
@@ -196,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
             stepsDisplay = Integer.toString(recent.getSteps());
             milesDisplay = MilesCalculator.formatMiles(
                     MilesCalculator.calculateMiles(User.getHeight(), recent.getSteps()));
-            timeDisplay = recent.getDuration().toString();
+            timeDisplay = recent.getDuration().truncatedTo(ChronoUnit.MINUTES).toString();
         }
 
         ((TextView)findViewById(R.id.recentStepsDisplay)).setText(stepsDisplay);
@@ -225,12 +230,7 @@ public class MainActivity extends AppCompatActivity {
         validateHeight();
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDialogClickValidate(alert);
-            }
-        });
+        submitButton.setOnClickListener(v -> onDialogClickValidate(alert));
 
         return alert;
     }
