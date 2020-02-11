@@ -7,33 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".RouteScreen">
 
+
     <Button
         android:id="@+id/button_routeScreenNewRoute"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="193dp"
+        android:layout_height="45dp"
         android:text="@string/routeNewRoute"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.223"
-        app:layout_constraintStart_toStartOf="@id/appBarLayout"
+        app:layout_constraintHorizontal_bias="0.926"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="655dp"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/button_routeToHome"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="171dp"
+        android:layout_height="45dp"
         android:text="@string/routeToHome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_routeScreenNewRoute"
