@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RouteList {
-    private static int routeID;
+    private static int routeID = 1;
     private List<Route> routes;
 
     public RouteList(Context c) {
@@ -20,19 +20,26 @@ public class RouteList {
         processRoutes(c);
     }
 
-    public List<Route> getRoutes() {
-        return routes;
+    @Override
+    public String toString() {
+        String result = "[";
+        for (Route r : routes) {
+            result += r + "\n";
+        }
+        return result + "]";
+    }
+
+    public int length() {
+        return routes.size();
+    }
+
+    public Route getRoute(int index) {
+        return routes.get(index);
     }
 
     public void createRoute(Context c, Route r) {
         routeID++;
         r.setID(routeID);
-        addRoute(c, r);
-        UserData.saveRoute(c, r);
-        RouteData.saveRouteData(c, r);
-    }
-
-    public void addRoute(Context c, Route r) {
         routes.add(r);
         UserData.saveRoute(c, r);
         RouteData.saveRouteData(c, r);

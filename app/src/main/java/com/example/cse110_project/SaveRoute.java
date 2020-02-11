@@ -19,90 +19,105 @@ import com.example.cse110_project.R;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class SaveRoute {
+    private EditText walkName;
+    private Route route;
+    private AlertDialog alert;
 
-    EditText WalkName;
-    Route route;
-    Toast toastmessage;
+    private Context context;
+    private int steps;
+    private LocalTime time;
+    private LocalDateTime date;
 
-    public AlertDialog InputWalkDataDialog(Context context) {
+    public SaveRoute(Context context, int steps, LocalTime time, LocalDateTime date) {
+        this.context = context;
+        System.out.println("Context theme: " + context.getTheme());
+        this.steps = steps;
+        this.time = time;
+        this.date = date;
+    }
+
+    public EditText getWalkName() {
+        return walkName;
+    }
+
+    public AlertDialog inputRouteDataDialog() {
         // get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View promptView = layoutInflater.inflate(R.layout.dialog_walkdata, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context)
                 .setCancelable(false)
-                .setPositiveButton("Ok", null)
-                .setNegativeButton("Cancel", null);
+                .setPositiveButton(R.string.saveButton, null)
+                .setNegativeButton(R.string.cancelButton, null);
         alertDialogBuilder.setView(promptView);
 
         // create an alert dialog
-        AlertDialog alert = alertDialogBuilder.create();
+        alert = alertDialogBuilder.create();
         alert.show();
 
-        WalkName = promptView.findViewById(R.id.NameOfWalkInput);
+        walkName = promptView.findViewById(R.id.NameOfWalkInput);
 
         validateTextInput();
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toastmessage.makeText(context , R.string.cancelDialog,
-                        toastmessage.LENGTH_SHORT).show();
-                alert.dismiss();
-                goToHomeScreen(context);
-            }
+        cancelButton.setOnClickListener(v -> {
+            Toast.makeText(context, R.string.cancelDialog, Toast.LENGTH_SHORT).show();
+            alert.dismiss();
+            goToHomeScreen();
         });
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validateOnClickSave(context,alert);
-            }
-        });
+        submitButton.setOnClickListener(v -> validateOnClickSave(alert));
 
         return alert;
     }
 
-    public void goToRouteScreen(Context context) {
-        Intent  intent = new Intent(context, RouteScreen.class);
-        context.startActivity(intent);
+    public void goToRouteScreen() {
+        context.startActivity(new Intent(context, RouteScreen.class));
     }
 
-    public void goToHomeScreen(Context context) {
-        Intent  intent = new Intent(context, EntryActivity.class);
-        context.startActivity(intent);
+    public void goToHomeScreen() {
+        context.startActivity(new Intent(context, EntryActivity.class));
     }
 
-    public void validateOnClickSave(Context context, DialogInterface dialog) {
-         if(WalkName.getText().toString().length() == 0) {
-             toastmessage.makeText(context, R.string.InvalidWalkName,
-                     toastmessage.LENGTH_SHORT).show();
-         }
-         else {
+    public void validateOnClickSave(DialogInterface dialog) {
+         if (walkName.getText().toString().length() == 0) {
+             Toast.makeText(context, R.string.invalidWalkName, Toast.LENGTH_SHORT).show();
+         } else {
+             saveRoute();
              dialog.dismiss();
-             goToRouteScreen(context);
-             route = new Route(0, WalkName.getText().toString());
-             User.getRoutes(context).createRoute(context, route);
+             goToRouteScreen();
          }
     }
+
+    public void saveRoute() {
+        route = new Route(0, walkName.getText().toString());
+        route.setSteps(steps);
+        route.setDuration(time);
+        route.setStartDate(date);
+
+        User.getRoutes(context).createRoute(context, route);
+    }
+
     public void validateTextInput() {
-        WalkName.addTextChangedListener(new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        walkName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (WalkName.getText().toString().length() == 0) {
-                WalkName.setError("please enter a walk name");
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (walkName.getText().toString().length() == 0) {
+                    walkName.setError(context.getResources().getString(R.string.emptyWalkName));
+                }
+                else {
+                    walkName.setError(null);
+                }
             }
-            else {
-                WalkName.setError(null);
-            }
-        }
 
-        @Override
-        public void afterTextChanged(Editable s) {}
-    });
-}
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
 }

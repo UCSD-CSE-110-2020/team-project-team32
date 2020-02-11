@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -42,15 +43,16 @@ public class RouteListTest {
         c = mainActivity.getActivity().getApplicationContext();
     }
 
+    // Tests processRoutes by way of the ctor
     @Test
-    public void testCreationNoRoutes() {
+    public void testGenerationNoRoutes() {
         RouteList list = new RouteList(c);
-        assertNotNull(list.getRoutes());
-        assertEquals(list.getRoutes().size(), 0);
+        assertEquals(list.length(), 0);
     }
 
+    // Tests processRoutes by way of the ctor
     @Test
-    public void testCreationSomeRoutes() {
+    public void testGenerationSomeRoutes() {
         Route r = new Route(10, "Name", 50, LocalTime.of(10,10),
                 LocalDateTime.of(1, 1, 1, 1, 1));
         UserData.saveRoute(c, r);
@@ -58,32 +60,32 @@ public class RouteListTest {
         Route r2 = new Route(15, "Name2");
         UserData.saveRoute(c, r2);
         RouteData.saveRouteData(c, r2);
-        Route r3 = new Route(100, "Name3");
+        Route r3 = new Route(100, "Name");
         UserData.saveRoute(c, r3);
         RouteData.saveRouteData(c, r3);
 
         RouteList list = new RouteList(c);
-        assertEquals(3, list.getRoutes().size());
+        assertEquals(3, list.length());
 
-        assertEquals(10, list.getRoutes().get(0).getID());
-        assertEquals("Name", list.getRoutes().get(0).getName());
-        assertEquals(50, list.getRoutes().get(0).getSteps());
+        assertEquals(10, list.getRoute(0).getID());
+        assertEquals("Name", list.getRoute(0).getName());
+        assertEquals(50, list.getRoute(0).getSteps());
         assertEquals(LocalTime.of(10,10).toString(),
-                list.getRoutes().get(0).getDuration().toString());
+                list.getRoute(0).getDuration().toString());
         assertEquals(LocalDateTime.of(1, 1, 1, 1, 1).toString(),
-                list.getRoutes().get(0).getStartDate().toString());
+                list.getRoute(0).getStartDate().toString());
 
-        assertEquals(15, list.getRoutes().get(1).getID());
-        assertEquals("Name2", list.getRoutes().get(1).getName());
-        assertEquals(DataConstants.INT_NOT_FOUND, list.getRoutes().get(1).getSteps());
-        assertNull(list.getRoutes().get(1).getDuration());
-        assertNull(list.getRoutes().get(1).getStartDate());
+        assertEquals(15, list.getRoute(1).getID());
+        assertEquals("Name2", list.getRoute(1).getName());
+        assertEquals(DataConstants.INT_NOT_FOUND, list.getRoute(1).getSteps());
+        assertNull(list.getRoute(1).getDuration());
+        assertNull(list.getRoute(1).getStartDate());
 
-        assertEquals(100, list.getRoutes().get(2).getID());
-        assertEquals("Name3", list.getRoutes().get(2).getName());
-        assertEquals(DataConstants.INT_NOT_FOUND, list.getRoutes().get(2).getSteps());
-        assertNull(list.getRoutes().get(2).getDuration());
-        assertNull(list.getRoutes().get(2).getStartDate());
+        assertEquals(100, list.getRoute(2).getID());
+        assertEquals("Name", list.getRoute(2).getName());
+        assertEquals(DataConstants.INT_NOT_FOUND, list.getRoute(2).getSteps());
+        assertNull(list.getRoute(2).getDuration());
+        assertNull(list.getRoute(2).getStartDate());
     }
 
     @Test
@@ -151,7 +153,22 @@ public class RouteListTest {
         RouteData.saveRouteData(c, r3);
 
         RouteList list = new RouteList(c);
+        assertEquals(3, list.length());
         assertEquals(100, list.getMostRecentRoute().getID());
         assertEquals(50, list.getMostRecentRoute().getSteps());
+    }
+
+    @Test
+    public void testCreateRoute() {
+        RouteList list = new RouteList(c);
+        list.createRoute(c, new Route(0, "Name"));
+        assertEquals(1, list.length());
+        assertNotEquals(0, list.getRoute(0).getID());
+        assertEquals("Name", list.getRoute(0).getName());
+
+        list.createRoute(c, new Route(list.getRoute(0).getID(), "Name"));
+        assertEquals(2, list.length());
+        assertNotEquals(list.getRoute(0).getID(), list.getRoute(1).getID());
+        assertEquals("Name", list.getRoute(1).getName());
     }
 }

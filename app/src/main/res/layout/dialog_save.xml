@@ -11,8 +11,8 @@
         android:id="@+id/saveWalkButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/saveWalkPrompt"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/saveWalk"
         android:textStyle="bold" />
 
 </LinearLayout>

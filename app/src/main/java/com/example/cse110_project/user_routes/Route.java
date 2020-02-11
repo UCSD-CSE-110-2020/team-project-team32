@@ -25,6 +25,11 @@ public class Route {
         duration = dur;
     }
 
+    @Override
+    public String toString() {
+        return "" + id + ": (" + name + ", " + steps + ", " + duration + ", " + startDate + ")";
+    }
+
     public int getID() { return id; }
 
     public void setID(int id) { this.id = id; }
