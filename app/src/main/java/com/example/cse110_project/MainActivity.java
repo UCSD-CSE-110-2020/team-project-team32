@@ -33,6 +33,7 @@ import java.time.temporal.ChronoUnit;
 
 public class MainActivity extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String MAX_UPDATES_KEY = "MAX_UPDATES_KEY";
     private static final String TAG = "MainActivity";
 
     // Text fields
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     // Fitness service fields
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
+    private int maxStepUpdates;
     final String delay = "5";
 
     private Button launchToRouteScreen; // = findViewById(R.id.routesButton);
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         if (fitnessServiceActive) {
             fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
             fitnessService.setup();
+            maxStepUpdates = getIntent().getIntExtra(MAX_UPDATES_KEY, Integer.MAX_VALUE);
 
             StepsTrackerAsyncTask async = new StepsTrackerAsyncTask();
             async.execute(delay);
@@ -91,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
             showInputDialog();
         }
         User.setHeight(UserData.retrieveHeight(MainActivity.this));
-        updateDailySteps(0);
         updateRecentRoute();
     }
 
@@ -269,18 +271,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             int delay = Integer.parseInt(params[0]) * 1000;
+            int count = 0;
 
-            while (true) {
+            while (count < maxStepUpdates) {
+                System.out.println("Max updates is " + maxStepUpdates);
                 try {
                     Thread.sleep(delay);
                     fitnessService.updateStepCount();
-                    resp = "Updated step count after " + params[0] + "seconds";
+                    count++;
+                    resp = "Updated step count " + count + " times";
 
                 } catch (Exception e) {
                     e.printStackTrace();
                     resp = e.getMessage();
                 }
             }
+
+            return resp;
         }
 
         @Override
