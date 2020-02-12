@@ -1,6 +1,4 @@
-package com.example.cse110_project;
-
-import com.example.cse110_project.fitness_api.FitnessService;
+package com.example.cse110_project.trackers;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
