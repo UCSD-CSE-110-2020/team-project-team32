@@ -33,6 +33,7 @@ public class FitnessServiceTest {
         FitnessServiceFactory.put(TEST_SERVICE, TestFitnessService::new);
         intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         intent.putExtra(MainActivity.FITNESS_SERVICE_KEY, TEST_SERVICE);
+        intent.putExtra(MainActivity.MAX_UPDATES_KEY, 2);
     }
 
     @Test
@@ -42,10 +43,6 @@ public class FitnessServiceTest {
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
             textSteps = activity.findViewById(R.id.dailyStepsDisplay);
-            assertEquals("0", textSteps.getText().toString());
-
-            activity.updateFromFitnessService();
-
             assertEquals(String.valueOf(nextStepCount), textSteps.getText().toString());
         });
     }
