@@ -12,50 +12,42 @@ import com.example.cse110_project.user_routes.User;
 
 
 public class MockingActivity extends AppCompatActivity {
-
-    private Button back_button;
-    private Button increment_button;
-
+    public static final String PREV_ACTIVITY_IS_MAIN = "PREV_ACTIVITY_KEY";
+    public static final int STEPS_OFFSET_INCR = 500;
+    private boolean prevActivityIsMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mocking);
+        prevActivityIsMain = getIntent().getBooleanExtra(PREV_ACTIVITY_IS_MAIN, true);
 
         // creating back button
-        back_button = (Button) findViewById(R.id.back_button);
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMainActivity();
-            }
-        });
-
+        Button back_button = findViewById(R.id.back_button);
+        back_button.setOnClickListener(v -> launchPrevActivity());
 
         // linking 500+ button
-        increment_button = (Button) findViewById(R.id.increment);
-        increment_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // get current steps from API
-                int current_steps = User.getStepsOffset();
-                System.out.println(current_steps);
-
-                current_steps = current_steps + 500;
-                //update step offset (separate from fitness steps)
-                User.setStepsOffset(current_steps);
-
-
-                System.out.println(current_steps);
-
-            }
-        });
+        Button increment_button = findViewById(R.id.increment);
+        increment_button.setOnClickListener(v -> incrementOffset());
 
     }
 
-    //openMockingActivity method
-    public void openMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+    public void incrementOffset() {
+        int current_steps = User.getStepsOffset();
+        current_steps = current_steps + STEPS_OFFSET_INCR;
+
+        // Update step offset (separate from fitness steps)
+        User.setStepsOffset(current_steps);
+        System.out.println("Updated steps offset to " + current_steps);
+    }
+
+    public void launchPrevActivity(){
+        Intent intent;
+        if (prevActivityIsMain) {
+            intent = new Intent(this, MainActivity.class);
+        } else {
+            intent = new Intent(this, WalkActivity.class);
+        }
         startActivity(intent);
     }
 }

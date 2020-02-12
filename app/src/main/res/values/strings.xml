@@ -48,6 +48,8 @@
     <string name="saveButton">Save</string>
     <string name="stopWalkButton">Stop Walk</string>
     <string name="defaultRouteName">New Route</string>
+    <string name="defaultStartingPoint"> </string>
+    <string name="defaultNotes"> </string>
     <string name="defaultSteps">0</string>
     <string name="defaultMiles">0.0</string>
     <string name="defaultTime">00:00</string>

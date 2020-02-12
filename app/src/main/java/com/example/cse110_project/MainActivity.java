@@ -69,12 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
         // creating MockingActivity button
         mocking_button = findViewById(R.id.mockingButton);
-        mocking_button.setOnClickListener(v -> openMockingActivity());
-        // creating mocking button
-        mocking_button = findViewById(R.id.mockingButton);
-        mocking_button.setOnClickListener(v -> openMockingActivity());
+        mocking_button.setOnClickListener(v -> launchMockingActivity());
 
-        //to walk screen
+        // to walk screen
         startWalkButton = findViewById(R.id.startWalkButton);
         startWalkButton.setOnClickListener(v -> {
             if (fitnessServiceActive) {
@@ -82,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
             }
             launchWalkActivity(User.getTotalSteps(), LocalTime.now(), LocalDateTime.now());
         });
-        // end of dev button
 
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         System.out.println("Service key: " + fitnessServiceKey);
@@ -122,12 +118,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDailySteps(int steps) {
-        System.out.println(TAG + "updateDailySteps called on" + steps);
         User.setFitnessSteps(steps);
         int totalSteps = User.getTotalSteps();
+        System.out.println(TAG + " updateDailySteps called on " + steps + " for total of "
+                + totalSteps);
         stepCount.setText(String.valueOf(totalSteps));
         updateDailyMiles(totalSteps, milesCount);
-        // update steps from google fitness
     }
 
     public void updateFromFitnessService() {
@@ -154,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
     }
     // end of to route screen implementation
 
-    //openMockingActivity method
-    public void openMockingActivity(){
+    public void launchMockingActivity(){
         Intent intent = new Intent(this, MockingActivity.class);
+        intent.putExtra(MockingActivity.PREV_ACTIVITY_IS_MAIN, true);
         startActivity(intent);
     }
 
