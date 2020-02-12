@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
     private int maxStepUpdates;
-    final String delay = "5";
+    private StepsTrackerAsyncTask async;
+    private final String delay = "5";
 
     private Button launchToRouteScreen; // = findViewById(R.id.routesButton);
     private Button mocking_button;
@@ -85,9 +86,6 @@ public class MainActivity extends AppCompatActivity {
             fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
             fitnessService.setup();
             maxStepUpdates = getIntent().getIntExtra(MAX_UPDATES_KEY, Integer.MAX_VALUE);
-
-            StepsTrackerAsyncTask async = new StepsTrackerAsyncTask();
-            async.execute(delay);
         }
 
         if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
@@ -98,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Daily steps & miles methods
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        async = new StepsTrackerAsyncTask();
+        async.execute(delay);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -149,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchMockingActivity(){
         Intent intent = new Intent(this, MockingActivity.class);
-        intent.putExtra(MockingActivity.PREV_ACTIVITY_IS_MAIN, true);
         startActivity(intent);
     }
 
@@ -164,8 +168,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateRecentRoute() {
         Route recent = User.getRoutes(MainActivity.this).getMostRecentRoute();
-        System.out.println("Routes: " + User.getRoutes(MainActivity.this));
-        System.out.println("Recent: " + recent);
+        System.out.println(TAG + " Routes: " + User.getRoutes(MainActivity.this));
+        System.out.println(TAG + " Recent: " + recent);
         String stepsDisplay;
         String milesDisplay;
         String timeDisplay;

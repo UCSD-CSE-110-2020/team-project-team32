@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalTime;
 
@@ -50,7 +51,6 @@ public class WalkActivity extends AppCompatActivity {
 
     public void launchMockingActivity() {
         Intent intent = new Intent(this, MockingActivity.class);
-        intent.putExtra(MockingActivity.PREV_ACTIVITY_IS_MAIN, false);
         startActivity(intent);
     }
 
@@ -64,6 +64,7 @@ public class WalkActivity extends AppCompatActivity {
         if (fitnessServiceActive) {
             fitnessService.updateStepCount();
         }
+        CurrentWalkTracker.setFinalSteps(User.getTotalSteps());
         CurrentWalkTracker.setFinalTime(finalTime);
     }
 

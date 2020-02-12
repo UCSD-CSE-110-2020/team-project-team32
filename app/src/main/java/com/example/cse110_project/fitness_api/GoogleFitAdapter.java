@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.cse110_project.CurrentWalkTracker;
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.WalkActivity;
+import com.example.cse110_project.user_routes.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.fitness.Fitness;
@@ -97,10 +98,9 @@ public class GoogleFitAdapter implements FitnessService {
                                             ? 0
                                             : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
+                            User.setFitnessSteps((int)total);
                             if (activity instanceof MainActivity) {
                                 ((MainActivity)activity).updateDailySteps((int)total);
-                            } else {
-                                CurrentWalkTracker.setFinalSteps((int)total);
                             }
                             Log.d(TAG, "Total steps: " + total);
                         })
