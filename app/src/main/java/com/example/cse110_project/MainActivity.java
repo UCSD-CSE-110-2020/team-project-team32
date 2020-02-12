@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
         // end To Route screen
 
-        // creating mocking button
+        // creating MockingActivity button
         mocking_button = (Button) findViewById(R.id.mockingButton);
         mocking_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 openMockingActivity();
             }
         });
+        // end of dev button
 
         TextView DailySteps = findViewById(R.id.dailyStepsDisplay);
         TextView DailyMiles = findViewById(R.id.dailyMilesDisplay);
@@ -137,8 +138,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDailySteps(int steps) {
-        stepCount.setText(String.valueOf(steps));
-        updateDailyMiles(steps, milesCount);
+//        User.setFitnessSteps(steps);
+//        steps = User.getSteps();
+//
+//        stepCount.setText(String.valueOf(steps));
+//        updateDailyMiles(steps, milesCount);
+
+        System.out.println(TAG + "updateDailySteps called on" + steps);
+        User.setFitnessSteps(steps);
+        int totalSteps = User.getTotalSteps();
+        stepCount.setText(String.valueOf(totalSteps));
+        updateDailyMiles(totalSteps, milesCount);
+        // update steps from google fitness
+
     }
 
     public void launchRouteActivity() {
@@ -149,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
     //openMockingActivity method
     public void openMockingActivity(){
-        Intent intent = new Intent(this, mocking.class);
+        Intent intent = new Intent(this, MockingActivity.class);
         startActivity(intent);
     }
 

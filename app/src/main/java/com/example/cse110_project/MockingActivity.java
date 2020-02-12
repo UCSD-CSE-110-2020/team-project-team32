@@ -6,11 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.view.View;
+import com.example.cse110_project.MainActivity;
+
+import com.example.cse110_project.user_routes.User;
 
 
-public class mocking extends AppCompatActivity {
+public class MockingActivity extends AppCompatActivity {
 
     private Button back_button;
+    private Button increment_button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,25 @@ public class mocking extends AppCompatActivity {
             }
         });
 
+
+        // linking 500+ button
+        increment_button = (Button) findViewById(R.id.increment);
+        increment_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // get current steps from API
+                int current_steps = User.getStepsOffset();
+                System.out.println(current_steps);
+
+                current_steps = current_steps + 500;
+                //update step offset (separate from fitness steps)
+                User.setStepsOffset(current_steps);
+
+
+                System.out.println(current_steps);
+
+            }
+        });
 
     }
 
