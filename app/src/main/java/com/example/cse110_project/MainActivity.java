@@ -65,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
         // end To Route screen
 
+        // creating MockingActivity button
+        mocking_button = findViewById(R.id.mockingButton);
+        mocking_button.setOnClickListener(v -> openMockingActivity());
         // creating mocking button
         mocking_button = findViewById(R.id.mockingButton);
         mocking_button.setOnClickListener(v -> openMockingActivity());
@@ -75,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
             if (fitnessServiceActive) {
                 fitnessService.updateStepCount();
             }
-            launchWalkActivity(User.getSteps(), LocalTime.now(), LocalDateTime.now());
+            launchWalkActivity(User.getTotalSteps(), LocalTime.now(), LocalDateTime.now());
         });
+        // end of dev button
 
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         System.out.println("Service key: " + fitnessServiceKey);
@@ -97,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         updateRecentRoute();
     }
 
+    // Daily steps & miles methods
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("onActivityResult executed");
@@ -113,10 +119,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDailySteps(int steps) {
-        System.out.println(TAG + " updateDailySteps called on " + steps);
-        User.setSteps(steps);
-        stepCount.setText(String.valueOf(steps));
-        updateDailyMiles(steps, milesCount);
+        System.out.println(TAG + "updateDailySteps called on" + steps);
+        User.setFitnessSteps(steps);
+        int totalSteps = User.getTotalSteps();
+        stepCount.setText(String.valueOf(totalSteps));
+        updateDailyMiles(totalSteps, milesCount);
+        // update steps from google fitness
     }
 
     public void updateFromFitnessService() {
@@ -145,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
     //openMockingActivity method
     public void openMockingActivity(){
-        Intent intent = new Intent(this, mocking.class);
+        Intent intent = new Intent(this, MockingActivity.class);
         startActivity(intent);
     }
 
