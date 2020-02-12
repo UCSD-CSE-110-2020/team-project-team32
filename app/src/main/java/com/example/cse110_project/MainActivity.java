@@ -138,14 +138,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDailySteps(int steps) {
-//        User.setSteps(steps);
+//        User.setFitnessSteps(steps);
 //        steps = User.getSteps();
 //
 //        stepCount.setText(String.valueOf(steps));
 //        updateDailyMiles(steps, milesCount);
 
-        stepCount.setText(String.valueOf(steps));
-        updateDailyMiles(steps, milesCount);
+        System.out.println(TAG + "updateDailySteps called on" + steps);
+        User.setFitnessSteps(steps);
+        int totalSteps = User.getTotalSteps();
+        stepCount.setText(String.valueOf(totalSteps));
+        updateDailyMiles(totalSteps, milesCount);
         // update steps from google fitness
 
     }

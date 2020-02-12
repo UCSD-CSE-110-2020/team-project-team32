@@ -16,11 +16,6 @@ public class MockingActivity extends AppCompatActivity {
     private Button back_button;
     private Button increment_button;
 
-//    private MainActivity activity;
-//
-//    public MockingActivity(MainActivity activity) {
-//        this.activity = activity;
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,23 +38,18 @@ public class MockingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // get current steps from API
-                int current_steps = User.getSteps();
+                int current_steps = User.getStepsOffset();
                 System.out.println(current_steps);
 
                 current_steps = current_steps + 500;
+                //update step offset (separate from fitness steps)
+                User.setStepsOffset(current_steps);
 
-                // run a function to update steps
-                // .updateDailySteps(value + 500);
-
-//               activity.updateDailySteps(current_steps);
-//                User.setSteps(current_steps);
 
                 System.out.println(current_steps);
 
             }
         });
-
-
 
     }
 
