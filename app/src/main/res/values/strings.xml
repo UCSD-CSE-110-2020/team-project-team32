@@ -45,6 +45,10 @@
     <string name="routeNewRoute">New Route</string>
     // end route screen
 
+    // route screen details
+    <string name="goBackRouteScreen">Go Back</string>
+    // end route details
+
     <string name="walkHeader">Walk</string>
     <string name="cancelButton">Cancel</string>
     <string name="saveButton">Save</string>

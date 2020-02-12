@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".RouteDetails"></activity>
         <activity android:name=".EntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,10 +20,8 @@
         <activity android:name=".mocking" />
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/splashTheme">
-        </activity>
-        <activity android:name=".MainActivity">
-        </activity>
+            android:theme="@style/splashTheme"></activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".RouteScreen" />
         <activity android:name=".WalkActivity" />
     </application>

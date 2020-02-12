@@ -5,23 +5,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.example.cse110_project.user_routes.CustomListAdapter;
 
 public class RouteScreen extends AppCompatActivity{
 
-    String[] nameArray = {"Octopus","Pig","Sheep","Rabbit","Snake","Spider" };
+    String[] nameArray = {"Canyon Run","Blacks Beach","Torrey Pines","Hill Run","Rancho Bernardo","Miramar" };
 
     String[] infoArray = {
-            "8 tentacled monster",
-            "Delicious in rolls",
-            "Great for jumpers",
-            "Nice in a stew",
+            "Rocky",
+            "Flat",
+            "Hilly",
+            "Hilly",
             "Great for shoes",
-            "Scary."
+            "Flat"
     };
 
     ListView listView;
@@ -46,6 +48,20 @@ public class RouteScreen extends AppCompatActivity{
                 launchToHomeActivity();
             }
         });
+
+        listView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                Intent intent = new Intent(RouteScreen.this, RouteDetails.class);
+                String message = nameArray[position];
+                intent.putExtra("animal", message);
+                startActivity(intent);
+            }
+        });
+
+
 
     }
 
