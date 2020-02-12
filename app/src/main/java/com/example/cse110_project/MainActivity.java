@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -21,20 +21,21 @@ import android.widget.Toast;
 
 import com.example.cse110_project.data_access.DataConstants;
 import com.example.cse110_project.data_access.UserData;
+import com.example.cse110_project.trackers.CurrentTimeTracker;
+import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
 public class MainActivity extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String MAX_UPDATES_KEY = "MAX_UPDATES_KEY";
     private static final String TAG = "MainActivity";
 
     // Text fields
@@ -45,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
     // Fitness service fields
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
-    Handler handler;
-    Runnable runnable;
-    final int delay = 5*1000;
+    private int maxStepUpdates;
+    private StepsTrackerAsyncTask async;
+    private final String delay = "5";
 
     private Button launchToRouteScreen; // = findViewById(R.id.routesButton);
     private Button mocking_button;
@@ -69,46 +70,46 @@ public class MainActivity extends AppCompatActivity {
 
         // creating MockingActivity button
         mocking_button = findViewById(R.id.mockingButton);
-        mocking_button.setOnClickListener(v -> openMockingActivity());
-        // creating mocking button
-        mocking_button = findViewById(R.id.mockingButton);
-        mocking_button.setOnClickListener(v -> openMockingActivity());
+        mocking_button.setOnClickListener(v -> launchMockingActivity());
 
-        //to walk screen
+        // to walk screen
         startWalkButton = findViewById(R.id.startWalkButton);
         startWalkButton.setOnClickListener(v -> {
             if (fitnessServiceActive) {
                 fitnessService.updateStepCount();
             }
-            launchWalkActivity(User.getTotalSteps(), LocalTime.now(), LocalDateTime.now());
+            launchWalkActivity(User.getTotalSteps(), CurrentTimeTracker.getTime(),
+                    CurrentTimeTracker.getDate());
         });
-        // end of dev button
 
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         System.out.println("Service key: " + fitnessServiceKey);
         fitnessServiceActive = (fitnessServiceKey != null);
         if (fitnessServiceActive) {
             fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-            handler = new Handler();
+            fitnessService.setup();
+            maxStepUpdates = getIntent().getIntExtra(MAX_UPDATES_KEY, Integer.MAX_VALUE);
         }
 
         if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
             showInputDialog();
         }
         User.setHeight(UserData.retrieveHeight(MainActivity.this));
-        updateDailySteps(0);
         updateRecentRoute();
-
-        if (fitnessServiceActive) {
-            fitnessService.setup();
-        }
-
     }
 
     // Daily steps & miles methods
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        async = new StepsTrackerAsyncTask();
+        async.execute(delay);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("onActivityResult executed");
         super.onActivityResult(requestCode, resultCode, data);
 
         // Called if authentication required during google fit setup
@@ -122,12 +123,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDailySteps(int steps) {
-        System.out.println(TAG + "updateDailySteps called on" + steps);
         User.setFitnessSteps(steps);
         int totalSteps = User.getTotalSteps();
+        System.out.println(TAG + " updateDailySteps called on " + steps + " for total of "
+                + totalSteps);
         stepCount.setText(String.valueOf(totalSteps));
+        System.out.println(TAG + " stepCount says " + stepCount.getText());
         updateDailyMiles(totalSteps, milesCount);
-        // update steps from google fitness
     }
 
     public void updateFromFitnessService() {
@@ -154,8 +156,7 @@ public class MainActivity extends AppCompatActivity {
     }
     // end of to route screen implementation
 
-    //openMockingActivity method
-    public void openMockingActivity(){
+    public void launchMockingActivity(){
         Intent intent = new Intent(this, MockingActivity.class);
         startActivity(intent);
     }
@@ -171,8 +172,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateRecentRoute() {
         Route recent = User.getRoutes(MainActivity.this).getMostRecentRoute();
-        System.out.println("Routes: " + User.getRoutes(MainActivity.this));
-        System.out.println("Recent: " + recent);
+        System.out.println(TAG + " Routes: " + User.getRoutes(MainActivity.this));
+        System.out.println(TAG + " Recent: " + recent);
         String stepsDisplay;
         String milesDisplay;
         String timeDisplay;
@@ -274,6 +275,41 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {}
         });
+    }
+
+    private class StepsTrackerAsyncTask extends AsyncTask<String, String, String> {
+        private String resp;
+
+        @Override
+        protected String doInBackground(String... params) {
+            int delay = Integer.parseInt(params[0]) * 1000;
+            int count = 0;
+
+            while (count < maxStepUpdates) {
+                System.out.println("Max updates is " + maxStepUpdates);
+                try {
+                    Thread.sleep(delay);
+                    fitnessService.updateStepCount();
+                    count++;
+                    resp = "Updated step count " + count + " times";
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    resp = e.getMessage();
+                }
+            }
+
+            return resp;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {}
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(String... text) {}
     }
 
 }

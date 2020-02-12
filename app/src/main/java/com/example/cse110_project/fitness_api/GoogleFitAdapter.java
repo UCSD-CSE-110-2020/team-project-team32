@@ -4,16 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.cse110_project.CurrentWalkTracker;
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.WalkActivity;
+import com.example.cse110_project.user_routes.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -99,10 +97,9 @@ public class GoogleFitAdapter implements FitnessService {
                                             ? 0
                                             : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
+                            User.setFitnessSteps((int)total);
                             if (activity instanceof MainActivity) {
                                 ((MainActivity)activity).updateDailySteps((int)total);
-                            } else {
-                                CurrentWalkTracker.setFinalSteps((int)total);
                             }
                             Log.d(TAG, "Total steps: " + total);
                         })

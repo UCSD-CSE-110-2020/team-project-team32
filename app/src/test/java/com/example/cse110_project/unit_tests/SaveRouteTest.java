@@ -2,16 +2,10 @@ package com.example.cse110_project.unit_tests;
 
 import androidx.appcompat.app.AlertDialog;
 import android.content.Context;
-import android.content.res.Resources;
-import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.cse110_project.CurrentWalkTracker;
-import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
 import com.example.cse110_project.SaveRoute;
 import com.example.cse110_project.WalkActivity;
@@ -24,7 +18,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.robolectric.RobolectricTestRunner;
 
 import java.time.LocalDateTime;

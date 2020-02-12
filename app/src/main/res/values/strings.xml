@@ -48,11 +48,23 @@
     <string name="saveButton">Save</string>
     <string name="stopWalkButton">Stop Walk</string>
     <string name="defaultRouteName">New Route</string>
+    <string name="defaultStartingPoint"> </string>
+    <string name="defaultNotes"> </string>
     <string name="defaultSteps">0</string>
     <string name="defaultMiles">0.0</string>
     <string name="defaultTime">00:00</string>
 
     <string name="invalidWalkName">Invalid walk name</string>
     <string name="emptyWalkName">Please enter a walk name</string>
+
+    // Mocking screen
+    <string name="mockingIncrementText">Tap to add steps</string>
+    <string name="mockingIncrementButton">+500</string>
+    <string name="mockingTimeText">Enter the current time</string>
+    <string name="mockingTimeHint">00:00</string>
+    <string name="mockingTimeError">Invalid time format. Please try again</string>
+    <string name="mockingTimeSuccess">Saved</string>
+    <string name="submitButton">Submit</string>
+    <string name="backButton">Back</string>
 
 </resources>
