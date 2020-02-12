@@ -47,8 +47,9 @@ public class WalkActivityTest {
                 LocalDateTime.of(1, 1, 1, 1, 1));
         ActivityScenario<WalkActivity> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
-            assertEquals(CurrentWalkTracker.getWalkSteps(), 0);
-            assertNull(CurrentWalkTracker.getWalkTime());
+            assertEquals(0, CurrentWalkTracker.getWalkSteps());
+            assertEquals(LocalTime.of(0, 0).toString(),
+                    CurrentWalkTracker.getWalkTime().toString());
             assertEquals(CurrentWalkTracker.getWalkDate().toString(),
                     LocalDateTime.of(1,1,1,1,1).toString());
 
