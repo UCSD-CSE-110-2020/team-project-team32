@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 
-import com.example.cse110_project.CurrentWalkTracker;
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.WalkActivity;
 import com.example.cse110_project.user_routes.User;

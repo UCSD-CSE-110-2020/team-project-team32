@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.trackers.CurrentTimeTracker;
+import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalTime;
@@ -35,7 +37,7 @@ public class WalkActivity extends AppCompatActivity {
 
         Button stopButton = findViewById(R.id.stopWalkButton);
         stopButton.setOnClickListener(v -> {
-            endWalkActivity(LocalTime.now());
+            endWalkActivity(CurrentTimeTracker.getTime());
             showSaveDialog();
         });
 

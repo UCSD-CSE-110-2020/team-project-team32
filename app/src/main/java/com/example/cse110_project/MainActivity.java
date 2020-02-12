@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.example.cse110_project.data_access.DataConstants;
 import com.example.cse110_project.data_access.UserData;
+import com.example.cse110_project.trackers.CurrentTimeTracker;
+import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
@@ -76,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
             if (fitnessServiceActive) {
                 fitnessService.updateStepCount();
             }
-            launchWalkActivity(User.getTotalSteps(), LocalTime.now(), LocalDateTime.now());
+            launchWalkActivity(User.getTotalSteps(), CurrentTimeTracker.getTime(),
+                    CurrentTimeTracker.getDate());
         });
 
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
@@ -125,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(TAG + " updateDailySteps called on " + steps + " for total of "
                 + totalSteps);
         stepCount.setText(String.valueOf(totalSteps));
+        System.out.println(TAG + " stepCount says " + stepCount.getText());
         updateDailyMiles(totalSteps, milesCount);
     }
 
