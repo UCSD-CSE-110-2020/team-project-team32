@@ -11,7 +11,7 @@
     <string name="routesButton">Routes</string>
     <string name="homeButton">Home</string>
     <string name="mockingButton">DEV</string>
-    <string name="startWalkButton">start Walk</string>
+    <string name="startWalkButton">Start Walk</string>
     <string name="homeHeader">Walk Walk Revolution</string>
     <string name="dailyDataText">Today, you walked...</string>
     <string name="dailyStepsText">Steps</string>
@@ -25,10 +25,15 @@
     <string name="heightHintDialog">Height</string>
     <string name="heightButton">OK</string>
     <string name="heightPrompt">Please enter your height in inches (e.g. 60):</string>
+    <string name="saveWalkPrompt">Would you like to save your walk?</string>
+    <string name="cancelDialog">Canceled</string>
     <string name="heightExplanation">
         Your height will be used to calculate the distance you travel from your steps. Thank you
         for choosing Walk Walk Revolution.
     </string>
+    <string name="enterWalkName">Enter the name of your walk</string>
+    <string name="NameWalkHint">Name Of Walk</string>
+    <string name="sureCancelText">Are you sure you want to cancel?</string>
 
     <string name="invalidHeightToast">Invalid height. Please try again</string>
     <string name="longHeightError">Height must have no more than 2 digits</string>
@@ -37,4 +42,17 @@
 
     // route screen
     <string name="routeToHome">To Home</string>
+
+    <string name="walkHeader">Walk</string>
+    <string name="cancelButton">Cancel</string>
+    <string name="saveButton">Save</string>
+    <string name="stopWalkButton">Stop Walk</string>
+    <string name="defaultRouteName">New Route</string>
+    <string name="defaultSteps">0</string>
+    <string name="defaultMiles">0.0</string>
+    <string name="defaultTime">00:00</string>
+
+    <string name="invalidWalkName">Invalid walk name</string>
+    <string name="emptyWalkName">Please enter a walk name</string>
+
 </resources>

@@ -21,17 +21,20 @@ import android.widget.Toast;
 
 import com.example.cse110_project.data_access.DataConstants;
 import com.example.cse110_project.data_access.UserData;
-import com.example.cse110_project.fitness_api.GoogleFitAdapter;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 
-public class MainActivity extends AppCompatActivity {
-    public static final String GOOGLE_API_KEY = "GOOGLE_FIT";
-    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 
+public class MainActivity extends AppCompatActivity {
+    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     private static final String TAG = "MainActivity";
 
     // Text fields
@@ -40,58 +43,54 @@ public class MainActivity extends AppCompatActivity {
     private TextView milesCount;
 
     // Fitness service fields
-    public FitnessService fitnessService;
+    private FitnessService fitnessService;
+    private boolean fitnessServiceActive;
     Handler handler;
     Runnable runnable;
     final int delay = 5*1000;
 
     private Button launchToRouteScreen; // = findViewById(R.id.routesButton);
-
-
     private Button mocking_button;
+    private Button startWalkButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         stepCount = findViewById(R.id.dailyStepsDisplay);
         milesCount = findViewById(R.id.dailyMilesDisplay);
 
-        String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
-        FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
-            @Override
-            public FitnessService create(MainActivity stepCountActivity) {
-                return new GoogleFitAdapter(stepCountActivity);
-            }
-        });
-
-        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-        handler = new Handler();
-
         // to route screen
         launchToRouteScreen = findViewById(R.id.routesButton);
-        launchToRouteScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchRouteActivity();
-            }
-        });
+        launchToRouteScreen.setOnClickListener(view -> launchRouteActivity());
+
         // end To Route screen
 
         // creating MockingActivity button
-        mocking_button = (Button) findViewById(R.id.mockingButton);
-        mocking_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMockingActivity();
+        mocking_button = findViewById(R.id.mockingButton);
+        mocking_button.setOnClickListener(v -> openMockingActivity());
+        // creating mocking button
+        mocking_button = findViewById(R.id.mockingButton);
+        mocking_button.setOnClickListener(v -> openMockingActivity());
+
+        //to walk screen
+        startWalkButton = findViewById(R.id.startWalkButton);
+        startWalkButton.setOnClickListener(v -> {
+            if (fitnessServiceActive) {
+                fitnessService.updateStepCount();
             }
+            launchWalkActivity(User.getTotalSteps(), LocalTime.now(), LocalDateTime.now());
         });
         // end of dev button
 
-        TextView DailySteps = findViewById(R.id.dailyStepsDisplay);
-        TextView DailyMiles = findViewById(R.id.dailyMilesDisplay);
+        String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        System.out.println("Service key: " + fitnessServiceKey);
+        fitnessServiceActive = (fitnessServiceKey != null);
+        if (fitnessServiceActive) {
+            fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+            handler = new Handler();
+        }
 
         if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
             showInputDialog();
@@ -100,28 +99,13 @@ public class MainActivity extends AppCompatActivity {
         updateDailySteps(0);
         updateRecentRoute();
 
-        fitnessService.setup();
+        if (fitnessServiceActive) {
+            fitnessService.setup();
+        }
+
     }
 
     // Daily steps & miles methods
-
-    @Override
-    protected void onResume() {
-        //start handler as activity become visible
-        handler.postDelayed( runnable = new Runnable() {
-            public void run() {
-                handler.postDelayed(runnable, delay);
-                fitnessService.updateStepCount();
-            }
-        }, delay);
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        handler.removeCallbacks(runnable); //stop handler when activity not visible
-        super.onPause();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -138,21 +122,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDailySteps(int steps) {
-//        User.setFitnessSteps(steps);
-//        steps = User.getSteps();
-//
-//        stepCount.setText(String.valueOf(steps));
-//        updateDailyMiles(steps, milesCount);
-
         System.out.println(TAG + "updateDailySteps called on" + steps);
         User.setFitnessSteps(steps);
         int totalSteps = User.getTotalSteps();
         stepCount.setText(String.valueOf(totalSteps));
         updateDailyMiles(totalSteps, milesCount);
         // update steps from google fitness
-
     }
 
+    public void updateFromFitnessService() {
+        fitnessService.updateStepCount();
+    }
+
+
+    // To Walk Screen
+
+    public void launchWalkActivity(int steps, LocalTime time, LocalDateTime date) {
+        Intent intent = new Intent(this, WalkActivity.class);
+        intent.putExtra(MainActivity.FITNESS_SERVICE_KEY,
+                getIntent().getStringExtra(FITNESS_SERVICE_KEY));
+        CurrentWalkTracker.setInitial(steps, time, date);
+        startActivity(intent);
+    }
+
+    // To other activities
+
+    // To routes activity
     public void launchRouteActivity() {
         Intent intent = new Intent(this, RouteScreen.class);
         startActivity(intent);
@@ -168,12 +163,16 @@ public class MainActivity extends AppCompatActivity {
     public void updateDailyMiles(int steps, TextView miles){
         double update = MilesCalculator.calculateMiles(User.getHeight(), steps);
         miles.setText(MilesCalculator.formatMiles(update));
+        System.out.println(TAG + " updateDailyMiles called on " + steps + " with miles " +
+                MilesCalculator.formatMiles(update) + " [" + update + "]");
     }
 
     // Recent route update
 
     public void updateRecentRoute() {
         Route recent = User.getRoutes(MainActivity.this).getMostRecentRoute();
+        System.out.println("Routes: " + User.getRoutes(MainActivity.this));
+        System.out.println("Recent: " + recent);
         String stepsDisplay;
         String milesDisplay;
         String timeDisplay;
@@ -186,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             stepsDisplay = Integer.toString(recent.getSteps());
             milesDisplay = MilesCalculator.formatMiles(
                     MilesCalculator.calculateMiles(User.getHeight(), recent.getSteps()));
-            timeDisplay = recent.getDuration().toString();
+            timeDisplay = recent.getDuration().truncatedTo(ChronoUnit.MINUTES).toString();
         }
 
         ((TextView)findViewById(R.id.recentStepsDisplay)).setText(stepsDisplay);
@@ -215,12 +214,7 @@ public class MainActivity extends AppCompatActivity {
         validateHeight();
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDialogClickValidate(alert);
-            }
-        });
+        submitButton.setOnClickListener(v -> onDialogClickValidate(alert));
 
         return alert;
     }
@@ -248,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             UserData.saveHeight(MainActivity.this, input);
+            User.setHeight(input);
             dialogToDismiss.dismiss();
         }
     }
