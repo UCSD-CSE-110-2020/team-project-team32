@@ -21,4 +21,134 @@
         android:hint="@string/NameWalkHint"
         android:padding="10dp" />
 
+    <TextView
+        android:id="@+id/TypeOfWalk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/TypeOfWalk"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/FlatButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/FlatPick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/HillyButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/HillyPick"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/loopButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/loopPick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/outAndBackButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/OutAndBackPick"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/streetButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/streetPick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/trailButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/trailPick"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/evenSurfaceButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/evenSurfacePick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/unevenSurfaceButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/unevenSurfacePick"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/ModerateButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.66"
+            android:hint="@string/ModeratePick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/EasyButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.66"
+            android:hint="@string/EasyPick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/DifficultButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.66"
+            android:hint="@string/DifficultPick"
+            android:padding="10dp" />
+    </LinearLayout>
+
 </LinearLayout>
