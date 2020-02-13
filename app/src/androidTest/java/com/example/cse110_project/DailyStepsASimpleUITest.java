@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class DailyStepsSimpleUITest {
+public class DailyStepsASimpleUITest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
 
     @Rule

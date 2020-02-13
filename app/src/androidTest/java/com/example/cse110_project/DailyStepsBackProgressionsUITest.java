@@ -16,6 +16,7 @@ import androidx.test.runner.AndroidJUnit4;
 import com.example.cse110_project.data_access.UserData;
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.user_routes.User;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -57,6 +58,8 @@ public class DailyStepsBackProgressionsUITest {
 
     @Test
     public void dailyStepsUITestBackwardProgressions() {
+        int prevSteps = User.getTotalSteps();
+
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.mockingButton), withText("DEV"),
                         childAtPosition(
@@ -98,10 +101,7 @@ public class DailyStepsBackProgressionsUITest {
         appCompatButton5.perform(click());
 
         ViewInteraction textView = onView(withId(R.id.dailyStepsDisplay));
-        textView.check(matches(withText("1000")));
-
-        ViewInteraction textView2 = onView(withId(R.id.dailyMilesDisplay));
-        textView2.check(matches(withText("0.4")));
+        textView.check(matches(withText(String.valueOf(prevSteps + 1000))));
 
         ViewInteraction appCompatButton6 = onView(
                 allOf(withId(R.id.mockingButton), withText("DEV"),
@@ -124,10 +124,7 @@ public class DailyStepsBackProgressionsUITest {
         appCompatButton7.perform(click());
 
         ViewInteraction textView3 = onView(withId(R.id.dailyStepsDisplay));
-        textView3.check(matches(withText("1000")));
-
-        ViewInteraction textView4 = onView(withId(R.id.dailyMilesDisplay));
-        textView4.check(matches(withText("0.4")));
+        textView3.check(matches(withText(String.valueOf(prevSteps + 1000))));
 
         ViewInteraction appCompatButton8 = onView(
                 allOf(withId(R.id.routesButton), withText("Routes"),
@@ -151,10 +148,7 @@ public class DailyStepsBackProgressionsUITest {
         appCompatButton9.perform(click());
 
         ViewInteraction textView5 = onView(withId(R.id.dailyStepsDisplay));
-        textView5.check(matches(withText("1000")));
-
-        ViewInteraction textView6 = onView(withId(R.id.dailyMilesDisplay));
-        textView6.check(matches(withText("0.4")));
+        textView5.check(matches(withText(String.valueOf(prevSteps + 1000))));
     }
 
     private static Matcher<View> childAtPosition(

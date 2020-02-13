@@ -248,12 +248,6 @@ public class SaveWalkRecentUITest {
                         isDisplayed()));
         appCompatButton17.perform(click());
 
-        ViewInteraction textView = onView(withId(R.id.dailyStepsDisplay));
-        textView.check(matches(withText("1500")));
-
-        ViewInteraction textView2 = onView(withId(R.id.dailyMilesDisplay));
-        textView2.check(matches(withText("0.6")));
-
         ViewInteraction textView3 = onView(withId(R.id.recentStepsDisplay));
         textView3.check(matches(withText("1000")));
 
