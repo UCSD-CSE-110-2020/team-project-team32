@@ -22,16 +22,9 @@ public class Route {
         this.name = name;
     }
 
-    public Route(int id, String name, int steps, LocalTime dur, LocalDateTime start,String FlatVSHilly
-                 ,String LoopVSOutBack, String StreetsVSTrail ,String EvenVsUnevenSurface, String RouteDifficulty) {
+    public Route(int id, String name, int steps, LocalTime dur, LocalDateTime start) {
         this.id = id;
         this.name = name;
-        this.FlatVSHilly = FlatVSHilly;
-        this.LoopVSOutBack = LoopVSOutBack;
-        this.StreetsVSTrail = StreetsVSTrail;
-        this.EvenVsUnevenSurface = EvenVsUnevenSurface;
-        this.RouteDifficulty = RouteDifficulty;
-        this.steps = steps;
         startDate = start;
         duration = dur;
     }
