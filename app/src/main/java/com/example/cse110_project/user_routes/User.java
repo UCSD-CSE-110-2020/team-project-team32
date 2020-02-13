@@ -18,7 +18,6 @@ public class User {
 
     public static int getStepsOffset() { return stepsOffset;}
 
-
     public static void setFitnessSteps(int s) { fitnessSteps = s; }
 
     public static void setStepsOffset(int s) { stepsOffset = s; }

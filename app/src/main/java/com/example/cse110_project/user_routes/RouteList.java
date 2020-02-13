@@ -86,10 +86,9 @@ public class RouteList {
             String EvenVSUneven = RouteData.retrieveEvenVSUneven(c,id);
             String RouteDifficulty = RouteData.retrieveRouteDifficulty(c,id);
 
-            System.out.println("TEEEEEESTTTT" + RouteData.retrieveFlatVSHilly(c,id));
             int steps = RouteData.retrieveRouteSteps(c, id);
             Route r = new Route(id, name);
-            //r.setSteps(steps);
+            r.setSteps(steps);
             r.setFlatVSHilly(HillyVSFlat);
             r.setLoopVSOutBack(LoopVSOutBack);
             r.setStreetsVSTrail(StreetsVsTrail);

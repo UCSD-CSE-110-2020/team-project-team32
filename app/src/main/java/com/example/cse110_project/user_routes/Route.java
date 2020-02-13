@@ -25,6 +25,7 @@ public class Route {
     public Route(int id, String name, int steps, LocalTime dur, LocalDateTime start) {
         this.id = id;
         this.name = name;
+        this.steps = steps;
         startDate = start;
         duration = dur;
     }
