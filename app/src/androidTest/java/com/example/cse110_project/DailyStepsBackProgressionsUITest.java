@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class DailyStepsUITestBackwardProgressions {
+public class DailyStepsBackProgressionsUITest {
 
     private static final String TEST_SERVICE = "TEST_SERVICE";
 
@@ -48,7 +48,7 @@ public class DailyStepsUITestBackwardProgressions {
     @Before
     public void setUp() {
         FitnessServiceFactory.put(TEST_SERVICE,
-                DailyStepsUITestBackwardProgressions.TestFitnessService::new);
+                DailyStepsBackProgressionsUITest.TestFitnessService::new);
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         intent.putExtra(MainActivity.FITNESS_SERVICE_KEY, TEST_SERVICE);
     }

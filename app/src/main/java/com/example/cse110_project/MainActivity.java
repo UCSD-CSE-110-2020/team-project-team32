@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         async = new StepsTrackerAsyncTask();
         async.execute(delay);
         updateDailySteps(User.getFitnessSteps());
+        updateRecentRoute();
     }
 
     @Override
