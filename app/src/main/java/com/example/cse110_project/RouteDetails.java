@@ -40,27 +40,27 @@ public class RouteDetails extends AppCompatActivity {
         savedExtra = getIntent().getIntExtra("Array_POSITION", 0);
         getRouteData();
 
-        TextView routeName = (TextView) findViewById(R.id.routeNameDetail);
-        TextView routeDate = (TextView) findViewById(R.id.WalkStartDate);
-        TextView routeTime = (TextView) findViewById(R.id.WalkTime);
-        TextView routeSteps = (TextView) findViewById(R.id.stepsWalked);
-        TextView routeMiles = (TextView) findViewById(R.id.MilesWalked);
-        TextView routeDifficulty = (TextView) findViewById(R.id.DifficultyPicked);
-        TextView routesurfaceDifficulty = (TextView) findViewById(R.id.SurfaceDifficultyPicked);
-        TextView routeSurface = (TextView) findViewById(R.id.surfaceFlatVsHillyPicked);
-        TextView routeRunType = (TextView) findViewById(R.id.RunTypePicked);
-        TextView routeArea = (TextView) findViewById(R.id.areaRouteDetailsPicked);
+        TextView routeName = findViewById(R.id.routeNameDetail);
+        TextView routeDate = findViewById(R.id.WalkStartDate);
+        TextView routeTime = findViewById(R.id.WalkTime);
+        TextView routeSteps = findViewById(R.id.stepsWalked);
+        TextView routeMiles = findViewById(R.id.MilesWalked);
+        TextView routeDifficulty = findViewById(R.id.DifficultyPicked);
+        TextView routesurfaceDifficulty = findViewById(R.id.SurfaceDifficultyPicked);
+        TextView routeSurface = findViewById(R.id.surfaceFlatVsHillyPicked);
+        TextView routeRunType = findViewById(R.id.RunTypePicked);
+        TextView routeArea = findViewById(R.id.areaRouteDetailsPicked);
 
 
         routeName.setText(walkName);
         if(route.getStartDate() != null) {
             routeDate.setText(WalkDate.substring(0, 10));
             routeTime.setText(WalkDate.substring(11));
-        }
-        else {
+        } else {
             routeDate.setText(WalkDate);
             routeTime.setText(WalkDate);
         }
+
         routeSteps.setText(Integer.toString(steps));
         routeMiles.setText(Double.toString(Miles));
         routeDifficulty.setText(Difficulty);
@@ -70,19 +70,8 @@ public class RouteDetails extends AppCompatActivity {
         routeArea.setText(area);
 
 
-        final Button launchToRouteScreen = (Button) findViewById(R.id.button_backToRoutes);
-
-        launchToRouteScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchToRouteActivity();
-            }
-        });
-    }
-
-    public void launchToRouteActivity() {
-        Intent intent = new Intent(this, RouteScreen.class);
-        startActivity(intent);
+        Button launchToRouteScreen = findViewById(R.id.button_backToRoutes);
+        launchToRouteScreen.setOnClickListener(view -> finish());
     }
 
     public void getRouteData() {
@@ -91,8 +80,9 @@ public class RouteDetails extends AppCompatActivity {
 
         if(route.getStartDate() != null) {
             WalkDate = route.getStartDate().format(formatter);
+        } else{
+            WalkDate = "N/A";
         }
-        else{ WalkDate = "N/A"; }
 
         steps = route.getSteps();
         Miles = route.getMiles(User.getHeight());
@@ -101,7 +91,6 @@ public class RouteDetails extends AppCompatActivity {
         Surface = route.getFlatVSHilly();
         RunType = route.getLoopVSOutBack();
         area = route.getStreetsVSTrail();
-
     }
 
 }

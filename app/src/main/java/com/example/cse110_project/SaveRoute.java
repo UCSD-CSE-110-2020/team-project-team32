@@ -130,19 +130,15 @@ public class SaveRoute {
     }
 
     public void validateOnClickSave(DialogInterface dialog) {
-         if (walkName.getText().toString().length() == 0) {
-             Toast.makeText(context,R.string.invalidWalkName, Toast.LENGTH_SHORT).show();
-         }
-         else if (!pickedLoop && !pickedoutAndBack || !pickedHilly && !pickedFlat || !pickedStreets && !pickedTrail
-         || !pickedEven && !pickedUneven || !pickedEasy && !pickedDifficult && !pickedModerate) {
-             Toast.makeText(context, R.string.selectWalkType, Toast.LENGTH_SHORT).show();
-         }
-         else {
+        // Only name is required to save; don't check anything else!
+        if (walkName.getText().toString().length() == 0) {
+             Toast.makeText(context, R.string.invalidWalkName, Toast.LENGTH_SHORT).show();
+        } else {
              saveRoute();
              dialog.dismiss();
              goToRouteScreen();
              activity.finish();
-         }
+        }
     }
 
     public void saveRoute() {
@@ -179,8 +175,7 @@ public class SaveRoute {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (walkName.getText().toString().length() == 0) {
                     walkName.setError(context.getResources().getString(R.string.emptyWalkName));
-                }
-                else {
+                } else {
                     walkName.setError(null);
                 }
             }
@@ -272,8 +267,6 @@ public class SaveRoute {
             pickedModerate = false;
             pickedDifficult = true;
         });
-
-
 
     }
 }
