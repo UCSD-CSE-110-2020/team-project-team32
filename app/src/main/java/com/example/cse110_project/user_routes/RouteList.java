@@ -80,9 +80,20 @@ public class RouteList {
             }
 
             String name = RouteData.retrieveRouteName(c, id);
+            String HillyVSFlat = RouteData.retrieveFlatVSHilly(c,id);
+            String LoopVSOutBack = RouteData.retrieveLoopVsOutBack(c,id);
+            String StreetsVsTrail = RouteData.retrieveStreetVSTrail(c,id);
+            String EvenVSUneven = RouteData.retrieveEvenVSUneven(c,id);
+            String RouteDifficulty = RouteData.retrieveRouteDifficulty(c,id);
+
             int steps = RouteData.retrieveRouteSteps(c, id);
             Route r = new Route(id, name);
             r.setSteps(steps);
+            r.setFlatVSHilly(HillyVSFlat);
+            r.setLoopVSOutBack(LoopVSOutBack);
+            r.setStreetsVSTrail(StreetsVsTrail);
+            r.setEvenVsUnevenSurface(EvenVSUneven);
+            r.setRouteDifficulty(RouteDifficulty);
             routes.add(r);
 
             String time = RouteData.retrieveRouteTime(c, id);

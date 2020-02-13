@@ -19,4 +19,12 @@ public class DataConstants {
     public final static String STR_NOT_FOUND = "";
     public final static int INT_NOT_FOUND = 0;
     public final static String NO_RECENT_ROUTE = "N/A";
+
+    //Route Type
+    public final static String FLAT_VS_HILLY_KEY = "r%d_flatVsHilly";
+    public final static String LOOP_VS_OUTBACK_KEY = "r%d_loopVsOutBack";
+    public final static String STREETS_VS_TRAIL_KEY = "r%d_StreetVsTrail";
+    public final static String EVEN_VS_UNEVEN_SURFACE_KEY = "r%d_EvenVsUneven";
+    public final static String ROUTE_DIFFICULTY_KEY = "r%d_routeDifficulty";
+
 }
