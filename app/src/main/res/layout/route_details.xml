@@ -7,6 +7,24 @@
     tools:context=".RouteDetails">
 
     <Button
+        android:id="@+id/detailsStartWalkButton"
+        android:layout_width="117dp"
+        android:layout_height="115dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginEnd="100dp"
+        android:background="@drawable/roundbutton"
+        android:text="@string/startWalkButton"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.916" />
+
+    <Button
         android:id="@+id/button_backToRoutes"
         android:layout_width="130dp"
         android:layout_height="45dp"

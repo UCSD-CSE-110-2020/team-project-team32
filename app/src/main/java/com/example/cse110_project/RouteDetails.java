@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.cse110_project.trackers.CurrentTimeTracker;
+import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
@@ -72,6 +74,9 @@ public class RouteDetails extends AppCompatActivity {
 
         Button launchToRouteScreen = findViewById(R.id.button_backToRoutes);
         launchToRouteScreen.setOnClickListener(view -> finish());
+
+        Button startWalkButton = findViewById(R.id.detailsStartWalkButton);
+        startWalkButton.setOnClickListener(v -> launchWalkActivity());
     }
 
     public void getRouteData() {
@@ -91,6 +96,20 @@ public class RouteDetails extends AppCompatActivity {
         Surface = route.getFlatVSHilly();
         RunType = route.getLoopVSOutBack();
         area = route.getStreetsVSTrail();
+    }
+
+
+    public void launchWalkActivity() {
+        CurrentWalkTracker.setInitial(User.getTotalSteps(), CurrentTimeTracker.getTime(),
+                CurrentTimeTracker.getDate());
+
+        Intent intent = new Intent(this, WalkActivity.class);
+        intent.putExtra(WalkActivity.SAVED_ROUTE_KEY, true);
+        intent.putExtra(WalkActivity.SAVED_ROUTE_ID_KEY, route.getID());
+        startActivity(intent);
+
+        // Return to Routes screen after finishing walk
+        finish();
     }
 
 }

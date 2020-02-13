@@ -10,24 +10,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.cse110_project.data_access.RouteData;
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 import com.example.cse110_project.trackers.CurrentFitnessTracker;
 import com.example.cse110_project.trackers.CurrentTimeTracker;
 import com.example.cse110_project.trackers.CurrentWalkTracker;
+import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalTime;
 
 
 public class WalkActivity extends AppCompatActivity {
+    public final static String SAVED_ROUTE_KEY = "SAVED_ROUTE_KEY";
+    public final static String SAVED_ROUTE_ID_KEY = "SAVED_ROUTE_ID";
+
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
+    private boolean onSavedRoute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
+        onSavedRoute = getIntent() != null &&
+                getIntent().getBooleanExtra(SAVED_ROUTE_KEY, false);
 
         Button mockingButton = findViewById(R.id.walkMockingButton);
         mockingButton.setOnClickListener(v -> launchMockingActivity());
@@ -44,7 +52,6 @@ public class WalkActivity extends AppCompatActivity {
 
         setUpFitnessService();
     }
-
 
     private void setUpFitnessService() {
         if (CurrentFitnessTracker.hasFitnessService()) {
@@ -76,6 +83,16 @@ public class WalkActivity extends AppCompatActivity {
         CurrentWalkTracker.setFinalTime(finalTime);
     }
 
+
+    public void updateSavedRoute() {
+        if (getIntent() != null) {
+            int id = getIntent().getIntExtra(SAVED_ROUTE_ID_KEY, -1);
+            User.getRoutes(this).updateRouteData(this, id, CurrentWalkTracker.getWalkSteps(),
+                    CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate());
+        }
+    }
+
+
     public AlertDialog showSaveDialog () {
         // get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(WalkActivity.this);
@@ -92,44 +109,20 @@ public class WalkActivity extends AppCompatActivity {
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
+
         cancelButton.setOnClickListener(v -> alert.dismiss());
         submitButton.setOnClickListener(v -> {
             alert.dismiss();
-            (new SaveRoute(this, this, CurrentWalkTracker.getWalkSteps(),
-                    CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate()))
-                    .inputRouteDataDialog();
-        });
 
-        return alert;
-    }
-
-    private AlertDialog validateCancel() {
-        // get prompts.xml view
-        LayoutInflater layoutInflater = LayoutInflater.from(WalkActivity.this);
-        View promptView = layoutInflater.inflate(R.layout.dialog_sure_cancel, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WalkActivity.this)
-                .setCancelable(false)
-                .setPositiveButton("Yes", null)
-                .setNegativeButton("No", null);
-        alertDialogBuilder.setView(promptView);
-
-        // create an alert dialog
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
-
-        Button yesButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
-        Button NoButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
-        NoButton.setOnClickListener(v -> {
-            alert.dismiss();
-            (new SaveRoute(this, WalkActivity.this, CurrentWalkTracker.getWalkSteps(),
-                    CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate()))
-                    .inputRouteDataDialog();
-        });
-        yesButton.setOnClickListener(v -> {
-             Toast.makeText(WalkActivity.this, R.string.cancelDialog,
-                     Toast.LENGTH_SHORT).show();
-             alert.dismiss();
-             finish();
+            // Only create new SaveRoute if not on an already saved route
+            if (onSavedRoute) {
+                updateSavedRoute();
+                finish();
+            } else {
+                (new SaveRoute(this, this, CurrentWalkTracker.getWalkSteps(),
+                        CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate()))
+                        .inputRouteDataDialog();
+            }
         });
 
         return alert;
