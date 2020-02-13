@@ -53,8 +53,14 @@ public class RouteDetails extends AppCompatActivity {
 
 
         routeName.setText(walkName);
-        routeDate.setText(WalkDate.substring(0,10));
-        routeTime.setText(WalkDate.substring(11));
+        if(route.getStartDate() != null) {
+            routeDate.setText(WalkDate.substring(0, 10));
+            routeTime.setText(WalkDate.substring(11));
+        }
+        else {
+            routeDate.setText(WalkDate);
+            routeTime.setText(WalkDate);
+        }
         routeSteps.setText(Integer.toString(steps));
         routeMiles.setText(Double.toString(Miles));
         routeDifficulty.setText(Difficulty);
@@ -82,7 +88,12 @@ public class RouteDetails extends AppCompatActivity {
     public void getRouteData() {
         route = User.getRoutes(RouteDetails.this).getRoute(savedExtra);
         walkName = route.getName();
-        WalkDate = route.getStartDate().format(formatter);
+
+        if(route.getStartDate() != null) {
+            WalkDate = route.getStartDate().format(formatter);
+        }
+        else{ WalkDate = "N/A"; }
+
         steps = route.getSteps();
         Miles = route.getMiles(User.getHeight());
         Difficulty = route.getRouteDifficulty();
