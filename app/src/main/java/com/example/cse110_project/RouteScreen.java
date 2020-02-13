@@ -32,25 +32,15 @@ public class RouteScreen extends AppCompatActivity{
         setContentView(R.layout.route_screen);
 
         CustomListAdapter whatever = new CustomListAdapter(this, nameArray, infoArray);
-        listView = (ListView) findViewById(R.id.listviewID);
+        listView = findViewById(R.id.listviewID);
         listView.setAdapter(whatever);
 
 
         //listView = (ListView) findViewById(R.id.route_list_view);
         // Implementation of button event to route screen
-        final Button launchToHomeScreen = (Button) findViewById(R.id.button_routeToHome);
+        final Button launchToHomeScreen = findViewById(R.id.button_routeToHome);
 
-        launchToHomeScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchToHomeActivity();
-            }
-        });
+        launchToHomeScreen.setOnClickListener(view -> finish());
 
-    }
-
-    public void launchToHomeActivity() {
-        Intent intent = new Intent(this, EntryActivity.class);
-        startActivity(intent);
     }
 }

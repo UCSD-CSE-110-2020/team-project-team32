@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.trackers.CurrentFitnessTracker;
 import com.example.cse110_project.trackers.CurrentTimeTracker;
 import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.User;
@@ -33,7 +34,7 @@ public class WalkActivity extends AppCompatActivity {
 
         // Buttons to end activity
         Button cancelButton = findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(v -> returnToHomeActivity());
+        cancelButton.setOnClickListener(v -> finish());
 
         Button stopButton = findViewById(R.id.stopWalkButton);
         stopButton.setOnClickListener(v -> {
@@ -41,23 +42,28 @@ public class WalkActivity extends AppCompatActivity {
             showSaveDialog();
         });
 
-        // Set up fitnessService
-        String fitnessServiceKey = getIntent().getStringExtra(MainActivity.FITNESS_SERVICE_KEY);
-        System.out.println("Walk service key: " + fitnessServiceKey);
-        fitnessServiceActive = (fitnessServiceKey != null);
-        if (fitnessServiceActive) {
-            fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-            fitnessService.setup();
+        setUpFitnessService();
+    }
+
+
+    private void setUpFitnessService() {
+        if (CurrentFitnessTracker.hasFitnessService()) {
+            fitnessService = CurrentFitnessTracker.getFitnessService();
+            fitnessServiceActive = true;
+        } else {
+            String fitnessServiceKey = getIntent().getStringExtra(MainActivity.FITNESS_SERVICE_KEY);
+            System.out.println("Walk service key: " + fitnessServiceKey);
+            fitnessServiceActive = (fitnessServiceKey != null);
+            if (fitnessServiceActive) {
+                fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+                fitnessService.setup();
+            }
         }
     }
 
+
     public void launchMockingActivity() {
         Intent intent = new Intent(this, MockingActivity.class);
-        startActivity(intent);
-    }
-
-    public void returnToHomeActivity() {
-        Intent intent = new Intent(this, EntryActivity.class);
         startActivity(intent);
     }
 
@@ -86,13 +92,10 @@ public class WalkActivity extends AppCompatActivity {
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
-        cancelButton.setOnClickListener(v -> {
-               alert.dismiss();
-               validateCancel();
-        });
+        cancelButton.setOnClickListener(v -> alert.dismiss());
         submitButton.setOnClickListener(v -> {
             alert.dismiss();
-            (new SaveRoute(WalkActivity.this, CurrentWalkTracker.getWalkSteps(),
+            (new SaveRoute(this, this, CurrentWalkTracker.getWalkSteps(),
                     CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate()))
                     .inputRouteDataDialog();
         });
@@ -118,7 +121,7 @@ public class WalkActivity extends AppCompatActivity {
         Button NoButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
         NoButton.setOnClickListener(v -> {
             alert.dismiss();
-            (new SaveRoute(WalkActivity.this, CurrentWalkTracker.getWalkSteps(),
+            (new SaveRoute(this, WalkActivity.this, CurrentWalkTracker.getWalkSteps(),
                     CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate()))
                     .inputRouteDataDialog();
         });
@@ -126,7 +129,7 @@ public class WalkActivity extends AppCompatActivity {
              Toast.makeText(WalkActivity.this, R.string.cancelDialog,
                      Toast.LENGTH_SHORT).show();
              alert.dismiss();
-             returnToHomeActivity();
+             finish();
         });
 
         return alert;
