@@ -13,6 +13,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.cse110_project.data_access.UserData;
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 
@@ -47,6 +48,7 @@ public class SaveWalkRecentUITest {
 
     @Before
     public void setUp() {
+        UserData.saveHeight(mActivityTestRule.getActivity().getApplicationContext(), 61);
         FitnessServiceFactory.put(TEST_SERVICE, SaveWalkRecentUITest.TestFitnessService::new);
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         intent.putExtra(MainActivity.FITNESS_SERVICE_KEY, TEST_SERVICE);
@@ -54,25 +56,6 @@ public class SaveWalkRecentUITest {
 
     @Test
     public void saveWalkUITest() {
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.heightInput),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.custom),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatEditText.perform(replaceText("61"), closeSoftKeyboard());
-
-        ViewInteraction appCompatButton = onView(
-                allOf(withId(android.R.id.button1), withText("OK"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.buttonPanel),
-                                        0),
-                                3)));
-        appCompatButton.perform(scrollTo(), click());
-
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.mockingButton), withText("DEV"),
                         childAtPosition(
