@@ -7,21 +7,28 @@ import com.example.cse110_project.MilesCalculator;
 public class User {
     private static RouteList routes = null;
     private static int height = 0;
-    private static int steps = 0;
+    private static int fitnessSteps = 0;
+    private static int stepsOffset = 0;
 
     public static int getHeight() { return height;}
 
     public static void setHeight(int h) { height = h; }
 
-    public static int getSteps() { return steps;}
+    public static int getFitnessSteps() { return fitnessSteps;}
 
-    public static void setSteps(int s) { steps = s; }
+    public static int getStepsOffset() { return stepsOffset;}
+
+    public static void setFitnessSteps(int s) { fitnessSteps = s; }
+
+    public static void setStepsOffset(int s) { stepsOffset = s; }
+
+    public static int getTotalSteps() { return stepsOffset+fitnessSteps;}
+
 
     public static double getMiles() {
-        return MilesCalculator.calculateMiles(height, steps);
+        return MilesCalculator.calculateMiles(height, getTotalSteps());
     }
 
-    public static void resetSteps() { steps = 0; }
 
     public static RouteList getRoutes(Context c){
         if (routes == null) {

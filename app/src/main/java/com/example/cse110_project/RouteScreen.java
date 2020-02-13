@@ -11,62 +11,79 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.CustomListAdapter;
+import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.RouteList;
+import com.example.cse110_project.user_routes.User;
+
+import java.util.List;
 
 public class RouteScreen extends AppCompatActivity{
 
-    String[] nameArray = {"Canyon Run","Blacks Beach","Torrey Pines","Hill Run","Rancho Bernardo","Miramar" };
+    private String[] nameArray;
+    private String[] FlatVsHilly;
+    private String[] LoopVsOutBack;
+    private String[] StreetVsTrail;
+    private String[] EvenVsUneven;
+    private String[] Difficulty;
 
-    String[] infoArray = {
-            "Rocky",
-            "Flat",
-            "Hilly",
-            "Hilly",
-            "Great for shoes",
-            "Flat"
-    };
-
-    ListView listView;
+    private ListView listView;
+    private RouteList routes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route_screen);
 
-        CustomListAdapter whatever = new CustomListAdapter(this, nameArray, infoArray);
-        listView = (ListView) findViewById(R.id.listviewID);
-        listView.setAdapter(whatever);
+        nameArray = new String[User.getRoutes(RouteScreen.this).length()];
+        FlatVsHilly = new String[User.getRoutes(RouteScreen.this).length()];
+        LoopVsOutBack = new String[User.getRoutes(RouteScreen.this).length()];
+        StreetVsTrail = new String[User.getRoutes(RouteScreen.this).length()];
+        EvenVsUneven = new String[User.getRoutes(RouteScreen.this).length()];
+        Difficulty = new String[User.getRoutes(RouteScreen.this).length()];
 
+        getRoutes();
 
-        //listView = (ListView) findViewById(R.id.route_list_view);
+        CustomListAdapter adapter = new CustomListAdapter(this, nameArray, FlatVsHilly,
+                StreetVsTrail, LoopVsOutBack, EvenVsUneven, Difficulty);
+
+        listView = findViewById(R.id.listviewID);
+        listView.setAdapter(adapter);
+
+        // listView = (ListView) findViewById(R.id.route_list_view);
         // Implementation of button event to route screen
-        final Button launchToHomeScreen = (Button) findViewById(R.id.button_routeToHome);
+        final Button launchToHomeScreen = findViewById(R.id.button_routeToHome);
+        final Button NewRoute = findViewById(R.id.button_routeScreenNewRoute);
 
-        launchToHomeScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchToHomeActivity();
-            }
-        });
+        NewRoute.setOnClickListener(v -> (new SaveRoute(this, this,
+                CurrentWalkTracker.getWalkSteps(), CurrentWalkTracker.getWalkTime(),
+                CurrentWalkTracker.getWalkDate()))
+                .inputRouteDataDialog());
 
-        listView.setOnItemClickListener(new OnItemClickListener() {
+        launchToHomeScreen.setOnClickListener(view -> finish());
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                Intent intent = new Intent(RouteScreen.this, RouteDetails.class);
-                String message = nameArray[position];
-                intent.putExtra("animal", message);
-                startActivity(intent);
-            }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(RouteScreen.this, RouteDetails.class);
+            intent.putExtra("Array_POSITION", position);
+            startActivity(intent);
         });
 
 
 
     }
 
-    public void launchToHomeActivity() {
-        Intent intent = new Intent(this, EntryActivity.class);
-        startActivity(intent);
+    public void getRoutes(){
+        if (User.getRoutes(RouteScreen.this) != null) {
+            routes = User.getRoutes(RouteScreen.this);
+            for(int i = 0; i <routes.length(); i++) {
+                nameArray[i] = routes.getRoute(i).getName();
+                FlatVsHilly[i] = routes.getRoute(i).getFlatVSHilly();
+                LoopVsOutBack[i] = routes.getRoute(i).getLoopVSOutBack();
+                StreetVsTrail[i] = routes.getRoute(i).getStreetsVSTrail();
+                EvenVsUneven[i] = routes.getRoute(i).getEvenVsUnevenSurface();
+                Difficulty[i] = routes.getRoute(i).getRouteDifficulty();
+            }
+        }
     }
 }

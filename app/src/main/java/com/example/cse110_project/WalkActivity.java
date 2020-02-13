@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -14,14 +12,15 @@ import android.widget.Toast;
 
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.trackers.CurrentFitnessTracker;
+import com.example.cse110_project.trackers.CurrentTimeTracker;
+import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalTime;
 
 
 public class WalkActivity extends AppCompatActivity {
-    private Button cancelButton;
-    private Button stopButton;
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
 
@@ -30,35 +29,50 @@ public class WalkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
 
+        Button mockingButton = findViewById(R.id.walkMockingButton);
+        mockingButton.setOnClickListener(v -> launchMockingActivity());
+
         // Buttons to end activity
-        cancelButton = findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(v -> backToHomeActivity());
-        stopButton = findViewById(R.id.stopWalkButton);
+        Button cancelButton = findViewById(R.id.cancelButton);
+        cancelButton.setOnClickListener(v -> finish());
+
+        Button stopButton = findViewById(R.id.stopWalkButton);
         stopButton.setOnClickListener(v -> {
-            endWalkActivity(LocalTime.now());
+            endWalkActivity(CurrentTimeTracker.getTime());
             showSaveDialog();
         });
 
-        // Set up fitnessService
-        String fitnessServiceKey = getIntent().getStringExtra(MainActivity.FITNESS_SERVICE_KEY);
-        System.out.println("Walk service key: " + fitnessServiceKey);
-        fitnessServiceActive = (fitnessServiceKey != null);
-        if (fitnessServiceActive) {
-            fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-            fitnessService.setup();
+        setUpFitnessService();
+    }
+
+
+    private void setUpFitnessService() {
+        if (CurrentFitnessTracker.hasFitnessService()) {
+            fitnessService = CurrentFitnessTracker.getFitnessService();
+            fitnessServiceActive = true;
+        } else {
+            String fitnessServiceKey = getIntent().getStringExtra(MainActivity.FITNESS_SERVICE_KEY);
+            System.out.println("Walk service key: " + fitnessServiceKey);
+            fitnessServiceActive = (fitnessServiceKey != null);
+            if (fitnessServiceActive) {
+                fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+                fitnessService.setup();
+            }
         }
     }
 
-    public void backToHomeActivity() {
-        Intent intent = new Intent(this, EntryActivity.class);
+
+    public void launchMockingActivity() {
+        Intent intent = new Intent(this, MockingActivity.class);
         startActivity(intent);
     }
 
     public void endWalkActivity(LocalTime finalTime) {
-        System.out.println("Activity ended - " + fitnessServiceActive);
+        System.out.println("Walk activity ended - " + fitnessServiceActive);
         if (fitnessServiceActive) {
             fitnessService.updateStepCount();
         }
+        CurrentWalkTracker.setFinalSteps(User.getTotalSteps());
         CurrentWalkTracker.setFinalTime(finalTime);
     }
 
@@ -78,13 +92,10 @@ public class WalkActivity extends AppCompatActivity {
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
-        cancelButton.setOnClickListener(v -> {
-               alert.dismiss();
-               validateCancel();
-        });
+        cancelButton.setOnClickListener(v -> alert.dismiss());
         submitButton.setOnClickListener(v -> {
             alert.dismiss();
-            (new SaveRoute(WalkActivity.this, CurrentWalkTracker.getWalkSteps(),
+            (new SaveRoute(this, this, CurrentWalkTracker.getWalkSteps(),
                     CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate()))
                     .inputRouteDataDialog();
         });
@@ -110,7 +121,7 @@ public class WalkActivity extends AppCompatActivity {
         Button NoButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
         NoButton.setOnClickListener(v -> {
             alert.dismiss();
-            (new SaveRoute(WalkActivity.this, CurrentWalkTracker.getWalkSteps(),
+            (new SaveRoute(this, WalkActivity.this, CurrentWalkTracker.getWalkSteps(),
                     CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate()))
                     .inputRouteDataDialog();
         });
@@ -118,7 +129,7 @@ public class WalkActivity extends AppCompatActivity {
              Toast.makeText(WalkActivity.this, R.string.cancelDialog,
                      Toast.LENGTH_SHORT).show();
              alert.dismiss();
-             backToHomeActivity();
+             finish();
         });
 
         return alert;

@@ -9,6 +9,7 @@ import androidx.test.rule.ActivityTestRule;
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
 import com.example.cse110_project.data_access.DataConstants;
+import com.example.cse110_project.user_routes.User;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -43,7 +44,7 @@ public class DisplayDailyStepsTest {
 
     @Test
     public void testInitialSteps() {
-        assertEquals("0", stepsDisplay.getText());
+        assertEquals(String.valueOf(User.getTotalSteps()), stepsDisplay.getText());
     }
 
     @Test

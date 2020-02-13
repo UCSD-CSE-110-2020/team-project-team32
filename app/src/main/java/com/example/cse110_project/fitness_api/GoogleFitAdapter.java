@@ -4,16 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.cse110_project.CurrentWalkTracker;
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.WalkActivity;
+import com.example.cse110_project.user_routes.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,11 +25,7 @@ public class GoogleFitAdapter implements FitnessService {
     private AppCompatActivity activity;
 
     public GoogleFitAdapter(AppCompatActivity activity) {
-        if (activity instanceof MainActivity || activity instanceof WalkActivity) {
-            this.activity = activity;
-        } else {
-            throw new RuntimeException("Error: invalid activity argument to GoogleFitAdapter");
-        }
+        this.activity = activity;
     }
 
 
@@ -99,10 +93,9 @@ public class GoogleFitAdapter implements FitnessService {
                                             ? 0
                                             : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
+                            User.setFitnessSteps((int)total);
                             if (activity instanceof MainActivity) {
                                 ((MainActivity)activity).updateDailySteps((int)total);
-                            } else {
-                                CurrentWalkTracker.setFinalSteps((int)total);
                             }
                             Log.d(TAG, "Total steps: " + total);
                         })
@@ -115,4 +108,5 @@ public class GoogleFitAdapter implements FitnessService {
     public int getRequestCode() {
         return GOOGLE_FIT_PERMISSIONS_REQUEST_CODE;
     }
+
 }

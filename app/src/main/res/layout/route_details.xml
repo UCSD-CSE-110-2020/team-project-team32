@@ -8,27 +8,248 @@
 
     <Button
         android:id="@+id/button_backToRoutes"
-        android:layout_width="193dp"
+        android:layout_width="130dp"
         android:layout_height="45dp"
         android:text="@string/goBackRouteScreen"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/routeNameDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginEnd="176dp"
-        android:layout_marginBottom="592dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="170dp"
+        android:text="@string/WalkTitle"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/holo_orange_light"
+        android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_routeScreenNewRoute" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/WalkStartDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="70dp"
+        android:text="@string/WalkDateRouteDetails"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_backToRoutes" />
+
+    <TextView
+        android:id="@+id/WalkStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="70dp"
+        android:text="@string/InitialRouteDetailData"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/WalkStartDateText"
+        app:layout_constraintTop_toBottomOf="@+id/button_backToRoutes" />
+
+    <TextView
+        android:id="@+id/WalkTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="67dp"
+        android:layout_marginEnd="120dp"
+        android:text="@string/WalkTimeRouteDetails"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_backToRoutes" />
+
+
+    <TextView
+        android:id="@+id/WalkTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="67dp"
+        android:text="@string/WalkTimeRouteDetails"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/WalkTimeText"
+        app:layout_constraintTop_toBottomOf="@+id/button_backToRoutes" />
+
+    <TextView
+        android:id="@+id/stepsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="120dp"
+        android:text="@string/stepsRouteDetails"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_backToRoutes" />
+
+    <TextView
+        android:id="@+id/stepsWalked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="120dp"
+        android:text="@string/InitialRouteDetailData"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/stepsText"
+        app:layout_constraintTop_toBottomOf="@+id/button_backToRoutes" />
+
+    <TextView
+        android:id="@+id/MilesText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/MilesRouteDetails"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stepsText" />
+
+    <TextView
+        android:id="@+id/MilesWalked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/InitialRouteDetailData"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/MilesText"
+        app:layout_constraintTop_toBottomOf="@+id/stepsWalked" />
+
+    <TextView
+        android:id="@+id/DifficultyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/DifficultyRouteDetails"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MilesText" />
+
+    <TextView
+        android:id="@+id/DifficultyPicked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/InitialRouteDetailData"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/DifficultyText"
+        app:layout_constraintTop_toBottomOf="@+id/MilesWalked" />
+
+    <TextView
+        android:id="@+id/SurfaceDifficultyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/SurfaceRouteDetails"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DifficultyText" />
+
+    <TextView
+        android:id="@+id/SurfaceDifficultyPicked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/InitialRouteDetailData"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/SurfaceDifficultyText"
+        app:layout_constraintTop_toBottomOf="@+id/DifficultyPicked" />
+
+    <TextView
+        android:id="@+id/surfaceFlatVsHilly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/SurfaceFlatVSHilly"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SurfaceDifficultyText" />
+
+    <TextView
+        android:id="@+id/surfaceFlatVsHillyPicked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/InitialRouteDetailData"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/surfaceFlatVsHilly"
+        app:layout_constraintTop_toBottomOf="@+id/SurfaceDifficultyText" />
+
+    <TextView
+        android:id="@+id/RunTypeRouteDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/RunTypeRouteDetails"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/surfaceFlatVsHilly" />
+
+    <TextView
+        android:id="@+id/RunTypePicked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/InitialRouteDetailData"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/RunTypeRouteDetails"
+        app:layout_constraintTop_toBottomOf="@+id/surfaceFlatVsHillyPicked" />
+
+    <TextView
+        android:id="@+id/areaRouteDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/areaRouteDetails"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RunTypeRouteDetails" />
+
+    <TextView
+        android:id="@+id/areaRouteDetailsPicked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/InitialRouteDetailData"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/areaRouteDetails"
+        app:layout_constraintTop_toBottomOf="@+id/RunTypeRouteDetails" />
 
 
     <ImageButton

@@ -7,11 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 
-import com.example.cse110_project.CurrentWalkTracker;
+import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.WalkActivity;
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.user_routes.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,16 +51,16 @@ public class WalkActivityTest {
             assertEquals(0, CurrentWalkTracker.getWalkSteps());
             assertEquals(LocalTime.of(0, 0).toString(),
                     CurrentWalkTracker.getWalkTime().toString());
-            assertEquals(CurrentWalkTracker.getWalkDate().toString(),
-                    LocalDateTime.of(1,1,1,1,1).toString());
+            assertEquals(LocalDateTime.of(1,1,1,1,1).toString(),
+                    CurrentWalkTracker.getWalkDate().toString());
 
             activity.endWalkActivity(LocalTime.of(10, 30));
 
-            assertEquals(CurrentWalkTracker.getWalkSteps(), 1337);
-            assertEquals(CurrentWalkTracker.getWalkTime().toString(),
-                    LocalTime.of(0, 30).toString());
-            assertEquals(CurrentWalkTracker.getWalkDate().toString(),
-                    LocalDateTime.of(1,1,1,1,1).toString());
+            assertEquals(1337, CurrentWalkTracker.getWalkSteps());
+            assertEquals(LocalTime.of(0, 30).toString(),
+                    CurrentWalkTracker.getWalkTime().toString());
+            assertEquals(LocalDateTime.of(1,1,1,1,1).toString(),
+                    CurrentWalkTracker.getWalkDate().toString());
         });
     }
 
@@ -85,6 +86,7 @@ public class WalkActivityTest {
         public void updateStepCount() {
             System.out.println(TAG + "updateStepCount");
             CurrentWalkTracker.setFinalSteps((int)nextStepCount);
+            User.setFitnessSteps((int)nextStepCount);
         }
     }
 }
