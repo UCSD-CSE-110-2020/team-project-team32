@@ -25,11 +25,7 @@ public class GoogleFitAdapter implements FitnessService {
     private AppCompatActivity activity;
 
     public GoogleFitAdapter(AppCompatActivity activity) {
-        if (activity instanceof MainActivity || activity instanceof WalkActivity) {
-            this.activity = activity;
-        } else {
-            throw new RuntimeException("Error: invalid activity argument to GoogleFitAdapter");
-        }
+        this.activity = activity;
     }
 
 
@@ -112,4 +108,5 @@ public class GoogleFitAdapter implements FitnessService {
     public int getRequestCode() {
         return GOOGLE_FIT_PERMISSIONS_REQUEST_CODE;
     }
+
 }

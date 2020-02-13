@@ -40,7 +40,8 @@ public class SaveRouteTest {
 
     @Test
     public void testRouteSavedDataProvided() {
-        SaveRoute saveRoute = new SaveRoute(c, 100, LocalTime.of(1, 2),
+        SaveRoute saveRoute = new SaveRoute(walkActivity.getActivity(), c, 100,
+                LocalTime.of(1, 2),
                 LocalDateTime.of(3, 4, 5, 6, 7));
         AlertDialog alert = saveRoute.inputRouteDataDialog();
 

@@ -27,12 +27,15 @@ public class SaveRoute {
     private Route route;
     private AlertDialog alert;
 
+    private AppCompatActivity activity;
     private Context context;
     private int steps;
     private LocalTime time;
     private LocalDateTime date;
 
-    public SaveRoute(Context context, int steps, LocalTime time, LocalDateTime date) {
+    public SaveRoute(AppCompatActivity activity, Context context, int steps, LocalTime time,
+                     LocalDateTime date) {
+        this.activity = activity;
         this.context = context;
         System.out.println("Context theme: " + context.getTheme());
         this.steps = steps;
@@ -67,7 +70,6 @@ public class SaveRoute {
         cancelButton.setOnClickListener(v -> {
             Toast.makeText(context, R.string.cancelDialog, Toast.LENGTH_SHORT).show();
             alert.dismiss();
-            goToHomeScreen();
         });
         submitButton.setOnClickListener(v -> validateOnClickSave(alert));
 
@@ -78,10 +80,6 @@ public class SaveRoute {
         context.startActivity(new Intent(context, RouteScreen.class));
     }
 
-    public void goToHomeScreen() {
-        context.startActivity(new Intent(context, EntryActivity.class));
-    }
-
     public void validateOnClickSave(DialogInterface dialog) {
          if (walkName.getText().toString().length() == 0) {
              Toast.makeText(context, R.string.invalidWalkName, Toast.LENGTH_SHORT).show();
@@ -89,6 +87,7 @@ public class SaveRoute {
              saveRoute();
              dialog.dismiss();
              goToRouteScreen();
+             activity.finish();
          }
     }
 
