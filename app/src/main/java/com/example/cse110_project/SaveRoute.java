@@ -26,6 +26,7 @@ import java.time.LocalTime;
 
 public class SaveRoute {
     private EditText walkName;
+    private EditText routeNotes; // notes
     private Route route;
     private AlertDialog alert;
 
@@ -83,6 +84,7 @@ public class SaveRoute {
     public EditText getWalkName() {
         return walkName;
     }
+    public EditText getWalkNotes() { return routeNotes;}
 
     public AlertDialog inputRouteDataDialog() {
         // get prompts.xml view
@@ -98,7 +100,10 @@ public class SaveRoute {
         alert = alertDialogBuilder.create();
         alert.show();
 
+        //
+
         walkName = promptView.findViewById(R.id.NameOfWalkInput);
+        routeNotes = promptView.findViewById(R.id.NotesOfWalkInput); // notes
         loopPick = promptView.findViewById(R.id.loopButton);
         outAndBack = promptView.findViewById(R.id.outAndBackButton);
         FlatPick = promptView.findViewById(R.id.FlatButton);
@@ -139,6 +144,8 @@ public class SaveRoute {
              goToRouteScreen();
              activity.finish();
         }
+        // route notes
+
     }
 
     public void saveRoute() {
@@ -146,6 +153,8 @@ public class SaveRoute {
         route.setSteps(steps);
         route.setDuration(time);
         route.setStartDate(date);
+        route.setRouteNotes(routeNotes.getText().toString());
+
 
         if(pickedLoop) { route.setLoopVSOutBack(LOOP); }
         else if (pickedoutAndBack){ route.setLoopVSOutBack(OUT_AND_BACK);}
@@ -182,6 +191,23 @@ public class SaveRoute {
             @Override
             public void afterTextChanged(Editable s) {}
         });
+    // route notes
+        routeNotes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                /*if (routeNotes.getText().toString().length() == 0) {
+                    routeNotes.setError(context.getResources().getString(R.string.emptyWalkName));
+                } else {
+                    routeNotes.setError(null);
+                }*/
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
     }
 
     public void validateButtons() {

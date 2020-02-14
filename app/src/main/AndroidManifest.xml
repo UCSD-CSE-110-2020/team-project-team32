@@ -9,11 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MockingActivity"></activity>
+        <activity android:name=".MockingActivity" />
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/splashTheme">
-        </activity>
+            android:theme="@style/splashTheme"></activity>
         <activity android:name=".EntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +22,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:launchMode="standard">
-        </activity>
+            android:launchMode="standard"></activity>
         <activity android:name=".RouteScreen" />
         <activity android:name=".WalkActivity" />
         <activity android:name=".RouteDetails" />

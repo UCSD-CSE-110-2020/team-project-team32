@@ -151,4 +151,19 @@
             android:padding="10dp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/enterWalkNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/NotesTitle"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/NotesOfWalkInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/WalkNotes"
+        android:padding="10dp" />
+
 </LinearLayout>

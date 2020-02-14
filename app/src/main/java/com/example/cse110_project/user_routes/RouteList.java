@@ -85,6 +85,7 @@ public class RouteList {
             String StreetsVsTrail = RouteData.retrieveStreetVSTrail(c,id);
             String EvenVSUneven = RouteData.retrieveEvenVSUneven(c,id);
             String RouteDifficulty = RouteData.retrieveRouteDifficulty(c,id);
+            String notes = RouteData.retrieveRouteNotes(c, id);
 
             int steps = RouteData.retrieveRouteSteps(c, id);
             Route r = new Route(id, name);
@@ -94,6 +95,7 @@ public class RouteList {
             r.setStreetsVSTrail(StreetsVsTrail);
             r.setEvenVsUnevenSurface(EvenVSUneven);
             r.setRouteDifficulty(RouteDifficulty);
+            r.setRouteNotes(notes);
             routes.add(r);
 
             String time = RouteData.retrieveRouteTime(c, id);

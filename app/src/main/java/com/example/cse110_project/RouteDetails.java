@@ -27,6 +27,7 @@ public class RouteDetails extends AppCompatActivity {
     private String Surface;
     private String RunType;
     private String area;
+    private String walkNotes;
     Route route;
 
     static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
@@ -50,9 +51,11 @@ public class RouteDetails extends AppCompatActivity {
         TextView routeSurface = findViewById(R.id.surfaceFlatVsHillyPicked);
         TextView routeRunType = findViewById(R.id.RunTypePicked);
         TextView routeArea = findViewById(R.id.areaRouteDetailsPicked);
+        TextView routeNotes = findViewById(R.id.walkNotesWritten); // notes
 
 
         routeName.setText(walkName);
+        routeNotes.setText(walkNotes);
         if(route.getStartDate() != null) {
             routeDate.setText(WalkDate.substring(0, 10));
             routeTime.setText(WalkDate.substring(11));
@@ -77,6 +80,7 @@ public class RouteDetails extends AppCompatActivity {
     public void getRouteData() {
         route = User.getRoutes(RouteDetails.this).getRoute(savedExtra);
         walkName = route.getName();
+        walkNotes = route.getRouteNotes();
 
         if(route.getStartDate() != null) {
             WalkDate = route.getStartDate().format(formatter);
