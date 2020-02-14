@@ -17,11 +17,18 @@ import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class RouteScreen extends AppCompatActivity{
 
     private String[] nameArray;
+    private String[] startPtArray;
+    private String[] stepsArray;
+    private String[] milesArray;
+    private String[] timeArray;
+    private String[] dateArray;
     private String[] FlatVsHilly;
     private String[] LoopVsOutBack;
     private String[] StreetVsTrail;
@@ -34,17 +41,24 @@ public class RouteScreen extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route_screen);
 
-        nameArray = new String[User.getRoutes(RouteScreen.this).length()];
-        FlatVsHilly = new String[User.getRoutes(RouteScreen.this).length()];
-        LoopVsOutBack = new String[User.getRoutes(RouteScreen.this).length()];
-        StreetVsTrail = new String[User.getRoutes(RouteScreen.this).length()];
-        EvenVsUneven = new String[User.getRoutes(RouteScreen.this).length()];
-        Difficulty = new String[User.getRoutes(RouteScreen.this).length()];
+        int arrLen = User.getRoutes(RouteScreen.this).length();
+        nameArray = new String[arrLen];
+        startPtArray = new String[arrLen];
+        stepsArray = new String[arrLen];
+        milesArray = new String[arrLen];
+        timeArray = new String[arrLen];
+        dateArray = new String[arrLen];
+        FlatVsHilly = new String[arrLen];
+        LoopVsOutBack = new String[arrLen];
+        StreetVsTrail = new String[arrLen];
+        EvenVsUneven = new String[arrLen];
+        Difficulty = new String[arrLen];
 
         fetchRoutesData();
 
-        CustomListAdapter adapter = new CustomListAdapter(this, nameArray, FlatVsHilly,
-                StreetVsTrail, LoopVsOutBack, EvenVsUneven, Difficulty);
+        CustomListAdapter adapter = new CustomListAdapter(this, nameArray, startPtArray,
+                stepsArray, milesArray, timeArray, dateArray, FlatVsHilly, StreetVsTrail,
+                LoopVsOutBack, EvenVsUneven, Difficulty);
 
         ListView listView = findViewById(R.id.listviewID);
         listView.setAdapter(adapter);
@@ -74,12 +88,22 @@ public class RouteScreen extends AppCompatActivity{
         if (User.getRoutes(RouteScreen.this) != null) {
             RouteList routes = User.getRoutes(RouteScreen.this);
             for (int i = 0; i < routes.length(); i++) {
-                nameArray[i] = routes.getRoute(i).getName();
-                FlatVsHilly[i] = routes.getRoute(i).getFlatVsHilly();
-                LoopVsOutBack[i] = routes.getRoute(i).getLoopVsOAB();
-                StreetVsTrail[i] = routes.getRoute(i).getStreetsVsTrail();
-                EvenVsUneven[i] = routes.getRoute(i).getEvenVsUneven();
-                Difficulty[i] = routes.getRoute(i).getDifficulty();
+                Route r = routes.getRoute(i);
+                nameArray[i] = r.getName();
+                startPtArray[i] = r.getStartingPoint();
+                stepsArray[i] = String.valueOf(r.getSteps());
+                milesArray[i] = MilesCalculator.formatMiles(r.getMiles(User.getHeight()));
+                FlatVsHilly[i] = r.getFlatVsHilly();
+                LoopVsOutBack[i] = r.getLoopVsOAB();
+                StreetVsTrail[i] = r.getStreetsVsTrail();
+                EvenVsUneven[i] = r.getEvenVsUneven();
+                Difficulty[i] = r.getDifficulty();
+
+                if (r.getStartDate() != null) {
+                    timeArray[i] = r.getDuration().truncatedTo(ChronoUnit.MINUTES).toString();
+                    dateArray[i] = r.getStartDate().getMonthValue() + "-"
+                            + r.getStartDate().getDayOfMonth();
+                }
             }
         }
     }
