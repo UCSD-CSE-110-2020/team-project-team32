@@ -30,33 +30,45 @@ public class RouteData {
                 DataConstants.STR_NOT_FOUND);
     }
 
-    public static String retrieveFlatVSHilly(Context c, int routeID) {
+    public static String retrieveStartingPoint(Context c, int routeID) {
+        SharedPreferences pref = retrievePrefs(c);
+        return pref.getString(String.format(DataConstants.STARTING_POINT_KEY, routeID),
+                DataConstants.STR_NOT_FOUND);
+    }
+
+    public static String retrieveFlatVsHilly(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getString(String.format(DataConstants.FLAT_VS_HILLY_KEY, routeID),
                 DataConstants.STR_NOT_FOUND);
     }
 
-    public static String retrieveLoopVsOutBack(Context c, int routeID) {
+    public static String retrieveLoopVsOAB(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getString(String.format(DataConstants.LOOP_VS_OUTBACK_KEY, routeID),
                 DataConstants.STR_NOT_FOUND);
     }
 
-    public static String retrieveStreetVSTrail(Context c, int routeID) {
+    public static String retrieveStreetVsTrail(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getString(String.format(DataConstants.STREETS_VS_TRAIL_KEY, routeID),
                 DataConstants.STR_NOT_FOUND);
     }
 
-    public static String retrieveEvenVSUneven(Context c, int routeID) {
+    public static String retrieveEvenVsUneven(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getString(String.format(DataConstants.EVEN_VS_UNEVEN_SURFACE_KEY, routeID),
                 DataConstants.STR_NOT_FOUND);
     }
 
-    public static String retrieveRouteDifficulty(Context c, int routeID) {
+    public static String retrieveDifficulty(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getString(String.format(DataConstants.ROUTE_DIFFICULTY_KEY, routeID),
+                DataConstants.STR_NOT_FOUND);
+    }
+
+    public static String retrieveNotes(Context c, int routeID) {
+        SharedPreferences pref = retrievePrefs(c);
+        return pref.getString(String.format(DataConstants.ROUTE_NOTES_KEY, routeID),
                 DataConstants.STR_NOT_FOUND);
     }
 
@@ -75,26 +87,33 @@ public class RouteData {
             saveRouteDate(c, route.getID(), route.getStartDate().toString());
         }
 
-        if(route.getFlatVSHilly() != null){
-            saveFlatVSHilly(c, route.getID(), route.getFlatVSHilly());
+        if (route.getStartingPoint() != Route.NO_DATA) {
+            saveStartingPoint(c, route.getID(), route.getStartingPoint());
         }
 
-        if(route.getLoopVSOutBack() != null) {
-            saveLoopVsOutBack(c, route.getID(), route.getLoopVSOutBack());
+        if (route.getFlatVsHilly() != Route.NO_DATA){
+            saveFlatVsHilly(c, route.getID(), route.getFlatVsHilly());
         }
 
-        if(route.getStreetsVSTrail() != null){
-            saveStreetVSTrail(c, route.getID(), route.getStreetsVSTrail());
+        if (route.getLoopVsOAB() != Route.NO_DATA) {
+            saveLoopVsOAB(c, route.getID(), route.getLoopVsOAB());
         }
 
-        if(route.getEvenVsUnevenSurface() != null) {
-            saveEvenVSUneven(c, route.getID(), route.getEvenVsUnevenSurface());
+        if (route.getStreetsVsTrail() != Route.NO_DATA){
+            saveStreetsVsTrail(c, route.getID(), route.getStreetsVsTrail());
         }
 
-        if(route.getRouteDifficulty() != null) {
-            saveRouteDifficulty(c, route.getID(), route.getRouteDifficulty());
+        if (route.getEvenVsUneven() != Route.NO_DATA) {
+            saveEvenVsUneven(c, route.getID(), route.getEvenVsUneven());
         }
 
+        if (route.getDifficulty() != Route.NO_DATA) {
+            saveDifficulty(c, route.getID(), route.getDifficulty());
+        }
+
+        if (route.getNotes() != Route.NO_DATA) {
+            saveNotes(c, route.getID(), route.getNotes());
+        }
     }
 
     public static void saveRouteName(Context c, int routeID, String routeName) {
@@ -121,33 +140,45 @@ public class RouteData {
         editor.apply();
     }
 
-    public static void saveFlatVSHilly(Context c, int routeID, String FlatVsHilly) {
+    public static void saveStartingPoint(Context c, int routeID, String data) {
         SharedPreferences.Editor editor = retrieveEditor(c);
-        editor.putString(String.format(DataConstants.FLAT_VS_HILLY_KEY, routeID), FlatVsHilly);
+        editor.putString(String.format(DataConstants.STARTING_POINT_KEY, routeID), data);
         editor.apply();
     }
 
-    public static void saveLoopVsOutBack(Context c, int routeID, String LoopVsoutBack) {
+    public static void saveFlatVsHilly(Context c, int routeID, String data) {
         SharedPreferences.Editor editor = retrieveEditor(c);
-        editor.putString(String.format(DataConstants.LOOP_VS_OUTBACK_KEY, routeID), LoopVsoutBack);
+        editor.putString(String.format(DataConstants.FLAT_VS_HILLY_KEY, routeID), data);
         editor.apply();
     }
 
-    public static void saveStreetVSTrail(Context c, int routeID, String StreetVsTrail) {
+    public static void saveLoopVsOAB(Context c, int routeID, String data) {
         SharedPreferences.Editor editor = retrieveEditor(c);
-        editor.putString(String.format(DataConstants.STREETS_VS_TRAIL_KEY, routeID), StreetVsTrail);
+        editor.putString(String.format(DataConstants.LOOP_VS_OUTBACK_KEY, routeID), data);
         editor.apply();
     }
 
-    public static void saveEvenVSUneven(Context c, int routeID, String EvenvsUneven) {
+    public static void saveStreetsVsTrail(Context c, int routeID, String data) {
         SharedPreferences.Editor editor = retrieveEditor(c);
-        editor.putString(String.format(DataConstants.EVEN_VS_UNEVEN_SURFACE_KEY, routeID), EvenvsUneven);
+        editor.putString(String.format(DataConstants.STREETS_VS_TRAIL_KEY, routeID), data);
         editor.apply();
     }
 
-    public static void saveRouteDifficulty(Context c, int routeID, String routeDifficulty) {
+    public static void saveEvenVsUneven(Context c, int routeID, String data) {
         SharedPreferences.Editor editor = retrieveEditor(c);
-        editor.putString(String.format(DataConstants.ROUTE_DIFFICULTY_KEY, routeID), routeDifficulty);
+        editor.putString(String.format(DataConstants.EVEN_VS_UNEVEN_SURFACE_KEY, routeID), data);
+        editor.apply();
+    }
+
+    public static void saveDifficulty(Context c, int routeID, String data) {
+        SharedPreferences.Editor editor = retrieveEditor(c);
+        editor.putString(String.format(DataConstants.ROUTE_DIFFICULTY_KEY, routeID), data);
+        editor.apply();
+    }
+
+    public static void saveNotes(Context c, int routeID, String data) {
+        SharedPreferences.Editor editor = retrieveEditor(c);
+        editor.putString(String.format(DataConstants.ROUTE_NOTES_KEY, routeID), data);
         editor.apply();
     }
 
