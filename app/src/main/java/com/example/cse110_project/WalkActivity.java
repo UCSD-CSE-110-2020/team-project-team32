@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cse110_project.data_access.RouteData;
@@ -16,6 +17,7 @@ import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 import com.example.cse110_project.trackers.CurrentFitnessTracker;
 import com.example.cse110_project.trackers.CurrentTimeTracker;
 import com.example.cse110_project.trackers.CurrentWalkTracker;
+import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 
@@ -29,13 +31,20 @@ public class WalkActivity extends AppCompatActivity {
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
     private boolean onSavedRoute;
+    private int savedRouteID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
+
+        // Handle case of walking an existing route
         onSavedRoute = getIntent() != null &&
                 getIntent().getBooleanExtra(SAVED_ROUTE_KEY, false);
+        if (onSavedRoute) {
+            savedRouteID = getIntent().getIntExtra(SAVED_ROUTE_ID_KEY, -1);
+            displayRouteSummary();
+        }
 
         Button mockingButton = findViewById(R.id.walkMockingButton);
         mockingButton.setOnClickListener(v -> launchMockingActivity());
@@ -51,6 +60,13 @@ public class WalkActivity extends AppCompatActivity {
         });
 
         setUpFitnessService();
+    }
+
+    private void displayRouteSummary() {
+        Route route = User.getRoutes(this).getRouteByID(savedRouteID);
+        ((TextView)findViewById(R.id.walkRouteName)).setText(route.getName());
+        ((TextView)findViewById(R.id.walkStartingPoint)).setText(route.getStartingPoint());
+        ((TextView)findViewById(R.id.walkNotes)).setText(route.getNotes());
     }
 
     private void setUpFitnessService() {
@@ -85,9 +101,9 @@ public class WalkActivity extends AppCompatActivity {
 
 
     public void updateSavedRoute() {
-        if (getIntent() != null) {
-            int id = getIntent().getIntExtra(SAVED_ROUTE_ID_KEY, -1);
-            User.getRoutes(this).updateRouteData(this, id, CurrentWalkTracker.getWalkSteps(),
+        if (onSavedRoute) {
+            User.getRoutes(this)
+                    .updateRouteData(this, savedRouteID, CurrentWalkTracker.getWalkSteps(),
                     CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate());
         }
     }

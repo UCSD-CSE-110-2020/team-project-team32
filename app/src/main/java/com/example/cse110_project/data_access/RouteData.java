@@ -30,6 +30,12 @@ public class RouteData {
                 DataConstants.STR_NOT_FOUND);
     }
 
+    public static String retrieveStartingPoint(Context c, int routeID) {
+        SharedPreferences pref = retrievePrefs(c);
+        return pref.getString(String.format(DataConstants.STARTING_POINT_KEY, routeID),
+                DataConstants.STR_NOT_FOUND);
+    }
+
     public static String retrieveFlatVsHilly(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getString(String.format(DataConstants.FLAT_VS_HILLY_KEY, routeID),
@@ -60,7 +66,6 @@ public class RouteData {
                 DataConstants.STR_NOT_FOUND);
     }
 
-    // route notes
     public static String retrieveNotes(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getString(String.format(DataConstants.ROUTE_NOTES_KEY, routeID),
@@ -80,6 +85,10 @@ public class RouteData {
 
         if (route.getStartDate() != null) {
             saveRouteDate(c, route.getID(), route.getStartDate().toString());
+        }
+
+        if (route.getStartingPoint() != Route.NO_DATA) {
+            saveStartingPoint(c, route.getID(), route.getStartingPoint());
         }
 
         if (route.getFlatVsHilly() != Route.NO_DATA){

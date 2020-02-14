@@ -146,7 +146,6 @@ public class SaveRoute {
         route.setStartingPoint(routeStartPt.getText().toString());
         route.setNotes(routeNotes.getText().toString());
 
-
         if (pickedLoop) { route.setLoopVsOAB(Route.LOOP); }
         else if (pickedOutAndBack) { route.setLoopVsOAB(Route.OAB); }
 

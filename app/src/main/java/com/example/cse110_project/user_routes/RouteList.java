@@ -108,7 +108,9 @@ public class RouteList {
                 maxID = id;
             }
 
+            int steps = RouteData.retrieveRouteSteps(c, id);
             String name = RouteData.retrieveRouteName(c, id);
+            String startPt = RouteData.retrieveStartingPoint(c, id);
             String hillyVsFlat = RouteData.retrieveFlatVsHilly(c,id);
             String loopVsOAB = RouteData.retrieveLoopVsOAB(c,id);
             String streetsVsTrail = RouteData.retrieveStreetVsTrail(c,id);
@@ -116,9 +118,9 @@ public class RouteList {
             String difficulty = RouteData.retrieveDifficulty(c,id);
             String notes = RouteData.retrieveNotes(c, id);
 
-            int steps = RouteData.retrieveRouteSteps(c, id);
             Route r = new Route(id, name);
             r.setSteps(steps);
+            r.setStartingPoint(startPt);
             r.setFlatVsHilly(hillyVsFlat);
             r.setLoopVsOAB(loopVsOAB);
             r.setStreetsVsTrail(streetsVsTrail);
