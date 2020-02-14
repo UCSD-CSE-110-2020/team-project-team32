@@ -13,6 +13,7 @@ public class Route {
     private String StreetsVSTrail;
     private String EvenVsUnevenSurface;
     private String RouteDifficulty;
+    private String routeNotes;
     private int steps;
     private LocalDateTime startDate;
     private LocalTime duration;
@@ -78,4 +79,8 @@ public class Route {
     public LocalTime getDuration() { return duration; }
 
     public void setDuration(LocalTime time) { duration = time; }
+
+    public void setRouteNotes(String n) { routeNotes = n; }
+
+    public String getRouteNotes() { return routeNotes; }
 }

@@ -12,6 +12,7 @@ public class DataConstants {
     public final static String ROUTE_STEPS_KEY = "r%d_steps";
     public final static String ROUTE_TIME_KEY = "r%d_time";
     public final static String ROUTE_DATE_KEY = "r%d_date";
+    public final static String ROUTE_NOTES_KEY = "r%d_notes";
 
     // Default values
     public final static int NO_HEIGHT_FOUND = 0;

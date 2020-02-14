@@ -11,6 +11,12 @@ public class RouteData {
         return pref.getString(String.format(DataConstants.ROUTE_NAME_KEY, routeID),
                 DataConstants.STR_NOT_FOUND);
     }
+    // route notes
+    public static String retrieveRouteNotes(Context c, int routeID) {
+        SharedPreferences pref = retrievePrefs(c);
+        return pref.getString(String.format(DataConstants.ROUTE_NOTES_KEY, routeID),
+                DataConstants.STR_NOT_FOUND);
+    }
 
     public static int retrieveRouteSteps(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
@@ -62,6 +68,7 @@ public class RouteData {
 
     public static void saveRouteData(Context c, Route route) {
         saveRouteName(c, route.getID(), route.getName());
+        saveRouteNotes(c, route.getID(), route.getRouteNotes());
 
         if (route.getSteps() >= 0) {
             saveRouteSteps(c, route.getID(), route.getSteps());
@@ -100,6 +107,12 @@ public class RouteData {
     public static void saveRouteName(Context c, int routeID, String routeName) {
         SharedPreferences.Editor editor = retrieveEditor(c);
         editor.putString(String.format(DataConstants.ROUTE_NAME_KEY, routeID), routeName);
+        editor.apply();
+    }
+    // route notes
+    public static void saveRouteNotes(Context c, int routeID, String routeNotes) {
+        SharedPreferences.Editor editor = retrieveEditor(c);
+        editor.putString(String.format(DataConstants.ROUTE_NOTES_KEY, routeID), routeNotes);
         editor.apply();
     }
 
