@@ -73,6 +73,7 @@ public class RouteScreen extends AppCompatActivity{
     public void fetchRoutesData(){
         if (User.getRoutes(RouteScreen.this) != null) {
             RouteList routes = User.getRoutes(RouteScreen.this);
+            routes.sortByName();
             for (int i = 0; i < routes.length(); i++) {
                 nameArray[i] = routes.getRoute(i).getName();
                 FlatVsHilly[i] = routes.getRoute(i).getFlatVsHilly();
