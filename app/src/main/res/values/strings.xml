@@ -49,6 +49,7 @@
     <string name="goBackRouteScreen">Back</string>
     // end route details
 
+    // Walk screen
     <string name="walkHeader">Walk</string>
     <string name="cancelButton">Cancel</string>
     <string name="saveButton">Save</string>
@@ -60,11 +61,14 @@
     <string name="defaultMiles">0.0</string>
     <string name="defaultTime">00:00</string>
 
+    // Save route screen
     <string name="invalidWalkName">Invalid walk name</string>
     <string name="emptyWalkName">Please enter a walk name</string>
+    <string name="startingPointText">Enter the starting point (optional)</string>
+    <string name="startingPointHint">Starting Point</string>
+    <string name="featuresSelectText">Select route features (optional)</string>
     <string name="FlatPick">Flat</string>
     <string name="HillyPick">Hilly</string>
-    <string name="TypeOfWalk">select Type of walk</string>
     <string name="loopPick">Loop</string>
     <string name="OutAndBackPick">Out-And-Back</string>
     <string name="streetPick">Streets</string>
@@ -74,7 +78,8 @@
     <string name="ModeratePick">Moderate</string>
     <string name="EasyPick">Easy</string>
     <string name="DifficultPick">Difficult</string>
-    <string name="selectWalkType">please select type of route</string>
+    <string name="notesInputText">Enter notes for this route (optional)</string>
+    <string name="WalkNotes">Notes for this walk</string>
 
 
     // Mocking screen
@@ -88,21 +93,15 @@
     <string name="backButton">Back</string>
 
     //Route Details Screen
-    <string name="WalkTitle">Walk Title</string>
-    <string name="stepsRouteDetails">steps: </string>
-    <string name="MilesRouteDetails">Miles: </string>
-    <string name="DifficultyRouteDetails">Difficulty: </string>
-    <string name="SurfaceRouteDetails">Surface difficulty: </string>
-    <string name="RunTypeRouteDetails">Run Type: </string>
-    <string name="areaRouteDetails">area: </string>
-    <string name="SurfaceFlatVSHilly">Surface: </string>
-    <string name="WalkDateRouteDetails"> Date: </string>
-    <string name="WalkTimeRouteDetails"> Time: </string>
-    <string name="InitialRouteDetailData"> N/A </string>
-    <string name="NotesTitle">Enter your walk notes</string>
-    <string name="WalkNotes">Notes for this walk</string>
-    <string name="walkNotesDetails">Notes: </string>
-    <string name="title_activity_route_detailss">RouteDetailss</string>
+    <string name="detailsDefaultRouteName">Route Name</string>
+    <string name="detailsRouteStartDateText">Last walked: </string>
+    <string name="detailsRouteStartTimeText">at</string>
+    <string name="detailsStartingPointText">Starting point: </string>
+    <string name="detailsRouteDifficultyText">Difficulty: </string>
+    <string name="detailsRouteTerrainText">Terrain: </string>
+    <string name="detailsRouteNotes">Notes: </string>
+    <string name="routeDetailsHeader">Details</string>
+    <string name="defaultEmpty"> </string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

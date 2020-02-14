@@ -12,6 +12,14 @@ public class DataConstants {
     public final static String ROUTE_STEPS_KEY = "r%d_steps";
     public final static String ROUTE_TIME_KEY = "r%d_time";
     public final static String ROUTE_DATE_KEY = "r%d_date";
+
+    // Features keys
+    public final static String STARTING_POINT_KEY = "r%d_starting_point";
+    public final static String FLAT_VS_HILLY_KEY = "r%d_flat_hilly";
+    public final static String LOOP_VS_OUTBACK_KEY = "r%d_loop_oab";
+    public final static String STREETS_VS_TRAIL_KEY = "r%d_streets_trail";
+    public final static String EVEN_VS_UNEVEN_SURFACE_KEY = "r%d_even_uneven";
+    public final static String ROUTE_DIFFICULTY_KEY = "r%d_difficulty";
     public final static String ROUTE_NOTES_KEY = "r%d_notes";
 
     // Default values
@@ -20,12 +28,5 @@ public class DataConstants {
     public final static String STR_NOT_FOUND = "";
     public final static int INT_NOT_FOUND = 0;
     public final static String NO_RECENT_ROUTE = "N/A";
-
-    //Route Type
-    public final static String FLAT_VS_HILLY_KEY = "r%d_flatVsHilly";
-    public final static String LOOP_VS_OUTBACK_KEY = "r%d_loopVsOutBack";
-    public final static String STREETS_VS_TRAIL_KEY = "r%d_StreetVsTrail";
-    public final static String EVEN_VS_UNEVEN_SURFACE_KEY = "r%d_EvenVsUneven";
-    public final static String ROUTE_DIFFICULTY_KEY = "r%d_routeDifficulty";
 
 }

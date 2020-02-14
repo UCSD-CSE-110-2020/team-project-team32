@@ -28,8 +28,6 @@ public class RouteScreen extends AppCompatActivity{
     private String[] EvenVsUneven;
     private String[] Difficulty;
 
-    private ListView listView;
-    private RouteList routes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +41,19 @@ public class RouteScreen extends AppCompatActivity{
         EvenVsUneven = new String[User.getRoutes(RouteScreen.this).length()];
         Difficulty = new String[User.getRoutes(RouteScreen.this).length()];
 
-        getRoutes();
+        fetchRoutesData();
 
         CustomListAdapter adapter = new CustomListAdapter(this, nameArray, FlatVsHilly,
                 StreetVsTrail, LoopVsOutBack, EvenVsUneven, Difficulty);
 
-        listView = findViewById(R.id.listviewID);
+        ListView listView = findViewById(R.id.listviewID);
         listView.setAdapter(adapter);
 
-        // listView = (ListView) findViewById(R.id.route_list_view);
         // Implementation of button event to route screen
-        final Button launchToHomeScreen = findViewById(R.id.button_routeToHome);
-        final Button NewRoute = findViewById(R.id.button_routeScreenNewRoute);
+        Button launchToHomeScreen = findViewById(R.id.button_routeToHome);
+        Button newRoute = findViewById(R.id.button_routeScreenNewRoute);
 
-        NewRoute.setOnClickListener(v -> (new SaveRoute(this, this,
+        newRoute.setOnClickListener(v -> (new SaveRoute(this, this,
                 CurrentWalkTracker.getWalkSteps(), CurrentWalkTracker.getWalkTime(),
                 CurrentWalkTracker.getWalkDate()))
                 .inputRouteDataDialog());
@@ -65,7 +62,7 @@ public class RouteScreen extends AppCompatActivity{
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(RouteScreen.this, RouteDetails.class);
-            intent.putExtra("Array_POSITION", position);
+            intent.putExtra(RouteDetails.ROUTE_POS_KEY, position);
             startActivity(intent);
         });
 
@@ -73,16 +70,16 @@ public class RouteScreen extends AppCompatActivity{
 
     }
 
-    public void getRoutes(){
+    public void fetchRoutesData(){
         if (User.getRoutes(RouteScreen.this) != null) {
-            routes = User.getRoutes(RouteScreen.this);
-            for(int i = 0; i <routes.length(); i++) {
+            RouteList routes = User.getRoutes(RouteScreen.this);
+            for (int i = 0; i < routes.length(); i++) {
                 nameArray[i] = routes.getRoute(i).getName();
-                FlatVsHilly[i] = routes.getRoute(i).getFlatVSHilly();
-                LoopVsOutBack[i] = routes.getRoute(i).getLoopVSOutBack();
-                StreetVsTrail[i] = routes.getRoute(i).getStreetsVSTrail();
-                EvenVsUneven[i] = routes.getRoute(i).getEvenVsUnevenSurface();
-                Difficulty[i] = routes.getRoute(i).getRouteDifficulty();
+                FlatVsHilly[i] = routes.getRoute(i).getFlatVsHilly();
+                LoopVsOutBack[i] = routes.getRoute(i).getLoopVsOAB();
+                StreetVsTrail[i] = routes.getRoute(i).getStreetsVsTrail();
+                EvenVsUneven[i] = routes.getRoute(i).getEvenVsUneven();
+                Difficulty[i] = routes.getRoute(i).getDifficulty();
             }
         }
     }

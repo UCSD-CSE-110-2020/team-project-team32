@@ -109,31 +109,31 @@ public class RouteList {
             }
 
             String name = RouteData.retrieveRouteName(c, id);
-            String HillyVSFlat = RouteData.retrieveFlatVSHilly(c,id);
-            String LoopVSOutBack = RouteData.retrieveLoopVsOutBack(c,id);
-            String StreetsVsTrail = RouteData.retrieveStreetVSTrail(c,id);
-            String EvenVSUneven = RouteData.retrieveEvenVSUneven(c,id);
-            String RouteDifficulty = RouteData.retrieveRouteDifficulty(c,id);
-            String notes = RouteData.retrieveRouteNotes(c, id);
+            String hillyVsFlat = RouteData.retrieveFlatVsHilly(c,id);
+            String loopVsOAB = RouteData.retrieveLoopVsOAB(c,id);
+            String streetsVsTrail = RouteData.retrieveStreetVsTrail(c,id);
+            String evenVsUneven = RouteData.retrieveEvenVsUneven(c,id);
+            String difficulty = RouteData.retrieveDifficulty(c,id);
+            String notes = RouteData.retrieveNotes(c, id);
 
             int steps = RouteData.retrieveRouteSteps(c, id);
             Route r = new Route(id, name);
             r.setSteps(steps);
-            r.setFlatVSHilly(HillyVSFlat);
-            r.setLoopVSOutBack(LoopVSOutBack);
-            r.setStreetsVSTrail(StreetsVsTrail);
-            r.setEvenVsUnevenSurface(EvenVSUneven);
-            r.setRouteDifficulty(RouteDifficulty);
-            r.setRouteNotes(notes);
+            r.setFlatVsHilly(hillyVsFlat);
+            r.setLoopVsOAB(loopVsOAB);
+            r.setStreetsVsTrail(streetsVsTrail);
+            r.setEvenVsUneven(evenVsUneven);
+            r.setDifficulty(difficulty);
+            r.setNotes(notes);
             routes.add(r);
 
             String time = RouteData.retrieveRouteTime(c, id);
-            if (time != DataConstants.STR_NOT_FOUND) {
+            if ( ! time.equals(DataConstants.STR_NOT_FOUND)) {
                 r.setDuration(LocalTime.parse(time));
             }
 
             String date = RouteData.retrieveRouteDate(c, id);
-            if (date != DataConstants.STR_NOT_FOUND) {
+            if ( ! date.equals(DataConstants.STR_NOT_FOUND)) {
                 r.setStartDate(LocalDateTime.parse(date));
             }
         }
