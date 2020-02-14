@@ -10,6 +10,8 @@ import com.example.cse110_project.data_access.UserData;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +71,10 @@ public class RouteList {
         RouteData.saveRouteSteps(c, id, steps);
         RouteData.saveRouteTime(c, id, time.toString());
         RouteData.saveRouteDate(c, id, date.toString());
+    }
+
+    public void sortByName() {
+        Collections.sort(routes, (r1, r2) -> r1.getName().compareToIgnoreCase(r2.getName()));
     }
 
     public Route getMostRecentRoute() {
