@@ -3,18 +3,15 @@ package com.example.cse110_project.user_routes;
 import android.content.Context;
 import android.util.SparseIntArray;
 
-import com.example.cse110_project.data_access.DataConstants;
-import com.example.cse110_project.data_access.RouteData;
-import com.example.cse110_project.data_access.UserData;
+import com.example.cse110_project.data.DataConstants;
+import com.example.cse110_project.data.RouteData;
+import com.example.cse110_project.data.UserData;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RouteList {
     private static int routeID = 1;

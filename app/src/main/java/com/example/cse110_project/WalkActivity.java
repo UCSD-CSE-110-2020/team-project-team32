@@ -9,16 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.cse110_project.data_access.RouteData;
-import com.example.cse110_project.fitness_api.FitnessService;
-import com.example.cse110_project.fitness_api.FitnessServiceFactory;
-import com.example.cse110_project.trackers.CurrentFitnessTracker;
-import com.example.cse110_project.trackers.CurrentTimeTracker;
-import com.example.cse110_project.trackers.CurrentWalkTracker;
+import com.example.cse110_project.fitness.FitnessService;
+import com.example.cse110_project.fitness.FitnessServiceFactory;
+import com.example.cse110_project.util.CurrentFitnessTracker;
+import com.example.cse110_project.util.CurrentTimeTracker;
+import com.example.cse110_project.util.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalTime;
@@ -112,7 +109,7 @@ public class WalkActivity extends AppCompatActivity {
     public AlertDialog showSaveDialog () {
         // get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(WalkActivity.this);
-        View promptView = layoutInflater.inflate(R.layout.dialog_save, null);
+        View promptView = layoutInflater.inflate(R.layout.dialog_verify_save, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WalkActivity.this)
                 .setCancelable(false)
                 .setPositiveButton(R.string.saveButton, null)
@@ -135,7 +132,7 @@ public class WalkActivity extends AppCompatActivity {
                 updateSavedRoute();
                 finish();
             } else {
-                (new SaveRoute(this, this, CurrentWalkTracker.getWalkSteps(),
+                (new SaveRouteDialog(this, this, CurrentWalkTracker.getWalkSteps(),
                         CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate()))
                         .inputRouteDataDialog();
             }

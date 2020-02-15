@@ -1,7 +1,8 @@
 package com.example.cse110_project.unit_tests;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import com.example.cse110_project.*;
+
+import com.example.cse110_project.util.MilesCalculator;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class MilesCalculatorTest {
     @Test
     public void testZeroSteps() {
-        assertEquals(0, (int)MilesCalculator.calculateMiles(60, 0));
+        assertEquals(0, (int) MilesCalculator.calculateMiles(60, 0));
         assertEquals(0, (int)MilesCalculator.calculateMiles(-60, 0));
     }
 

@@ -1,7 +1,6 @@
 package com.example.cse110_project.unit_tests;
 
 import android.content.Intent;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +10,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
-import com.example.cse110_project.fitness_api.FitnessService;
-import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.fitness.FitnessService;
+import com.example.cse110_project.fitness.FitnessServiceFactory;
 
 import org.junit.Before;
 import org.junit.Test;

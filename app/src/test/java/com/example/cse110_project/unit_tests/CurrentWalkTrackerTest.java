@@ -1,6 +1,6 @@
 package com.example.cse110_project.unit_tests;
 
-import com.example.cse110_project.trackers.CurrentWalkTracker;
+import com.example.cse110_project.util.CurrentWalkTracker;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

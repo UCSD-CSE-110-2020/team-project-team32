@@ -1,6 +1,6 @@
-package com.example.cse110_project.trackers;
+package com.example.cse110_project.util;
 
-import com.example.cse110_project.fitness_api.FitnessService;
+import com.example.cse110_project.fitness.FitnessService;
 
 public class CurrentFitnessTracker {
     private static FitnessService fitnessService;

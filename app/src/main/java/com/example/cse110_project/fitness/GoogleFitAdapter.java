@@ -1,4 +1,4 @@
-package com.example.cse110_project.fitness_api;
+package com.example.cse110_project.fitness;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.cse110_project.MainActivity;
-import com.example.cse110_project.WalkActivity;
 import com.example.cse110_project.user_routes.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;

@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.cse110_project.trackers.CurrentTimeTracker;
+import com.example.cse110_project.util.CurrentTimeTracker;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalTime;

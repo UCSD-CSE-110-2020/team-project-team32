@@ -1,4 +1,4 @@
-package com.example.cse110_project.data_access;
+package com.example.cse110_project.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;

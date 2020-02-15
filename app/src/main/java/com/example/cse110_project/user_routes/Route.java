@@ -2,7 +2,7 @@ package com.example.cse110_project.user_routes;
 
 import androidx.annotation.NonNull;
 
-import com.example.cse110_project.MilesCalculator;
+import com.example.cse110_project.util.MilesCalculator;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

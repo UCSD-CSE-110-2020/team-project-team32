@@ -5,16 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.example.cse110_project.R;
 
-import org.w3c.dom.Text;
-
-public class CustomListAdapter extends ArrayAdapter {
+public class RoutesListAdapter extends ArrayAdapter {
 
     //to reference the Activity
     private final Activity context;
@@ -33,13 +30,13 @@ public class CustomListAdapter extends ArrayAdapter {
     private final String[] EvenVsUneven;
     private final String[] Difficulty;
 
-    public CustomListAdapter (Activity context, String[] nameArrayParam, String[] startPtArray,
-                              String[] stepsArray, String[] milesArray, String[] timeArray,
-                              String[] dateArray, String[] FlatVsHillyArrayParam,
-                              String[] StreetVsTrailArrayparam, String[] LoopVsoutBackArrayparam,
-                              String [] EvenVsUnevenArrayparam, String[] DifficultyArrayparam) {
+    public RoutesListAdapter(Activity context, String[] nameArrayParam, String[] startPtArray,
+                             String[] stepsArray, String[] milesArray, String[] timeArray,
+                             String[] dateArray, String[] FlatVsHillyArrayParam,
+                             String[] StreetVsTrailArrayparam, String[] LoopVsoutBackArrayparam,
+                             String [] EvenVsUnevenArrayparam, String[] DifficultyArrayparam) {
 
-        super(context, R.layout.listview_row, nameArrayParam);
+        super(context, R.layout.listview_routes_row, nameArrayParam);
 
         this.context = context;
         // this.imageIDarray = imageIDArrayParam;
@@ -59,9 +56,9 @@ public class CustomListAdapter extends ArrayAdapter {
     @NonNull
     public View getView (int position, View view, ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.listview_row, null,true);
+        View rowView=inflater.inflate(R.layout.listview_routes_row, null,true);
 
-        //this code gets references to objects in the listview_row.xml file
+        //this code gets references to objects in the listview_routes_row.xmlrow.xml file
         TextView nameTextField = rowView.findViewById(R.id.routeNameScreen);
         TextView startPtTextField = rowView.findViewById(R.id.routeRowStartingPoint);
         TextView stepsTextField = rowView.findViewById(R.id.routeRowSteps);

@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,14 +16,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cse110_project.R;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class SaveRoute {
+public class SaveRouteDialog {
     private EditText routeName;
     private EditText routeNotes;
     private EditText routeStartPt;
@@ -60,8 +58,8 @@ public class SaveRoute {
     private boolean pickedModerate = false;
     private boolean pickedDifficult = false;
 
-    public SaveRoute(AppCompatActivity activity, Context context, int steps, LocalTime time,
-                LocalDateTime date) {
+    public SaveRouteDialog(AppCompatActivity activity, Context context, int steps, LocalTime time,
+                           LocalDateTime date) {
         this.activity = activity;
         this.context = context;
         System.out.println("Context theme: " + context.getTheme());
@@ -78,7 +76,7 @@ public class SaveRoute {
     public AlertDialog inputRouteDataDialog() {
         // get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View promptView = layoutInflater.inflate(R.layout.dialog_walkdata, null);
+        View promptView = layoutInflater.inflate(R.layout.dialog_new_route, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setPositiveButton(R.string.saveButton, null)
@@ -121,7 +119,7 @@ public class SaveRoute {
     }
 
     public void goToRouteScreen() {
-        context.startActivity(new Intent(context, RouteScreen.class));
+        context.startActivity(new Intent(context, RoutesActivity.class));
     }
 
     public void validateOnClickSave(DialogInterface dialog) {

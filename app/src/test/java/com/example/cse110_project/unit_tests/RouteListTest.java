@@ -5,9 +5,9 @@ import android.content.SharedPreferences;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
-import com.example.cse110_project.data_access.DataConstants;
-import com.example.cse110_project.data_access.RouteData;
-import com.example.cse110_project.data_access.UserData;
+import com.example.cse110_project.data.DataConstants;
+import com.example.cse110_project.data.RouteData;
+import com.example.cse110_project.data.UserData;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 

@@ -7,9 +7,9 @@ import android.widget.EditText;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.R;
-import com.example.cse110_project.SaveRoute;
+import com.example.cse110_project.SaveRouteDialog;
 import com.example.cse110_project.WalkActivity;
-import com.example.cse110_project.data_access.RouteData;
+import com.example.cse110_project.data.RouteData;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
@@ -26,7 +26,7 @@ import java.time.LocalTime;
 import static junit.framework.TestCase.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-public class SaveRouteTest {
+public class SaveRouteDialogTest {
     private Context c;
 
     @Rule
@@ -40,10 +40,10 @@ public class SaveRouteTest {
 
     @Test
     public void testRouteSavedDataProvided() {
-        SaveRoute saveRoute = new SaveRoute(walkActivity.getActivity(), c, 100,
+        SaveRouteDialog saveRouteDialog = new SaveRouteDialog(walkActivity.getActivity(), c, 100,
                 LocalTime.of(1, 2),
                 LocalDateTime.of(3, 4, 5, 6, 7));
-        AlertDialog alert = saveRoute.inputRouteDataDialog();
+        AlertDialog alert = saveRouteDialog.inputRouteDataDialog();
 
         RouteList routes = User.getRoutes(c);
         int prevLength = routes.length();
@@ -51,9 +51,9 @@ public class SaveRouteTest {
         String expDate = LocalDateTime.of(3, 4, 5, 6, 7)
                 .toString();
 
-        EditText nameEditor = saveRoute.getWalkName();
+        EditText nameEditor = saveRouteDialog.getWalkName();
         nameEditor.setText("TestName");
-        saveRoute.saveRoute();
+        saveRouteDialog.saveRoute();
 
         Route route = routes.getRoute(prevLength);
         int id = route.getID();

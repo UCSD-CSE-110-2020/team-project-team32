@@ -7,27 +7,28 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.cse110_project.trackers.CurrentTimeTracker;
-import com.example.cse110_project.trackers.CurrentWalkTracker;
+import com.example.cse110_project.util.CurrentTimeTracker;
+import com.example.cse110_project.util.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
+import com.example.cse110_project.util.MilesCalculator;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 
-public class RouteDetails extends AppCompatActivity {
+public class RouteDetailsActivity extends AppCompatActivity {
     public final static String ROUTE_POS_KEY = "ROUTE_POSITION_KEY";
     private Route route;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.route_details);
+        setContentView(R.layout.activity_route_details);
 
         // Extract route data
         int savedExtra = getIntent().getIntExtra(ROUTE_POS_KEY, 0);
-        route = User.getRoutes(RouteDetails.this).getRoute(savedExtra);
+        route = User.getRoutes(RouteDetailsActivity.this).getRoute(savedExtra);
         displayRouteData();
 
         Button launchToRouteScreen = findViewById(R.id.detailsBackButton);

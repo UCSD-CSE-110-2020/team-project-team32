@@ -19,16 +19,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cse110_project.data_access.DataConstants;
-import com.example.cse110_project.data_access.UserData;
-import com.example.cse110_project.trackers.CurrentFitnessTracker;
-import com.example.cse110_project.trackers.CurrentTimeTracker;
-import com.example.cse110_project.trackers.CurrentWalkTracker;
+import com.example.cse110_project.data.DataConstants;
+import com.example.cse110_project.data.UserData;
+import com.example.cse110_project.util.CurrentFitnessTracker;
+import com.example.cse110_project.util.CurrentTimeTracker;
+import com.example.cse110_project.util.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
-import com.example.cse110_project.fitness_api.FitnessService;
-import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.fitness.FitnessService;
+import com.example.cse110_project.fitness.FitnessServiceFactory;
+import com.example.cse110_project.util.MilesCalculator;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
     // To routes activity
     public void launchRouteActivity() {
-        Intent intent = new Intent(this, RouteScreen.class);
+        Intent intent = new Intent(this, RoutesActivity.class);
         startActivity(intent);
     }
     // end of to route screen implementation

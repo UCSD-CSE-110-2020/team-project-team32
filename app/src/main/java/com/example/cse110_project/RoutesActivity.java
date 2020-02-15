@@ -4,24 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
-import com.example.cse110_project.trackers.CurrentWalkTracker;
-import com.example.cse110_project.user_routes.CustomListAdapter;
+import com.example.cse110_project.util.CurrentWalkTracker;
+import com.example.cse110_project.user_routes.RoutesListAdapter;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
+import com.example.cse110_project.util.MilesCalculator;
 
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
-public class RouteScreen extends AppCompatActivity{
+public class RoutesActivity extends AppCompatActivity{
 
     private String[] nameArray;
     private String[] startPtArray;
@@ -39,9 +34,9 @@ public class RouteScreen extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.route_screen);
+        setContentView(R.layout.activity_routes);
 
-        int arrLen = User.getRoutes(RouteScreen.this).length();
+        int arrLen = User.getRoutes(RoutesActivity.this).length();
         nameArray = new String[arrLen];
         startPtArray = new String[arrLen];
         stepsArray = new String[arrLen];
@@ -56,7 +51,7 @@ public class RouteScreen extends AppCompatActivity{
 
         fetchRoutesData();
 
-        CustomListAdapter adapter = new CustomListAdapter(this, nameArray, startPtArray,
+        RoutesListAdapter adapter = new RoutesListAdapter(this, nameArray, startPtArray,
                 stepsArray, milesArray, timeArray, dateArray, FlatVsHilly, StreetVsTrail,
                 LoopVsOutBack, EvenVsUneven, Difficulty);
 
@@ -67,7 +62,7 @@ public class RouteScreen extends AppCompatActivity{
         Button launchToHomeScreen = findViewById(R.id.button_routeToHome);
         Button newRoute = findViewById(R.id.button_routeScreenNewRoute);
 
-        newRoute.setOnClickListener(v -> (new SaveRoute(this, this,
+        newRoute.setOnClickListener(v -> (new SaveRouteDialog(this, this,
                 CurrentWalkTracker.getWalkSteps(), CurrentWalkTracker.getWalkTime(),
                 CurrentWalkTracker.getWalkDate()))
                 .inputRouteDataDialog());
@@ -75,8 +70,8 @@ public class RouteScreen extends AppCompatActivity{
         launchToHomeScreen.setOnClickListener(view -> finish());
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(RouteScreen.this, RouteDetails.class);
-            intent.putExtra(RouteDetails.ROUTE_POS_KEY, position);
+            Intent intent = new Intent(RoutesActivity.this, RouteDetailsActivity.class);
+            intent.putExtra(RouteDetailsActivity.ROUTE_POS_KEY, position);
             startActivity(intent);
         });
 
@@ -85,8 +80,8 @@ public class RouteScreen extends AppCompatActivity{
     }
 
     public void fetchRoutesData(){
-        if (User.getRoutes(RouteScreen.this) != null) {
-            RouteList routes = User.getRoutes(RouteScreen.this);
+        if (User.getRoutes(RoutesActivity.this) != null) {
+            RouteList routes = User.getRoutes(RoutesActivity.this);
             routes.sortByName();
             for (int i = 0; i < routes.length(); i++) {
                 Route r = routes.getRoute(i);

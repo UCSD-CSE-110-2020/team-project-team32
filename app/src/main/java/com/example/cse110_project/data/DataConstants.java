@@ -1,4 +1,4 @@
-package com.example.cse110_project.data_access;
+package com.example.cse110_project.data;
 
 public class DataConstants {
     // Keys & file names

@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.cse110_project.fitness_api.FitnessService;
-import com.example.cse110_project.fitness_api.FitnessServiceFactory;
-import com.example.cse110_project.fitness_api.GoogleFitAdapter;
+import com.example.cse110_project.fitness.FitnessService;
+import com.example.cse110_project.fitness.FitnessServiceFactory;
+import com.example.cse110_project.fitness.GoogleFitAdapter;
 
 public class EntryActivity extends AppCompatActivity {
     private String fitnessServiceKey = "GOOGLE_FIT";
