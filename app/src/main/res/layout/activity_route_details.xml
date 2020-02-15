@@ -344,4 +344,26 @@
         app:layout_constraintVertical_bias="0.122" />
 
 
+    <ImageButton
+        android:id="@+id/button_favorites"
+        android:layout_width="58dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="324dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/design_default_color_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="328dp"
+        android:layout_marginTop="60dp"
+        android:text="Favorite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
