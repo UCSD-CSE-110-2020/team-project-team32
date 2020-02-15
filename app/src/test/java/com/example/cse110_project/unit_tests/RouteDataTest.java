@@ -96,4 +96,53 @@ public class RouteDataTest {
         assertEquals(RouteData.retrieveRouteDate(c, 10), DataConstants.STR_NOT_FOUND);
     }
 
+    @Test
+    public void testSaveStartingPoint() {
+        assertEquals(RouteData.retrieveStartingPoint(c, 10), DataConstants.STR_NOT_FOUND);
+        RouteData.saveStartingPoint(c,10, "Starting Point");
+        assertEquals(pref.getString(String.format(DataConstants.STARTING_POINT_KEY, 10), ""), "Starting Point");
+    }
+
+    @Test
+    public void testSaveFlatVsHilly() {
+        assertEquals(RouteData.retrieveFlatVsHilly(c, 10), DataConstants.STR_NOT_FOUND);
+        RouteData.saveFlatVsHilly(c,10,"Hilly");
+        assertEquals(pref.getString(String.format(DataConstants.FLAT_VS_HILLY_KEY, 10), ""), "Hilly");
+    }
+
+    @Test
+    public void testSaveLoopVsOAB() {
+        assertEquals(RouteData.retrieveLoopVsOAB(c, 10), DataConstants.STR_NOT_FOUND);
+        RouteData.saveLoopVsOAB(c, 10, "Loop");
+        assertEquals(pref.getString(String.format(DataConstants.LOOP_VS_OUTBACK_KEY, 10), ""), "Loop");
+    }
+
+    @Test
+    public void testSaveStreetVsTrail() {
+        assertEquals(RouteData.retrieveStreetVsTrail(c, 10), DataConstants.STR_NOT_FOUND);
+        RouteData.saveStreetsVsTrail(c, 10, "Trail");
+        assertEquals(pref.getString(String.format(DataConstants.STREETS_VS_TRAIL_KEY, 10), ""), "Trail");
+    }
+
+    @Test
+    public void testSaveEvenVsUneven() {
+        assertEquals(RouteData.retrieveEvenVsUneven(c, 10), DataConstants.STR_NOT_FOUND);
+        RouteData.saveEvenVsUneven(c, 10, "Even Surface");
+        assertEquals(pref.getString(String.format(DataConstants.EVEN_VS_UNEVEN_SURFACE_KEY, 10), ""), "Even Surface");
+    }
+
+    @Test
+    public void testSaveDifficulty() {
+        assertEquals(RouteData.retrieveDifficulty(c, 10), DataConstants.STR_NOT_FOUND);
+        RouteData.saveDifficulty(c, 10, "Easy");
+        assertEquals(pref.getString(String.format(DataConstants.ROUTE_DIFFICULTY_KEY, 10), ""), "Easy");
+    }
+
+    @Test
+    public void testSaveNotes() {
+        assertEquals(RouteData.retrieveNotes(c, 10), DataConstants.STR_NOT_FOUND);
+        RouteData.saveNotes(c, 10, "It was a nice hike!");
+        assertEquals(pref.getString(String.format(DataConstants.ROUTE_NOTES_KEY, 10), ""), "It was a nice hike!");
+    }
+
 }
