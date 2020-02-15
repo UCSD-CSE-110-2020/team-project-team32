@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -171,4 +172,44 @@ public class RouteListTest {
         assertNotEquals(list.getRoute(0).getID(), list.getRoute(1).getID());
         assertEquals("Name", list.getRoute(1).getName());
     }
+
+    @Test
+    public void testUpdateRouteData(){
+        RouteList list = new RouteList(c);
+        list.createRoute(c, new Route(0, "Name"));
+        list.updateRouteData(c, 0, 500,LocalTime.of(10,10),
+                LocalDateTime.of(2020,1,1,1,1) );
+
+        list.createRoute(c, new Route(list.getRoute(0).getID(), "Name"));
+        assertNotEquals(list.getRoute(0).getID(), list.getRoute(1).getID());
+        assertEquals(list.getRoute(0).getName(), "Name");
+        assertEquals(list.getRoute(0).getSteps(), 500);
+        assertEquals(list.getRoute(0).getDuration(), LocalTime.of(10,10));
+        assertEquals(list.getRoute(0).getStartDate(),
+                LocalDateTime.of(2020,1,1,1,1));
+    }
+
+    @Test
+    public void testSortByName(){
+
+        RouteList list = new RouteList(c);
+        list.createRoute(c, new Route(0, "A"));
+        list.createRoute(c, new Route(2, "B1"));
+        list.createRoute(c, new Route(3, "A1"));
+        list.createRoute(c, new Route(1, "B"));
+
+        assertEquals(list.getRoute(0).getName(), "A");
+        assertEquals(list.getRoute(1).getName(), "B1");
+        assertEquals(list.getRoute(2).getName(), "A1");
+        assertEquals(list.getRoute(3).getName(), "B");
+
+        list.sortByName();
+
+        assertEquals(list.getRoute(0).getName(), "A");
+        assertEquals(list.getRoute(1).getName(), "A1");
+        assertEquals(list.getRoute(2).getName(), "B");
+        assertEquals(list.getRoute(3).getName(), "B1");
+
+    }
+
 }
