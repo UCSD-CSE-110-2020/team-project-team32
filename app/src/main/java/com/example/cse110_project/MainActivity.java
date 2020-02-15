@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.cse110_project.data_access.DataConstants;
 import com.example.cse110_project.data_access.UserData;
+import com.example.cse110_project.trackers.CurrentFitnessTracker;
 import com.example.cse110_project.trackers.CurrentTimeTracker;
 import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.Route;
@@ -82,20 +83,32 @@ public class MainActivity extends AppCompatActivity {
                     CurrentTimeTracker.getDate());
         });
 
-        String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
-        System.out.println("Service key: " + fitnessServiceKey);
-        fitnessServiceActive = (fitnessServiceKey != null);
-        if (fitnessServiceActive) {
-            fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-            fitnessService.setup();
-            maxStepUpdates = getIntent().getIntExtra(MAX_UPDATES_KEY, Integer.MAX_VALUE);
-        }
+        setUpFitnessService();
 
         if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
             showInputDialog();
         }
         User.setHeight(UserData.retrieveHeight(MainActivity.this));
         updateRecentRoute();
+    }
+
+
+    private void setUpFitnessService() {
+        if (CurrentFitnessTracker.hasFitnessService()) {
+            System.out.println("Fitness service already exists");
+            fitnessService = CurrentFitnessTracker.getFitnessService();
+            fitnessServiceActive = true;
+        } else {
+            String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+            System.out.println("Service key: " + fitnessServiceKey);
+            fitnessServiceActive = (fitnessServiceKey != null);
+            if (fitnessServiceActive) {
+                fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+                CurrentFitnessTracker.setFitnessService(fitnessService);
+                fitnessService.setup();
+                maxStepUpdates = getIntent().getIntExtra(MAX_UPDATES_KEY, Integer.MAX_VALUE);
+            }
+        }
     }
 
     // Daily steps & miles methods
@@ -105,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         async = new StepsTrackerAsyncTask();
         async.execute(delay);
+        updateDailySteps(User.getFitnessSteps());
+        updateRecentRoute();
     }
 
     @Override

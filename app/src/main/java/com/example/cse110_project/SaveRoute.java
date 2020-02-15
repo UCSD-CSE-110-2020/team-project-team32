@@ -3,6 +3,8 @@ package com.example.cse110_project;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,16 +25,44 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class SaveRoute {
-    private EditText walkName;
+    private EditText routeName;
+    private EditText routeNotes;
+    private EditText routeStartPt;
     private Route route;
     private AlertDialog alert;
 
+    private AppCompatActivity activity;
     private Context context;
     private int steps;
     private LocalTime time;
     private LocalDateTime date;
 
-    public SaveRoute(Context context, int steps, LocalTime time, LocalDateTime date) {
+    private Button loopPick;
+    private Button outAndBack;
+    private Button flatPick;
+    private Button hillyPick;
+    private Button streetPick;
+    private Button trailPick;
+    private Button evenPick;
+    private Button unevenPick;
+    private Button easyPick;
+    private Button moderatePick;
+    private Button difficultPick;
+    private boolean pickedLoop = false;
+    private boolean pickedOutAndBack = false;
+    private boolean pickedFlat = false;
+    private boolean pickedHilly = false;
+    private boolean pickedStreets = false;
+    private boolean pickedTrail = false;
+    private boolean pickedEven = false;
+    private boolean pickedUneven = false;
+    private boolean pickedEasy = false;
+    private boolean pickedModerate = false;
+    private boolean pickedDifficult = false;
+
+    public SaveRoute(AppCompatActivity activity, Context context, int steps, LocalTime time,
+                LocalDateTime date) {
+        this.activity = activity;
         this.context = context;
         System.out.println("Context theme: " + context.getTheme());
         this.steps = steps;
@@ -41,8 +71,9 @@ public class SaveRoute {
     }
 
     public EditText getWalkName() {
-        return walkName;
+        return routeName;
     }
+    public EditText getWalkNotes() { return routeNotes;}
 
     public AlertDialog inputRouteDataDialog() {
         // get prompts.xml view
@@ -58,16 +89,31 @@ public class SaveRoute {
         alert = alertDialogBuilder.create();
         alert.show();
 
-        walkName = promptView.findViewById(R.id.NameOfWalkInput);
+        //
+
+        routeName = promptView.findViewById(R.id.NameOfWalkInput);
+        routeStartPt = promptView.findViewById(R.id.startingPointInput);
+        routeNotes = promptView.findViewById(R.id.NotesOfWalkInput);
+        loopPick = promptView.findViewById(R.id.loopButton);
+        outAndBack = promptView.findViewById(R.id.outAndBackButton);
+        flatPick = promptView.findViewById(R.id.FlatButton);
+        hillyPick = promptView.findViewById(R.id.HillyButton);
+        streetPick = promptView.findViewById(R.id.streetButton);
+        trailPick = promptView.findViewById(R.id.trailButton);
+        evenPick = promptView.findViewById(R.id.evenSurfaceButton);
+        unevenPick = promptView.findViewById(R.id.unevenSurfaceButton);
+        easyPick = promptView.findViewById(R.id.EasyButton);
+        moderatePick = promptView.findViewById(R.id.ModerateButton);
+        difficultPick = promptView.findViewById(R.id.DifficultButton);
 
         validateTextInput();
+        validateButtons();
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
         cancelButton.setOnClickListener(v -> {
             Toast.makeText(context, R.string.cancelDialog, Toast.LENGTH_SHORT).show();
             alert.dismiss();
-            goToHomeScreen();
         });
         submitButton.setOnClickListener(v -> validateOnClickSave(alert));
 
@@ -78,46 +124,149 @@ public class SaveRoute {
         context.startActivity(new Intent(context, RouteScreen.class));
     }
 
-    public void goToHomeScreen() {
-        context.startActivity(new Intent(context, EntryActivity.class));
-    }
-
     public void validateOnClickSave(DialogInterface dialog) {
-         if (walkName.getText().toString().length() == 0) {
+        // Only name is required to save; don't check anything else!
+        if (routeName.getText().toString().length() == 0) {
              Toast.makeText(context, R.string.invalidWalkName, Toast.LENGTH_SHORT).show();
-         } else {
+        } else {
              saveRoute();
              dialog.dismiss();
              goToRouteScreen();
-         }
+             activity.finish();
+        }
+        // route notes
+
     }
 
     public void saveRoute() {
-        route = new Route(0, walkName.getText().toString());
+        route = new Route(0, routeName.getText().toString());
         route.setSteps(steps);
         route.setDuration(time);
         route.setStartDate(date);
+        route.setStartingPoint(routeStartPt.getText().toString());
+        route.setNotes(routeNotes.getText().toString());
+
+        if (pickedLoop) { route.setLoopVsOAB(Route.LOOP); }
+        else if (pickedOutAndBack) { route.setLoopVsOAB(Route.OAB); }
+
+        if (pickedFlat) { route.setFlatVsHilly(Route.FLAT); }
+        else if (pickedHilly) {route.setFlatVsHilly(Route.HILLY); }
+
+        if (pickedStreets) { route.setStreetsVsTrail(Route.STREETS); }
+        else if (pickedTrail) { route.setStreetsVsTrail(Route.TRAIL); }
+
+        if (pickedEven) { route.setEvenVsUneven(Route.EVEN_S); }
+        else if (pickedUneven) { route.setEvenVsUneven(Route.UNEVEN_S); }
+
+        if (pickedEasy) { route.setDifficulty(Route.EASY_D); }
+        else if (pickedModerate) { route.setDifficulty(Route.MID_D); }
+        else if (pickedDifficult) { route.setDifficulty(Route.HARD_D); }
 
         User.getRoutes(context).createRoute(context, route);
     }
 
     public void validateTextInput() {
-        walkName.addTextChangedListener(new TextWatcher() {
+        routeName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (walkName.getText().toString().length() == 0) {
-                    walkName.setError(context.getResources().getString(R.string.emptyWalkName));
-                }
-                else {
-                    walkName.setError(null);
+                if (routeName.getText().toString().length() == 0) {
+                    routeName.setError(context.getResources().getString(R.string.emptyWalkName));
+                } else {
+                    routeName.setError(null);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {}
         });
+    }
+
+    public void validateButtons() {
+        loopPick.setOnClickListener(v -> {
+            loopPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            outAndBack.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedOutAndBack = false;
+            pickedLoop = true;
+        });
+
+        outAndBack.setOnClickListener(v -> {
+            outAndBack.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            loopPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedOutAndBack = true;
+            pickedLoop = false;
+        });
+
+        flatPick.setOnClickListener(v -> {
+            flatPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            hillyPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedFlat = true;
+            pickedHilly = false;
+        });
+
+        hillyPick.setOnClickListener(v -> {
+            hillyPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            flatPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedFlat = false;
+            pickedHilly = true;
+        });
+
+        streetPick.setOnClickListener(v -> {
+            streetPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            trailPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedStreets = true;
+            pickedTrail = false;
+        });
+
+        trailPick.setOnClickListener(v -> {
+            trailPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            streetPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedStreets = false;
+            pickedTrail = true;
+        });
+
+        evenPick.setOnClickListener(v -> {
+            evenPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            unevenPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedEven = true;
+            pickedUneven = false;
+        });
+
+        unevenPick.setOnClickListener(v -> {
+            unevenPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            evenPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedEven = false;
+            pickedUneven = true;
+        });
+
+        easyPick.setOnClickListener(v -> {
+            easyPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            moderatePick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            difficultPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedEasy = true;
+            pickedModerate = false;
+            pickedDifficult = false;
+        });
+
+        moderatePick.setOnClickListener(v -> {
+            moderatePick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            easyPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            difficultPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedEasy = false;
+            pickedModerate = true;
+            pickedDifficult = false;
+        });
+
+        difficultPick.setOnClickListener(v -> {
+            difficultPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            easyPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            moderatePick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            pickedEasy = false;
+            pickedModerate = false;
+            pickedDifficult = true;
+        });
+
     }
 }

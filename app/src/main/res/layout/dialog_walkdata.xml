@@ -21,4 +21,164 @@
         android:hint="@string/NameWalkHint"
         android:padding="10dp" />
 
+    <TextView
+        android:id="@+id/startingPointPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/startingPointText"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/startingPointInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/startingPointHint"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/featuresSelectText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/featuresSelectText"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/FlatButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="@string/FlatPick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/HillyButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="@string/HillyPick"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/loopButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="@string/loopPick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/outAndBackButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="@string/OutAndBackPick"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/streetButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="@string/streetPick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/trailButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="@string/trailPick"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/evenSurfaceButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="@string/evenSurfacePick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/unevenSurfaceButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="@string/unevenSurfacePick"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/ModerateButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.66"
+            android:hint="@string/ModeratePick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/EasyButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.66"
+            android:hint="@string/EasyPick"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/DifficultButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.66"
+            android:hint="@string/DifficultPick"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/enterWalkNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/notesInputText"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/NotesOfWalkInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/WalkNotes"
+        android:padding="10dp" />
+
 </LinearLayout>
