@@ -63,19 +63,21 @@ public class RouteDetailsActivity extends AppCompatActivity {
         // Set optional features if existent
         TextView routeStartingPoint = findViewById(R.id.detailsRouteStartingPoint);
         routeStartingPoint.setText(route.getStartingPoint());
+        TextView routeFav = findViewById(R.id.detailsFav);
+        routeFav.setText(route.isFavorite() ? "FAV" : "");
+
         TextView routeDifficulty = findViewById(R.id.detailsDifficulty);
         routeDifficulty.setText(route.getDifficulty());
-
         TextView routeEvenUneven = findViewById(R.id.detailsEvenUneven);
         routeEvenUneven.setText(route.getEvenVsUneven());
+
         TextView routeFlatHilly = findViewById(R.id.detailsFlatHilly);
         routeFlatHilly.setText(route.getFlatVsHilly());
-
         TextView routeLoopOAB = findViewById(R.id.detailsLoopOAB);
         routeLoopOAB.setText(route.getLoopVsOAB());
+
         TextView routeStreetsTrail = findViewById(R.id.detailsStreetsTrail);
         routeStreetsTrail.setText(route.getStreetsVsTrail());
-
         TextView routeNotes = findViewById(R.id.detailsNotes);
         routeNotes.setText(route.getNotes());
     }

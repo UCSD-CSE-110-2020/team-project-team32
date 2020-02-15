@@ -72,6 +72,12 @@ public class RouteData {
                 DataConstants.STR_NOT_FOUND);
     }
 
+    public static boolean retrieveFavorite(Context c, int routeID) {
+        SharedPreferences pref = retrievePrefs(c);
+        return pref.getBoolean(String.format(DataConstants.ROUTE_FAVORITE_KEY, routeID),
+                DataConstants.BOOL_NOT_FOUND);
+    }
+
     public static void saveRouteData(Context c, Route route) {
         saveRouteName(c, route.getID(), route.getName());
 
@@ -114,6 +120,8 @@ public class RouteData {
         if (route.getNotes() != Route.NO_DATA) {
             saveNotes(c, route.getID(), route.getNotes());
         }
+
+        saveFavorite(c, route.getID(), route.isFavorite());
     }
 
     public static void saveRouteName(Context c, int routeID, String routeName) {
@@ -179,6 +187,12 @@ public class RouteData {
     public static void saveNotes(Context c, int routeID, String data) {
         SharedPreferences.Editor editor = retrieveEditor(c);
         editor.putString(String.format(DataConstants.ROUTE_NOTES_KEY, routeID), data);
+        editor.apply();
+    }
+
+    public static void saveFavorite(Context c, int routeID, boolean fav) {
+        SharedPreferences.Editor editor = retrieveEditor(c);
+        editor.putBoolean(String.format(DataConstants.ROUTE_FAVORITE_KEY, routeID), fav);
         editor.apply();
     }
 

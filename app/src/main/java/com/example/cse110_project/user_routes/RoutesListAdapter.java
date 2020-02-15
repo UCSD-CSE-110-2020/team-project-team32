@@ -29,13 +29,14 @@ public class RoutesListAdapter extends ArrayAdapter {
     private final String[] StreetVsTrail;
     private final String[] EvenVsUneven;
     private final String[] Difficulty;
+    private final String[] favArray;
 
     public RoutesListAdapter(Activity context, String[] nameArrayParam, String[] startPtArray,
                              String[] stepsArray, String[] milesArray, String[] timeArray,
                              String[] dateArray, String[] FlatVsHillyArrayParam,
                              String[] StreetVsTrailArrayparam, String[] LoopVsoutBackArrayparam,
-                             String [] EvenVsUnevenArrayparam, String[] DifficultyArrayparam) {
-
+                             String [] EvenVsUnevenArrayparam, String[] DifficultyArrayparam,
+                             String[] favArray) {
         super(context, R.layout.listview_routes_row, nameArrayParam);
 
         this.context = context;
@@ -51,6 +52,7 @@ public class RoutesListAdapter extends ArrayAdapter {
         this.StreetVsTrail = StreetVsTrailArrayparam;
         this.EvenVsUneven = EvenVsUnevenArrayparam;
         this.Difficulty = DifficultyArrayparam;
+        this.favArray = favArray;
     }
 
     @NonNull
@@ -70,6 +72,7 @@ public class RoutesListAdapter extends ArrayAdapter {
         TextView StreetVsTrailTextField = rowView.findViewById(R.id.StreetVSTrail);
         TextView EvenVsUnevenTextField = rowView.findViewById(R.id.EvenVsUnEven);
         TextView DifficultyTextField = rowView.findViewById(R.id.Difficulty);
+        TextView favTextField = rowView.findViewById(R.id.routeRowFavorite);
 
         //ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView1ID);
 
@@ -81,6 +84,7 @@ public class RoutesListAdapter extends ArrayAdapter {
         StreetVsTrailTextField.setText(StreetVsTrail[position]);
         EvenVsUnevenTextField.setText(EvenVsUneven[position]);
         DifficultyTextField.setText(Difficulty[position]);
+        favTextField.setText(favArray[position]);
         // imageView.setImageResource(imageIDarray[position]);
 
         // Only fill in steps, miles, etc. if route previously walked
