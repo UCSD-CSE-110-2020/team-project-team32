@@ -44,7 +44,7 @@ public class DisplayDailyStepsTest {
 
     @Test
     public void testInitialSteps() {
-        assertEquals(String.valueOf(User.getTotalSteps()), stepsDisplay.getText());
+        assertEquals(String.valueOf(User.getSteps()), stepsDisplay.getText());
     }
 
     @Test

@@ -9,16 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.cse110_project.data_access.RouteData;
 import com.example.cse110_project.fitness_api.FitnessService;
 import com.example.cse110_project.fitness_api.FitnessServiceFactory;
 import com.example.cse110_project.trackers.CurrentFitnessTracker;
 import com.example.cse110_project.trackers.CurrentTimeTracker;
 import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalTime;

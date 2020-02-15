@@ -81,7 +81,7 @@ public class RouteDetails extends AppCompatActivity {
 
 
     public void launchWalkActivity() {
-        CurrentWalkTracker.setInitial(User.getTotalSteps(), CurrentTimeTracker.getTime(),
+        CurrentWalkTracker.setInitial(User.getSteps(), CurrentTimeTracker.getTime(),
                 CurrentTimeTracker.getDate());
 
         Intent intent = new Intent(this, WalkActivity.class);
