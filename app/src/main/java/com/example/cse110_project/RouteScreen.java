@@ -34,6 +34,7 @@ public class RouteScreen extends AppCompatActivity{
     private String[] StreetVsTrail;
     private String[] EvenVsUneven;
     private String[] Difficulty;
+    private String[] favArray;
 
 
     @Override
@@ -53,12 +54,13 @@ public class RouteScreen extends AppCompatActivity{
         StreetVsTrail = new String[arrLen];
         EvenVsUneven = new String[arrLen];
         Difficulty = new String[arrLen];
+        favArray = new String[arrLen];
 
         fetchRoutesData();
 
         CustomListAdapter adapter = new CustomListAdapter(this, nameArray, startPtArray,
                 stepsArray, milesArray, timeArray, dateArray, FlatVsHilly, StreetVsTrail,
-                LoopVsOutBack, EvenVsUneven, Difficulty);
+                LoopVsOutBack, EvenVsUneven, Difficulty, favArray);
 
         ListView listView = findViewById(R.id.listviewID);
         listView.setAdapter(adapter);
@@ -79,9 +81,6 @@ public class RouteScreen extends AppCompatActivity{
             intent.putExtra(RouteDetails.ROUTE_POS_KEY, position);
             startActivity(intent);
         });
-
-
-
     }
 
     public void fetchRoutesData(){
@@ -99,6 +98,10 @@ public class RouteScreen extends AppCompatActivity{
                 StreetVsTrail[i] = r.getStreetsVsTrail();
                 EvenVsUneven[i] = r.getEvenVsUneven();
                 Difficulty[i] = r.getDifficulty();
+                favArray[i] = r.isFavorite() ? "FAV" : "";
+                if (r.isFavorite()) {
+                    System.out.println("Favorite");
+                }
 
                 if (r.getStartDate() != null) {
                     timeArray[i] = r.getDuration().truncatedTo(ChronoUnit.MINUTES).toString();

@@ -34,6 +34,7 @@ public class Route {
     private String evenVsUneven;
     private String difficulty;
     private String notes;
+    private boolean fav;
 
 
     public Route(int id, String name){
@@ -117,4 +118,8 @@ public class Route {
     public String getNotes() { return notes; }
 
     public void setNotes(String str) { notes = str; }
+
+    public void setFavorite(boolean favorite) { fav = favorite; }
+
+    public boolean isFavorite() { return fav; }
 }

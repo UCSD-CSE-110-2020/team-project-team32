@@ -123,6 +123,7 @@ public class RouteList {
             String evenVsUneven = RouteData.retrieveEvenVsUneven(c,id);
             String difficulty = RouteData.retrieveDifficulty(c,id);
             String notes = RouteData.retrieveNotes(c, id);
+            boolean fav = RouteData.retrieveFavorite(c, id);
 
             Route r = new Route(id, name);
             r.setSteps(steps);
@@ -133,6 +134,7 @@ public class RouteList {
             r.setEvenVsUneven(evenVsUneven);
             r.setDifficulty(difficulty);
             r.setNotes(notes);
+            r.setFavorite(fav);
             routes.add(r);
 
             String time = RouteData.retrieveRouteTime(c, id);

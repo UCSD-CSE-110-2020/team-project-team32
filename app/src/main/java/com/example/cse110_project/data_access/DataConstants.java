@@ -21,12 +21,14 @@ public class DataConstants {
     public final static String EVEN_VS_UNEVEN_SURFACE_KEY = "r%d_even_uneven";
     public final static String ROUTE_DIFFICULTY_KEY = "r%d_difficulty";
     public final static String ROUTE_NOTES_KEY = "r%d_notes";
+    public final static String ROUTE_FAVORITE_KEY = "r%d_favorite";
 
     // Default values
     public final static int NO_HEIGHT_FOUND = 0;
     public final static String NO_ROUTES_FOUND = "";
     public final static String STR_NOT_FOUND = "";
     public final static int INT_NOT_FOUND = 0;
+    public final static boolean BOOL_NOT_FOUND = false;
     public final static String NO_RECENT_ROUTE = "N/A";
 
 }
