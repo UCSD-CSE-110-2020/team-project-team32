@@ -14,6 +14,7 @@ public class Route {
     private String EvenVsUnevenSurface;
     private String RouteDifficulty;
     private int steps;
+    private boolean fav;
     private LocalDateTime startDate;
     private LocalTime duration;
 
@@ -78,4 +79,8 @@ public class Route {
     public LocalTime getDuration() { return duration; }
 
     public void setDuration(LocalTime time) { duration = time; }
+
+    public void setFavorite(boolean favorite) { fav = favorite; }
+
+    public boolean isFavorite() { return fav; }
 }

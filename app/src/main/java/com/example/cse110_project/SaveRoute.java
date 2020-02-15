@@ -46,6 +46,8 @@ public class SaveRoute {
     private Button EasyPick;
     private Button ModeratePick;
     private Button DifficultPick;
+    private Button favoritePick;
+
     private boolean pickedLoop = false;
     private boolean pickedoutAndBack = false;
     private boolean pickedFlat = false;
@@ -57,6 +59,7 @@ public class SaveRoute {
     private boolean pickedEasy = false;
     private boolean pickedModerate = false;
     private boolean pickedDifficult = false;
+    private boolean pickedFavorite = false;
 
     private static final String LOOP = "loop";
     private static final String OUT_AND_BACK = "out and back";
@@ -69,6 +72,7 @@ public class SaveRoute {
     private static final String EASY_ROUTE = "Easy";
     private static final String MODERATE_ROUTE = "Moderate";
     private static final String HARD_ROUTE = "Difficult";
+    private static final boolean FAVORITE = true;
 
     public SaveRoute(AppCompatActivity activity, Context context, int steps, LocalTime time,
                 LocalDateTime date) {
@@ -110,6 +114,7 @@ public class SaveRoute {
         EasyPick = promptView.findViewById(R.id.EasyButton);
         ModeratePick = promptView.findViewById(R.id.ModerateButton);
         DifficultPick = promptView.findViewById(R.id.DifficultButton);
+        favoritePick = promptView.findViewById(R.id.FavoriteButton);
 
         validateTextInput();
         validateButtons();
@@ -162,6 +167,7 @@ public class SaveRoute {
         if(pickedEasy) {route.setRouteDifficulty(EASY_ROUTE);}
         else if(pickedModerate) {route.setRouteDifficulty(MODERATE_ROUTE); }
         else if(pickedDifficult){route.setRouteDifficulty(HARD_ROUTE); }
+        else if(pickedFavorite){route.setFavorite(FAVORITE); }
 
         User.getRoutes(context).createRoute(context, route);
     }
@@ -266,6 +272,12 @@ public class SaveRoute {
             pickedEasy = false;
             pickedModerate = false;
             pickedDifficult = true;
+        });
+
+
+        favoritePick.setOnClickListener(v -> {
+            favoritePick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            pickedFavorite = false;
         });
 
     }

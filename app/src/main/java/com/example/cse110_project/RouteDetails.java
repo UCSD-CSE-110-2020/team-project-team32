@@ -27,6 +27,7 @@ public class RouteDetails extends AppCompatActivity {
     private String Surface;
     private String RunType;
     private String area;
+    private boolean favorite;
     Route route;
 
     static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
@@ -50,6 +51,7 @@ public class RouteDetails extends AppCompatActivity {
         TextView routeSurface = findViewById(R.id.surfaceFlatVsHillyPicked);
         TextView routeRunType = findViewById(R.id.RunTypePicked);
         TextView routeArea = findViewById(R.id.areaRouteDetailsPicked);
+        //TextView routeFavorite = findViewById(R.id.favorite);
 
 
         routeName.setText(walkName);
@@ -68,6 +70,7 @@ public class RouteDetails extends AppCompatActivity {
         routeSurface.setText(Surface);
         routeRunType.setText(RunType);
         routeArea.setText(area);
+        //routeFavorite.setText(favorite);
 
 
         Button launchToRouteScreen = findViewById(R.id.button_backToRoutes);

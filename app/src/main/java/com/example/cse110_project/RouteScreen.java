@@ -27,6 +27,7 @@ public class RouteScreen extends AppCompatActivity{
     private String[] StreetVsTrail;
     private String[] EvenVsUneven;
     private String[] Difficulty;
+    //private boolean isFavorite;
 
     private ListView listView;
     private RouteList routes;
@@ -42,6 +43,7 @@ public class RouteScreen extends AppCompatActivity{
         StreetVsTrail = new String[User.getRoutes(RouteScreen.this).length()];
         EvenVsUneven = new String[User.getRoutes(RouteScreen.this).length()];
         Difficulty = new String[User.getRoutes(RouteScreen.this).length()];
+        //isFavorite = false;
 
         getRoutes();
 
@@ -83,6 +85,7 @@ public class RouteScreen extends AppCompatActivity{
                 StreetVsTrail[i] = routes.getRoute(i).getStreetsVSTrail();
                 EvenVsUneven[i] = routes.getRoute(i).getEvenVsUnevenSurface();
                 Difficulty[i] = routes.getRoute(i).getRouteDifficulty();
+                //isFavorite = routes.getRoute(i).getRouteFavorite();
             }
         }
     }
