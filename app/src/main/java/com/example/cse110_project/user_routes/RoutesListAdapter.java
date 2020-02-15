@@ -59,17 +59,17 @@ public class RoutesListAdapter extends ArrayAdapter {
         View rowView=inflater.inflate(R.layout.listview_routes_row, null,true);
 
         //this code gets references to objects in the listview_routes_row.xmlrow.xml file
-        TextView nameTextField = rowView.findViewById(R.id.routeNameScreen);
+        TextView nameTextField = rowView.findViewById(R.id.routeRowName);
         TextView startPtTextField = rowView.findViewById(R.id.routeRowStartingPoint);
         TextView stepsTextField = rowView.findViewById(R.id.routeRowSteps);
         TextView milesTextField = rowView.findViewById(R.id.routeRowMiles);
         TextView timeTextField = rowView.findViewById(R.id.routeRowTime);
         TextView dateTextField = rowView.findViewById(R.id.routeRowDate);
-        TextView FlatVsHillyTextField = rowView.findViewById(R.id.FlatVsHilly);
-        TextView LoopVsOutBackTextField = rowView.findViewById(R.id.LoopVsOutBack);
-        TextView StreetVsTrailTextField = rowView.findViewById(R.id.StreetVSTrail);
-        TextView EvenVsUnevenTextField = rowView.findViewById(R.id.EvenVsUnEven);
-        TextView DifficultyTextField = rowView.findViewById(R.id.Difficulty);
+        TextView FlatVsHillyTextField = rowView.findViewById(R.id.routeRowFlatHilly);
+        TextView LoopVsOutBackTextField = rowView.findViewById(R.id.routeRowLoopOutBack);
+        TextView StreetVsTrailTextField = rowView.findViewById(R.id.routeRowStreetsTrail);
+        TextView EvenVsUnevenTextField = rowView.findViewById(R.id.routeRowEvenUneven);
+        TextView DifficultyTextField = rowView.findViewById(R.id.routeRowDifficulty);
 
         //ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView1ID);
 

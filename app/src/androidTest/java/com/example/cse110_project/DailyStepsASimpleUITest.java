@@ -82,10 +82,10 @@ public class DailyStepsASimpleUITest {
                         isDisplayed()));
         appCompatButton4.perform(click());
 
-        ViewInteraction textView = onView(withId(R.id.dailyStepsDisplay));
+        ViewInteraction textView = onView(withId(R.id.dailySteps));
         textView.check(matches(withText("500")));
 
-        ViewInteraction textView3 = onView(withId(R.id.dailyMilesDisplay));
+        ViewInteraction textView3 = onView(withId(R.id.dailyMiles));
         textView3.check(matches(withText("0.2")));
 
         ViewInteraction appCompatButton5 = onView(
@@ -158,10 +158,10 @@ public class DailyStepsASimpleUITest {
                         isDisplayed()));
         appCompatButton11.perform(click());
 
-        ViewInteraction textView4 = onView(withId(R.id.dailyStepsDisplay));
+        ViewInteraction textView4 = onView(withId(R.id.dailySteps));
         textView4.check(matches(withText("2000")));
 
-        ViewInteraction textView6 = onView(withId(R.id.dailyMilesDisplay));
+        ViewInteraction textView6 = onView(withId(R.id.dailyMiles));
         textView6.check(matches(withText("0.8")));
     }
 

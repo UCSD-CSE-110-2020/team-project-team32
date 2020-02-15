@@ -47,7 +47,7 @@ public class WalkActivity extends AppCompatActivity {
         mockingButton.setOnClickListener(v -> launchMockingActivity());
 
         // Buttons to end activity
-        Button cancelButton = findViewById(R.id.cancelButton);
+        Button cancelButton = findViewById(R.id.walkCancelButton);
         cancelButton.setOnClickListener(v -> finish());
 
         Button stopButton = findViewById(R.id.stopWalkButton);

@@ -25,7 +25,7 @@
         android:id="@+id/walkRouteName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/defaultRouteName"
+        android:text="@string/walkDefaultName"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@android:color/holo_orange_light"
         android:textSize="45sp"
@@ -40,7 +40,7 @@
         android:id="@+id/currentMilesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dailyMilesText"
+        android:text="@string/milesText"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,7 +64,7 @@
         app:srcCompat="@drawable/logodistance" />
 
     <TextView
-        android:id="@+id/currentStepsDisplay"
+        android:id="@+id/currentSteps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
@@ -78,7 +78,7 @@
         app:layout_constraintVertical_bias="0.612" />
 
     <TextView
-        android:id="@+id/currentMilesDisplay"
+        android:id="@+id/currentMiles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/defaultMiles"
@@ -94,7 +94,7 @@
         android:id="@+id/currentStepsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dailyStepsText"
+        android:text="@string/stepsText"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -108,7 +108,7 @@
         android:id="@+id/walkStartingPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/defaultStartingPoint"
+        android:text="@string/walkDefaultStartingPoint"
         android:textColor="#3F51B5"
         android:textSize="25sp"
         android:textStyle="italic"
@@ -123,7 +123,7 @@
         android:id="@+id/walkNotes"
         android:layout_width="374dp"
         android:layout_height="95dp"
-        android:text="@string/defaultNotes"
+        android:text="@string/walkDefaultNotes"
         android:textColor="#646464"
         android:textSize="20sp"
         android:textStyle="italic"
@@ -135,12 +135,12 @@
         app:layout_constraintVertical_bias="0.323" />
 
     <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/walkCancelButton"
+        android:layout_width="101dp"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:text="@string/cancelButton"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"

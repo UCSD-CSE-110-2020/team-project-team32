@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        stepCount = findViewById(R.id.dailyStepsDisplay);
-        milesCount = findViewById(R.id.dailyMilesDisplay);
+        stepCount = findViewById(R.id.dailySteps);
+        milesCount = findViewById(R.id.dailyMiles);
 
         // to route screen
         launchToRouteScreen = findViewById(R.id.routesButton);
@@ -205,9 +205,9 @@ public class MainActivity extends AppCompatActivity {
             timeDisplay = recent.getDuration().truncatedTo(ChronoUnit.MINUTES).toString();
         }
 
-        ((TextView)findViewById(R.id.recentStepsDisplay)).setText(stepsDisplay);
-        ((TextView)findViewById(R.id.recentMilesDisplay)).setText(milesDisplay);
-        ((TextView)findViewById(R.id.recentTimeDisplay)).setText(timeDisplay);
+        ((TextView)findViewById(R.id.recentSteps)).setText(stepsDisplay);
+        ((TextView)findViewById(R.id.recentMiles)).setText(milesDisplay);
+        ((TextView)findViewById(R.id.recentTime)).setText(timeDisplay);
     }
 
     // Height input methods
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         int input = Integer.parseInt(textHeight);
                         if (input <= 0) {
-                            heightEditor.setError(getString(R.string.nonpositiveHeightError));
+                            heightEditor.setError(getString(R.string.nonPositiveHeightError));
                         } else {
                             heightEditor.setError(null);
                         }

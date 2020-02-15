@@ -40,7 +40,7 @@ public class DisplayCalculatedDailyMilesTest {
                 Context.MODE_PRIVATE);
         editor = pref.edit();
         c = mainActivity.getActivity().getApplicationContext();
-        milesDisplay = mainActivity.getActivity().findViewById(R.id.dailyMilesDisplay);
+        milesDisplay = mainActivity.getActivity().findViewById(R.id.dailyMiles);
     }
 
     @Test

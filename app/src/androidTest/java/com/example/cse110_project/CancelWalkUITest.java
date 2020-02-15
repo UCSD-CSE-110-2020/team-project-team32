@@ -64,7 +64,7 @@ public class CancelWalkUITest {
         appCompatButton2.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.cancelButton), withText("Cancel"),
+                allOf(withId(R.id.walkCancelButton), withText("Cancel"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -73,13 +73,13 @@ public class CancelWalkUITest {
                         isDisplayed()));
         appCompatButton3.perform(click());
 
-        ViewInteraction textView = onView(withId(R.id.recentStepsDisplay));
+        ViewInteraction textView = onView(withId(R.id.recentSteps));
         textView.check(matches(withText("N/A")));
 
-        ViewInteraction textView2 = onView(withId(R.id.recentMilesDisplay));
+        ViewInteraction textView2 = onView(withId(R.id.recentMiles));
         textView2.check(matches(withText("N/A")));
 
-        ViewInteraction textView3 = onView(withId(R.id.recentTimeDisplay));
+        ViewInteraction textView3 = onView(withId(R.id.recentTime));
         textView3.check(matches(withText("N/A")));
 
         ViewInteraction appCompatButton4 = onView(
@@ -140,7 +140,7 @@ public class CancelWalkUITest {
         appCompatButton9.perform(scrollTo(), click());
 
         ViewInteraction appCompatButton10 = onView(
-                allOf(withId(R.id.cancelButton), withText("Cancel"),
+                allOf(withId(R.id.walkCancelButton), withText("Cancel"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -149,13 +149,13 @@ public class CancelWalkUITest {
                         isDisplayed()));
         appCompatButton10.perform(click());
 
-        ViewInteraction textView4 = onView(withId(R.id.recentStepsDisplay));
+        ViewInteraction textView4 = onView(withId(R.id.recentSteps));
         textView4.check(matches(withText("N/A")));
 
-        ViewInteraction textView5 = onView(withId(R.id.recentMilesDisplay));
+        ViewInteraction textView5 = onView(withId(R.id.recentMiles));
         textView5.check(matches(withText("N/A")));
 
-        ViewInteraction textView6 = onView(withId(R.id.recentTimeDisplay));
+        ViewInteraction textView6 = onView(withId(R.id.recentTime));
         textView6.check(matches(withText("N/A")));
     }
 

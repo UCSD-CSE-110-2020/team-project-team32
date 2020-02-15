@@ -218,7 +218,7 @@ public class SaveWalkRecentUITest {
         appCompatButton15.perform(scrollTo(), click());
 
         ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.NameOfWalkInput),
+                allOf(withId(R.id.routeNameInput),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.custom),
@@ -237,7 +237,7 @@ public class SaveWalkRecentUITest {
         appCompatButton16.perform(scrollTo(), click());
 
         ViewInteraction appCompatButton17 = onView(
-                allOf(withId(R.id.button_routeToHome), withText("To Home"),
+                allOf(withId(R.id.routesHomeButton), withText("To Home"),
                         childAtPosition(
                                 allOf(withId(R.id.coordinatorLayout),
                                         childAtPosition(
@@ -247,13 +247,13 @@ public class SaveWalkRecentUITest {
                         isDisplayed()));
         appCompatButton17.perform(click());
 
-        ViewInteraction textView3 = onView(withId(R.id.recentStepsDisplay));
+        ViewInteraction textView3 = onView(withId(R.id.recentSteps));
         textView3.check(matches(withText("1000")));
 
-        ViewInteraction textView4 = onView(withId(R.id.recentMilesDisplay));
+        ViewInteraction textView4 = onView(withId(R.id.recentMiles));
         textView4.check(matches(withText("0.4")));
 
-        ViewInteraction textView5 = onView(withId(R.id.recentTimeDisplay));
+        ViewInteraction textView5 = onView(withId(R.id.recentTime));
         textView5.check(matches(withText("13:35")));
     }
 

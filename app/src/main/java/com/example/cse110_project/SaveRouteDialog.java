@@ -89,20 +89,20 @@ public class SaveRouteDialog {
 
         //
 
-        routeName = promptView.findViewById(R.id.NameOfWalkInput);
+        routeName = promptView.findViewById(R.id.routeNameInput);
         routeStartPt = promptView.findViewById(R.id.startingPointInput);
         routeNotes = promptView.findViewById(R.id.NotesOfWalkInput);
         loopPick = promptView.findViewById(R.id.loopButton);
-        outAndBack = promptView.findViewById(R.id.outAndBackButton);
-        flatPick = promptView.findViewById(R.id.FlatButton);
-        hillyPick = promptView.findViewById(R.id.HillyButton);
-        streetPick = promptView.findViewById(R.id.streetButton);
+        outAndBack = promptView.findViewById(R.id.outBackButton);
+        flatPick = promptView.findViewById(R.id.flatButton);
+        hillyPick = promptView.findViewById(R.id.hillyButton);
+        streetPick = promptView.findViewById(R.id.streetsButton);
         trailPick = promptView.findViewById(R.id.trailButton);
         evenPick = promptView.findViewById(R.id.evenSurfaceButton);
         unevenPick = promptView.findViewById(R.id.unevenSurfaceButton);
-        easyPick = promptView.findViewById(R.id.EasyButton);
-        moderatePick = promptView.findViewById(R.id.ModerateButton);
-        difficultPick = promptView.findViewById(R.id.DifficultButton);
+        easyPick = promptView.findViewById(R.id.easyDifficultyButton);
+        moderatePick = promptView.findViewById(R.id.midDifficultyButton);
+        difficultPick = promptView.findViewById(R.id.hardDifficultyButton);
 
         validateTextInput();
         validateButtons();
@@ -110,7 +110,7 @@ public class SaveRouteDialog {
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
         cancelButton.setOnClickListener(v -> {
-            Toast.makeText(context, R.string.cancelDialog, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.canceledToast, Toast.LENGTH_SHORT).show();
             alert.dismiss();
         });
         submitButton.setOnClickListener(v -> validateOnClickSave(alert));
@@ -125,7 +125,7 @@ public class SaveRouteDialog {
     public void validateOnClickSave(DialogInterface dialog) {
         // Only name is required to save; don't check anything else!
         if (routeName.getText().toString().length() == 0) {
-             Toast.makeText(context, R.string.invalidWalkName, Toast.LENGTH_SHORT).show();
+             Toast.makeText(context, R.string.emptyRouteName, Toast.LENGTH_SHORT).show();
         } else {
              saveRoute();
              dialog.dismiss();
@@ -171,7 +171,7 @@ public class SaveRouteDialog {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (routeName.getText().toString().length() == 0) {
-                    routeName.setError(context.getResources().getString(R.string.emptyWalkName));
+                    routeName.setError(context.getResources().getString(R.string.emptyRouteName));
                 } else {
                     routeName.setError(null);
                 }
