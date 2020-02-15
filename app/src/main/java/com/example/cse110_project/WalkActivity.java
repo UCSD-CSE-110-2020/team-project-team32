@@ -66,7 +66,7 @@ public class WalkActivity extends AppCompatActivity {
         if (fitnessServiceActive) {
             fitnessService.updateStepCount();
         }
-        CurrentWalkTracker.setFinalSteps(User.getTotalSteps());
+        CurrentWalkTracker.setFinalSteps(User.getSteps());
         CurrentWalkTracker.setFinalTime(finalTime);
     }
 

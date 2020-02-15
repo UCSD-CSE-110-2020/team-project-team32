@@ -23,11 +23,16 @@ public class User {
 
     public static void setStepsOffset(int s) { stepsOffset = s; }
 
-    public static int getTotalSteps() { return stepsOffset+fitnessSteps;}
+    public static int getSteps() {
+        if (stepsOffset != 0) {
+            return stepsOffset;
+        }
+        return fitnessSteps;
+    }
 
 
     public static double getMiles() {
-        return MilesCalculator.calculateMiles(height, getTotalSteps());
+        return MilesCalculator.calculateMiles(height, getSteps());
     }
 
 

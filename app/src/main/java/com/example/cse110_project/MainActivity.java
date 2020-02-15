@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             if (fitnessServiceActive) {
                 fitnessService.updateStepCount();
             }
-            launchWalkActivity(User.getTotalSteps(), CurrentTimeTracker.getTime(),
+            launchWalkActivity(User.getSteps(), CurrentTimeTracker.getTime(),
                     CurrentTimeTracker.getDate());
         });
 
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateDailySteps(int steps) {
         User.setFitnessSteps(steps);
-        int totalSteps = User.getTotalSteps();
+        int totalSteps = User.getSteps();
         System.out.println(TAG + " updateDailySteps called on " + steps + " for total of "
                 + totalSteps);
         stepCount.setText(String.valueOf(totalSteps));
