@@ -3,108 +3,94 @@ package com.example.cse110_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.cse110_project.trackers.CurrentTimeTracker;
+import com.example.cse110_project.trackers.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
 
 public class RouteDetails extends AppCompatActivity {
-
-    private int savedExtra;
-    private String walkName;
-    private String WalkDate;
-    private int steps;
-    private double Miles;
-    private String Difficulty;
-    private String SurfaceDifficulty;
-    private String Surface;
-    private String RunType;
-    private String area;
-    Route route;
-
-    static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-
+    public final static String ROUTE_POS_KEY = "ROUTE_POSITION_KEY";
+    private Route route;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route_details);
 
-        savedExtra = getIntent().getIntExtra("Array_POSITION", 0);
-        getRouteData();
-
-        TextView routeName = findViewById(R.id.routeNameDetail);
-        TextView routeDate = findViewById(R.id.WalkStartDate);
-        TextView routeTime = findViewById(R.id.WalkTime);
-        TextView routeSteps = findViewById(R.id.stepsWalked);
-        TextView routeMiles = findViewById(R.id.MilesWalked);
-        TextView routeDifficulty = findViewById(R.id.DifficultyPicked);
-        TextView routesurfaceDifficulty = findViewById(R.id.SurfaceDifficultyPicked);
-        TextView routeSurface = findViewById(R.id.surfaceFlatVsHillyPicked);
-        TextView routeRunType = findViewById(R.id.RunTypePicked);
-        TextView routeArea = findViewById(R.id.areaRouteDetailsPicked);
-
-        routeName.setText(walkName);
-        if(route.getStartDate() != null) {
-            routeDate.setText(WalkDate.substring(0, 10));
-            routeTime.setText(WalkDate.substring(11));
-        } else {
-            routeDate.setText(WalkDate);
-            routeTime.setText(WalkDate);
-        }
-
-        routeSteps.setText(Integer.toString(steps));
-        routeMiles.setText(Double.toString(Miles));
-        routeDifficulty.setText(Difficulty);
-        routesurfaceDifficulty.setText(SurfaceDifficulty);
-        routeSurface.setText(Surface);
-        routeRunType.setText(RunType);
-        routeArea.setText(area);
-
-
-        // User marks route as favorite
-        ImageButton markAsFavorite = findViewById(R.id.button_favorites);
-        markAsFavorite.setOnClickListener(view -> launchToFavorites());
-
-        Button launchToRouteScreen = findViewById(R.id.button_backToRoutes);
-        launchToRouteScreen.setOnClickListener(view -> finish());
-    }
-
-    public void getRouteData() {
+        // Extract route data
+        int savedExtra = getIntent().getIntExtra(ROUTE_POS_KEY, 0);
         route = User.getRoutes(RouteDetails.this).getRoute(savedExtra);
-        walkName = route.getName();
+        displayRouteData();
 
-        if(route.getStartDate() != null) {
-            WalkDate = route.getStartDate().format(formatter);
-        } else{
-            WalkDate = "N/A";
-        }
+        Button launchToRouteScreen = findViewById(R.id.detailsBackButton);
+        launchToRouteScreen.setOnClickListener(view -> finish());
 
-        steps = route.getSteps();
-        Miles = route.getMiles(User.getHeight());
-        Difficulty = route.getRouteDifficulty();
-        SurfaceDifficulty = route.getEvenVsUnevenSurface();
-        Surface = route.getFlatVSHilly();
-        RunType = route.getLoopVSOutBack();
-        area = route.getStreetsVSTrail();
+        Button startWalkButton = findViewById(R.id.detailsStartWalkButton);
+        startWalkButton.setOnClickListener(v -> launchWalkActivity());
     }
 
-    // This is a Toast message that displays whenever Favorites button is pressed
-    public void launchToFavorites() {
-        Toast.makeText(getApplicationContext(),
-                "Added to Favorites!",
-                Toast.LENGTH_SHORT)
-        .show();
+    public void displayRouteData() {
+        TextView routeName = findViewById(R.id.routeNameDetail);
+        routeName.setText(route.getName());
+
+        // Set steps, miles, time, date only if route has been walked
+        if (route.getStartDate() != null) {
+            TextView routeSteps = findViewById(R.id.detailsRouteSteps);
+            routeSteps.setText(String.valueOf(route.getSteps()));
+            TextView routeMiles = findViewById(R.id.detailsRouteMiles);
+            routeMiles.setText(MilesCalculator.formatMiles(route.getMiles(User.getHeight())));
+
+            TextView routeTime = findViewById(R.id.detailsRouteTime);
+            routeTime.setText(route.getDuration().truncatedTo(ChronoUnit.MINUTES).toString());
+
+            TextView routeDate = findViewById(R.id.detailsRouteDate);
+            routeDate.setText(route.getStartDate().truncatedTo(ChronoUnit.DAYS)
+                    .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+            TextView routeStartTime = findViewById(R.id.detailsRouteStartTime);
+            routeStartTime.setText(route.getStartDate()
+                    .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+        }
+
+        // Set optional features if existent
+        TextView routeStartingPoint = findViewById(R.id.detailsRouteStartingPoint);
+        routeStartingPoint.setText(route.getStartingPoint());
+        TextView routeDifficulty = findViewById(R.id.detailsDifficulty);
+        routeDifficulty.setText(route.getDifficulty());
+
+        TextView routeEvenUneven = findViewById(R.id.detailsEvenUneven);
+        routeEvenUneven.setText(route.getEvenVsUneven());
+        TextView routeFlatHilly = findViewById(R.id.detailsFlatHilly);
+        routeFlatHilly.setText(route.getFlatVsHilly());
+
+        TextView routeLoopOAB = findViewById(R.id.detailsLoopOAB);
+        routeLoopOAB.setText(route.getLoopVsOAB());
+        TextView routeStreetsTrail = findViewById(R.id.detailsStreetsTrail);
+        routeStreetsTrail.setText(route.getStreetsVsTrail());
+
+        TextView routeNotes = findViewById(R.id.detailsNotes);
+        routeNotes.setText(route.getNotes());
+    }
+
+
+    public void launchWalkActivity() {
+        CurrentWalkTracker.setInitial(User.getTotalSteps(), CurrentTimeTracker.getTime(),
+                CurrentTimeTracker.getDate());
+
+        Intent intent = new Intent(this, WalkActivity.class);
+        intent.putExtra(WalkActivity.SAVED_ROUTE_KEY, true);
+        intent.putExtra(WalkActivity.SAVED_ROUTE_ID_KEY, route.getID());
+        startActivity(intent);
+
+        // Return to Routes screen after finishing walk
+        finish();
     }
 
 }
