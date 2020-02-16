@@ -19,6 +19,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/NameWalkHint"
+        android:inputType="textVisiblePassword"
+        android:maxLength="21"
         android:padding="10dp" />
 
     <TextView
@@ -34,6 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/startingPointHint"
+        android:inputType="textVisiblePassword"
+        android:maxLength="24"
         android:padding="10dp" />
 
     <TextView
@@ -178,6 +182,8 @@
         android:id="@+id/NotesOfWalkInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textVisiblePassword"
+        android:maxLength="80"
         android:hint="@string/WalkNotes"
         android:padding="10dp" />
 

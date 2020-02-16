@@ -32,7 +32,7 @@
         for choosing Walk Walk Revolution.
     </string>
     <string name="enterWalkName">Enter the name of your walk</string>
-    <string name="NameWalkHint">Name Of Walk</string>
+    <string name="NameWalkHint">Name Of Walk (limit 21 chars)</string>
     <string name="sureCancelText">Are you sure you want to cancel?</string>
 
     <string name="invalidHeightToast">Invalid height. Please try again</string>
@@ -65,7 +65,7 @@
     <string name="invalidWalkName">Invalid walk name</string>
     <string name="emptyWalkName">Please enter a walk name</string>
     <string name="startingPointText">Enter the starting point (optional)</string>
-    <string name="startingPointHint">Starting Point</string>
+    <string name="startingPointHint">Starting Point (limit 24 chars)</string>
     <string name="featuresSelectText">Select route features (optional)</string>
     <string name="FlatPick">Flat</string>
     <string name="HillyPick">Hilly</string>
@@ -79,7 +79,7 @@
     <string name="EasyPick">Easy</string>
     <string name="DifficultPick">Difficult</string>
     <string name="notesInputText">Enter notes for this route (optional)</string>
-    <string name="WalkNotes">Notes for this walk</string>
+    <string name="WalkNotes">Notes for this walk (limit 80 chars)</string>
 
 
     // Mocking screen
