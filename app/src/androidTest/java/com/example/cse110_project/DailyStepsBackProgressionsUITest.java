@@ -97,7 +97,7 @@ public class DailyStepsBackProgressionsUITest {
                         isDisplayed()));
         appCompatButton5.perform(click());
 
-        ViewInteraction textView = onView(withId(R.id.dailyStepsDisplay));
+        ViewInteraction textView = onView(withId(R.id.dailySteps));
         textView.check(matches(withText(String.valueOf(prevSteps + 1000))));
 
         ViewInteraction appCompatButton6 = onView(
@@ -120,7 +120,7 @@ public class DailyStepsBackProgressionsUITest {
                         isDisplayed()));
         appCompatButton7.perform(click());
 
-        ViewInteraction textView3 = onView(withId(R.id.dailyStepsDisplay));
+        ViewInteraction textView3 = onView(withId(R.id.dailySteps));
         textView3.check(matches(withText(String.valueOf(prevSteps + 1000))));
 
         ViewInteraction appCompatButton8 = onView(
@@ -134,7 +134,7 @@ public class DailyStepsBackProgressionsUITest {
         appCompatButton8.perform(click());
 
         ViewInteraction appCompatButton9 = onView(
-                allOf(withId(R.id.button_routeToHome), withText("To Home"),
+                allOf(withId(R.id.routesHomeButton), withText("To Home"),
                         childAtPosition(
                                 allOf(withId(R.id.coordinatorLayout),
                                         childAtPosition(
@@ -144,7 +144,7 @@ public class DailyStepsBackProgressionsUITest {
                         isDisplayed()));
         appCompatButton9.perform(click());
 
-        ViewInteraction textView5 = onView(withId(R.id.dailyStepsDisplay));
+        ViewInteraction textView5 = onView(withId(R.id.dailySteps));
         textView5.check(matches(withText(String.valueOf(prevSteps + 1000))));
     }
 

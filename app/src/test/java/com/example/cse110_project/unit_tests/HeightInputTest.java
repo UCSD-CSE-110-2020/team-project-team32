@@ -54,7 +54,7 @@ public class HeightInputTest {
              invalidHeightError = mainActivity.getResources().getString(
                      R.string.invalidHeightError);
              nonpositiveHeightError = mainActivity.getResources().getString(
-                     R.string.nonpositiveHeightError);
+                     R.string.nonPositiveHeightError);
         });
 
     }

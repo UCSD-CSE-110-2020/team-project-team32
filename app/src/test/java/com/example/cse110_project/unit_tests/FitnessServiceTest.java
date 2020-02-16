@@ -41,7 +41,7 @@ public class FitnessServiceTest {
 
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
-            textSteps = activity.findViewById(R.id.dailyStepsDisplay);
+            textSteps = activity.findViewById(R.id.dailySteps);
             assertEquals(String.valueOf(nextStepCount), textSteps.getText().toString());
         });
     }

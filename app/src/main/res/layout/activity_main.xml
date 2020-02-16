@@ -8,10 +8,10 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/dailyMilesDisplay"
+        android:id="@+id/dailyMiles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/miles"
+        android:text="@string/defaultMiles"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
         android:id="@+id/dailyMilesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dailyMilesText"
+        android:text="@string/milesText"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
-        android:text="@string/recentMilesText"
+        android:text="@string/milesText"
         android:textSize="33sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,10 +67,10 @@
         app:layout_constraintVertical_bias="0.564" />
 
     <TextView
-        android:id="@+id/recentStepsDisplay"
+        android:id="@+id/recentSteps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/noRecentRouteText"
+        android:text="@string/noDataText"
         android:textSize="33sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,22 +84,22 @@
         android:id="@+id/recentStepsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/recentStepsText"
+        android:text="@string/stepsText"
         android:textSize="33sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.037"
-        app:layout_constraintStart_toEndOf="@+id/recentStepsDisplay"
+        app:layout_constraintStart_toEndOf="@+id/recentSteps"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.564" />
 
     <TextView
-        android:id="@+id/recentTimeDisplay"
+        android:id="@+id/recentTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="90dp"
         android:layout_marginEnd="90dp"
-        android:text="@string/noRecentRouteText"
+        android:text="@string/noDataText"
         android:textSize="33sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -116,7 +116,7 @@
         android:text="@string/recentTimeText"
         android:textSize="33sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toStartOf="@+id/recentTimeDisplay"
+        app:layout_constraintEnd_toStartOf="@+id/recentTime"
         app:layout_constraintHorizontal_bias="0.887"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -138,10 +138,10 @@
         app:layout_constraintVertical_bias="0.471" />
 
     <TextView
-        android:id="@+id/recentMilesDisplay"
+        android:id="@+id/recentMiles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/noRecentRouteText"
+        android:text="@string/noDataText"
         android:textSize="33sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -152,10 +152,10 @@
         app:layout_constraintVertical_bias="0.564" />
 
     <TextView
-        android:id="@+id/dailyStepsDisplay"
+        android:id="@+id/dailySteps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/NumberOfSteps"
+        android:text="@string/defaultSteps"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/distanceLogo"
@@ -167,7 +167,7 @@
         android:id="@+id/dailyStepsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dailyStepsText"
+        android:text="@string/stepsText"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -184,7 +184,7 @@
         android:layout_marginStart="160dp"
         android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/dailyMilesDisplay"
+        app:layout_constraintEnd_toStartOf="@+id/dailyMiles"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -245,7 +245,7 @@
         app:layout_constraintVertical_bias="0.001" />
 
     <TextView
-        android:id="@+id/Title"
+        android:id="@+id/homeHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
@@ -311,7 +311,7 @@
         app:layout_constraintGuide_percent="1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/dailyDataText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dailyDataText"

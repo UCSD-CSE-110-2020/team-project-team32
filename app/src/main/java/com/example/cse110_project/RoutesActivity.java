@@ -61,8 +61,8 @@ public class RoutesActivity extends AppCompatActivity{
         listView.setAdapter(adapter);
 
         // Implementation of button event to route screen
-        Button launchToHomeScreen = findViewById(R.id.button_routeToHome);
-        Button newRoute = findViewById(R.id.button_routeScreenNewRoute);
+        Button launchToHomeScreen = findViewById(R.id.routesHomeButton);
+        Button newRoute = findViewById(R.id.routesNewRouteButton);
 
         newRoute.setOnClickListener(v -> (new SaveRouteDialog(this, this, 0,
                 null, null)).inputRouteDataDialog());

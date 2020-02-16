@@ -2,106 +2,98 @@
     <string name="title_activity_test">test</string>
     <string name="app_name">CSE110_Project</string>
 
-    <string name="NumberOfSteps">0</string>
-    <string name="miles">0.0</string>
-    <string name="recentRouteSteps">986</string>
-    <string name="MilesRecent">5.2</string>
-    <string name="recentRunTime">5:46</string>
-
+    // General buttons
     <string name="routesButton">Routes</string>
     <string name="homeButton">Home</string>
     <string name="mockingButton">DEV</string>
     <string name="startWalkButton">Start Walk</string>
-    <string name="homeHeader">Walk Walk Revolution</string>
-    <string name="dailyDataText">Today, you walked...</string>
-    <string name="dailyStepsText">Steps</string>
-    <string name="dailyMilesText">Miles</string>
-    <string name="recentWalkText">Your most recent walk was...</string>
-    <string name="recentStepsText">Steps</string>
-    <string name="recentMilesText">Miles</string>
-    <string name="recentTimeText">Time:</string>
-    <string name="noRecentRouteText">N/A</string>
-
-    <string name="heightHintDialog">Height</string>
-    <string name="heightButton">OK</string>
-    <string name="heightPrompt">Please enter your height in inches (e.g. 60):</string>
-    <string name="saveWalkPrompt">Would you like to save your walk?</string>
-    <string name="cancelDialog">Canceled</string>
-    <string name="heightExplanation">
-        Your height will be used to calculate the distance you travel from your steps. Thank you
-        for choosing Walk Walk Revolution.
-    </string>
-    <string name="enterWalkName">Enter the name of your walk</string>
-    <string name="NameWalkHint">Name Of Walk (limit 21 chars)</string>
-    <string name="sureCancelText">Are you sure you want to cancel?</string>
-
-    <string name="invalidHeightToast">Invalid height. Please try again</string>
-    <string name="longHeightError">Height must have no more than 2 digits</string>
-    <string name="invalidHeightError">Height must be a whole number</string>
-    <string name="nonpositiveHeightError">Height must be a positive number</string>
-
-    // route screen
-    <string name="routeToHome">To Home</string>
-    <string name="routeNewRoute">New Route</string>
-    // end route screen
-
-    // route screen details
-    <string name="goBackRouteScreen">Back</string>
-    // end route details
-
-    // Walk screen
-    <string name="walkHeader">Walk</string>
-    <string name="cancelButton">Cancel</string>
-    <string name="saveButton">Save</string>
     <string name="stopWalkButton">Stop Walk</string>
-    <string name="defaultRouteName">New Route</string>
-    <string name="defaultStartingPoint"> </string>
-    <string name="defaultNotes"> </string>
+    <string name="cancelButton">CANCEL</string>
+    <string name="saveButton">Save</string>
+    <string name="submitButton">Submit</string>
+    <string name="backButton">Back</string>
+
+    // General text
+    <string name="favText">FAV</string>
+    <string name="stepsText">Steps</string>
+    <string name="milesText">Miles</string>
+    <string name="emptyText"> </string>
+    <string name="noDataText">N/A</string>
     <string name="defaultSteps">0</string>
     <string name="defaultMiles">0.0</string>
     <string name="defaultTime">00:00</string>
 
-    // Save route screen
-    <string name="invalidWalkName">Invalid walk name</string>
-    <string name="emptyWalkName">Please enter a walk name</string>
-    <string name="startingPointText">Enter the starting point (optional)</string>
-    <string name="startingPointHint">Starting Point (limit 24 chars)</string>
-    <string name="featuresSelectText">Select route features (optional)</string>
-    <string name="FlatPick">Flat</string>
-    <string name="HillyPick">Hilly</string>
-    <string name="loopPick">Loop</string>
-    <string name="OutAndBackPick">Out-And-Back</string>
-    <string name="streetPick">Streets</string>
-    <string name="trailPick">Trail</string>
-    <string name="evenSurfacePick">Even Surface</string>
-    <string name="unevenSurfacePick">Uneven Surface</string>
-    <string name="ModeratePick">Moderate</string>
-    <string name="EasyPick">Easy</string>
-    <string name="DifficultPick">Difficult</string>
-    <string name="notesInputText">Enter notes for this route (optional)</string>
-    <string name="WalkNotes">Notes for this walk (limit 80 chars)</string>
+    // Home screen
+    <string name="homeHeader">Walk Walk Revolution</string>
+    <string name="dailyDataText">Today, you walked...</string>
+    <string name="recentWalkText">Your most recent walk was...</string>
+    <string name="recentTimeText">Time:</string>
 
+    // Height dialog
+    <string name="heightHintDialog">Height</string>
+    <string name="heightButton">OK</string>
+    <string name="heightPrompt">Please enter your height in inches (e.g. 60):</string>
+    <string name="heightExplanation">
+        Your height will be used to calculate the distance you travel from your steps. Thank you
+        for choosing Walk Walk Revolution.
+    </string>
+    <string name="invalidHeightToast">Invalid height. Please try again</string>
+    <string name="longHeightError">Height must have no more than 2 digits</string>
+    <string name="invalidHeightError">Height must be a whole number</string>
+    <string name="nonPositiveHeightError">Height must be a positive number</string>
+
+    // Routes screen
+    <string name="newRouteButton">+</string>
+
+    // Walk screen
+    <string name="walkHeader">Walk</string>
+    <string name="walkDefaultName">New Route</string>
+    <string name="walkDefaultStartingPoint"> </string>
+    <string name="walkDefaultNotes"> </string>
+    <string name="verifyCancelPrompt">Are you sure you want to cancel?</string>
+    <string name="verifySavePrompt">Would you like to save your walk?</string>
+    <string name="canceledToast">Canceled</string>
+
+    // Save route dialog
+    <string name="routeNamePrompt">Enter the name of this route</string>
+    <string name="routeNameHint">Route name</string>
+    <string name="emptyRouteName">Please enter a route name</string>
+    <string name="invalidRouteNameError">Invalid route name</string>
+    <string name="startingPointPrompt">Enter the starting point (optional)</string>
+    <string name="startingPointHint">Starting point</string>
+    <string name="featureSelectPrompt">Select route features (optional)</string>
+    <string name="featureFlat">Flat</string>
+    <string name="featureHilly">Hilly</string>
+    <string name="featureLoop">Loop</string>
+    <string name="featureOutBack">Out-and-Back</string>
+    <string name="featureStreets">Streets</string>
+    <string name="featureTrail">Trail</string>
+    <string name="featureEvenSurface">Even Surface</string>
+    <string name="featureUnevenSurface">Uneven Surface</string>
+    <string name="difficultyMid">Moderate</string>
+    <string name="difficultyEasy">Easy</string>
+    <string name="difficultyHard">Difficult</string>
+    <string name="routeNotesPrompt">Enter notes for this route (optional)</string>
+    <string name="routeNotesHint">Notes for this route</string>
 
     // Mocking screen
-    <string name="mockingIncrementText">Tap to add steps</string>
-    <string name="mockingIncrementButton">+500</string>
-    <string name="mockingTimeText">Enter the current time</string>
+    <string name="mockingStepsPrompt">Tap to add steps</string>
+    <string name="mockingStepsButton">+500</string>
+    <string name="mockingTimePrompt">Enter the current time</string>
     <string name="mockingTimeHint">00:00</string>
     <string name="mockingTimeError">Invalid time format. Please try again</string>
     <string name="mockingTimeSuccess">Saved</string>
-    <string name="submitButton">Submit</string>
-    <string name="backButton">Back</string>
 
-    //Route Details Screen
-    <string name="detailsDefaultRouteName">Route Name</string>
-    <string name="detailsRouteStartDateText">Last walked: </string>
-    <string name="detailsRouteStartTimeText">at</string>
+    // Route details Screen
+    <string name="detailsHeader">Details</string>
+    <string name="detailsDefaultName">Route Name</string>
+    <string name="detailsStartDateText">Last walked: </string>
     <string name="detailsStartingPointText">Starting point: </string>
-    <string name="detailsRouteDifficultyText">Difficulty: </string>
-    <string name="detailsRouteTerrainText">Terrain: </string>
-    <string name="detailsRouteNotes">Notes: </string>
-    <string name="routeDetailsHeader">Details</string>
-    <string name="defaultEmpty"> </string>
+    <string name="detailsDifficultyText">Difficulty: </string>
+    <string name="detailsTerrainText">Terrain: </string>
+    <string name="detailsNotes">Notes: </string>
+
+    // ???
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

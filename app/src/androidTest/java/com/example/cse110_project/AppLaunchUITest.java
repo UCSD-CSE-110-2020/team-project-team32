@@ -72,10 +72,10 @@ public class AppLaunchUITest {
                                 3)));
         appCompatButton.perform(scrollTo(), click());
 
-        ViewInteraction textView = onView(withId(R.id.dailyStepsDisplay));
+        ViewInteraction textView = onView(withId(R.id.dailySteps));
         textView.check(matches(withText("0")));
 
-        ViewInteraction textView2 = onView(withId(R.id.dailyMilesDisplay));
+        ViewInteraction textView2 = onView(withId(R.id.dailyMiles));
         textView2.check(matches(withText("0.0")));
     }
 

@@ -50,10 +50,10 @@ public class DisplayLastWalkTest {
         editor = pref.edit();
         c = mainActivity.getActivity().getApplicationContext();
 
-        walkSteps = mainActivity.getActivity().findViewById(R.id.recentStepsDisplay);
-        walkMiles = mainActivity.getActivity().findViewById(R.id.recentMilesDisplay);
-        walkTime = mainActivity.getActivity().findViewById(R.id.recentTimeDisplay);
-        noRecent = mainActivity.getActivity().getResources().getString(R.string.noRecentRouteText);
+        walkSteps = mainActivity.getActivity().findViewById(R.id.recentSteps);
+        walkMiles = mainActivity.getActivity().findViewById(R.id.recentMiles);
+        walkTime = mainActivity.getActivity().findViewById(R.id.recentTime);
+        noRecent = mainActivity.getActivity().getResources().getString(R.string.noDataText);
     }
 
     @Test

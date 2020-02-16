@@ -39,7 +39,7 @@ public class DisplayDailyStepsTest {
                 Context.MODE_PRIVATE);
         editor = pref.edit();
         c = mainActivity.getActivity().getApplicationContext();
-        stepsDisplay = mainActivity.getActivity().findViewById(R.id.dailyStepsDisplay);
+        stepsDisplay = mainActivity.getActivity().findViewById(R.id.dailySteps);
     }
 
     @Test

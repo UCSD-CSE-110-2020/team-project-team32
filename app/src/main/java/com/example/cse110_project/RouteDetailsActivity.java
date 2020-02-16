@@ -39,7 +39,7 @@ public class RouteDetailsActivity extends AppCompatActivity {
     }
 
     public void displayRouteData() {
-        TextView routeName = findViewById(R.id.routeNameDetail);
+        TextView routeName = findViewById(R.id.detailsRouteName);
         routeName.setText(route.getName());
 
         // Set steps, miles, time, date only if route has been walked
@@ -52,16 +52,16 @@ public class RouteDetailsActivity extends AppCompatActivity {
             TextView routeTime = findViewById(R.id.detailsRouteTime);
             routeTime.setText(route.getDuration().truncatedTo(ChronoUnit.MINUTES).toString());
 
-            TextView routeDate = findViewById(R.id.detailsRouteDate);
+            TextView routeDate = findViewById(R.id.detailsStartDate);
             routeDate.setText(route.getStartDate().truncatedTo(ChronoUnit.DAYS)
                     .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
-            TextView routeStartTime = findViewById(R.id.detailsRouteStartTime);
+            TextView routeStartTime = findViewById(R.id.detailsStartTime);
             routeStartTime.setText(route.getStartDate()
                     .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
         }
 
         // Set optional features if existent
-        TextView routeStartingPoint = findViewById(R.id.detailsRouteStartingPoint);
+        TextView routeStartingPoint = findViewById(R.id.detailsStartingPoint);
         routeStartingPoint.setText(route.getStartingPoint());
         TextView routeFav = findViewById(R.id.detailsFav);
         routeFav.setText(route.isFavorite() ? "FAV" : "");
@@ -73,8 +73,8 @@ public class RouteDetailsActivity extends AppCompatActivity {
 
         TextView routeFlatHilly = findViewById(R.id.detailsFlatHilly);
         routeFlatHilly.setText(route.getFlatVsHilly());
-        TextView routeLoopOAB = findViewById(R.id.detailsLoopOAB);
-        routeLoopOAB.setText(route.getLoopVsOAB());
+        TextView routeLoopOutBack = findViewById(R.id.detailsLoopOutBack);
+        routeLoopOutBack.setText(route.getLoopVsOAB());
 
         TextView routeStreetsTrail = findViewById(R.id.detailsStreetsTrail);
         routeStreetsTrail.setText(route.getStreetsVsTrail());

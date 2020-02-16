@@ -12,11 +12,8 @@ import androidx.annotation.NonNull;
 import com.example.cse110_project.R;
 
 public class RoutesListAdapter extends ArrayAdapter {
-
-    //to reference the Activity
+    // to reference the Activity
     private final Activity context;
-
-    //private final Integer[] imageIDarray;
 
     private final String[] nameArray;
     private final String[] startPtArray;
@@ -24,34 +21,33 @@ public class RoutesListAdapter extends ArrayAdapter {
     private final String[] milesArray;
     private final String[] timeArray;
     private final String[] dateArray;
-    private final String[] FlatVsHilly;
-    private final String[] LoopVsOutBack;
-    private final String[] StreetVsTrail;
-    private final String[] EvenVsUneven;
-    private final String[] Difficulty;
+    private final String[] flatHillyArray;
+    private final String[] loopOutBackArray;
+    private final String[] streetsTrailArray;
+    private final String[] evenUnevenArray;
+    private final String[] difficultyArray;
     private final String[] favArray;
 
-    public RoutesListAdapter(Activity context, String[] nameArrayParam, String[] startPtArray,
-                             String[] stepsArray, String[] milesArray, String[] timeArray,
-                             String[] dateArray, String[] FlatVsHillyArrayParam,
-                             String[] StreetVsTrailArrayparam, String[] LoopVsoutBackArrayparam,
-                             String [] EvenVsUnevenArrayparam, String[] DifficultyArrayparam,
-                             String[] favArray) {
-        super(context, R.layout.listview_routes_row, nameArrayParam);
+    public RoutesListAdapter (Activity context, String[] nameArray, String[] startPtArray,
+                              String[] stepsArray, String[] milesArray, String[] timeArray,
+                              String[] dateArray, String[] flatHillyArray,
+                              String[] streetsTrailArray, String[] loopOutBackArray,
+                              String[] evenUnevenArray, String[] difficultyArray,
+                              String[] favArray) {
+        super(context, R.layout.listview_routes_row, nameArray);
 
         this.context = context;
-        // this.imageIDarray = imageIDArrayParam;
-        this.nameArray = nameArrayParam;
+        this.nameArray = nameArray;
         this.startPtArray = startPtArray;
         this.stepsArray = stepsArray;
         this.milesArray = milesArray;
         this.timeArray = timeArray;
         this.dateArray = dateArray;
-        this.FlatVsHilly = FlatVsHillyArrayParam;
-        this.LoopVsOutBack = LoopVsoutBackArrayparam;
-        this.StreetVsTrail = StreetVsTrailArrayparam;
-        this.EvenVsUneven = EvenVsUnevenArrayparam;
-        this.Difficulty = DifficultyArrayparam;
+        this.flatHillyArray = flatHillyArray;
+        this.loopOutBackArray = loopOutBackArray;
+        this.streetsTrailArray = streetsTrailArray;
+        this.evenUnevenArray = evenUnevenArray;
+        this.difficultyArray = difficultyArray;
         this.favArray = favArray;
     }
 
@@ -61,31 +57,28 @@ public class RoutesListAdapter extends ArrayAdapter {
         View rowView=inflater.inflate(R.layout.listview_routes_row, null,true);
 
         //this code gets references to objects in the listview_routes_row.xmlrow.xml file
-        TextView nameTextField = rowView.findViewById(R.id.routeNameScreen);
+        TextView nameTextField = rowView.findViewById(R.id.routeRowName);
         TextView startPtTextField = rowView.findViewById(R.id.routeRowStartingPoint);
         TextView stepsTextField = rowView.findViewById(R.id.routeRowSteps);
         TextView milesTextField = rowView.findViewById(R.id.routeRowMiles);
         TextView timeTextField = rowView.findViewById(R.id.routeRowTime);
         TextView dateTextField = rowView.findViewById(R.id.routeRowDate);
-        TextView FlatVsHillyTextField = rowView.findViewById(R.id.FlatVsHilly);
-        TextView LoopVsOutBackTextField = rowView.findViewById(R.id.LoopVsOutBack);
-        TextView StreetVsTrailTextField = rowView.findViewById(R.id.StreetVSTrail);
-        TextView EvenVsUnevenTextField = rowView.findViewById(R.id.EvenVsUnEven);
-        TextView DifficultyTextField = rowView.findViewById(R.id.Difficulty);
+        TextView flatHillyTextField = rowView.findViewById(R.id.routeRowFlatHilly);
+        TextView loopOutBackTextField = rowView.findViewById(R.id.routeRowLoopOutBack);
+        TextView streetsTrailTextField = rowView.findViewById(R.id.routeRowStreetsTrail);
+        TextView evenUnevenTextField = rowView.findViewById(R.id.routeRowEvenUneven);
+        TextView difficultyTextField = rowView.findViewById(R.id.routeRowDifficulty);
         TextView favTextField = rowView.findViewById(R.id.routeRowFavorite);
-
-        //ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView1ID);
 
         //this code sets the values of the objects to values from the arrays
         nameTextField.setText(nameArray[position]);
         startPtTextField.setText(startPtArray[position]);
-        FlatVsHillyTextField.setText(FlatVsHilly[position]);
-        LoopVsOutBackTextField.setText(LoopVsOutBack[position]);
-        StreetVsTrailTextField.setText(StreetVsTrail[position]);
-        EvenVsUnevenTextField.setText(EvenVsUneven[position]);
-        DifficultyTextField.setText(Difficulty[position]);
+        flatHillyTextField.setText(flatHillyArray[position]);
+        loopOutBackTextField.setText(loopOutBackArray[position]);
+        streetsTrailTextField.setText(streetsTrailArray[position]);
+        evenUnevenTextField.setText(evenUnevenArray[position]);
+        difficultyTextField.setText(difficultyArray[position]);
         favTextField.setText(favArray[position]);
-        // imageView.setImageResource(imageIDarray[position]);
 
         // Only fill in steps, miles, etc. if route previously walked
         if (dateArray[position] != null) {
@@ -96,7 +89,5 @@ public class RoutesListAdapter extends ArrayAdapter {
         }
 
         return rowView;
-
     }
-
 }

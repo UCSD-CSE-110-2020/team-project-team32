@@ -8,11 +8,11 @@
 
 
     <TextView
-        android:id="@+id/sureCancelText"
+        android:id="@+id/verifyCancelPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/sureCancelText"
+        android:text="@string/verifyCancelPrompt"
         android:textStyle="bold" />
 
 </LinearLayout>

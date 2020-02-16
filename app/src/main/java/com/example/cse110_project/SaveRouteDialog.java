@@ -5,10 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +23,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class SaveRouteDialog {
-    private static final boolean FAVORITE = true;
+    private static final String UNSELECT_COL = "D3D3D3";
+    private static final String SELECT_COL = "#00bfff";
 
     private EditText routeName;
     private EditText routeNotes;
@@ -96,21 +94,21 @@ public class SaveRouteDialog {
 
         //
 
-        routeName = promptView.findViewById(R.id.NameOfWalkInput);
+        routeName = promptView.findViewById(R.id.routeNameInput);
         routeStartPt = promptView.findViewById(R.id.startingPointInput);
-        routeNotes = promptView.findViewById(R.id.NotesOfWalkInput);
+        routeNotes = promptView.findViewById(R.id.routeNotesInput);
         loopPick = promptView.findViewById(R.id.loopButton);
-        outAndBack = promptView.findViewById(R.id.outAndBackButton);
-        flatPick = promptView.findViewById(R.id.FlatButton);
-        hillyPick = promptView.findViewById(R.id.HillyButton);
-        streetPick = promptView.findViewById(R.id.streetButton);
+        outAndBack = promptView.findViewById(R.id.outBackButton);
+        flatPick = promptView.findViewById(R.id.flatButton);
+        hillyPick = promptView.findViewById(R.id.hillyButton);
+        streetPick = promptView.findViewById(R.id.streetsButton);
         trailPick = promptView.findViewById(R.id.trailButton);
         evenPick = promptView.findViewById(R.id.evenSurfaceButton);
         unevenPick = promptView.findViewById(R.id.unevenSurfaceButton);
-        easyPick = promptView.findViewById(R.id.EasyButton);
-        moderatePick = promptView.findViewById(R.id.ModerateButton);
-        difficultPick = promptView.findViewById(R.id.DifficultButton);
-        favoritePick = promptView.findViewById(R.id.FavoriteButton);
+        easyPick = promptView.findViewById(R.id.easyDifficultyButton);
+        moderatePick = promptView.findViewById(R.id.midDifficultyButton);
+        difficultPick = promptView.findViewById(R.id.hardDifficultyButton);
+        favoritePick = promptView.findViewById(R.id.favButton);
 
         validateTextInput();
         validateButtons();
@@ -118,7 +116,7 @@ public class SaveRouteDialog {
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
         cancelButton.setOnClickListener(v -> {
-            Toast.makeText(context, R.string.cancelDialog, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.canceledToast, Toast.LENGTH_SHORT).show();
             alert.dismiss();
         });
         submitButton.setOnClickListener(v -> validateOnClickSave(alert));
@@ -133,7 +131,7 @@ public class SaveRouteDialog {
     public void validateOnClickSave(DialogInterface dialog) {
         // Only name is required to save; don't check anything else!
         if (routeName.getText().toString().length() == 0) {
-             Toast.makeText(context, R.string.invalidWalkName, Toast.LENGTH_SHORT).show();
+             Toast.makeText(context, R.string.emptyRouteName, Toast.LENGTH_SHORT).show();
         } else {
              saveRoute();
              dialog.dismiss();
@@ -155,7 +153,6 @@ public class SaveRouteDialog {
         route.setNotes(routeNotes.getText().toString());
 
         if (pickedFavorite) {
-            System.out.println("Picked favorite");
             route.setFavorite(true);
         }
 
@@ -186,7 +183,7 @@ public class SaveRouteDialog {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (routeName.getText().toString().length() == 0) {
-                    routeName.setError(context.getResources().getString(R.string.emptyWalkName));
+                    routeName.setError(context.getResources().getString(R.string.emptyRouteName));
                 } else {
                     routeName.setError(null);
                 }
@@ -199,83 +196,108 @@ public class SaveRouteDialog {
 
     public void validateButtons() {
         loopPick.setOnClickListener(v -> {
-            loopPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            outAndBack.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            loopPick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            outAndBack.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedOutAndBack = false;
             pickedLoop = true;
         });
 
         outAndBack.setOnClickListener(v -> {
-            outAndBack.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            loopPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            outAndBack.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            loopPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedOutAndBack = true;
             pickedLoop = false;
         });
 
         flatPick.setOnClickListener(v -> {
-            flatPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            hillyPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            flatPick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            hillyPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedFlat = true;
             pickedHilly = false;
         });
 
         hillyPick.setOnClickListener(v -> {
-            hillyPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            flatPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            hillyPick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            flatPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedFlat = false;
             pickedHilly = true;
         });
 
         streetPick.setOnClickListener(v -> {
-            streetPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            trailPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            streetPick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            trailPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedStreets = true;
             pickedTrail = false;
         });
 
         trailPick.setOnClickListener(v -> {
-            trailPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            streetPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            trailPick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            streetPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedStreets = false;
             pickedTrail = true;
         });
 
         evenPick.setOnClickListener(v -> {
-            evenPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            unevenPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            evenPick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            unevenPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedEven = true;
             pickedUneven = false;
         });
 
         unevenPick.setOnClickListener(v -> {
-            unevenPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            evenPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            unevenPick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            evenPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedEven = false;
             pickedUneven = true;
         });
 
         easyPick.setOnClickListener(v -> {
-            easyPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            moderatePick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
-            difficultPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            easyPick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            moderatePick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+            difficultPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedEasy = true;
             pickedModerate = false;
             pickedDifficult = false;
         });
 
         moderatePick.setOnClickListener(v -> {
-            moderatePick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            easyPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
-            difficultPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            moderatePick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            easyPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+            difficultPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedEasy = false;
             pickedModerate = true;
             pickedDifficult = false;
         });
 
         difficultPick.setOnClickListener(v -> {
-            difficultPick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
-            easyPick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
-            moderatePick.getBackground().setColorFilter(Color.parseColor("#D3D3D3"), PorterDuff.Mode.MULTIPLY);
+            difficultPick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
+            easyPick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+            moderatePick.getBackground().setColorFilter(
+                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedEasy = false;
             pickedModerate = false;
             pickedDifficult = true;
@@ -283,8 +305,8 @@ public class SaveRouteDialog {
 
 
         favoritePick.setOnClickListener(v -> {
-            System.out.println("picked");
-            favoritePick.getBackground().setColorFilter(Color.parseColor("#00bfff"), PorterDuff.Mode.MULTIPLY);
+            favoritePick.getBackground().setColorFilter(
+                    Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedFavorite = true;
         });
 
