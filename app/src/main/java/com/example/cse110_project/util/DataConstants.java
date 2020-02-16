@@ -1,5 +1,8 @@
-package com.example.cse110_project.data;
+package com.example.cse110_project.util;
 
+/*
+ * Defines constants used to save/retrieve data stored in SharedPreferences
+ */
 public class DataConstants {
     // Keys & file names
     public final static String USER_DATA_FILE = "user_data";

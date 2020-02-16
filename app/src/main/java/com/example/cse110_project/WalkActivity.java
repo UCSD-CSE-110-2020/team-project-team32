@@ -5,41 +5,55 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.cse110_project.fitness.FitnessService;
-import com.example.cse110_project.fitness.FitnessServiceFactory;
-import com.example.cse110_project.util.CurrentFitnessTracker;
-import com.example.cse110_project.util.CurrentTimeTracker;
-import com.example.cse110_project.util.CurrentWalkTracker;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 
 public class WalkActivity extends AppCompatActivity {
     public final static String SAVED_ROUTE_KEY = "SAVED_ROUTE_KEY";
     public final static String SAVED_ROUTE_ID_KEY = "SAVED_ROUTE_ID";
+    private final static String TAG = "WalkActivity";
 
+    private User user;
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
     private boolean onSavedRoute;
     private int savedRouteID;
 
+    private int initialSteps;
+    private LocalTime initialTime;
+    private LocalDateTime initialDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
+        user = WWRApplication.getUser();
+
+        // Setting up before getting initial steps value to ensure up-to-date data
+        setUpFitnessService();
+
+        // Set initial values
+        initialSteps = user.getTotalSteps();
+        initialTime = WWRApplication.getTime();
+        initialDate = WWRApplication.getDate();
 
         // Handle case of walking an existing route
-        onSavedRoute = getIntent() != null &&
-                getIntent().getBooleanExtra(SAVED_ROUTE_KEY, false);
+        onSavedRoute = getIntent().getBooleanExtra(SAVED_ROUTE_KEY, false);
         if (onSavedRoute) {
-            savedRouteID = getIntent().getIntExtra(SAVED_ROUTE_ID_KEY, -1);
+            savedRouteID = getIntent().getIntExtra(SAVED_ROUTE_ID_KEY, 0);
+            Log.d(TAG, "Saved route ID: " + savedRouteID);
             displayRouteSummary();
         }
 
@@ -51,33 +65,34 @@ public class WalkActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(v -> finish());
 
         Button stopButton = findViewById(R.id.stopWalkButton);
-        stopButton.setOnClickListener(v -> {
-            endWalkActivity(CurrentTimeTracker.getTime());
-            showSaveDialog();
-        });
-
-        setUpFitnessService();
+        stopButton.setOnClickListener(v -> showSaveDialog());
     }
 
     private void displayRouteSummary() {
-        Route route = User.getRoutes(this).getRouteByID(savedRouteID);
+        Route route = user.getRoutes().getRouteByID(savedRouteID);
+        Log.d(TAG, "Displaying walk summary for route " + route);
         ((TextView)findViewById(R.id.walkRouteName)).setText(route.getName());
         ((TextView)findViewById(R.id.walkStartingPoint)).setText(route.getStartingPoint());
         ((TextView)findViewById(R.id.walkNotes)).setText(route.getNotes());
     }
 
     private void setUpFitnessService() {
-        if (CurrentFitnessTracker.hasFitnessService()) {
-            fitnessService = CurrentFitnessTracker.getFitnessService();
+        if (WWRApplication.hasFitnessService()) {
+            Log.d(TAG, "Using existing FitnessService");
             fitnessServiceActive = true;
         } else {
             String fitnessServiceKey = getIntent().getStringExtra(MainActivity.FITNESS_SERVICE_KEY);
-            System.out.println("Walk service key: " + fitnessServiceKey);
+            Log.d(TAG, "Setting up FitnessService with key: " + fitnessServiceKey);
             fitnessServiceActive = (fitnessServiceKey != null);
             if (fitnessServiceActive) {
-                fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-                fitnessService.setup();
+                // Only set up if a non-null key was provided
+                WWRApplication.setUpFitnessService(fitnessServiceKey, this);
             }
+        }
+
+        fitnessService = WWRApplication.getFitnessService();
+        if (fitnessServiceActive) {
+            fitnessService.updateStepCount();
         }
     }
 
@@ -85,24 +100,6 @@ public class WalkActivity extends AppCompatActivity {
     public void launchMockingActivity() {
         Intent intent = new Intent(this, MockingActivity.class);
         startActivity(intent);
-    }
-
-    public void endWalkActivity(LocalTime finalTime) {
-        System.out.println("Walk activity ended - " + fitnessServiceActive);
-        if (fitnessServiceActive) {
-            fitnessService.updateStepCount();
-        }
-        CurrentWalkTracker.setFinalSteps(User.getTotalSteps());
-        CurrentWalkTracker.setFinalTime(finalTime);
-    }
-
-
-    public void updateSavedRoute() {
-        if (onSavedRoute) {
-            User.getRoutes(this)
-                    .updateRouteData(this, savedRouteID, CurrentWalkTracker.getWalkSteps(),
-                    CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate());
-        }
     }
 
 
@@ -127,13 +124,22 @@ public class WalkActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> {
             alert.dismiss();
 
-            // Only create new SaveRoute if not on an already saved route
+            // Save route data
+            if (fitnessServiceActive) {
+                fitnessService.updateStepCount();
+            }
+            int walkSteps = user.getTotalSteps() - initialSteps;
+            LocalTime walkTime = WWRApplication.getTime().minus(
+                    Duration.ofNanos(initialTime.toNanoOfDay()));
+            LocalDateTime walkDate = initialDate;
+            Log.d(TAG, "Saving route with steps " + walkSteps + ", time " + walkTime
+                    + ", date " + walkDate);
+
             if (onSavedRoute) {
-                updateSavedRoute();
+                user.getRoutes().updateRouteData(savedRouteID, walkSteps, walkTime, walkDate);
                 finish();
             } else {
-                (new SaveRouteDialog(this, this, CurrentWalkTracker.getWalkSteps(),
-                        CurrentWalkTracker.getWalkTime(), CurrentWalkTracker.getWalkDate()))
+                (new SaveRouteDialog(this, this, walkSteps, walkTime, walkDate))
                         .inputRouteDataDialog();
             }
         });

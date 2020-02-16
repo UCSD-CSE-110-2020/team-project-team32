@@ -12,24 +12,26 @@ public class Route {
     public final static String HILLY = "Hilly";
     public final static String FLAT = "Flat";
     public final static String LOOP = "Loop";
-    public final static String OAB = "Out-and-back";
+    public final static String OUT_BACK = "Out-and-back";
     public final static String STREETS = "Streets";
     public final static String TRAIL = "Trail";
     public final static String EVEN_S = "Even surface";
     public final static String UNEVEN_S = "Uneven surface";
     public final static String EASY_D = "Easy";
-    public final static String MID_D = "Medium";
+    public final static String MID_D = "Moderate";
     public final static String HARD_D = "Difficult";
+    public final static String FAV = "FAV";
 
     private int id;
     private String name;
+
     private int steps;
     private LocalDateTime startDate;
     private LocalTime duration;
 
     private String startingPoint;
     private String flatVsHilly;
-    private String loopVsOAB;
+    private String loopVsOutBack;
     private String streetsVsTrail;
     private String evenVsUneven;
     private String difficulty;
@@ -43,7 +45,7 @@ public class Route {
 
         startingPoint = NO_DATA;
         flatVsHilly = NO_DATA;
-        loopVsOAB = NO_DATA;
+        loopVsOutBack = NO_DATA;
         streetsVsTrail = NO_DATA;
         evenVsUneven = NO_DATA;
         difficulty = NO_DATA;
@@ -57,8 +59,8 @@ public class Route {
         duration = dur;
     }
 
-    @Override
-    @NonNull
+    // Used for logging
+    @Override @NonNull
     public String toString() {
         return "" + id + ": (" + name + ", " + steps + ", " + duration + ", " + startDate + ")";
     }
@@ -72,6 +74,8 @@ public class Route {
     public void setName(String n) { name = n; }
 
     // Walk data
+
+    public boolean hasWalkData() { return duration != null && startDate != null; }
 
     public int getSteps() { return steps; }
 
@@ -99,9 +103,9 @@ public class Route {
 
     public void setFlatVsHilly(String str) { flatVsHilly = str; }
 
-    public String getLoopVsOAB() { return loopVsOAB; }
+    public String getLoopVsOutBack() { return loopVsOutBack; }
 
-    public void setLoopVsOAB(String str) { loopVsOAB = str; }
+    public void setLoopVsOutBack(String str) { loopVsOutBack = str; }
 
     public String getStreetsVsTrail() { return streetsVsTrail; }
 

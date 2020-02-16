@@ -347,7 +347,7 @@
         android:id="@+id/detailsFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FAV"
+        android:text="@string/favText"
         android:textColor="@android:color/holo_orange_light"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -365,19 +365,10 @@
         android:layout_marginStart="324dp"
         android:layout_marginTop="16dp"
         android:background="@color/design_default_color_background"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/btn_star_big_on" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="328dp"
-        android:layout_marginTop="60dp"
-        android:text="Favorite"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

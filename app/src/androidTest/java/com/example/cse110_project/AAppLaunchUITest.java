@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AppLaunchUITest {
+public class AAppLaunchUITest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
 
     @Rule
@@ -46,7 +46,7 @@ public class AppLaunchUITest {
 
     @Before
     public void setUp() {
-        FitnessServiceFactory.put(TEST_SERVICE, AppLaunchUITest.TestFitnessService::new);
+        FitnessServiceFactory.put(TEST_SERVICE, AAppLaunchUITest.TestFitnessService::new);
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         intent.putExtra(MainActivity.FITNESS_SERVICE_KEY, TEST_SERVICE);
     }

@@ -23,13 +23,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class SaveRouteDialog {
-    private static final String UNSELECT_COL = "D3D3D3";
+    private static final String DESELECT_COL = "#D3D3D3";
     private static final String SELECT_COL = "#00bfff";
+    private User user;
 
     private EditText routeName;
     private EditText routeNotes;
     private EditText routeStartPt;
-    private Route route;
     private AlertDialog alert;
 
     private AppCompatActivity activity;
@@ -50,21 +50,23 @@ public class SaveRouteDialog {
     private Button moderatePick;
     private Button difficultPick;
     private Button favoritePick;
-    private boolean pickedLoop = false;
-    private boolean pickedOutAndBack = false;
-    private boolean pickedFlat = false;
-    private boolean pickedHilly = false;
-    private boolean pickedStreets = false;
-    private boolean pickedTrail = false;
-    private boolean pickedEven = false;
-    private boolean pickedUneven = false;
-    private boolean pickedEasy = false;
-    private boolean pickedModerate = false;
-    private boolean pickedDifficult = false;
-    private boolean pickedFavorite = false;
+
+    private boolean pickedLoop;
+    private boolean pickedOutAndBack;
+    private boolean pickedFlat;
+    private boolean pickedHilly;
+    private boolean pickedStreets;
+    private boolean pickedTrail;
+    private boolean pickedEven;
+    private boolean pickedUneven;
+    private boolean pickedEasy;
+    private boolean pickedModerate;
+    private boolean pickedDifficult;
+    private boolean pickedFavorite;
 
     public SaveRouteDialog(AppCompatActivity activity, Context context, int steps, LocalTime time,
                            LocalDateTime date) {
+        user = WWRApplication.getUser();
         this.activity = activity;
         this.context = context;
         System.out.println("Context theme: " + context.getTheme());
@@ -79,7 +81,7 @@ public class SaveRouteDialog {
     public EditText getWalkNotes() { return routeNotes;}
 
     public AlertDialog inputRouteDataDialog() {
-        // get prompts.xml view
+        // Get xml view
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View promptView = layoutInflater.inflate(R.layout.dialog_new_route, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context)
@@ -88,12 +90,11 @@ public class SaveRouteDialog {
                 .setNegativeButton(R.string.cancelButton, null);
         alertDialogBuilder.setView(promptView);
 
-        // create an alert dialog
+        // Create an alert dialog
         alert = alertDialogBuilder.create();
         alert.show();
 
-        //
-
+        // Identify input views
         routeName = promptView.findViewById(R.id.routeNameInput);
         routeStartPt = promptView.findViewById(R.id.startingPointInput);
         routeNotes = promptView.findViewById(R.id.routeNotesInput);
@@ -114,34 +115,36 @@ public class SaveRouteDialog {
         validateButtons();
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+        submitButton.setOnClickListener(v -> validateOnClickSave(alert));
+
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
         cancelButton.setOnClickListener(v -> {
             Toast.makeText(context, R.string.canceledToast, Toast.LENGTH_SHORT).show();
             alert.dismiss();
         });
-        submitButton.setOnClickListener(v -> validateOnClickSave(alert));
 
         return alert;
     }
 
-    public void goToRouteScreen() {
+    private void launchRoutesActivity() {
         context.startActivity(new Intent(context, RoutesActivity.class));
     }
 
-    public void validateOnClickSave(DialogInterface dialog) {
-        // Only name is required to save; don't check anything else!
+    // Check valid route input
+    private void validateOnClickSave(DialogInterface dialog) {
+        // Only name is required to save
         if (routeName.getText().toString().length() == 0) {
              Toast.makeText(context, R.string.emptyRouteName, Toast.LENGTH_SHORT).show();
         } else {
              saveRoute();
              dialog.dismiss();
-             goToRouteScreen();
-             activity.finish();
+             launchRoutesActivity();
+             activity.finish(); // Finish prior Walk activity
         }
     }
 
     public void saveRoute() {
-        route = new Route(0, routeName.getText().toString());
+        Route route = new Route(0, routeName.getText().toString());
 
         if (date != null) {
             route.setSteps(steps);
@@ -156,8 +159,8 @@ public class SaveRouteDialog {
             route.setFavorite(true);
         }
 
-        if (pickedLoop) { route.setLoopVsOAB(Route.LOOP); }
-        else if (pickedOutAndBack) { route.setLoopVsOAB(Route.OAB); }
+        if (pickedLoop) { route.setLoopVsOutBack(Route.LOOP); }
+        else if (pickedOutAndBack) { route.setLoopVsOutBack(Route.OUT_BACK); }
 
         if (pickedFlat) { route.setFlatVsHilly(Route.FLAT); }
         else if (pickedHilly) {route.setFlatVsHilly(Route.HILLY); }
@@ -172,10 +175,10 @@ public class SaveRouteDialog {
         else if (pickedModerate) { route.setDifficulty(Route.MID_D); }
         else if (pickedDifficult) { route.setDifficulty(Route.HARD_D); }
 
-        User.getRoutes(context).createRoute(context, route);
+        user.getRoutes().createRoute(route);
     }
 
-    public void validateTextInput() {
+    private void validateTextInput() {
         routeName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -194,12 +197,12 @@ public class SaveRouteDialog {
         });
     }
 
-    public void validateButtons() {
+    private void validateButtons() {
         loopPick.setOnClickListener(v -> {
             loopPick.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             outAndBack.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedOutAndBack = false;
             pickedLoop = true;
         });
@@ -208,7 +211,7 @@ public class SaveRouteDialog {
             outAndBack.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             loopPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedOutAndBack = true;
             pickedLoop = false;
         });
@@ -217,7 +220,7 @@ public class SaveRouteDialog {
             flatPick.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             hillyPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedFlat = true;
             pickedHilly = false;
         });
@@ -226,7 +229,7 @@ public class SaveRouteDialog {
             hillyPick.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             flatPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedFlat = false;
             pickedHilly = true;
         });
@@ -235,7 +238,7 @@ public class SaveRouteDialog {
             streetPick.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             trailPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedStreets = true;
             pickedTrail = false;
         });
@@ -244,7 +247,7 @@ public class SaveRouteDialog {
             trailPick.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             streetPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedStreets = false;
             pickedTrail = true;
         });
@@ -253,7 +256,7 @@ public class SaveRouteDialog {
             evenPick.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             unevenPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedEven = true;
             pickedUneven = false;
         });
@@ -262,7 +265,7 @@ public class SaveRouteDialog {
             unevenPick.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             evenPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedEven = false;
             pickedUneven = true;
         });
@@ -271,9 +274,9 @@ public class SaveRouteDialog {
             easyPick.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             moderatePick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             difficultPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedEasy = true;
             pickedModerate = false;
             pickedDifficult = false;
@@ -283,9 +286,9 @@ public class SaveRouteDialog {
             moderatePick.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             easyPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             difficultPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedEasy = false;
             pickedModerate = true;
             pickedDifficult = false;
@@ -295,9 +298,9 @@ public class SaveRouteDialog {
             difficultPick.getBackground().setColorFilter(
                     Color.parseColor(SELECT_COL), PorterDuff.Mode.MULTIPLY);
             easyPick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             moderatePick.getBackground().setColorFilter(
-                    Color.parseColor(UNSELECT_COL), PorterDuff.Mode.MULTIPLY);
+                    Color.parseColor(DESELECT_COL), PorterDuff.Mode.MULTIPLY);
             pickedEasy = false;
             pickedModerate = false;
             pickedDifficult = true;

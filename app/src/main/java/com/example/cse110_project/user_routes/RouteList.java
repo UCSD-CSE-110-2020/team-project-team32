@@ -3,9 +3,9 @@ package com.example.cse110_project.user_routes;
 import android.content.Context;
 import android.util.SparseIntArray;
 
-import com.example.cse110_project.data.DataConstants;
-import com.example.cse110_project.data.RouteData;
-import com.example.cse110_project.data.UserData;
+import androidx.annotation.NonNull;
+
+import com.example.cse110_project.util.DataConstants;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -14,23 +14,27 @@ import java.util.Collections;
 import java.util.List;
 
 public class RouteList {
-    private static int routeID = 1;
+    // Stores max route id currently used
+    private static int routeID = 0;
     private List<Route> routes;
+    private Context context;
 
     // Used for constant-time retrieval by route id
     private SparseIntArray idToIndex;
 
     public RouteList(Context c) {
+        context = c;
         routes = new ArrayList<>();
         idToIndex = new SparseIntArray();
-        processRoutes(c);
+        processRoutes();
     }
 
-    @Override
+    // Used in logging
+    @Override @NonNull
     public String toString() {
         String result = "[";
         for (Route r : routes) {
-            result += r + "\n";
+            result += "\t" + r + "\n";
         }
         return result + "]";
     }
@@ -43,21 +47,21 @@ public class RouteList {
         return routes.get(index);
     }
 
-    public Route getRouteByID(int routeID) {
-        return routes.get(idToIndex.get(routeID));
-    }
+    public Route getRouteByID(int routeID) { return routes.get(idToIndex.get(routeID)); }
 
-    public void createRoute(Context c, Route r) {
+    // Overwrites given route's id to ensure uniqueness
+    public void createRoute(Route r) {
         routeID++;
         r.setID(routeID);
         routes.add(r);
         idToIndex.put(routeID, routes.size() - 1);
 
-        UserData.saveRoute(c, r);
-        RouteData.saveRouteData(c, r);
+        UserData.saveRoute(context, r);
+        RouteData.saveRouteData(context, r);
     }
 
-    public void updateRouteData(Context c, int id, int steps, LocalTime time, LocalDateTime date) {
+    // Updates route with new walk data
+    public void updateRouteData(int id, int steps, LocalTime time, LocalDateTime date) {
         // Set local values
         Route route = getRouteByID(id);
         route.setSteps(steps);
@@ -65,15 +69,19 @@ public class RouteList {
         route.setStartDate(date);
 
         // Update saved values
-        RouteData.saveRouteSteps(c, id, steps);
-        RouteData.saveRouteTime(c, id, time.toString());
-        RouteData.saveRouteDate(c, id, date.toString());
+        RouteData.saveRouteSteps(context, id, steps);
+        RouteData.saveRouteTime(context, id, time.toString());
+        RouteData.saveRouteDate(context, id, date.toString());
     }
 
     public void sortByName() {
         Collections.sort(routes, (r1, r2) -> r1.getName().compareToIgnoreCase(r2.getName()));
+        for (int i = 0; i < routes.size(); i++) {
+            idToIndex.put(routes.get(i).getID(), i);
+        }
     }
 
+    // Returns null if no route has been walked
     public Route getMostRecentRoute() {
         if (routes.size() == 0) {
             return null;
@@ -81,52 +89,50 @@ public class RouteList {
 
         Route recent = routes.get(0);
         for (Route r : routes) {
-            if (recent.getStartDate() == null ||
-                    (r.getStartDate() != null && r.getStartDate().isAfter(recent.getStartDate()))) {
+            if ( ! recent.hasWalkData() ||
+                    (r.hasWalkData() && r.getStartDate().isAfter(recent.getStartDate()))) {
                 recent = r;
             }
         }
 
-        if (recent.getStartDate() == null) {
-            return null;
-        }
-        return recent;
+        return recent.hasWalkData() ? recent : null;
     }
 
-    private void processRoutes(Context c) {
-        String routeIDList = UserData.retrieveRouteList(c);
-        if (routeIDList == DataConstants.NO_ROUTES_FOUND) {
+    // Processes list of saved route IDs and retrieves route-specific data
+    private void processRoutes() {
+        String routeIDList = UserData.retrieveRouteList(context);
+        if (routeIDList.equals(DataConstants.NO_ROUTES_FOUND)) {
             return;
         }
 
-        String[] routeIDs = UserData.retrieveRouteList(c).split(DataConstants.LIST_SPLIT);
-        int maxID = -1;
-        int idx = 0;
+        String[] routeIDs = UserData.retrieveRouteList(context).split(DataConstants.LIST_SPLIT);
+        routeID = 0;
+        int index = 0;
 
         for (String idStr : routeIDs) {
             int id = Integer.parseInt(idStr);
-            idToIndex.put(id, idx);
-            idx++;
-            if (id > maxID) {
-                maxID = id;
+            idToIndex.put(id, index);
+            index++;
+            if (id > routeID) {
+                routeID = id;
             }
 
-            int steps = RouteData.retrieveRouteSteps(c, id);
-            String name = RouteData.retrieveRouteName(c, id);
-            String startPt = RouteData.retrieveStartingPoint(c, id);
-            String hillyVsFlat = RouteData.retrieveFlatVsHilly(c,id);
-            String loopVsOAB = RouteData.retrieveLoopVsOAB(c,id);
-            String streetsVsTrail = RouteData.retrieveStreetVsTrail(c,id);
-            String evenVsUneven = RouteData.retrieveEvenVsUneven(c,id);
-            String difficulty = RouteData.retrieveDifficulty(c,id);
-            String notes = RouteData.retrieveNotes(c, id);
-            boolean fav = RouteData.retrieveFavorite(c, id);
+            int steps = RouteData.retrieveRouteSteps(context, id);
+            String name = RouteData.retrieveRouteName(context, id);
+            String startPt = RouteData.retrieveStartingPoint(context, id);
+            String hillyVsFlat = RouteData.retrieveFlatVsHilly(context,id);
+            String loopVsOAB = RouteData.retrieveLoopVsOutBack(context,id);
+            String streetsVsTrail = RouteData.retrieveStreetVsTrail(context,id);
+            String evenVsUneven = RouteData.retrieveEvenVsUneven(context,id);
+            String difficulty = RouteData.retrieveDifficulty(context,id);
+            String notes = RouteData.retrieveNotes(context, id);
+            boolean fav = RouteData.retrieveFavorite(context, id);
 
             Route r = new Route(id, name);
             r.setSteps(steps);
             r.setStartingPoint(startPt);
             r.setFlatVsHilly(hillyVsFlat);
-            r.setLoopVsOAB(loopVsOAB);
+            r.setLoopVsOutBack(loopVsOAB);
             r.setStreetsVsTrail(streetsVsTrail);
             r.setEvenVsUneven(evenVsUneven);
             r.setDifficulty(difficulty);
@@ -134,17 +140,15 @@ public class RouteList {
             r.setFavorite(fav);
             routes.add(r);
 
-            String time = RouteData.retrieveRouteTime(c, id);
+            String time = RouteData.retrieveRouteTime(context, id);
             if ( ! time.equals(DataConstants.STR_NOT_FOUND)) {
                 r.setDuration(LocalTime.parse(time));
             }
 
-            String date = RouteData.retrieveRouteDate(c, id);
+            String date = RouteData.retrieveRouteDate(context, id);
             if ( ! date.equals(DataConstants.STR_NOT_FOUND)) {
                 r.setStartDate(LocalDateTime.parse(date));
             }
         }
-
-        routeID = maxID;
     }
 }

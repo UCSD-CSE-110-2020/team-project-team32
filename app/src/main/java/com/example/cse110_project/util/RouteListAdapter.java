@@ -1,4 +1,4 @@
-package com.example.cse110_project.user_routes;
+package com.example.cse110_project.util;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.example.cse110_project.R;
 
-public class RoutesListAdapter extends ArrayAdapter {
+public class RouteListAdapter extends ArrayAdapter {
     // to reference the Activity
     private final Activity context;
 
@@ -28,12 +28,12 @@ public class RoutesListAdapter extends ArrayAdapter {
     private final String[] difficultyArray;
     private final String[] favArray;
 
-    public RoutesListAdapter (Activity context, String[] nameArray, String[] startPtArray,
-                              String[] stepsArray, String[] milesArray, String[] timeArray,
-                              String[] dateArray, String[] flatHillyArray,
-                              String[] streetsTrailArray, String[] loopOutBackArray,
-                              String[] evenUnevenArray, String[] difficultyArray,
-                              String[] favArray) {
+    public RouteListAdapter(Activity context, String[] nameArray, String[] startPtArray,
+                            String[] stepsArray, String[] milesArray, String[] timeArray,
+                            String[] dateArray, String[] flatHillyArray,
+                            String[] streetsTrailArray, String[] loopOutBackArray,
+                            String[] evenUnevenArray, String[] difficultyArray,
+                            String[] favArray) {
         super(context, R.layout.listview_routes_row, nameArray);
 
         this.context = context;
@@ -51,10 +51,10 @@ public class RoutesListAdapter extends ArrayAdapter {
         this.favArray = favArray;
     }
 
-    @NonNull
+    @Override @NonNull
     public View getView (int position, View view, ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.listview_routes_row, null,true);
+        View rowView = inflater.inflate(R.layout.listview_routes_row, null,true);
 
         //this code gets references to objects in the listview_routes_row.xmlrow.xml file
         TextView nameTextField = rowView.findViewById(R.id.routeRowName);

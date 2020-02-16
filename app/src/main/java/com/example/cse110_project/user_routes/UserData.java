@@ -1,28 +1,29 @@
 
-package com.example.cse110_project.data;
+package com.example.cse110_project.user_routes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.util.DataConstants;
 
 public class UserData {
 
     public static int retrieveHeight(Context c) {
         SharedPreferences pref
-                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, c.MODE_PRIVATE);
+                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, Context.MODE_PRIVATE);
         return pref.getInt(DataConstants.HEIGHT_KEY, DataConstants.NO_HEIGHT_FOUND);
     }
 
     public static String retrieveRouteList(Context c) {
         SharedPreferences pref
-                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, c.MODE_PRIVATE);
+                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, Context.MODE_PRIVATE);
         return pref.getString(DataConstants.ROUTES_LIST_KEY, DataConstants.NO_ROUTES_FOUND);
     }
 
     public static void saveHeight(Context c, int height) {
         SharedPreferences pref
-                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, c.MODE_PRIVATE);
+                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt(DataConstants.HEIGHT_KEY, height);
         editor.apply();
@@ -33,10 +34,10 @@ public class UserData {
         String routeID = Integer.toString(route.getID());
 
         SharedPreferences pref
-                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, c.MODE_PRIVATE);
+                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
 
-        if (routeList == DataConstants.NO_ROUTES_FOUND) {
+        if (routeList.equals(DataConstants.NO_ROUTES_FOUND)) {
             editor.putString(DataConstants.ROUTES_LIST_KEY, routeID);
         } else {
             editor.putString(DataConstants.ROUTES_LIST_KEY,

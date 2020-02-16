@@ -5,35 +5,38 @@ import android.content.Context;
 import com.example.cse110_project.util.MilesCalculator;
 
 public class User {
-    private static RouteList routes = null;
-    private static int height = 0;
-    private static int fitnessSteps = 0;
-    private static int stepsOffset = 0;
+    private Context context;
+    private RouteList routes;
+    private int height;
+    private int fitnessSteps; // Used for steps provided by a FitnessService
+    private int stepsOffset;  // Used for steps provided by in-app mocking
 
-    public static int getHeight() { return height;}
+    public User(Context c) {
+        context = c;
+        routes = new RouteList(context);
+        height = UserData.retrieveHeight(context);
+    }
 
-    public static void setHeight(int h) { height = h; }
+    public int getHeight() { return height; }
 
-    public static int getFitnessSteps() { return fitnessSteps;}
+    public void setHeight(int h) {
+        height = h;
+        UserData.saveHeight(context, height);
+    }
 
-    public static int getStepsOffset() { return stepsOffset;}
+    public int getFitnessSteps() { return fitnessSteps; }
 
-    public static void setFitnessSteps(int s) { fitnessSteps = s; }
+    public int getStepsOffset() { return stepsOffset; }
 
-    public static void setStepsOffset(int s) { stepsOffset = s; }
+    public void setFitnessSteps(int s) { fitnessSteps = s; }
 
-    public static int getTotalSteps() { return stepsOffset+fitnessSteps;}
+    public void setStepsOffset(int s) { stepsOffset = s; }
 
+    public int getTotalSteps() { return stepsOffset + fitnessSteps; }
 
-    public static double getMiles() {
+    public double getMiles() {
         return MilesCalculator.calculateMiles(height, getTotalSteps());
     }
 
-
-    public static RouteList getRoutes(Context c){
-        if (routes == null) {
-            routes = new RouteList(c);
-        }
-        return routes;
-    }
+    public RouteList getRoutes(){ return routes; }
 }

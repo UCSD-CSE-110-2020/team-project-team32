@@ -15,7 +15,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.cse110_project.MainActivity;
-import com.example.cse110_project.data.UserData;
+import com.example.cse110_project.user_routes.UserData;
 import com.google.common.truth.Truth;
 
 import org.junit.Before;
@@ -90,7 +90,7 @@ public class HeightInputTest {
     }
 
     @Test
-    public void HeightInputTooLong() {
+    public void heightInputTooLong() {
         scenario.onActivity(mainActivity -> {
             setHeight.setText("707777777777777777777");
 
@@ -105,7 +105,7 @@ public class HeightInputTest {
     }
 
     @Test
-    public void HeightNoInput() {
+    public void heightNoInput() {
         scenario.onActivity(mainActivity -> {
             setHeight.setText("");
 
@@ -120,7 +120,7 @@ public class HeightInputTest {
     }
 
     @Test
-    public void HeightInputZero() {
+    public void heightInputZero() {
         scenario.onActivity(mainActivity -> {
             setHeight.setText("00");
 
@@ -135,7 +135,7 @@ public class HeightInputTest {
     }
 
     @Test
-    public void HeightInput99() {
+    public void heightInput99() {
         scenario.onActivity(mainActivity -> {
             setHeight.setText("99");
 
