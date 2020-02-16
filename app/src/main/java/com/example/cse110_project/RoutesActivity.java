@@ -64,10 +64,8 @@ public class RoutesActivity extends AppCompatActivity{
         Button launchToHomeScreen = findViewById(R.id.button_routeToHome);
         Button newRoute = findViewById(R.id.button_routeScreenNewRoute);
 
-        newRoute.setOnClickListener(v -> (new SaveRouteDialog(this, this,
-                CurrentWalkTracker.getWalkSteps(), CurrentWalkTracker.getWalkTime(),
-                CurrentWalkTracker.getWalkDate()))
-                .inputRouteDataDialog());
+        newRoute.setOnClickListener(v -> (new SaveRouteDialog(this, this, 0,
+                null, null)).inputRouteDataDialog());
 
         launchToHomeScreen.setOnClickListener(view -> finish());
 

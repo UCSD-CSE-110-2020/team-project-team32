@@ -137,15 +137,17 @@ public class SaveRouteDialog {
              goToRouteScreen();
              activity.finish();
         }
-        // route notes
-
     }
 
     public void saveRoute() {
         route = new Route(0, routeName.getText().toString());
-        route.setSteps(steps);
-        route.setDuration(time);
-        route.setStartDate(date);
+
+        if (date != null) {
+            route.setSteps(steps);
+            route.setDuration(time);
+            route.setStartDate(date);
+        }
+
         route.setStartingPoint(routeStartPt.getText().toString());
         route.setNotes(routeNotes.getText().toString());
 
