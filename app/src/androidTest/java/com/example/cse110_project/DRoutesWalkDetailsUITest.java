@@ -71,46 +71,6 @@ public class DRoutesWalkDetailsUITest {
                         isDisplayed()));
         appCompatButton2.perform(click());
 
-        ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.mockingStepsButton), withText("+500"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatButton3.perform(click());
-
-        ViewInteraction appCompatButton4 = onView(
-                allOf(withId(R.id.mockingStepsButton), withText("+500"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatButton4.perform(click());
-
-        ViewInteraction appCompatButton5 = onView(
-                allOf(withId(R.id.mockingStepsButton), withText("+500"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatButton5.perform(click());
-
-        ViewInteraction appCompatButton6 = onView(
-                allOf(withId(R.id.mockingStepsButton), withText("+500"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatButton6.perform(click());
-
         ViewInteraction appCompatButton7 = onView(
                 allOf(withId(R.id.mockingTimeSubmitButton), withText("Submit"),
                         childAtPosition(
