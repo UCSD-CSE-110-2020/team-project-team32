@@ -1,4 +1,4 @@
-package com.example.cse110_project.fitness_api;
+package com.example.cse110_project.fitness;
 
 import android.util.Log;
 
@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import com.example.cse110_project.MainActivity;
 
 public class FitnessServiceFactory {
 

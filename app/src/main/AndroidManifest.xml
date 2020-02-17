@@ -3,6 +3,7 @@
     package="com.example.cse110_project">
 
     <application
+        android:name=".WWRApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,7 +12,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MockingActivity" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".HeightInputDialog"
             android:theme="@style/splashTheme"></activity>
         <activity android:name=".EntryActivity">
             <intent-filter>
@@ -23,9 +24,9 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="standard"></activity>
-        <activity android:name=".RouteScreen" />
+        <activity android:name=".RoutesActivity" />
         <activity android:name=".WalkActivity" />
-        <activity android:name=".RouteDetails" />
+        <activity android:name=".RouteDetailsActivity" />
     </application>
 
 </manifest>

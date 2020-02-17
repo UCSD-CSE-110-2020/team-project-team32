@@ -5,9 +5,9 @@ import android.content.SharedPreferences;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
-import com.example.cse110_project.data_access.DataConstants;
-import com.example.cse110_project.data_access.RouteData;
-import com.example.cse110_project.data_access.UserData;
+import com.example.cse110_project.util.DataConstants;
+import com.example.cse110_project.user_routes.RouteData;
+import com.example.cse110_project.user_routes.UserData;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 
@@ -43,14 +43,13 @@ public class RouteListTest {
         c = mainActivity.getActivity().getApplicationContext();
     }
 
-    // Tests processRoutes by way of the ctor
+    // Tests processRoutes by way of the constructor
     @Test
     public void testGenerationNoRoutes() {
         RouteList list = new RouteList(c);
         assertEquals(list.length(), 0);
     }
 
-    // Tests processRoutes by way of the ctor
     @Test
     public void testGenerationSomeRoutes() {
         Route r = new Route(10, "Name", 50, LocalTime.of(10,10),
@@ -161,14 +160,52 @@ public class RouteListTest {
     @Test
     public void testCreateRoute() {
         RouteList list = new RouteList(c);
-        list.createRoute(c, new Route(0, "Name"));
+        list.createRoute(new Route(0, "Name"));
         assertEquals(1, list.length());
         assertNotEquals(0, list.getRoute(0).getID());
         assertEquals("Name", list.getRoute(0).getName());
 
-        list.createRoute(c, new Route(list.getRoute(0).getID(), "Name"));
+        list.createRoute(new Route(list.getRoute(0).getID(), "Name"));
         assertEquals(2, list.length());
         assertNotEquals(list.getRoute(0).getID(), list.getRoute(1).getID());
         assertEquals("Name", list.getRoute(1).getName());
     }
+
+    @Test
+    public void testUpdateRouteData(){
+        RouteList list = new RouteList(c);
+        list.createRoute(new Route(0, "Name"));
+        list.updateRouteData(0, 500,LocalTime.of(10,10),
+                LocalDateTime.of(2020,1,1,1,1) );
+
+        list.createRoute(new Route(list.getRoute(0).getID(), "Name"));
+        assertNotEquals(list.getRoute(0).getID(), list.getRoute(1).getID());
+        assertEquals(list.getRoute(0).getName(), "Name");
+        assertEquals(list.getRoute(0).getSteps(), 500);
+        assertEquals(list.getRoute(0).getDuration(), LocalTime.of(10,10));
+        assertEquals(list.getRoute(0).getStartDate(),
+                LocalDateTime.of(2020,1,1,1,1));
+    }
+
+    @Test
+    public void testSortByName(){
+        RouteList list = new RouteList(c);
+        list.createRoute(new Route(0, "A"));
+        list.createRoute(new Route(2, "B1"));
+        list.createRoute(new Route(3, "a1"));
+        list.createRoute(new Route(1, "b"));
+
+        assertEquals(list.getRoute(0).getName(), "A");
+        assertEquals(list.getRoute(1).getName(), "B1");
+        assertEquals(list.getRoute(2).getName(), "a1");
+        assertEquals(list.getRoute(3).getName(), "b");
+
+        list.sortByName();
+
+        assertEquals(list.getRoute(0).getName(), "A");
+        assertEquals(list.getRoute(1).getName(), "a1");
+        assertEquals(list.getRoute(2).getName(), "b");
+        assertEquals(list.getRoute(3).getName(), "B1");
+    }
+
 }

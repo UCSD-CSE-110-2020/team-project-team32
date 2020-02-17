@@ -8,7 +8,8 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
-import com.example.cse110_project.data_access.DataConstants;
+import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.User;
 
 import org.junit.Before;
@@ -23,10 +24,7 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
 public class DisplayDailyStepsTest {
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
-    private Context c;
-
+    private User user;
     private TextView stepsDisplay;
 
     @Rule
@@ -35,16 +33,13 @@ public class DisplayDailyStepsTest {
 
     @Before
     public void setup() {
-        pref = mainActivity.getActivity().getSharedPreferences(DataConstants.USER_DATA_FILE,
-                Context.MODE_PRIVATE);
-        editor = pref.edit();
-        c = mainActivity.getActivity().getApplicationContext();
-        stepsDisplay = mainActivity.getActivity().findViewById(R.id.dailyStepsDisplay);
+        user = WWRApplication.getUser();
+        stepsDisplay = mainActivity.getActivity().findViewById(R.id.dailySteps);
     }
 
     @Test
     public void testInitialSteps() {
-        assertEquals(String.valueOf(User.getTotalSteps()), stepsDisplay.getText());
+        assertEquals(String.valueOf(user.getTotalSteps()), stepsDisplay.getText());
     }
 
     @Test
@@ -59,5 +54,14 @@ public class DisplayDailyStepsTest {
     public void testLargeSteps() {
         mainActivity.getActivity().updateDailySteps(Integer.MAX_VALUE);
         assertEquals(String.valueOf(Integer.MAX_VALUE), stepsDisplay.getText());
+    }
+
+    @Test
+    public void testStepsWithOffset() {
+        mainActivity.getActivity().updateDailySteps(20);
+        assertEquals("20", stepsDisplay.getText());
+        user.setStepsOffset(100);
+        mainActivity.getActivity().updateDailySteps(20);
+        assertEquals("120", stepsDisplay.getText());
     }
 }

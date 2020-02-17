@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
-import com.example.cse110_project.data_access.DataConstants;
-import com.example.cse110_project.data_access.UserData;
+import com.example.cse110_project.util.DataConstants;
+import com.example.cse110_project.user_routes.UserData;
 import com.example.cse110_project.user_routes.Route;
 
 import org.junit.Before;
@@ -56,7 +56,7 @@ public class UserDataTest {
     }
 
     @Test
-    public void testSaveNameOverriding() {
+    public void testSaveHeightOverriding() {
         UserData.saveHeight(c, 5);
         assertEquals(UserData.retrieveHeight(c), 5);
         UserData.saveHeight(c, 60);
@@ -79,10 +79,11 @@ public class UserDataTest {
         assertEquals("10", UserData.retrieveRouteList(c));
         Route r2 = new Route(15, "Name");
         UserData.saveRoute(c, r2);
-        assertEquals(UserData.retrieveRouteList(c), "10\t15");
+        assertEquals("10\t15", UserData.retrieveRouteList(c));
         Route r3 = new Route(100, "Name");
         UserData.saveRoute(c, r3);
-        assertEquals(UserData.retrieveRouteList(c), "10\t15\t100");
-        assertEquals(pref.getString(DataConstants.ROUTES_LIST_KEY, ""), "10\t15\t100");
+        assertEquals("10\t15\t100", UserData.retrieveRouteList(c));
+        assertEquals("10\t15\t100",
+                pref.getString(DataConstants.ROUTES_LIST_KEY, ""));
     }
 }

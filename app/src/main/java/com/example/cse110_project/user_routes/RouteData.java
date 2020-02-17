@@ -1,10 +1,14 @@
-package com.example.cse110_project.data_access;
+package com.example.cse110_project.user_routes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.util.DataConstants;
 
+/*
+ * Contains methods for storing & retrieving data on specific routes to/from SharedPreferences.
+ */
 public class RouteData {
     public static String retrieveRouteName(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
@@ -42,7 +46,7 @@ public class RouteData {
                 DataConstants.STR_NOT_FOUND);
     }
 
-    public static String retrieveLoopVsOAB(Context c, int routeID) {
+    public static String retrieveLoopVsOutBack(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getString(String.format(DataConstants.LOOP_VS_OUTBACK_KEY, routeID),
                 DataConstants.STR_NOT_FOUND);
@@ -72,48 +76,32 @@ public class RouteData {
                 DataConstants.STR_NOT_FOUND);
     }
 
+    public static boolean retrieveFavorite(Context c, int routeID) {
+        SharedPreferences pref = retrievePrefs(c);
+        return pref.getBoolean(String.format(DataConstants.ROUTE_FAVORITE_KEY, routeID),
+                DataConstants.BOOL_NOT_FOUND);
+    }
+
+    // Saves all data for the given route
     public static void saveRouteData(Context c, Route route) {
         saveRouteName(c, route.getID(), route.getName());
 
-        if (route.getSteps() >= 0) {
+        // Save steps/time/date only if route has been walked
+        if (route.getStartDate() != null && route.getDuration() != null) {
             saveRouteSteps(c, route.getID(), route.getSteps());
-        }
-
-        if (route.getDuration() != null) {
             saveRouteTime(c, route.getID(), route.getDuration().toString());
-        }
-
-        if (route.getStartDate() != null) {
             saveRouteDate(c, route.getID(), route.getStartDate().toString());
         }
 
-        if (route.getStartingPoint() != Route.NO_DATA) {
-            saveStartingPoint(c, route.getID(), route.getStartingPoint());
-        }
-
-        if (route.getFlatVsHilly() != Route.NO_DATA){
-            saveFlatVsHilly(c, route.getID(), route.getFlatVsHilly());
-        }
-
-        if (route.getLoopVsOAB() != Route.NO_DATA) {
-            saveLoopVsOAB(c, route.getID(), route.getLoopVsOAB());
-        }
-
-        if (route.getStreetsVsTrail() != Route.NO_DATA){
-            saveStreetsVsTrail(c, route.getID(), route.getStreetsVsTrail());
-        }
-
-        if (route.getEvenVsUneven() != Route.NO_DATA) {
-            saveEvenVsUneven(c, route.getID(), route.getEvenVsUneven());
-        }
-
-        if (route.getDifficulty() != Route.NO_DATA) {
-            saveDifficulty(c, route.getID(), route.getDifficulty());
-        }
-
-        if (route.getNotes() != Route.NO_DATA) {
-            saveNotes(c, route.getID(), route.getNotes());
-        }
+        // Features are always initialized to empty in Route constructor
+        saveStartingPoint(c, route.getID(), route.getStartingPoint());
+        saveFlatVsHilly(c, route.getID(), route.getFlatVsHilly());
+        saveLoopVsOutBack(c, route.getID(), route.getLoopVsOutBack());
+        saveStreetsVsTrail(c, route.getID(), route.getStreetsVsTrail());
+        saveEvenVsUneven(c, route.getID(), route.getEvenVsUneven());
+        saveDifficulty(c, route.getID(), route.getDifficulty());
+        saveNotes(c, route.getID(), route.getNotes());
+        saveFavorite(c, route.getID(), route.isFavorite());
     }
 
     public static void saveRouteName(Context c, int routeID, String routeName) {
@@ -152,7 +140,7 @@ public class RouteData {
         editor.apply();
     }
 
-    public static void saveLoopVsOAB(Context c, int routeID, String data) {
+    public static void saveLoopVsOutBack(Context c, int routeID, String data) {
         SharedPreferences.Editor editor = retrieveEditor(c);
         editor.putString(String.format(DataConstants.LOOP_VS_OUTBACK_KEY, routeID), data);
         editor.apply();
@@ -179,6 +167,12 @@ public class RouteData {
     public static void saveNotes(Context c, int routeID, String data) {
         SharedPreferences.Editor editor = retrieveEditor(c);
         editor.putString(String.format(DataConstants.ROUTE_NOTES_KEY, routeID), data);
+        editor.apply();
+    }
+
+    public static void saveFavorite(Context c, int routeID, boolean fav) {
+        SharedPreferences.Editor editor = retrieveEditor(c);
+        editor.putBoolean(String.format(DataConstants.ROUTE_FAVORITE_KEY, routeID), fav);
         editor.apply();
     }
 

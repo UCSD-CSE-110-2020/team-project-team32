@@ -7,11 +7,12 @@ import android.widget.TextView;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
-import com.example.cse110_project.MilesCalculator;
+import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.util.MilesCalculator;
 import com.example.cse110_project.R;
-import com.example.cse110_project.data_access.DataConstants;
-import com.example.cse110_project.data_access.RouteData;
-import com.example.cse110_project.data_access.UserData;
+import com.example.cse110_project.util.DataConstants;
+import com.example.cse110_project.user_routes.RouteData;
+import com.example.cse110_project.user_routes.UserData;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
@@ -30,8 +31,7 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
 public class DisplayLastWalkTest {
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
+    private User user;
     private Context c;
 
     private TextView walkSteps;
@@ -45,15 +45,13 @@ public class DisplayLastWalkTest {
 
     @Before
     public void setup() {
-        pref = mainActivity.getActivity().getSharedPreferences(DataConstants.USER_DATA_FILE,
-                Context.MODE_PRIVATE);
-        editor = pref.edit();
+        user = WWRApplication.getUser();
         c = mainActivity.getActivity().getApplicationContext();
 
-        walkSteps = mainActivity.getActivity().findViewById(R.id.recentStepsDisplay);
-        walkMiles = mainActivity.getActivity().findViewById(R.id.recentMilesDisplay);
-        walkTime = mainActivity.getActivity().findViewById(R.id.recentTimeDisplay);
-        noRecent = mainActivity.getActivity().getResources().getString(R.string.noRecentRouteText);
+        walkSteps = mainActivity.getActivity().findViewById(R.id.recentSteps);
+        walkMiles = mainActivity.getActivity().findViewById(R.id.recentMiles);
+        walkTime = mainActivity.getActivity().findViewById(R.id.recentTime);
+        noRecent = mainActivity.getActivity().getResources().getString(R.string.noDataText);
     }
 
     @Test
@@ -80,18 +78,18 @@ public class DisplayLastWalkTest {
     public void testDisplayWalksWithDates() {
         Route r = new Route(10, "Name", 25, LocalTime.of(10,10),
                 LocalDateTime.of(1, 1, 1, 1, 1));
-        User.getRoutes(c).createRoute(c, r);
+        user.getRoutes().createRoute(r);
         Route r2 = new Route(15, "Name2");
-        User.getRoutes(c).createRoute(c, r2);
+        user.getRoutes().createRoute(r2);
         Route r3 = new Route(100, "Name3", 50, LocalTime.of(11,10),
                 LocalDateTime.of(2, 1, 1, 1, 1));
-        User.getRoutes(c).createRoute(c, r3);
+        user.getRoutes().createRoute(r3);
 
         mainActivity.getActivity().updateRecentRoute();
         assertEquals(walkSteps.getText(), "50");
         assertEquals(walkMiles.getText(),
                 MilesCalculator.formatMiles(
-                        MilesCalculator.calculateMiles(User.getHeight(), 50)));
+                        MilesCalculator.calculateMiles(user.getHeight(), 50)));
         assertEquals(walkTime.getText(), LocalTime.of(11,10).toString());
     }
 }

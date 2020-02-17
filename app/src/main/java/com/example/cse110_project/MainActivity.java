@@ -3,7 +3,6 @@ package com.example.cse110_project;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,176 +18,115 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cse110_project.data_access.DataConstants;
-import com.example.cse110_project.data_access.UserData;
-import com.example.cse110_project.trackers.CurrentFitnessTracker;
-import com.example.cse110_project.trackers.CurrentTimeTracker;
-import com.example.cse110_project.trackers.CurrentWalkTracker;
+import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
-import com.example.cse110_project.fitness_api.FitnessService;
-import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.fitness.FitnessService;
+import com.example.cse110_project.util.MilesCalculator;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 public class MainActivity extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String MAX_UPDATES_KEY = "MAX_UPDATES_KEY";
+    public static final String DELAY_KEY = "DELAY_KEY";
+    private static final int DEFAULT_DELAY = 5;
     private static final String TAG = "MainActivity";
 
     // Text fields
     private EditText heightEditor;
-    private TextView stepCount;
-    private TextView milesCount;
+    private TextView stepsDisplay;
+    private TextView milesDisplay;
 
     // Fitness service fields
+    private User user;
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
-    private int maxStepUpdates;
-    private StepsTrackerAsyncTask async;
-    private final String delay = "5";
-
-    private Button launchToRouteScreen; // = findViewById(R.id.routesButton);
-    private Button mocking_button;
-    private Button startWalkButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        stepCount = findViewById(R.id.dailyStepsDisplay);
-        milesCount = findViewById(R.id.dailyMilesDisplay);
+        stepsDisplay = findViewById(R.id.dailySteps);
+        milesDisplay = findViewById(R.id.dailyMiles);
 
-        // to route screen
-        launchToRouteScreen = findViewById(R.id.routesButton);
-        launchToRouteScreen.setOnClickListener(view -> launchRouteActivity());
-
-        // end To Route screen
-
-        // creating MockingActivity button
-        mocking_button = findViewById(R.id.mockingButton);
-        mocking_button.setOnClickListener(v -> launchMockingActivity());
-
-        // to walk screen
-        startWalkButton = findViewById(R.id.startWalkButton);
-        startWalkButton.setOnClickListener(v -> {
-            if (fitnessServiceActive) {
-                fitnessService.updateStepCount();
-            }
-            launchWalkActivity(User.getTotalSteps(), CurrentTimeTracker.getTime(),
-                    CurrentTimeTracker.getDate());
-        });
+        // Set up user & fitness service
+        user = WWRApplication.getUser();
+        if (user.getHeight() == DataConstants.NO_HEIGHT_FOUND) {
+            showInputDialog();
+        }
 
         setUpFitnessService();
 
-        if (UserData.retrieveHeight(MainActivity.this) == DataConstants.NO_HEIGHT_FOUND) {
-            showInputDialog();
+        // To other activities
+        Button routesBtn = findViewById(R.id.routesButton);
+        routesBtn.setOnClickListener(v -> launchRoutesActivity());
+
+        Button mockingBtn = findViewById(R.id.mockingButton);
+        mockingBtn.setOnClickListener(v -> launchMockingActivity());
+
+        Button walkBtn = findViewById(R.id.startWalkButton);
+        walkBtn.setOnClickListener(v -> launchWalkActivity());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (fitnessServiceActive) {
+            int maxStepUpdates = getIntent().getIntExtra(MAX_UPDATES_KEY, Integer.MAX_VALUE);
+            int updateDelay = getIntent().getIntExtra(DELAY_KEY, DEFAULT_DELAY);
+            StepsTrackerAsyncTask async = new StepsTrackerAsyncTask();
+            async.execute(String.valueOf(updateDelay), String.valueOf(maxStepUpdates));
         }
-        User.setHeight(UserData.retrieveHeight(MainActivity.this));
+
+        updateDailySteps(user.getFitnessSteps());
         updateRecentRoute();
     }
 
 
     private void setUpFitnessService() {
-        if (CurrentFitnessTracker.hasFitnessService()) {
-            System.out.println("Fitness service already exists");
-            fitnessService = CurrentFitnessTracker.getFitnessService();
+        if (WWRApplication.hasFitnessService()) {
+            Log.d(TAG, "Using existing FitnessService");
             fitnessServiceActive = true;
         } else {
             String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
-            System.out.println("Service key: " + fitnessServiceKey);
+            Log.d(TAG, "Setting up FitnessService with key: " + fitnessServiceKey);
             fitnessServiceActive = (fitnessServiceKey != null);
             if (fitnessServiceActive) {
-                fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-                CurrentFitnessTracker.setFitnessService(fitnessService);
-                fitnessService.setup();
-                maxStepUpdates = getIntent().getIntExtra(MAX_UPDATES_KEY, Integer.MAX_VALUE);
+                // Only set up if a non-null key was provided
+                WWRApplication.setUpFitnessService(fitnessServiceKey, this);
             }
         }
+
+        fitnessService = WWRApplication.getFitnessService();
     }
 
-    // Daily steps & miles methods
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        async = new StepsTrackerAsyncTask();
-        async.execute(delay);
-        updateDailySteps(User.getFitnessSteps());
-        updateRecentRoute();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("onActivityResult executed");
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Called if authentication required during google fit setup
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == fitnessService.getRequestCode()) {
-                fitnessService.updateStepCount();
-            }
-        } else {
-            Log.e(TAG, "ERROR, google fit result code: " + resultCode);
-        }
-    }
+    // Steps & miles display methods
 
     public void updateDailySteps(int steps) {
-        User.setFitnessSteps(steps);
-        int totalSteps = User.getTotalSteps();
-        System.out.println(TAG + " updateDailySteps called on " + steps + " for total of "
+        user.setFitnessSteps(steps);
+        int totalSteps = user.getTotalSteps();
+        Log.d(TAG, "updateDailySteps called on " + steps + " for total of "
                 + totalSteps);
-        stepCount.setText(String.valueOf(totalSteps));
-        System.out.println(TAG + " stepCount says " + stepCount.getText());
-        updateDailyMiles(totalSteps, milesCount);
+        stepsDisplay.setText(String.valueOf(totalSteps));
+        updateDailyMiles(totalSteps);
     }
 
-    public void updateFromFitnessService() {
-        fitnessService.updateStepCount();
+    public void updateDailyMiles(int steps) {
+        double miles = user.getMiles();
+        milesDisplay.setText(MilesCalculator.formatMiles(miles));
+        Log.d(TAG, "updateDailyMiles called on " + steps + " with miles " +
+                MilesCalculator.formatMiles(miles) + " [" + miles + "]");
     }
-
-
-    // To Walk Screen
-
-    public void launchWalkActivity(int steps, LocalTime time, LocalDateTime date) {
-        Intent intent = new Intent(this, WalkActivity.class);
-        intent.putExtra(MainActivity.FITNESS_SERVICE_KEY,
-                getIntent().getStringExtra(FITNESS_SERVICE_KEY));
-        CurrentWalkTracker.setInitial(steps, time, date);
-        startActivity(intent);
-    }
-
-    // To other activities
-
-    // To routes activity
-    public void launchRouteActivity() {
-        Intent intent = new Intent(this, RouteScreen.class);
-        startActivity(intent);
-    }
-    // end of to route screen implementation
-
-    public void launchMockingActivity(){
-        Intent intent = new Intent(this, MockingActivity.class);
-        startActivity(intent);
-    }
-
-    public void updateDailyMiles(int steps, TextView miles){
-        double update = MilesCalculator.calculateMiles(User.getHeight(), steps);
-        miles.setText(MilesCalculator.formatMiles(update));
-        System.out.println(TAG + " updateDailyMiles called on " + steps + " with miles " +
-                MilesCalculator.formatMiles(update) + " [" + update + "]");
-    }
-
-    // Recent route update
 
     public void updateRecentRoute() {
-        Route recent = User.getRoutes(MainActivity.this).getMostRecentRoute();
-        System.out.println(TAG + " Routes: " + User.getRoutes(MainActivity.this));
-        System.out.println(TAG + " Recent: " + recent);
+        Route recent = user.getRoutes().getMostRecentRoute();
+        Log.d(TAG, "Current routes: " + user.getRoutes());
+        Log.d(TAG, "Recent route: " + recent);
         String stepsDisplay;
         String milesDisplay;
         String timeDisplay;
@@ -199,20 +137,39 @@ public class MainActivity extends AppCompatActivity {
             timeDisplay = DataConstants.NO_RECENT_ROUTE;
         } else {
             stepsDisplay = Integer.toString(recent.getSteps());
-            milesDisplay = MilesCalculator.formatMiles(
-                    MilesCalculator.calculateMiles(User.getHeight(), recent.getSteps()));
+            milesDisplay = MilesCalculator.formatMiles(recent.getMiles(user.getHeight()));
             timeDisplay = recent.getDuration().truncatedTo(ChronoUnit.MINUTES).toString();
         }
 
-        ((TextView)findViewById(R.id.recentStepsDisplay)).setText(stepsDisplay);
-        ((TextView)findViewById(R.id.recentMilesDisplay)).setText(milesDisplay);
-        ((TextView)findViewById(R.id.recentTimeDisplay)).setText(timeDisplay);
+        ((TextView)findViewById(R.id.recentSteps)).setText(stepsDisplay);
+        ((TextView)findViewById(R.id.recentMiles)).setText(milesDisplay);
+        ((TextView)findViewById(R.id.recentTime)).setText(timeDisplay);
     }
+
+
+    // To other activities
+
+    public void launchWalkActivity() {Intent intent = new Intent(this, WalkActivity.class);
+        intent.putExtra(MainActivity.FITNESS_SERVICE_KEY,
+                getIntent().getStringExtra(FITNESS_SERVICE_KEY));
+        startActivity(intent);
+    }
+
+    public void launchRoutesActivity() {
+        Intent intent = new Intent(this, RoutesActivity.class);
+        startActivity(intent);
+    }
+
+    public void launchMockingActivity(){
+        Intent intent = new Intent(this, MockingActivity.class);
+        startActivity(intent);
+    }
+
 
     // Height input methods
 
     public AlertDialog showInputDialog() {
-        // get prompts.xml view
+        // Get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
         View promptView = layoutInflater.inflate(R.layout.dialog_height, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this)
@@ -220,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.heightButton, null);
         alertDialogBuilder.setView(promptView);
 
-        // create an alert dialog
+        // Create an alert dialog
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
 
@@ -235,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         return alert;
     }
 
-
+    // Validate submitted height input
     public void onDialogClickValidate(DialogInterface dialogToDismiss) {
         String inputStr = heightEditor.getText().toString();
         int input;
@@ -251,14 +208,11 @@ public class MainActivity extends AppCompatActivity {
         if (input <= 0) {
             Toast.makeText(MainActivity.this, R.string.invalidHeightToast,
                     Toast.LENGTH_SHORT).show();
-
         } else if (inputStr.length() > 2 || inputStr.length() <= 0) {
             Toast.makeText(MainActivity.this, R.string.invalidHeightToast,
                     Toast.LENGTH_SHORT).show();
-
         } else {
-            UserData.saveHeight(MainActivity.this, input);
-            User.setHeight(input);
+            user.setHeight(input);
             dialogToDismiss.dismiss();
         }
     }
@@ -277,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         int input = Integer.parseInt(textHeight);
                         if (input <= 0) {
-                            heightEditor.setError(getString(R.string.nonpositiveHeightError));
+                            heightEditor.setError(getString(R.string.nonPositiveHeightError));
                         } else {
                             heightEditor.setError(null);
                         }
@@ -292,16 +246,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    // Private class used to run continuous display updates
     private class StepsTrackerAsyncTask extends AsyncTask<String, String, String> {
         private String resp;
 
         @Override
         protected String doInBackground(String... params) {
+            int maxStepUpdates = Integer.parseInt(params[1]);
             int delay = Integer.parseInt(params[0]) * 1000;
             int count = 0;
 
             while (count < maxStepUpdates) {
-                System.out.println("Max updates is " + maxStepUpdates);
+                Log.d(TAG, "Updating steps with max updates = " + maxStepUpdates);
                 try {
                     Thread.sleep(delay);
                     fitnessService.updateStepCount();

@@ -6,26 +6,42 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/enterWalkName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/enterWalkName"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/routeNamePrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/routeNamePrompt"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/favButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="40dp"
+            android:hint="@string/favText" />
+
+    </LinearLayout>
 
     <EditText
-        android:id="@+id/NameOfWalkInput"
+        android:id="@+id/routeNameInput"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/NameWalkHint"
+        android:inputType="textVisiblePassword"
+        android:maxLength="21"
+        android:hint="@string/routeNameHint"
         android:padding="10dp" />
 
     <TextView
         android:id="@+id/startingPointPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/startingPointText"
+        android:text="@string/startingPointPrompt"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 
@@ -34,13 +50,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/startingPointHint"
+        android:inputType="textVisiblePassword"
+        android:maxLength="24"
         android:padding="10dp" />
 
     <TextView
-        android:id="@+id/featuresSelectText"
+        android:id="@+id/featuresSelectPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/featuresSelectText"
+        android:text="@string/featureSelectPrompt"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 
@@ -50,19 +68,19 @@
         android:weightSum="2">
 
         <Button
-            android:id="@+id/FlatButton"
+            android:id="@+id/flatButton"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:hint="@string/FlatPick"
+            android:hint="@string/featureFlat"
             android:padding="10dp" />
 
         <Button
-            android:id="@+id/HillyButton"
+            android:id="@+id/hillyButton"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:hint="@string/HillyPick"
+            android:hint="@string/featureHilly"
             android:padding="10dp" />
 
     </LinearLayout>
@@ -77,15 +95,15 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:hint="@string/loopPick"
+            android:hint="@string/featureLoop"
             android:padding="10dp" />
 
         <Button
-            android:id="@+id/outAndBackButton"
+            android:id="@+id/outBackButton"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:hint="@string/OutAndBackPick"
+            android:hint="@string/featureOutBack"
             android:padding="10dp" />
 
     </LinearLayout>
@@ -96,11 +114,11 @@
         android:weightSum="2">
 
         <Button
-            android:id="@+id/streetButton"
+            android:id="@+id/streetsButton"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:hint="@string/streetPick"
+            android:hint="@string/featureStreets"
             android:padding="10dp" />
 
         <Button
@@ -108,7 +126,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:hint="@string/trailPick"
+            android:hint="@string/featureTrail"
             android:padding="10dp" />
 
     </LinearLayout>
@@ -123,7 +141,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:hint="@string/evenSurfacePick"
+            android:hint="@string/featureEvenSurface"
             android:padding="10dp" />
 
         <Button
@@ -131,7 +149,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:hint="@string/unevenSurfacePick"
+            android:hint="@string/featureUnevenSurface"
             android:padding="10dp" />
 
     </LinearLayout>
@@ -142,43 +160,45 @@
         android:weightSum="2">
 
         <Button
-            android:id="@+id/ModerateButton"
+            android:id="@+id/easyDifficultyButton"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="0.66"
-            android:hint="@string/ModeratePick"
+            android:hint="@string/difficultyEasy"
             android:padding="10dp" />
 
         <Button
-            android:id="@+id/EasyButton"
+            android:id="@+id/midDifficultyButton"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="0.66"
-            android:hint="@string/EasyPick"
+            android:hint="@string/difficultyMid"
             android:padding="10dp" />
 
         <Button
-            android:id="@+id/DifficultButton"
+            android:id="@+id/hardDifficultyButton"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="0.66"
-            android:hint="@string/DifficultPick"
+            android:hint="@string/difficultyHard"
             android:padding="10dp" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/enterWalkNotes"
+        android:id="@+id/routeNotesPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/notesInputText"
+        android:text="@string/routeNotesPrompt"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/NotesOfWalkInput"
+        android:id="@+id/routeNotesInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/WalkNotes"
+        android:inputType="textVisiblePassword"
+        android:maxLength="80"
+        android:hint="@string/routeNotesHint"
         android:padding="10dp" />
 
 </LinearLayout>

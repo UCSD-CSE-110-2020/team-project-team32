@@ -8,7 +8,8 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
-import com.example.cse110_project.data_access.DataConstants;
+import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.User;
 
 import org.junit.Before;
@@ -23,10 +24,7 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
 public class DisplayCalculatedDailyMilesTest {
-
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
-    private Context c;
+    private User user;
 
     private TextView milesDisplay;
 
@@ -36,56 +34,54 @@ public class DisplayCalculatedDailyMilesTest {
 
     @Before
     public void setup() {
-        pref = mainActivity.getActivity().getSharedPreferences(DataConstants.USER_DATA_FILE,
-                Context.MODE_PRIVATE);
-        editor = pref.edit();
-        c = mainActivity.getActivity().getApplicationContext();
-        milesDisplay = mainActivity.getActivity().findViewById(R.id.dailyMilesDisplay);
+        user = WWRApplication.getUser();
+        milesDisplay = mainActivity.getActivity().findViewById(R.id.dailyMiles);
     }
 
     @Test
     public void testInitialMiles() {
-        User.setHeight(60);
+        user.setHeight(60);
         assertEquals("0.0", milesDisplay.getText());
     }
 
     @Test
     public void testMilesUpdate() {
-        User.setHeight(60);
+        user.setHeight(60);
         mainActivity.getActivity().updateDailySteps(5000);
         assertEquals("2.0", milesDisplay.getText());
     }
 
     @Test
     public void testMilesUpdateVerySmall() {
-        User.setHeight(60);
+        user.setHeight(60);
         mainActivity.getActivity().updateDailySteps(20);
         assertEquals("0.0", milesDisplay.getText());
     }
 
     @Test
     public void testMilesUpdateSmall() {
-        User.setHeight(60);
+        user.setHeight(60);
         mainActivity.getActivity().updateDailySteps(250);
         assertEquals("0.1", milesDisplay.getText());
     }
 
     @Test
     public void testMilesUpdateLarge() {
-        User.setHeight(60);
+        user.setHeight(60);
         mainActivity.getActivity().updateDailySteps(1000000);
         assertEquals("391.1", milesDisplay.getText());
     }
 
     @Test
     public void testMilesZeroHeight() {
+        user.setHeight(0);
         mainActivity.getActivity().updateDailySteps(1010010);
         assertEquals("0.0", milesDisplay.getText());
     }
 
     @Test
     public void testMilesDifferentHeightSameSteps() {
-        User.setHeight(72);
+        user.setHeight(72);
         mainActivity.getActivity().updateDailySteps(1000000);
         assertEquals("469.3", milesDisplay.getText());
     }

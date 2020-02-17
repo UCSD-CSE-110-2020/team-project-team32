@@ -6,13 +6,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RouteDetails">
+    tools:context=".RouteDetailsActivity">
 
     <TextView
-        android:id="@+id/detailsRouteNotesText"
+        android:id="@+id/detailsNotesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/detailsRouteNotes"
+        android:text="@string/detailsNotes"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,12 +28,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/defaultEmpty"
+        android:text="@string/emptyText"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.036"
-        app:layout_constraintStart_toEndOf="@+id/detailsRouteNotesText"
+        app:layout_constraintStart_toEndOf="@+id/detailsNotesText"
         app:layout_constraintTop_toBottomOf="@+id/detailsNotesTopConstraint"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -41,7 +41,7 @@
         android:id="@+id/detailsNotesTopConstraint"
         android:layout_width="76dp"
         android:layout_height="22dp"
-        android:text="@string/defaultEmpty"
+        android:text="@string/emptyText"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
         android:id="@+id/detailsDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/defaultEmpty"
+        android:text="@string/emptyText"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,10 +64,10 @@
         app:layout_constraintVertical_bias="0.545" />
 
     <TextView
-        android:id="@+id/detailsRouteDifficultyText"
+        android:id="@+id/detailsDifficultyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/detailsRouteDifficultyText"
+        android:text="@string/detailsDifficultyText"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,10 +78,10 @@
         app:layout_constraintVertical_bias="0.545" />
 
     <TextView
-        android:id="@+id/detailsLoopOAB"
+        android:id="@+id/detailsLoopOutBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/defaultEmpty"
+        android:text="@string/emptyText"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +94,7 @@
         android:id="@+id/detailsEvenUneven"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/defaultEmpty"
+        android:text="@string/emptyText"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +107,7 @@
         android:id="@+id/detailsFlatHilly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/defaultEmpty"
+        android:text="@string/emptyText"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,7 +120,7 @@
         android:id="@+id/detailsStreetsTrail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/defaultEmpty"
+        android:text="@string/emptyText"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,10 +130,10 @@
         app:layout_constraintVertical_bias="0.481" />
 
     <TextView
-        android:id="@+id/detailsRouteTerrainText2"
+        android:id="@+id/detailsTerrainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/detailsRouteTerrainText"
+        android:text="@string/detailsTerrainText"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -144,20 +144,20 @@
         app:layout_constraintVertical_bias="0.424" />
 
     <TextView
-        android:id="@+id/detailsRouteStartingPoint"
+        android:id="@+id/detailsStartingPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/defaultEmpty"
+        android:text="@string/emptyText"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.064"
-        app:layout_constraintStart_toEndOf="@+id/detailsRouteStartingPointText"
+        app:layout_constraintStart_toEndOf="@+id/detailsStartingPointText"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.359" />
 
     <TextView
-        android:id="@+id/detailsRouteStartingPointText"
+        android:id="@+id/detailsStartingPointText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/detailsStartingPointText"
@@ -171,10 +171,10 @@
         app:layout_constraintVertical_bias="0.359" />
 
     <TextView
-        android:id="@+id/detailsRouteStartDateText"
+        android:id="@+id/detailsStartDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/detailsRouteStartDateText"
+        android:text="@string/detailsStartDateText"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -188,7 +188,7 @@
         android:id="@+id/detailsMilesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dailyMilesText"
+        android:text="@string/milesText"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -202,7 +202,7 @@
         android:id="@+id/detailsRouteMiles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/noRecentRouteText"
+        android:text="@string/noDataText"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/detailsMilesText"
@@ -215,7 +215,7 @@
         android:id="@+id/detailsRouteSteps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/noRecentRouteText"
+        android:text="@string/noDataText"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/detailsStepsText"
@@ -228,7 +228,7 @@
         android:id="@+id/detailsRouteTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/noRecentRouteText"
+        android:text="@string/noDataText"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -238,23 +238,23 @@
         app:layout_constraintVertical_bias="0.22" />
 
     <TextView
-        android:id="@+id/detailsRouteDate"
+        android:id="@+id/detailsStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/noRecentRouteText"
+        android:text="@string/noDataText"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.057"
-        app:layout_constraintStart_toEndOf="@+id/detailsRouteStartDateText"
+        app:layout_constraintStart_toEndOf="@+id/detailsStartDateText"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.294" />
 
     <TextView
-        android:id="@+id/detailsRouteStartTime"
+        android:id="@+id/detailsStartTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/defaultEmpty"
+        android:text="@string/emptyText"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -267,7 +267,7 @@
         android:id="@+id/detailsStepsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dailyStepsText"
+        android:text="@string/stepsText"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -281,22 +281,24 @@
         android:id="@+id/detailsBackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
         android:background="@android:color/white"
         android:text="@string/backButton"
         android:textColor="#505050"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/walkHeader2"
+        android:id="@+id/detailsHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/routeDetailsHeader"
+        android:text="@string/detailsHeader"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -326,10 +328,10 @@
         app:layout_constraintVertical_bias="0.957" />
 
     <TextView
-        android:id="@+id/routeNameDetail"
+        android:id="@+id/detailsRouteName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/detailsDefaultRouteName"
+        android:text="@string/detailsDefaultName"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@android:color/holo_orange_light"
         android:textSize="35sp"
@@ -340,6 +342,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.122" />
+
+    <TextView
+        android:id="@+id/detailsFav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/favText"
+        android:textColor="@android:color/holo_orange_light"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.917"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.359" />
+
+
+    <ImageButton
+        android:id="@+id/button_favorites"
+        android:layout_width="58dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="324dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/design_default_color_background"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

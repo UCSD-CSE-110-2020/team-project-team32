@@ -8,10 +8,10 @@
 
 
     <TextView
-        android:id="@+id/saveWalkButton"
+        android:id="@+id/verifySavePrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/saveWalkPrompt"
+        android:text="@string/verifySavePrompt"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 

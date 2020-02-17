@@ -13,8 +13,8 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.example.cse110_project.fitness_api.FitnessService;
-import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.fitness.FitnessService;
+import com.example.cse110_project.fitness.FitnessServiceFactory;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AppLaunchUITest {
+public class AAppLaunchUITest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
 
     @Rule
@@ -46,7 +46,7 @@ public class AppLaunchUITest {
 
     @Before
     public void setUp() {
-        FitnessServiceFactory.put(TEST_SERVICE, AppLaunchUITest.TestFitnessService::new);
+        FitnessServiceFactory.put(TEST_SERVICE, AAppLaunchUITest.TestFitnessService::new);
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         intent.putExtra(MainActivity.FITNESS_SERVICE_KEY, TEST_SERVICE);
     }
@@ -72,10 +72,10 @@ public class AppLaunchUITest {
                                 3)));
         appCompatButton.perform(scrollTo(), click());
 
-        ViewInteraction textView = onView(withId(R.id.dailyStepsDisplay));
+        ViewInteraction textView = onView(withId(R.id.dailySteps));
         textView.check(matches(withText("0")));
 
-        ViewInteraction textView2 = onView(withId(R.id.dailyMilesDisplay));
+        ViewInteraction textView2 = onView(withId(R.id.dailyMiles));
         textView2.check(matches(withText("0.0")));
     }
 

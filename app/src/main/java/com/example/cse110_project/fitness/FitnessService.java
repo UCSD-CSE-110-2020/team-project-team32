@@ -1,7 +1,5 @@
-package com.example.cse110_project.fitness_api;
+package com.example.cse110_project.fitness;
 
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public interface FitnessService {
     int getRequestCode();

@@ -13,10 +13,8 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.example.cse110_project.data_access.UserData;
-import com.example.cse110_project.fitness_api.FitnessService;
-import com.example.cse110_project.fitness_api.FitnessServiceFactory;
-import com.example.cse110_project.user_routes.User;
+import com.example.cse110_project.fitness.FitnessService;
+import com.example.cse110_project.fitness.FitnessServiceFactory;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -39,8 +37,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class DailyStepsBackProgressionsUITest {
-
+public class CDailyStepsUITest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
 
     @Rule
@@ -49,17 +46,14 @@ public class DailyStepsBackProgressionsUITest {
 
     @Before
     public void setUp() {
-        UserData.saveHeight(mActivityTestRule.getActivity().getApplicationContext(), 61);
-        FitnessServiceFactory.put(TEST_SERVICE,
-                DailyStepsBackProgressionsUITest.TestFitnessService::new);
+        WWRApplication.getUser().setHeight(61);
+        FitnessServiceFactory.put(TEST_SERVICE, CDailyStepsUITest.TestFitnessService::new);
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         intent.putExtra(MainActivity.FITNESS_SERVICE_KEY, TEST_SERVICE);
     }
 
     @Test
-    public void dailyStepsUITestBackwardProgressions() {
-        int prevSteps = User.getTotalSteps();
-
+    public void cDailyStepsUITest() {
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.mockingButton), withText("DEV"),
                         childAtPosition(
@@ -81,16 +75,6 @@ public class DailyStepsBackProgressionsUITest {
         appCompatButton3.perform(click());
 
         ViewInteraction appCompatButton4 = onView(
-                allOf(withId(R.id.mockingStepsButton), withText("+500"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatButton4.perform(click());
-
-        ViewInteraction appCompatButton5 = onView(
                 allOf(withId(R.id.mockingBackButton), withText("Back"),
                         childAtPosition(
                                 childAtPosition(
@@ -98,12 +82,24 @@ public class DailyStepsBackProgressionsUITest {
                                         0),
                                 5),
                         isDisplayed()));
-        appCompatButton5.perform(click());
+        appCompatButton4.perform(click());
 
-        ViewInteraction textView = onView(withId(R.id.dailyStepsDisplay));
-        textView.check(matches(withText(String.valueOf(prevSteps + 1000))));
+        ViewInteraction textView = onView(withId(R.id.dailySteps));
+        textView.check(matches(withText("500")));
 
-        ViewInteraction appCompatButton6 = onView(
+        ViewInteraction textView2 = onView(withId(R.id.dailyMiles));
+        textView2.check(matches(withText("0.2")));
+
+        ViewInteraction textView3 = onView(withId(R.id.recentSteps));
+        textView3.check(matches(withText("N/A")));
+
+        ViewInteraction textView4 = onView(withId(R.id.recentMiles));
+        textView4.check(matches(withText("N/A")));
+
+        ViewInteraction textView5 = onView(withId(R.id.recentTime));
+        textView5.check(matches(withText("N/A")));
+
+        ViewInteraction appCompatButton5 = onView(
                 allOf(withId(R.id.mockingButton), withText("DEV"),
                         childAtPosition(
                                 childAtPosition(
@@ -111,9 +107,39 @@ public class DailyStepsBackProgressionsUITest {
                                         0),
                                 14),
                         isDisplayed()));
+        appCompatButton5.perform(click());
+
+        ViewInteraction appCompatButton6 = onView(
+                allOf(withId(R.id.mockingStepsButton), withText("+500"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
         appCompatButton6.perform(click());
 
         ViewInteraction appCompatButton7 = onView(
+                allOf(withId(R.id.mockingStepsButton), withText("+500"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatButton7.perform(click());
+
+        ViewInteraction appCompatButton8 = onView(
+                allOf(withId(R.id.mockingStepsButton), withText("+500"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatButton8.perform(click());
+
+        ViewInteraction appCompatButton9 = onView(
                 allOf(withId(R.id.mockingBackButton), withText("Back"),
                         childAtPosition(
                                 childAtPosition(
@@ -121,34 +147,22 @@ public class DailyStepsBackProgressionsUITest {
                                         0),
                                 5),
                         isDisplayed()));
-        appCompatButton7.perform(click());
-
-        ViewInteraction textView3 = onView(withId(R.id.dailyStepsDisplay));
-        textView3.check(matches(withText(String.valueOf(prevSteps + 1000))));
-
-        ViewInteraction appCompatButton8 = onView(
-                allOf(withId(R.id.routesButton), withText("Routes"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                15),
-                        isDisplayed()));
-        appCompatButton8.perform(click());
-
-        ViewInteraction appCompatButton9 = onView(
-                allOf(withId(R.id.button_routeToHome), withText("To Home"),
-                        childAtPosition(
-                                allOf(withId(R.id.coordinatorLayout),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                1),
-                        isDisplayed()));
         appCompatButton9.perform(click());
 
-        ViewInteraction textView5 = onView(withId(R.id.dailyStepsDisplay));
-        textView5.check(matches(withText(String.valueOf(prevSteps + 1000))));
+        ViewInteraction textView6 = onView(withId(R.id.dailySteps));
+        textView6.check(matches(withText("2000")));
+
+        ViewInteraction textView7 = onView(withId(R.id.dailyMiles));
+        textView7.check(matches(withText("0.8")));
+
+        ViewInteraction textView8 = onView(withId(R.id.recentSteps));
+        textView8.check(matches(withText("N/A")));
+
+        ViewInteraction textView9 = onView(withId(R.id.recentMiles));
+        textView9.check(matches(withText("N/A")));
+
+        ViewInteraction textView10 = onView(withId(R.id.recentTime));
+        textView10.check(matches(withText("N/A")));
     }
 
     private static Matcher<View> childAtPosition(
@@ -169,6 +183,7 @@ public class DailyStepsBackProgressionsUITest {
             }
         };
     }
+
 
     private class TestFitnessService implements FitnessService {
         private static final String TAG = "[TestFitnessService]: ";

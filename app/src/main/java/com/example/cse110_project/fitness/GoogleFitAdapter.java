@@ -1,4 +1,4 @@
-package com.example.cse110_project.fitness_api;
+package com.example.cse110_project.fitness;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.cse110_project.MainActivity;
-import com.example.cse110_project.WalkActivity;
+import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.user_routes.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -22,9 +22,11 @@ public class GoogleFitAdapter implements FitnessService {
     private final String TAG = "GoogleFitAdapter";
     private GoogleSignInAccount account;
 
+    private User user;
     private AppCompatActivity activity;
 
     public GoogleFitAdapter(AppCompatActivity activity) {
+        user = WWRApplication.getUser();
         this.activity = activity;
     }
 
@@ -93,7 +95,7 @@ public class GoogleFitAdapter implements FitnessService {
                                             ? 0
                                             : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                            User.setFitnessSteps((int)total);
+                            user.setFitnessSteps((int)total);
                             if (activity instanceof MainActivity) {
                                 ((MainActivity)activity).updateDailySteps((int)total);
                             }

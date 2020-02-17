@@ -13,9 +13,9 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.example.cse110_project.data_access.UserData;
-import com.example.cse110_project.fitness_api.FitnessService;
-import com.example.cse110_project.fitness_api.FitnessServiceFactory;
+import com.example.cse110_project.fitness.FitnessService;
+import com.example.cse110_project.fitness.FitnessServiceFactory;
+import com.example.cse110_project.user_routes.UserData;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -38,7 +38,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class CancelWalkUITest {
+public class BBackProgressionsUITest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
 
     @Rule
@@ -47,14 +47,29 @@ public class CancelWalkUITest {
 
     @Before
     public void setUp() {
-        UserData.saveHeight(mActivityTestRule.getActivity().getApplicationContext(), 61);
-        FitnessServiceFactory.put(TEST_SERVICE, CancelWalkUITest.TestFitnessService::new);
+        WWRApplication.getUser().setHeight(61);
+        FitnessServiceFactory.put(TEST_SERVICE, TestFitnessService::new);
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         intent.putExtra(MainActivity.FITNESS_SERVICE_KEY, TEST_SERVICE);
     }
 
     @Test
-    public void cancelWalkUITest() {
+    public void bBackProgressionsUITest() {
+        ViewInteraction textView = onView(withId(R.id.recentSteps));
+        textView.check(matches(withText("N/A")));
+
+        ViewInteraction textView2 = onView(withId(R.id.recentMiles));
+        textView2.check(matches(withText("N/A")));
+
+        ViewInteraction textView3 = onView(withId(R.id.recentTime));
+        textView3.check(matches(withText("N/A")));
+
+        ViewInteraction textView4 = onView(withId(R.id.dailySteps));
+        textView4.check(matches(withText("0")));
+
+        ViewInteraction textView5 = onView(withId(R.id.dailyMiles));
+        textView5.check(matches(withText("0.0")));
+
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.startWalkButton), withText("Start Walk"),
                         childAtPosition(
@@ -66,7 +81,7 @@ public class CancelWalkUITest {
         appCompatButton2.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.cancelButton), withText("Cancel"),
+                allOf(withId(R.id.walkCancelButton), withText("CANCEL"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -74,15 +89,6 @@ public class CancelWalkUITest {
                                 9),
                         isDisplayed()));
         appCompatButton3.perform(click());
-
-        ViewInteraction textView = onView(withId(R.id.recentStepsDisplay));
-        textView.check(matches(withText("N/A")));
-
-        ViewInteraction textView2 = onView(withId(R.id.recentMilesDisplay));
-        textView2.check(matches(withText("N/A")));
-
-        ViewInteraction textView3 = onView(withId(R.id.recentTimeDisplay));
-        textView3.check(matches(withText("N/A")));
 
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.startWalkButton), withText("Start Walk"),
@@ -95,23 +101,24 @@ public class CancelWalkUITest {
         appCompatButton4.perform(click());
 
         ViewInteraction appCompatButton5 = onView(
-                allOf(withId(R.id.stopWalkButton), withText("Stop Walk"),
+                allOf(withId(R.id.walkMockingButton), withText("DEV"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                10),
+                                0),
                         isDisplayed()));
         appCompatButton5.perform(click());
 
         ViewInteraction appCompatButton6 = onView(
-                allOf(withId(android.R.id.button2), withText("Cancel"),
+                allOf(withId(R.id.mockingBackButton), withText("Back"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.buttonPanel),
+                                        withId(android.R.id.content),
                                         0),
-                                2)));
-        appCompatButton6.perform(scrollTo(), click());
+                                5),
+                        isDisplayed()));
+        appCompatButton6.perform(click());
 
         ViewInteraction appCompatButton7 = onView(
                 allOf(withId(R.id.stopWalkButton), withText("Stop Walk"),
@@ -124,41 +131,135 @@ public class CancelWalkUITest {
         appCompatButton7.perform(click());
 
         ViewInteraction appCompatButton8 = onView(
+                allOf(withId(android.R.id.button2), withText("CANCEL"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.buttonPanel),
+                                        0),
+                                2)));
+        appCompatButton8.perform(scrollTo(), click());
+
+        ViewInteraction appCompatButton9 = onView(
+                allOf(withId(R.id.stopWalkButton), withText("Stop Walk"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                10),
+                        isDisplayed()));
+        appCompatButton9.perform(click());
+
+        ViewInteraction appCompatButton10 = onView(
                 allOf(withId(android.R.id.button1), withText("Save"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.buttonPanel),
                                         0),
                                 3)));
-        appCompatButton8.perform(scrollTo(), click());
+        appCompatButton10.perform(scrollTo(), click());
 
-        ViewInteraction appCompatButton9 = onView(
-                allOf(withId(android.R.id.button2), withText("Cancel"),
+        ViewInteraction appCompatButton11 = onView(
+                allOf(withId(android.R.id.button2), withText("CANCEL"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.buttonPanel),
                                         0),
                                 2)));
-        appCompatButton9.perform(scrollTo(), click());
+        appCompatButton11.perform(scrollTo(), click());
 
-        ViewInteraction appCompatButton10 = onView(
-                allOf(withId(R.id.cancelButton), withText("Cancel"),
+        ViewInteraction appCompatButton12 = onView(
+                allOf(withId(R.id.walkCancelButton), withText("CANCEL"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 9),
                         isDisplayed()));
-        appCompatButton10.perform(click());
+        appCompatButton12.perform(click());
 
-        ViewInteraction textView4 = onView(withId(R.id.recentStepsDisplay));
-        textView4.check(matches(withText("N/A")));
 
-        ViewInteraction textView5 = onView(withId(R.id.recentMilesDisplay));
-        textView5.check(matches(withText("N/A")));
-
-        ViewInteraction textView6 = onView(withId(R.id.recentTimeDisplay));
+        ViewInteraction textView6 = onView(withId(R.id.recentSteps));
         textView6.check(matches(withText("N/A")));
+
+        ViewInteraction textView7= onView(withId(R.id.recentMiles));
+        textView7.check(matches(withText("N/A")));
+
+        ViewInteraction textView8 = onView(withId(R.id.recentTime));
+        textView8.check(matches(withText("N/A")));
+
+        ViewInteraction textView9 = onView(withId(R.id.dailySteps));
+        textView9.check(matches(withText("0")));
+
+        ViewInteraction textView10 = onView(withId(R.id.dailyMiles));
+        textView10.check(matches(withText("0.0")));
+
+        ViewInteraction appCompatButton13 = onView(
+                allOf(withId(R.id.routesButton), withText("Routes"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                15),
+                        isDisplayed()));
+        appCompatButton13.perform(click());
+
+        ViewInteraction appCompatButton14 = onView(
+                allOf(withId(R.id.routesRoutesButton), withText("Routes"),
+                        childAtPosition(
+                                allOf(withId(R.id.coordinatorLayout),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatButton14.perform(click());
+
+        ViewInteraction appCompatButton15 = onView(
+                allOf(withId(R.id.routesNewRouteButton), withText("+"),
+                        childAtPosition(
+                                allOf(withId(R.id.coordinatorLayout),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        appCompatButton15.perform(click());
+
+        ViewInteraction appCompatButton16 = onView(
+                allOf(withId(android.R.id.button2), withText("CANCEL"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.buttonPanel),
+                                        0),
+                                2)));
+        appCompatButton16.perform(scrollTo(), click());
+
+        ViewInteraction appCompatButton17 = onView(
+                allOf(withId(R.id.routesHomeButton), withText("Home"),
+                        childAtPosition(
+                                allOf(withId(R.id.coordinatorLayout),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                2),
+                        isDisplayed()));
+        appCompatButton17.perform(click());
+
+
+        ViewInteraction textView11 = onView(withId(R.id.recentSteps));
+        textView11.check(matches(withText("N/A")));
+
+        ViewInteraction textView12 = onView(withId(R.id.recentMiles));
+        textView12.check(matches(withText("N/A")));
+
+        ViewInteraction textView13 = onView(withId(R.id.recentTime));
+        textView13.check(matches(withText("N/A")));
+
+        ViewInteraction textView14 = onView(withId(R.id.dailySteps));
+        textView14.check(matches(withText("0")));
+
+        ViewInteraction textView15 = onView(withId(R.id.dailyMiles));
+        textView15.check(matches(withText("0.0")));
     }
 
     private static Matcher<View> childAtPosition(
