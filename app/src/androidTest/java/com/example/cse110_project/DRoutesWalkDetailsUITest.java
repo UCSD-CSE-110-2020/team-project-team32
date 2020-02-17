@@ -53,6 +53,7 @@ public class DRoutesWalkDetailsUITest {
 
     @Before
     public void setUp() {
+        WWRApplication.getUser().setStepsOffset(0);
         WWRApplication.getUser().setHeight(61);
         FitnessServiceFactory.put(TEST_SERVICE, DRoutesWalkDetailsUITest.TestFitnessService::new);
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
@@ -60,10 +61,7 @@ public class DRoutesWalkDetailsUITest {
     }
 
     @Test
-    public void routesWalkDetailsUITest() {
-        WWRApplication.getUser().setFitnessSteps(0);
-
-        ViewInteraction appCompatButton2 = onView(
+    public void routesWalkDetailsUITest() {ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.mockingButton), withText("DEV"),
                         childAtPosition(
                                 childAtPosition(
