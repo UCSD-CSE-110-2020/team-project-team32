@@ -54,6 +54,7 @@ public class DRoutesWalkDetailsUITest {
     @Before
     public void setUp() {
         WWRApplication.getUser().setHeight(61);
+        WWRApplication.getUser().setFitnessSteps(0);
         FitnessServiceFactory.put(TEST_SERVICE, DRoutesWalkDetailsUITest.TestFitnessService::new);
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         intent.putExtra(MainActivity.FITNESS_SERVICE_KEY, TEST_SERVICE);
@@ -70,6 +71,46 @@ public class DRoutesWalkDetailsUITest {
                                 14),
                         isDisplayed()));
         appCompatButton2.perform(click());
+
+        ViewInteraction appCompatButton1 = onView(
+                allOf(withId(R.id.mockingStepsButton), withText("+500"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatButton1.perform(click());
+
+        ViewInteraction appCompatButton5 = onView(
+                allOf(withId(R.id.mockingStepsButton), withText("+500"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatButton5.perform(click());
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.mockingStepsButton), withText("+500"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatButton3.perform(click());
+
+        ViewInteraction appCompatButton4 = onView(
+                allOf(withId(R.id.mockingStepsButton), withText("+500"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatButton4.perform(click());
 
         ViewInteraction appCompatButton7 = onView(
                 allOf(withId(R.id.mockingTimeSubmitButton), withText("Submit"),
