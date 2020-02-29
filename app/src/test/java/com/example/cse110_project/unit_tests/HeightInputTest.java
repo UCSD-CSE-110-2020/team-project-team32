@@ -18,6 +18,8 @@ import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
 import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.Team;
+import com.example.cse110_project.user_routes.TeamMember;
 import com.example.cse110_project.user_routes.UserData;
 import com.google.common.truth.Truth;
 
@@ -157,17 +159,26 @@ public class HeightInputTest {
 
     private class TestDatabaseService implements DatabaseService {
         @Override
-        public void addRoute(Route route) {
-
-        }
+        public void addRoute(Route route) { }
 
         @Override
-        public void updateRoute(Route route) {
-
-        }
+        public void updateRoute(Route route) { }
 
         @Override
         public List<Route> getRoutes() {
+            return null;
+        }
+
+        @Override
+        public void createTeam(Team team) { }
+
+        @Override
+        public void updateTeam(Team team) {
+
+        }
+
+        @Override
+        public List<TeamMember> getTeam() {
             return null;
         }
     }
