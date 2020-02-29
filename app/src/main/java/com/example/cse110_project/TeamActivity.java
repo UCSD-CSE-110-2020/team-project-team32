@@ -1,13 +1,18 @@
 package com.example.cse110_project;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 public class TeamActivity extends AppCompatActivity {
+    private String[] members = {"Reesha Rajen", "Noor Bdairat"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +32,8 @@ public class TeamActivity extends AppCompatActivity {
             setTextDescription.setText(newString);
         }*/
 
-
-
-
+        ListView listMembers = (ListView) findViewById(R.id.listviewID);
+        listMembers.setAdapter(new ArrayAdapter<String>());
     }
+
 }
