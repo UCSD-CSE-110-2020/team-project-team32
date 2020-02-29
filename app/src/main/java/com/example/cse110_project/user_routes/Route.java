@@ -23,6 +23,7 @@ public class Route {
     public final static String FAV = "FAV";
 
     private int id;
+    private String docID;
     private String name;
 
     private int steps;
@@ -67,7 +68,11 @@ public class Route {
 
     public int getID() { return id; }
 
-    protected void setID(int id) { this.id = id; }
+    public void setID(int id) { this.id = id; }
+
+    public String getDocID() { return docID; }
+
+    public void setDocID(String docID) { this.docID = docID; }
 
     public String getName() { return name; }
 

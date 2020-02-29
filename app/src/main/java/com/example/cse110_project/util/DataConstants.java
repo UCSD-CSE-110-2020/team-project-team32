@@ -8,6 +8,7 @@ public class DataConstants {
     public final static String USER_DATA_FILE = "user_data";
     public final static String ROUTES_DATA_FILE = "routes_data";
     public final static String HEIGHT_KEY = "user_height";
+    public final static String EMAIL_KEY = "user_email";
     public final static String ROUTES_LIST_KEY = "user_routes";
     public final static String LIST_SPLIT = "\t";
 
@@ -27,6 +28,7 @@ public class DataConstants {
     public final static String ROUTE_FAVORITE_KEY = "r%d_favorite";
 
     // Default values
+    public final static String NO_EMAIL_FOUND = "";
     public final static int NO_HEIGHT_FOUND = 0;
     public final static String NO_ROUTES_FOUND = "";
     public final static String STR_NOT_FOUND = "";
