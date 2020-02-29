@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.cse110_project.util.MilesCalculator;
 
 public class User {
+    private String email;
     private Context context;
     private RouteList routes;
     private int height;
@@ -15,6 +16,13 @@ public class User {
         context = c;
         routes = new RouteList(context);
         height = UserData.retrieveHeight(context);
+    }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) {
+        this.email = email;
+        UserData.saveEmail(context, email);
     }
 
     public int getHeight() { return height; }

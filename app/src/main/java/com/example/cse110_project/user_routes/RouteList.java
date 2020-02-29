@@ -5,7 +5,9 @@ import android.util.SparseIntArray;
 
 import androidx.annotation.NonNull;
 
+import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.util.DataConstants;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -56,6 +58,10 @@ public class RouteList {
         routes.add(r);
         idToIndex.put(routeID, routes.size() - 1);
 
+        if (WWRApplication.hasDatabase()) {
+            WWRApplication.getDatabase().addRoute(r);
+        }
+
         UserData.saveRoute(context, r);
         RouteData.saveRouteData(context, r);
     }
@@ -69,6 +75,10 @@ public class RouteList {
         route.setStartDate(date);
 
         // Update saved values
+        if (WWRApplication.hasDatabase()) {
+            WWRApplication.getDatabase().updateRoute(route);
+        }
+
         RouteData.saveRouteSteps(context, id, steps);
         RouteData.saveRouteTime(context, id, time.toString());
         RouteData.saveRouteDate(context, id, date.toString());
