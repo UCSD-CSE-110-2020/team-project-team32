@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             if (WWRApplication.getDatabase() == null) {
                 WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
-                        user.getEmail(), ROUTES_KEY));
+                        TEAM_COLLECTIONS_KEY, user.getEmail(), ROUTES_KEY));
             }
         }
 
