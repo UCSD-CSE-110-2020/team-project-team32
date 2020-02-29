@@ -12,7 +12,7 @@ import com.example.cse110_project.SaveRouteDialog;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.WalkActivity;
 import com.example.cse110_project.user_routes.RouteData;
-import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 
@@ -62,7 +62,7 @@ public class SaveRouteDialogTest {
         assertNull(nameEditor.getError());
         saveRouteDialog.saveRoute();
 
-        Route route = routes.getRoute(prevLength);
+        UserRoute route = routes.getRoute(prevLength);
         int id = route.getID();
 
         assertEquals(prevLength + 1, routes.length());

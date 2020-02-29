@@ -11,13 +11,13 @@ import static org.junit.Assert.assertThat;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.provider.ContactsContract;
 
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.RouteData;
-import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -79,7 +79,7 @@ public class RouteDataTest {
 
     @Test
     public void testSaveRouteDataFull() {
-        Route r = new Route(10, "Name", 200, LocalTime.of(5, 20),
+        UserRoute r = new UserRoute(10, "Name", 200, LocalTime.of(5, 20),
                 LocalDateTime.of(2020, 1, 20, 10, 30));
         r.setStartingPoint("Start");
         r.setFlatVsHilly(Route.FLAT);
@@ -109,7 +109,7 @@ public class RouteDataTest {
 
     @Test
     public void testSaveRouteDataMinimum() {
-        Route r = new Route(10, "Name");
+        UserRoute r = new UserRoute(10, "Name");
         RouteData.saveRouteData(c, r);
 
         assertEquals(RouteData.retrieveRouteName(c, 10), "Name");

@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.cse110_project.fitness.FitnessService;
-import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.Duration;
@@ -69,7 +69,7 @@ public class WalkActivity extends AppCompatActivity {
     }
 
     private void displayRouteSummary() {
-        Route route = user.getRoutes().getRouteByID(savedRouteID);
+        UserRoute route = user.getRoutes().getRouteByID(savedRouteID);
         Log.d(TAG, "Displaying walk summary for route " + route);
         ((TextView)findViewById(R.id.walkRouteName)).setText(route.getName());
         ((TextView)findViewById(R.id.walkStartingPoint)).setText(route.getStartingPoint());
