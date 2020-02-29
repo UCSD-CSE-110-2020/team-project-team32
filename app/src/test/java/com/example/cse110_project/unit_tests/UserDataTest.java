@@ -8,7 +8,7 @@ import androidx.test.rule.ActivityTestRule;
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.UserData;
-import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -66,7 +66,7 @@ public class UserDataTest {
     @Test
     public void testSaveFirstRoute() {
         assertEquals(UserData.retrieveRouteList(c), DataConstants.NO_ROUTES_FOUND);
-        Route r = new Route(10, "Name");
+        UserRoute r = new UserRoute(10, "Name");
         UserData.saveRoute(c, r);
         assertEquals(UserData.retrieveRouteList(c), "10");
         assertEquals(pref.getString(DataConstants.ROUTES_LIST_KEY, ""), "10");
@@ -74,13 +74,13 @@ public class UserDataTest {
 
     @Test
     public void testSaveMultipleRoutes() {
-        Route r = new Route(10, "Name");
+        UserRoute r = new UserRoute(10, "Name");
         UserData.saveRoute(c, r);
         assertEquals("10", UserData.retrieveRouteList(c));
-        Route r2 = new Route(15, "Name");
+        UserRoute r2 = new UserRoute(15, "Name");
         UserData.saveRoute(c, r2);
         assertEquals("10\t15", UserData.retrieveRouteList(c));
-        Route r3 = new Route(100, "Name");
+        UserRoute r3 = new UserRoute(100, "Name");
         UserData.saveRoute(c, r3);
         assertEquals("10\t15\t100", UserData.retrieveRouteList(c));
         assertEquals("10\t15\t100",

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
 
@@ -21,7 +22,7 @@ public class RouteDetailsActivity extends AppCompatActivity {
     public final static String ROUTE_INDEX_KEY = "ROUTE_INDEX_KEY";
     private final static String TAG = "RouteDetailsActivity";
     private User user;
-    private Route route;
+    private UserRoute route;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

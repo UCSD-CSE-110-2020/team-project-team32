@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.example.cse110_project.database.FirebaseFirestoreAdapter;
 import com.example.cse110_project.util.DataConstants;
-import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.User;
 
 import com.example.cse110_project.fitness.FitnessService;
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateRecentRoute() {
-        Route recent = user.getRoutes().getMostRecentRoute();
+        UserRoute recent = user.getRoutes().getMostRecentRoute();
         Log.d(TAG, "Current routes: " + user.getRoutes());
         Log.d(TAG, "Recent route: " + recent);
         String stepsDisplay;

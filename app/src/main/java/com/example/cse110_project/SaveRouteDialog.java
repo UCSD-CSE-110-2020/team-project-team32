@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalDateTime;
@@ -144,7 +145,7 @@ public class SaveRouteDialog {
     }
 
     public void saveRoute() {
-        Route route = new Route(0, routeName.getText().toString());
+        UserRoute route = new UserRoute(0, routeName.getText().toString());
 
         if (date != null) {
             route.setSteps(steps);

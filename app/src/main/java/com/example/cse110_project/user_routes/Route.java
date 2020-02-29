@@ -7,7 +7,9 @@ import com.example.cse110_project.util.MilesCalculator;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Route {
+public abstract class Route {
+    public final static String EASY_D = "Easy";
+    public final static String EVEN_S = "Even surface";
     public final static String NO_DATA = "";
     public final static String HILLY = "Hilly";
     public final static String FLAT = "Flat";
@@ -15,9 +17,7 @@ public class Route {
     public final static String OUT_BACK = "Out-and-back";
     public final static String STREETS = "Streets";
     public final static String TRAIL = "Trail";
-    public final static String EVEN_S = "Even surface";
     public final static String UNEVEN_S = "Uneven surface";
-    public final static String EASY_D = "Easy";
     public final static String MID_D = "Moderate";
     public final static String HARD_D = "Difficult";
     public final static String FAV = "FAV";
@@ -39,27 +39,6 @@ public class Route {
     private String notes;
     private boolean fav;
 
-
-    public Route(int id, String name){
-        this.id = id;
-        this.name = name;
-
-        startingPoint = NO_DATA;
-        flatVsHilly = NO_DATA;
-        loopVsOutBack = NO_DATA;
-        streetsVsTrail = NO_DATA;
-        evenVsUneven = NO_DATA;
-        difficulty = NO_DATA;
-        notes = NO_DATA;
-    }
-
-    public Route(int id, String name, int steps, LocalTime dur, LocalDateTime start) {
-        this(id, name);
-        this.steps = steps;
-        startDate = start;
-        duration = dur;
-    }
-
     // Used for logging
     @Override @NonNull
     public String toString() {
@@ -67,68 +46,53 @@ public class Route {
     }
 
     public int getID() { return id; }
-
     public void setID(int id) { this.id = id; }
 
     public String getDocID() { return docID; }
-
     public void setDocID(String docID) { this.docID = docID; }
 
     public String getName() { return name; }
-
     public void setName(String n) { name = n; }
 
     // Walk data
 
     public boolean hasWalkData() { return duration != null && startDate != null; }
-
     public int getSteps() { return steps; }
 
     public void setSteps(int s) { steps = s; }
-
     public double getMiles(int height){
         return MilesCalculator.calculateMiles(height, steps);
     }
 
     public LocalDateTime getStartDate() { return startDate; }
-
     public void setStartDate(LocalDateTime date) { startDate = date; }
 
     public LocalTime getDuration() { return duration; }
-
     public void setDuration(LocalTime time) { duration = time; }
 
     // Optional features
 
     public String getStartingPoint() { return startingPoint; }
-
     public void setStartingPoint(String str) { startingPoint = str; }
 
     public String getFlatVsHilly() { return flatVsHilly; }
-
     public void setFlatVsHilly(String str) { flatVsHilly = str; }
 
     public String getLoopVsOutBack() { return loopVsOutBack; }
-
     public void setLoopVsOutBack(String str) { loopVsOutBack = str; }
 
     public String getStreetsVsTrail() { return streetsVsTrail; }
-
     public void setStreetsVsTrail(String str) { streetsVsTrail = str; }
 
     public String getEvenVsUneven() { return evenVsUneven; }
-
     public void setEvenVsUneven(String str) { evenVsUneven = str; }
 
     public String getDifficulty() { return difficulty; }
-
     public void setDifficulty(String str) { difficulty = str; }
 
     public String getNotes() { return notes; }
-
     public void setNotes(String str) { notes = str; }
 
     public void setFavorite(boolean favorite) { fav = favorite; }
-
     public boolean isFavorite() { return fav; }
 }

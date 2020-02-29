@@ -4,7 +4,6 @@ package com.example.cse110_project.user_routes;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.util.DataConstants;
 
 public class UserData {
@@ -42,7 +41,7 @@ public class UserData {
         editor.apply();
     }
 
-    public static void saveRoute(Context c, Route route) {
+    public static void saveRoute(Context c, UserRoute route) {
         String routeList = retrieveRouteList(c);
         String routeID = Integer.toString(route.getID());
 
