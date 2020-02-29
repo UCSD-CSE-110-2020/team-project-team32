@@ -13,19 +13,19 @@ public class TeamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team_screen_populated);
+        setContentView(R.layout.activity_team_screen);
 
-        Button backButton = findViewById(R.id.button2);
+        Button backButton = findViewById(R.id.teamHomeButton);
         backButton.setOnClickListener(v -> finish());
 
-        final TextView edittextDescription = (TextView) findViewById(R.id.member1);
+        /*final TextView edittextDescription = (TextView) findViewById(R.id.member1);
 
         if (edittextDescription.getText() != null) {
             String newString = edittextDescription.getText().toString();
             // newString.split("\\s+");
             final TextView setTextDescription = findViewById(R.id.textView2);
             setTextDescription.setText(newString);
-        }
+        }*/
 
 
 
