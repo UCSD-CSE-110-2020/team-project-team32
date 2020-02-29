@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button walkBtn = findViewById(R.id.startWalkButton);
         walkBtn.setOnClickListener(v -> launchWalkActivity());
+
+        Button teamBtn = findViewById(R.id.teamButton);
+        teamBtn.setOnClickListener(v -> launchTeamActivity());
     }
 
     @Override
@@ -162,6 +165,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchMockingActivity(){
         Intent intent = new Intent(this, MockingActivity.class);
+        startActivity(intent);
+    }
+
+    public void launchTeamActivity(){
+        Intent intent = new Intent(this, TeamActivity.class);
         startActivity(intent);
     }
 

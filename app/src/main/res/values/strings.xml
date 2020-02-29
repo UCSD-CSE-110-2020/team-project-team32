@@ -5,6 +5,7 @@
     // General buttons
     <string name="routesButton">Routes</string>
     <string name="homeButton">Home</string>
+    <string name="teamButton">Team</string>
     <string name="mockingButton">DEV</string>
     <string name="startWalkButton">Start Walk</string>
     <string name="stopWalkButton">Stop Walk</string>
