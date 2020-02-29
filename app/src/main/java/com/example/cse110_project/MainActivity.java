@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cse110_project.database.FirebaseFirestoreAdapter;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
@@ -31,10 +32,14 @@ public class MainActivity extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String MAX_UPDATES_KEY = "MAX_UPDATES_KEY";
     public static final String DELAY_KEY = "DELAY_KEY";
+    public static final String USER_COLLECTIONS_KEY = "user_data";
+    public static final String TEAM_COLLECTIONS_KEY = "team_data";
+    public static final String ROUTES_KEY = "routes";
     private static final int DEFAULT_DELAY = 5;
     private static final String TAG = "MainActivity";
 
     // Text fields
+    private EditText emailEditor;
     private EditText heightEditor;
     private TextView stepsDisplay;
     private TextView milesDisplay;
@@ -54,8 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up user & fitness service
         user = WWRApplication.getUser();
-        if (user.getHeight() == DataConstants.NO_HEIGHT_FOUND) {
+        if (user.getHeight() == DataConstants.NO_HEIGHT_FOUND || user.getEmail() == null) {
             showInputDialog();
+        } else {
+            if (WWRApplication.getDatabase() == null) {
+                WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
+                        TEAM_COLLECTIONS_KEY, user.getEmail(), ROUTES_KEY));
+            }
         }
 
         setUpFitnessService();
@@ -179,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
     public AlertDialog showInputDialog() {
         // Get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
-        View promptView = layoutInflater.inflate(R.layout.dialog_height, null);
+        View promptView = layoutInflater.inflate(R.layout.dialog_launch_data, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this)
                 .setCancelable(false)
                 .setPositiveButton(R.string.heightButton, null);
@@ -188,6 +198,8 @@ public class MainActivity extends AppCompatActivity {
         // Create an alert dialog
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+
+        emailEditor = promptView.findViewById(R.id.emailInput);
 
         heightEditor = promptView.findViewById(R.id.heightInput);
         heightEditor.setInputType(InputType.TYPE_CLASS_NUMBER |
@@ -202,11 +214,18 @@ public class MainActivity extends AppCompatActivity {
 
     // Validate submitted height input
     public void onDialogClickValidate(DialogInterface dialogToDismiss) {
-        String inputStr = heightEditor.getText().toString();
+        String emailInput = emailEditor.getText().toString();
+        user.setEmail(emailInput);
+        if (WWRApplication.getDatabase() == null) {
+            WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
+                    TEAM_COLLECTIONS_KEY, user.getEmail(), ROUTES_KEY));
+        }
+
+        String heightInput = heightEditor.getText().toString();
         int input;
 
         try {
-            input = Integer.parseInt(inputStr);
+            input = Integer.parseInt(heightInput);
         } catch (RuntimeException e) {
             Toast.makeText(MainActivity.this, R.string.invalidHeightToast,
                     Toast.LENGTH_SHORT).show();
@@ -216,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         if (input <= 0) {
             Toast.makeText(MainActivity.this, R.string.invalidHeightToast,
                     Toast.LENGTH_SHORT).show();
-        } else if (inputStr.length() > 2 || inputStr.length() <= 0) {
+        } else if (heightInput.length() > 2 || heightInput.length() <= 0) {
             Toast.makeText(MainActivity.this, R.string.invalidHeightToast,
                     Toast.LENGTH_SHORT).show();
         } else {

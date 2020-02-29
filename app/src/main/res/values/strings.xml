@@ -30,6 +30,10 @@
     <string name="recentWalkText">Your most recent walk was...</string>
     <string name="recentTimeText">Time:</string>
 
+    // Email dialog
+    <string name="emailPrompt">Please enter your preferred Gmail address</string>
+    <string name="emailHint">Gmail address</string>
+
     // Height dialog
     <string name="heightHintDialog">Height</string>
     <string name="heightButton">OK</string>

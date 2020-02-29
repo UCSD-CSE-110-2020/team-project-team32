@@ -7,6 +7,21 @@
     android:padding="10dp">
 
     <TextView
+        android:id="@+id/emailPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/emailPrompt"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/emailInput"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/emailHint"
+        android:padding="10dp" />
+
+    <TextView
         android:id="@+id/heightPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

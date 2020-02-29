@@ -15,6 +15,11 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.database.DatabaseService;
+import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.Team;
+import com.example.cse110_project.user_routes.TeamMember;
 import com.example.cse110_project.user_routes.UserData;
 import com.google.common.truth.Truth;
 
@@ -23,6 +28,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.shadows.ShadowToast;
+
+import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class HeightInputTest {
@@ -41,6 +48,7 @@ public class HeightInputTest {
 
     @Before
     public void setup() {
+        WWRApplication.setDatabase(new TestDatabaseService());
         scenario = scenarioRule.getScenario();
         scenario.onActivity(mainActivity -> {
              dialog = mainActivity.showInputDialog();
@@ -147,5 +155,31 @@ public class HeightInputTest {
             Truth.assertThat(setHeight.getError()).isEqualTo(null);
             Truth.assertThat(UserData.retrieveHeight(mainActivity)).isEqualTo(99);
         });
+    }
+
+    private class TestDatabaseService implements DatabaseService {
+        @Override
+        public void addRoute(Route route) { }
+
+        @Override
+        public void updateRoute(Route route) { }
+
+        @Override
+        public List<Route> getRoutes() {
+            return null;
+        }
+
+        @Override
+        public void createTeam(Team team) { }
+
+        @Override
+        public void updateTeam(Team team) {
+
+        }
+
+        @Override
+        public List<TeamMember> getTeam() {
+            return null;
+        }
     }
 }

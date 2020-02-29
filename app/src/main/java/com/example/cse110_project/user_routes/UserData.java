@@ -8,6 +8,11 @@ import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.util.DataConstants;
 
 public class UserData {
+    public static String retrieveEmail(Context c) {
+        SharedPreferences pref
+                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, Context.MODE_PRIVATE);
+        return pref.getString(DataConstants.EMAIL_KEY, DataConstants.NO_EMAIL_FOUND);
+    }
 
     public static int retrieveHeight(Context c) {
         SharedPreferences pref
@@ -19,6 +24,14 @@ public class UserData {
         SharedPreferences pref
                 = c.getSharedPreferences(DataConstants.USER_DATA_FILE, Context.MODE_PRIVATE);
         return pref.getString(DataConstants.ROUTES_LIST_KEY, DataConstants.NO_ROUTES_FOUND);
+    }
+
+    public static void saveEmail(Context c, String email) {
+        SharedPreferences pref
+                = c.getSharedPreferences(DataConstants.USER_DATA_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(DataConstants.EMAIL_KEY, email);
+        editor.apply();
     }
 
     public static void saveHeight(Context c, int height) {
