@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cse110_project.database.DatabaseService;
 import com.example.cse110_project.fitness.FitnessService;
 import com.example.cse110_project.fitness.FitnessServiceFactory;
 import com.example.cse110_project.user_routes.User;
@@ -14,6 +15,7 @@ import java.time.LocalTime;
 public class WWRApplication extends Application {
     private static User user;
     private static FitnessService fitnessService;
+    private static DatabaseService database;
 
     // Track current "system" time (mockable)
     private static LocalTime time;
@@ -28,6 +30,12 @@ public class WWRApplication extends Application {
     }
 
     public static User getUser() { return user; }
+
+    public static boolean hasDatabase() { return database != null; }
+
+    public static DatabaseService getDatabase() { return database; }
+
+    public static void setDatabase(DatabaseService dbService) { database = dbService; }
 
     public static boolean hasFitnessService() { return fitnessService != null; }
 

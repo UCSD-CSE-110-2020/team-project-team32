@@ -53,15 +53,12 @@ public class AAppLaunchUITest {
 
     @Test
     public void appLaunchUITest() {
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.heightInput),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.custom),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatEditText.perform(replaceText("61"), closeSoftKeyboard());
+        ViewInteraction appCompatEditText = onView(withId(R.id.emailInput));
+        appCompatEditText.perform(replaceText("wwruser@gmail.com"),
+                closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText1 = onView(withId(R.id.heightInput));
+        appCompatEditText1.perform(replaceText("61"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(android.R.id.button1), withText("OK"),

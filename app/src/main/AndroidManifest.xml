@@ -13,8 +13,8 @@
         <activity android:name=".TeamRoutesActivity"></activity>
         <activity android:name=".MockingActivity" />
         <activity
-            android:name=".HeightInputDialog"
-            android:theme="@style/splashTheme" />
+            android:name=".LaunchDataDialog"
+            android:theme="@style/splashTheme"></activity>
         <activity android:name=".EntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
