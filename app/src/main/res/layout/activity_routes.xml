@@ -25,27 +25,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.001" />
 
+
     <Button
-        android:id="@+id/routesRoutesButton"
-        android:layout_width="125dp"
+        android:id="@+id/routesTeamButton"
+        android:layout_width="135dp"
         android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_weight="0.5"
         android:background="@android:color/white"
-        android:text="@string/routesButton"
+        android:text="@string/routesTeamButton"
         android:textColor="@android:color/black"
-        android:textSize="23sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.649"
+        app:layout_constraintHorizontal_bias="0.681"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.001" />
 
     <Button
         android:id="@+id/routesHomeButton"
-        android:layout_width="125dp"
+        android:layout_width="135dp"
         android:layout_height="40dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
@@ -53,7 +54,7 @@
         android:background="@android:color/white"
         android:text="@string/homeButton"
         android:textColor="@android:color/black"
-        android:textSize="23sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/routesNewRouteButton"
         app:layout_constraintHorizontal_bias="0.005"

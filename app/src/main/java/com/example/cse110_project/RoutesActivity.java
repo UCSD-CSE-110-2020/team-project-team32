@@ -59,10 +59,20 @@ public class RoutesActivity extends AppCompatActivity{
         Button homeButton = findViewById(R.id.routesHomeButton);
         homeButton.setOnClickListener(v -> finish());
 
+        // To team routes page
+        Button teamButton = findViewById(R.id.routesTeamButton);
+        teamButton.setOnClickListener(v -> launchTeamRoutesActivity());
+
         Button newRouteButton = findViewById(R.id.routesNewRouteButton);
         newRouteButton.setOnClickListener(v ->
                 (new SaveRouteDialog(this, this, 0,null, null))
                         .inputRouteDataDialog());
+    }
+
+    // to team routes
+    public void launchTeamRoutesActivity() {
+        Intent intent = new Intent(this, TeamRoutesActivity.class);
+        startActivity(intent);
     }
 
     @Override
