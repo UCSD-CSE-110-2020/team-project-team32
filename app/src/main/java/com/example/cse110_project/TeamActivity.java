@@ -11,7 +11,7 @@ public class TeamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team_screen);
+        setContentView(R.layout.activity_team_screen_populated);
 
         Button backButton = findViewById(R.id.button2);
         backButton.setOnClickListener(v -> finish());
