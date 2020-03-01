@@ -12,19 +12,18 @@ import androidx.annotation.NonNull;
 import com.example.cse110_project.R;
 import com.example.cse110_project.user_routes.TeamMember;
 
-import org.w3c.dom.Text;
-
 public class TeamListAdapter extends ArrayAdapter {
     private final Activity context;
 
-    private final String[] members;
+    private final String[] names;
     private final TeamMember[] memberArray;
 
-    public TeamListAdapter(Activity context, String[] members,  TeamMember[] memberArray){
-        super(context, R.layout.listview_members_row);
+    public TeamListAdapter(Activity context, String[] names, TeamMember[] memberArray){
+        super(context, R.layout.listview_members_row, names);
         this.context = context;
-        this.members = members;
+        this.names = names;
         this.memberArray = memberArray;
+
     }
 
     @Override @NonNull
@@ -33,9 +32,10 @@ public class TeamListAdapter extends ArrayAdapter {
         View rowView = inflater.inflate(R.layout.listview_members_row, null, true);
 
         TextView nameTextField = rowView.findViewById(R.id.textView);
-        TextView initalsTextField = rowView.findViewById(R.id.textView2);
+        //TextView initalsTextField = rowView.findViewById(R.id.textView2);
 
-        nameTextField.setText(members[position]);
+        nameTextField.setText(names[position]);
+        System.out.println("Names at position should be" + names[position]);
         return rowView;
     }
 }

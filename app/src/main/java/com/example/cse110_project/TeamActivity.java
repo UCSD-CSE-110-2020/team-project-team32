@@ -13,9 +13,9 @@ import com.example.cse110_project.util.TeamListAdapter;
 
 public class TeamActivity extends AppCompatActivity {
     private String[] members = {"Reesha Rajen", "Noor Bdairat"};
-    TeamMember reesha = new TeamMember("Reesha Rajen", "rrajen@ucsd.edu", Color.valueOf(Color.BLACK));
-    TeamMember noor = new TeamMember("Noor Bdairat", "nbdairat@ucsd.edu", Color.valueOf(Color.GREEN));
-    private TeamMember[] teamMember = {reesha, noor};
+    private TeamMember member1 = new TeamMember("Reesha Rajen", "rrajen@ucsd.edu", Color.valueOf(Color.BLACK));
+    private TeamMember member2 = new TeamMember("Noor Bdairat", "nbdairat@ucsd.edu", Color.valueOf(Color.GREEN));
+    private TeamMember[] teamMember = {member1, member2};
 
 
     @Override
@@ -29,7 +29,7 @@ public class TeamActivity extends AppCompatActivity {
 
         TeamListAdapter memberAdapter = new TeamListAdapter(this, members, teamMember);
 
-        ListView listMembers = findViewById(R.id.listviewID);
+        ListView listMembers = findViewById(R.id.listviewIDMember);
         listMembers.setAdapter(memberAdapter);
 
     }
