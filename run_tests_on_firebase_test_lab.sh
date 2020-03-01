@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 
 echo "Building debug and release APKs..."
-./gradlew :app:assembleDebug :app:assembleDebugAndroidTest
+./gradlew :app:assembleDebug :app:assembleDebugAndroidTest -Pcucumber
 
 echo "Downloading google-cloud-sdk..."
 wget --quiet --output-document=/tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
@@ -13,7 +13,7 @@ tar zxf /tmp/google-cloud-sdk.tar.gz --directory /opt
 /opt/google-cloud-sdk/install.sh --quiet
 source /opt/google-cloud-sdk/path.bash.inc
 
-echo "Authorizing gcloud and setting config defaults..."
+echo "Authorizing gcloud and setting config defacults..."
 gcloud -q components update
 gcloud auth activate-service-account --key-file=gcloud-service-key.json
 gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
