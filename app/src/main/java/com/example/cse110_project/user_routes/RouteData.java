@@ -3,7 +3,6 @@ package com.example.cse110_project.user_routes;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.util.DataConstants;
 
 /*

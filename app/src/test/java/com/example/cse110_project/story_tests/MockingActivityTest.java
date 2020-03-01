@@ -1,23 +1,14 @@
 package com.example.cse110_project.story_tests;
 
-import android.content.Context;
-import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import androidx.core.widget.TextViewCompat;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.MockingActivity;
 import com.example.cse110_project.R;
-import com.example.cse110_project.RouteDetailsActivity;
-import com.example.cse110_project.RoutesActivity;
 import com.example.cse110_project.WWRApplication;
-import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
-import com.example.cse110_project.util.DataConstants;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,7 +17,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowToast;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static junit.framework.TestCase.assertEquals;

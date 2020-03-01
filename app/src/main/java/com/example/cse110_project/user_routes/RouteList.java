@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.util.DataConstants;
-import com.google.firebase.firestore.DocumentReference;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,7 +17,7 @@ import java.util.List;
 public class RouteList {
     // Stores max route id currently used
     private static int routeID = 0;
-    private List<Route> routes;
+    private List<UserRoute> routes;
     private Context context;
 
     // Used for constant-time retrieval by route id
@@ -35,7 +34,7 @@ public class RouteList {
     @Override @NonNull
     public String toString() {
         String result = "[";
-        for (Route r : routes) {
+        for (UserRoute r : routes) {
             result += "\t" + r + "\n";
         }
         return result + "]";
@@ -45,14 +44,14 @@ public class RouteList {
         return routes.size();
     }
 
-    public Route getRoute(int index) {
+    public UserRoute getRoute(int index) {
         return routes.get(index);
     }
 
-    public Route getRouteByID(int routeID) { return routes.get(idToIndex.get(routeID)); }
+    public UserRoute getRouteByID(int routeID) { return routes.get(idToIndex.get(routeID)); }
 
     // Overwrites given route's id to ensure uniqueness
-    public void createRoute(Route r) {
+    public void createRoute(UserRoute r) {
         routeID++;
         r.setID(routeID);
         routes.add(r);
@@ -69,7 +68,7 @@ public class RouteList {
     // Updates route with new walk data
     public void updateRouteData(int id, int steps, LocalTime time, LocalDateTime date) {
         // Set local values
-        Route route = getRouteByID(id);
+        UserRoute route = getRouteByID(id);
         route.setSteps(steps);
         route.setDuration(time);
         route.setStartDate(date);
@@ -92,13 +91,13 @@ public class RouteList {
     }
 
     // Returns null if no route has been walked
-    public Route getMostRecentRoute() {
+    public UserRoute getMostRecentRoute() {
         if (routes.size() == 0) {
             return null;
         }
 
-        Route recent = routes.get(0);
-        for (Route r : routes) {
+        UserRoute recent = routes.get(0);
+        for (UserRoute r : routes) {
             if ( ! recent.hasWalkData() ||
                     (r.hasWalkData() && r.getStartDate().isAfter(recent.getStartDate()))) {
                 recent = r;
@@ -138,7 +137,7 @@ public class RouteList {
             String notes = RouteData.retrieveNotes(context, id);
             boolean fav = RouteData.retrieveFavorite(context, id);
 
-            Route r = new Route(id, name);
+            UserRoute r = new UserRoute(id, name);
             r.setSteps(steps);
             r.setStartingPoint(startPt);
             r.setFlatVsHilly(hillyVsFlat);

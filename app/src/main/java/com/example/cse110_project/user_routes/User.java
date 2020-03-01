@@ -18,7 +18,9 @@ public class User {
         context = c;
         routes = new RouteList(context);
         team = new Team();
+        email = UserData.retrieveEmail(context);
         height = UserData.retrieveHeight(context);
+        email = UserData.retrieveEmail(context);
     }
 
     public Team getTeam() { return team; }

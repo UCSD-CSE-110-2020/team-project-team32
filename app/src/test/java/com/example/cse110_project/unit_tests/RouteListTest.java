@@ -8,7 +8,7 @@ import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.RouteData;
 import com.example.cse110_project.user_routes.UserData;
-import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.RouteList;
 
 import org.junit.Before;
@@ -52,14 +52,14 @@ public class RouteListTest {
 
     @Test
     public void testGenerationSomeRoutes() {
-        Route r = new Route(10, "Name", 50, LocalTime.of(10,10),
+        UserRoute r = new UserRoute(10, "Name", 50, LocalTime.of(10,10),
                 LocalDateTime.of(1, 1, 1, 1, 1));
         UserData.saveRoute(c, r);
         RouteData.saveRouteData(c, r);
-        Route r2 = new Route(15, "Name2");
+        UserRoute r2 = new UserRoute(15, "Name2");
         UserData.saveRoute(c, r2);
         RouteData.saveRouteData(c, r2);
-        Route r3 = new Route(100, "Name");
+        UserRoute r3 = new UserRoute(100, "Name");
         UserData.saveRoute(c, r3);
         RouteData.saveRouteData(c, r3);
 
@@ -95,7 +95,7 @@ public class RouteListTest {
 
     @Test
     public void testRecentOneRouteNoDate() {
-        Route r = new Route(10, "Name");
+        UserRoute r = new UserRoute(10, "Name");
         UserData.saveRoute(c, r);
         RouteData.saveRouteData(c, r);
 
@@ -105,14 +105,14 @@ public class RouteListTest {
 
     @Test
     public void testRecentMultRoutesFirstDate() {
-        Route r = new Route(10, "Name", 50, LocalTime.of(10,10),
+        UserRoute r = new UserRoute(10, "Name", 50, LocalTime.of(10,10),
                 LocalDateTime.of(1, 1, 1, 1, 1));
         UserData.saveRoute(c, r);
         RouteData.saveRouteData(c, r);
-        Route r2 = new Route(15, "Name2");
+        UserRoute r2 = new UserRoute(15, "Name2");
         UserData.saveRoute(c, r2);
         RouteData.saveRouteData(c, r2);
-        Route r3 = new Route(100, "Name3");
+        UserRoute r3 = new UserRoute(100, "Name3");
         UserData.saveRoute(c, r3);
         RouteData.saveRouteData(c, r3);
 
@@ -122,13 +122,13 @@ public class RouteListTest {
 
     @Test
     public void testRecentMultRoutesLastDate() {
-        Route r2 = new Route(15, "Name2");
+        UserRoute r2 = new UserRoute(15, "Name2");
         UserData.saveRoute(c, r2);
         RouteData.saveRouteData(c, r2);
-        Route r3 = new Route(100, "Name3");
+        UserRoute r3 = new UserRoute(100, "Name3");
         UserData.saveRoute(c, r3);
         RouteData.saveRouteData(c, r3);
-        Route r = new Route(10, "Name", 50, LocalTime.of(10,10),
+        UserRoute r = new UserRoute(10, "Name", 50, LocalTime.of(10,10),
                 LocalDateTime.of(1, 1, 1, 1, 1));
         UserData.saveRoute(c, r);
         RouteData.saveRouteData(c, r);
@@ -139,14 +139,14 @@ public class RouteListTest {
 
     @Test
     public void testRecentMultRoutesMultDates() {
-        Route r = new Route(10, "Name", 50, LocalTime.of(10,10),
+        UserRoute r = new UserRoute(10, "Name", 50, LocalTime.of(10,10),
                 LocalDateTime.of(1, 1, 1, 1, 1));
         UserData.saveRoute(c, r);
         RouteData.saveRouteData(c, r);
-        Route r2 = new Route(15, "Name2");
+        UserRoute r2 = new UserRoute(15, "Name2");
         UserData.saveRoute(c, r2);
         RouteData.saveRouteData(c, r2);
-        Route r3 = new Route(100, "Name3", 50, LocalTime.of(10,10),
+        UserRoute r3 = new UserRoute(100, "Name3", 50, LocalTime.of(10,10),
                 LocalDateTime.of(2, 1, 1, 1, 1));
         UserData.saveRoute(c, r3);
         RouteData.saveRouteData(c, r3);
@@ -160,12 +160,12 @@ public class RouteListTest {
     @Test
     public void testCreateRoute() {
         RouteList list = new RouteList(c);
-        list.createRoute(new Route(0, "Name"));
+        list.createRoute(new UserRoute(0, "Name"));
         assertEquals(1, list.length());
         assertNotEquals(0, list.getRoute(0).getID());
         assertEquals("Name", list.getRoute(0).getName());
 
-        list.createRoute(new Route(list.getRoute(0).getID(), "Name"));
+        list.createRoute(new UserRoute(list.getRoute(0).getID(), "Name"));
         assertEquals(2, list.length());
         assertNotEquals(list.getRoute(0).getID(), list.getRoute(1).getID());
         assertEquals("Name", list.getRoute(1).getName());
@@ -174,11 +174,11 @@ public class RouteListTest {
     @Test
     public void testUpdateRouteData(){
         RouteList list = new RouteList(c);
-        list.createRoute(new Route(0, "Name"));
+        list.createRoute(new UserRoute(0, "Name"));
         list.updateRouteData(0, 500,LocalTime.of(10,10),
                 LocalDateTime.of(2020,1,1,1,1) );
 
-        list.createRoute(new Route(list.getRoute(0).getID(), "Name"));
+        list.createRoute(new UserRoute(list.getRoute(0).getID(), "Name"));
         assertNotEquals(list.getRoute(0).getID(), list.getRoute(1).getID());
         assertEquals(list.getRoute(0).getName(), "Name");
         assertEquals(list.getRoute(0).getSteps(), 500);
@@ -190,10 +190,10 @@ public class RouteListTest {
     @Test
     public void testSortByName(){
         RouteList list = new RouteList(c);
-        list.createRoute(new Route(0, "A"));
-        list.createRoute(new Route(2, "B1"));
-        list.createRoute(new Route(3, "a1"));
-        list.createRoute(new Route(1, "b"));
+        list.createRoute(new UserRoute(0, "A"));
+        list.createRoute(new UserRoute(2, "B1"));
+        list.createRoute(new UserRoute(3, "a1"));
+        list.createRoute(new UserRoute(1, "b"));
 
         assertEquals(list.getRoute(0).getName(), "A");
         assertEquals(list.getRoute(1).getName(), "B1");

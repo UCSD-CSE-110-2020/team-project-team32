@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.example.cse110_project.database.FirebaseFirestoreAdapter;
 import com.example.cse110_project.util.DataConstants;
-import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.User;
 
 import com.example.cse110_project.fitness.FitnessService;
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String DELAY_KEY = "DELAY_KEY";
     public static final String USER_COLLECTIONS_KEY = "user_data";
     public static final String TEAM_COLLECTIONS_KEY = "team_data";
+    public static final String INVITES_KEY = "invites";
     public static final String ROUTES_KEY = "routes";
     private static final int DEFAULT_DELAY = 5;
     private static final String TAG = "MainActivity";
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             if (WWRApplication.getDatabase() == null) {
                 WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
-                        TEAM_COLLECTIONS_KEY, user.getEmail(), ROUTES_KEY));
+                        TEAM_COLLECTIONS_KEY, user.getEmail(), INVITES_KEY, ROUTES_KEY));
             }
         }
 
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateRecentRoute() {
-        Route recent = user.getRoutes().getMostRecentRoute();
+        UserRoute recent = user.getRoutes().getMostRecentRoute();
         Log.d(TAG, "Current routes: " + user.getRoutes());
         Log.d(TAG, "Recent route: " + recent);
         String stepsDisplay;
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
         user.setEmail(emailInput);
         if (WWRApplication.getDatabase() == null) {
             WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
-                    TEAM_COLLECTIONS_KEY, user.getEmail(), ROUTES_KEY));
+                    TEAM_COLLECTIONS_KEY, user.getEmail(), INVITES_KEY, ROUTES_KEY));
         }
 
         String heightInput = heightEditor.getText().toString();

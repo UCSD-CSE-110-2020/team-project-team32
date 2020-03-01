@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +26,10 @@ public class TeamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_screen);
 
-        Button backButton = findViewById(R.id.button2);
+        Button backButton = findViewById(R.id.teamHomeButton);
         backButton.setOnClickListener(v -> finish());
 
-        ImageButton AddMember = findViewById(R.id.addMember);
+        Button AddMember = findViewById(R.id.teamAddMember);
         AddMember.setOnClickListener((v -> launchAddEntry()));
     }
 
@@ -69,5 +70,15 @@ public class TeamActivity extends AppCompatActivity {
         else {
             dialog.dismiss();
         }
+
+        /*final TextView edittextDescription = (TextView) findViewById(R.id.member1);
+
+        if (edittextDescription.getText() != null) {
+            String newString = edittextDescription.getText().toString();
+            // newString.split("\\s+");
+            final TextView setTextDescription = findViewById(R.id.textView2);
+            setTextDescription.setText(newString);
+        }*/
+
     }
 }

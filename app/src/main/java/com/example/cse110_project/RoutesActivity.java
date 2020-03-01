@@ -8,8 +8,9 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.cse110_project.util.RouteListAdapter;
 import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.util.RouteListAdapter;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
@@ -59,10 +60,20 @@ public class RoutesActivity extends AppCompatActivity{
         Button homeButton = findViewById(R.id.routesHomeButton);
         homeButton.setOnClickListener(v -> finish());
 
+        // To team routes page
+        Button teamButton = findViewById(R.id.routesTeamButton);
+        teamButton.setOnClickListener(v -> launchTeamRoutesActivity());
+
         Button newRouteButton = findViewById(R.id.routesNewRouteButton);
         newRouteButton.setOnClickListener(v ->
                 (new SaveRouteDialog(this, this, 0,null, null))
                         .inputRouteDataDialog());
+    }
+
+    // to team routes
+    public void launchTeamRoutesActivity() {
+        Intent intent = new Intent(this, TeamRoutesActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -90,7 +101,7 @@ public class RoutesActivity extends AppCompatActivity{
         RouteList routes = user.getRoutes();
         routes.sortByName();
         for (int i = 0; i < routes.length(); i++) {
-            Route r = routes.getRoute(i);
+            UserRoute r = routes.getRoute(i);
             nameArray[i] = r.getName();
             startPtArray[i] = r.getStartingPoint();
             stepsArray[i] = String.valueOf(r.getSteps());
