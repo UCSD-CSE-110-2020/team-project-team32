@@ -1,4 +1,4 @@
-package com.example.cse110_project.test.ui_tests;
+package com.example.cse110_project.ui_tests;
 
 
 import android.content.Intent;
