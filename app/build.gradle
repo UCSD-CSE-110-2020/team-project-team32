@@ -70,5 +70,5 @@ dependencies {
 def getTestRunner() {
     project.hasProperty('cucumber') ?
             "com.example.cse110_project.CucumberTestRunner" :
-            "android.support.test.runner.AndroidJUnitRunner"
+            "androidx.test.runner.AndroidJUnitRunner"
 }
