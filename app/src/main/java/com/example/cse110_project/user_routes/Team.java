@@ -20,6 +20,7 @@ public class Team {
     public List<TeamMember> getMembers() { return members; }
 
     public void addMember(TeamMember member) {
+
         members.add(member);
         if (WWRApplication.hasDatabase()) {
             WWRApplication.getDatabase().updateTeam(this);
