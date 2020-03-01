@@ -32,10 +32,21 @@ public class TeamListAdapter extends ArrayAdapter {
         View rowView = inflater.inflate(R.layout.listview_members_row, null, true);
 
         TextView nameTextField = rowView.findViewById(R.id.textView);
-        //TextView initalsTextField = rowView.findViewById(R.id.textView2);
+        TextView initalsTextField = rowView.findViewById(R.id.textView2);
 
         nameTextField.setText(names[position]);
-        System.out.println("Names at position should be" + names[position]);
+
+        String initials = names[position];
+        String[] initialArr = initials.split("\\s+");
+        char first = initialArr[0].charAt(0);
+        char second = initialArr[1].charAt(0);
+        StringBuilder sb = new StringBuilder();
+        sb.append(first);
+        sb.append(second);
+        String initalFinal = sb.toString();
+
+        initalsTextField.setText(initalFinal);
+
         return rowView;
     }
 }
