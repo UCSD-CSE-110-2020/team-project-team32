@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.test.ui_tests;
 
 
 import android.content.Intent;
@@ -9,10 +9,13 @@ import android.view.ViewParent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.R;
 import com.example.cse110_project.fitness.FitnessService;
 import com.example.cse110_project.fitness.FitnessServiceFactory;
 
@@ -30,7 +33,6 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -53,7 +55,7 @@ public class AAppLaunchUITest {
 
     @Test
     public void appLaunchUITest() {
-        ViewInteraction appCompatEditText = onView(withId(R.id.emailInput));
+        ViewInteraction appCompatEditText = onView(ViewMatchers.withId(R.id.emailInput));
         appCompatEditText.perform(replaceText("wwruser@gmail.com"),
                 closeSoftKeyboard());
 

@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/AddMemberNickNamePrompt"
+        android:id="@+id/inviteNamePrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -15,14 +15,14 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/AddMemberNickName"
+        android:id="@+id/inviteNameInput"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/NickName"
         android:padding="10dp" />
 
     <TextView
-        android:id="@+id/AddMemberEmailPrompt"
+        android:id="@+id/inviteEmailPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -30,7 +30,7 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/AddMemberEmail"
+        android:id="@+id/inviteEmailInput"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/emailHint"

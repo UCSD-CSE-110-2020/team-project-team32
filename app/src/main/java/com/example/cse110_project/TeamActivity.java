@@ -1,21 +1,16 @@
 package com.example.cse110_project;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cse110_project.user_routes.Team;
 import com.example.cse110_project.user_routes.TeamMember;
 
 public class TeamActivity extends AppCompatActivity {
@@ -38,7 +33,7 @@ public class TeamActivity extends AppCompatActivity {
     public AlertDialog launchAddEntry() {
         // Get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(TeamActivity.this);
-        View promptView = layoutInflater.inflate(R.layout.add_member_dialog, null);
+        View promptView = layoutInflater.inflate(R.layout.dialog_invite_member, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(TeamActivity.this)
                 .setCancelable(false)
                 .setPositiveButton(R.string.sendInvite, null)
@@ -49,10 +44,11 @@ public class TeamActivity extends AppCompatActivity {
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
 
-        emailEditor = promptView.findViewById(R.id.AddMemberEmail);
-        nickNameEditor = promptView.findViewById(R.id.AddMemberNickName);
+        emailEditor = promptView.findViewById(R.id.inviteEmailInput);
+        nickNameEditor = promptView.findViewById(R.id.inviteNameInput);
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+        submitButton.setId(R.id.sendInviteButton);
         submitButton.setOnClickListener(v -> ValidateOnSendInvite(alert));
 
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
@@ -65,7 +61,8 @@ public class TeamActivity extends AppCompatActivity {
         int NickNameEditorLength = nickNameEditor.getText().toString().length();
 
         if(emailEditorLength == 0 || NickNameEditorLength == 0) {
-            Toast.makeText(this, R.string.InvalidInvite, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.InvalidInvite, Toast.LENGTH_SHORT)
+                    .show();
         } else {
             TeamMember member = new TeamMember(nickNameEditor.getText().toString(),
                     emailEditor.getText().toString(), Color.YELLOW);

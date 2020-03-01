@@ -15,7 +15,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner getTestRunner()
     }
     buildTypes {
         release {
@@ -50,15 +50,25 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.google.firebase:firebase-firestore:17.1.2'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.android.gms:play-services-fitness:18.0.0'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:4.3.1'
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation 'androidx.test.ext:junit:1.1.1'
     testImplementation 'androidx.test.ext:truth:1.2.0'
     testImplementation 'androidx.test:rules:1.2.0'
-    implementation 'com.google.android.gms:play-services-fitness:18.0.0'
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.annotation:annotation:1.1.0'
+    androidTestImplementation 'io.cucumber:cucumber-android:4.2.2'
+    androidTestImplementation 'io.cucumber:cucumber-picocontainer:4.2.2'
+}
+
+def getTestRunner() {
+    project.hasProperty('cucumber') ?
+            "com.example.cse110_project.CucumberTestRunner" :
+            "android.support.test.runner.AndroidJUnitRunner"
 }
