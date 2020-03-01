@@ -1,6 +1,7 @@
 package com.example.cse110_project;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cse110_project.user_routes.Team;
+import com.example.cse110_project.user_routes.TeamMember;
 
 public class TeamActivity extends AppCompatActivity {
     private EditText emailEditor;
@@ -54,9 +56,7 @@ public class TeamActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> ValidateOnSendInvite(alert));
 
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
-        cancelButton.setOnClickListener(v -> {
-            alert.dismiss();
-        });
+        cancelButton.setOnClickListener(v -> alert.dismiss());
         return alert;
     }
 
@@ -66,8 +66,10 @@ public class TeamActivity extends AppCompatActivity {
 
         if(emailEditorLength == 0 || NickNameEditorLength == 0) {
             Toast.makeText(this, R.string.InvalidInvite, Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
+            TeamMember member = new TeamMember(nickNameEditor.getText().toString(),
+                    emailEditor.getText().toString(), Color.YELLOW);
+            WWRApplication.getUser().getTeam().inviteMember(member);
             dialog.dismiss();
         }
 

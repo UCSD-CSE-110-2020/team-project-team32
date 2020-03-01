@@ -28,6 +28,7 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                                     String userId, String invitesKey, String routesKey) {
         this.userCollectionKey = userCollectionKey;
         this.teamCollectionKey = teamCollectionKey;
+        this.invitesKey = invitesKey;
         this.routesKey = routesKey;
 
         userRoutes = FirebaseFirestore.getInstance().collection(userCollectionKey)
@@ -59,6 +60,7 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
 
     @Override
     public void createInvite(String teamId, String memberId, Map<String, Object> content) {
+        System.out.println("Path: " + userCollectionKey + "/" + memberId + "/" + invitesKey);
         CollectionReference invitesCollection = FirebaseFirestore.getInstance()
                 .collection(userCollectionKey).document(memberId).collection(invitesKey);
         invitesCollection.document(teamId).set(content);
@@ -88,13 +90,13 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
         DocumentReference userTeam =
                 FirebaseFirestore.getInstance().collection(teamCollectionKey).document();
         team.setId(userTeam.getId());
-        userTeam.set(team.getMembers());
+        userTeam.set(team);
     }
 
     @Override
     public void updateTeam(Team team) {
         FirebaseFirestore.getInstance().collection(teamCollectionKey)
-                .document(team.getId()).set(team.getMembers());
+                .document(team.getId()).set(team);
     }
 
     @Override

@@ -26,6 +26,11 @@ public class Team {
     public List<TeamMember> getMembers() { return members; }
 
     public void inviteMember(TeamMember member) {
+        if (id == null && WWRApplication.hasDatabase()) {
+            WWRApplication.getDatabase().createTeam(this);
+            System.out.println("Team id is " + this.getId());
+        }
+
         members.add(member);
         if (WWRApplication.hasDatabase()) {
             DatabaseService db = WWRApplication.getDatabase();

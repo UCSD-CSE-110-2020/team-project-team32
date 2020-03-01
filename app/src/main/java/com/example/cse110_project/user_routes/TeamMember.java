@@ -8,10 +8,12 @@ public class TeamMember {
 
     private String name;
     private String email;
-    private Color color;
+    private int color;
     private boolean status;
 
-    public TeamMember(String name, String email, Color color) {
+    public TeamMember() {}
+
+    public TeamMember(String name, String email,int color) {
         this.name = name;
         this.email = email;
         this.color = color;
@@ -25,9 +27,9 @@ public class TeamMember {
 
     public void setEmail(String email) { this.email = email; }
 
-    public Color getColor() { return color; }
+    public int getColor() { return color; }
 
-    public void setColor(Color color) { this.color = color; }
+    public void setColor(int color) { this.color = color; }
 
     public boolean getStatus() { return status; }
 
