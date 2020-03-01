@@ -17,6 +17,7 @@ import com.example.cse110_project.util.MilesCalculator;
 import com.example.cse110_project.util.RouteListAdapter;
 
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TeamRoutesActivity extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class TeamRoutesActivity extends AppCompatActivity {
     private final static String MONTH_DAY_SEPARATOR = " ";
     private User user;
 
-    private List<TeamRoute> currentList = null;
+    private List<TeamRoute> currentList = new ArrayList<>();
     private List<TeamMember> memberList;
 
     private String[] nameArray;
@@ -50,17 +51,19 @@ public class TeamRoutesActivity extends AppCompatActivity {
 
 
         //teamList = WWRApplication.getDatabase().getTeamRoutes(thisTeam.get(0).getEmail());
-        /*for (int i = 0; i < memberList.size(); i++ ) {
-            List<TeamRoute> tempList;
-            tempList = WWRApplication.getDatabase().getTeamRoutes(memberList.get(i).getEmail());
+        if (memberList.size() != 0 ) {
+            for (int i = 0; i < memberList.size(); i++) {
+                List<TeamRoute> tempList;
+                tempList = WWRApplication.getDatabase().getTeamRoutes(memberList.get(i).getEmail());
 
-            for (int j = 0; j < tempList.size(); j++) {
-                currentList.add(tempList.get(i));
+                for (int j = 0; j < tempList.size(); j++) {
+                    currentList.add(tempList.get(i));
+                }
             }
-        }*/
+        }
 
-        int arrLen = user.getRoutes().length();
-        //int arrLen = currentList.size();
+        //int arrLen = user.getRoutes().length();
+        int arrLen = currentList.size();
         nameArray = new String[arrLen];
         startPtArray = new String[arrLen];
         stepsArray = new String[arrLen];
@@ -82,7 +85,7 @@ public class TeamRoutesActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        fetchRoutesData();
+        fetchTeamRoutesData();
 
         // Set up list view
         RouteListAdapter adapter = new RouteListAdapter(this, nameArray, startPtArray,
