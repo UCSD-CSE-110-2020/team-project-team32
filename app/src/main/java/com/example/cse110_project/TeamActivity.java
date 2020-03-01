@@ -11,16 +11,24 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.TextView;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cse110_project.user_routes.Team;
 import com.example.cse110_project.user_routes.TeamMember;
+import com.example.cse110_project.util.TeamListAdapter;
+
 
 public class TeamActivity extends AppCompatActivity {
     private EditText emailEditor;
     private EditText nickNameEditor;
+
+    private String[] members = {"Reesha Rajen", "Noor Bdairat"};
+    private TeamMember member1 = new TeamMember("Reesha Rajen", "rrajen@ucsd.edu", Color.valueOf(Color.BLACK));
+    private TeamMember member2 = new TeamMember("Noor Bdairat", "nbdairat@ucsd.edu", Color.valueOf(Color.GREEN));
+    private TeamMember[] teamMember = {member1, member2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +41,11 @@ public class TeamActivity extends AppCompatActivity {
 
         Button AddMember = findViewById(R.id.teamAddMember);
         AddMember.setOnClickListener((v -> launchAddEntry()));
+
+        TeamListAdapter memberAdapter = new TeamListAdapter(this, members, teamMember);
+
+        ListView listMembers = findViewById(R.id.listviewIDMember);
+        listMembers.setAdapter(memberAdapter);
     }
 
     public AlertDialog launchAddEntry() {
@@ -73,14 +86,6 @@ public class TeamActivity extends AppCompatActivity {
             dialog.dismiss();
         }
 
-        /*final TextView edittextDescription = (TextView) findViewById(R.id.member1);
-
-        if (edittextDescription.getText() != null) {
-            String newString = edittextDescription.getText().toString();
-            // newString.split("\\s+");
-            final TextView setTextDescription = findViewById(R.id.textView2);
-            setTextDescription.setText(newString);
-        }*/
-
     }
+
 }
