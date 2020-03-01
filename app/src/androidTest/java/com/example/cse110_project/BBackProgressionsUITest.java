@@ -203,17 +203,6 @@ public class BBackProgressionsUITest {
                         isDisplayed()));
         appCompatButton13.perform(click());
 
-        ViewInteraction appCompatButton14 = onView(
-                allOf(withId(R.id.routesRoutesButton), withText("Routes"),
-                        childAtPosition(
-                                allOf(withId(R.id.coordinatorLayout),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                1),
-                        isDisplayed()));
-        appCompatButton14.perform(click());
-
         ViewInteraction appCompatButton15 = onView(
                 allOf(withId(R.id.routesNewRouteButton), withText("+"),
                         childAtPosition(
