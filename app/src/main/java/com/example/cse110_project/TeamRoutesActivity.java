@@ -24,10 +24,8 @@ public class TeamRoutesActivity extends AppCompatActivity {
     private final static String MONTH_DAY_SEPARATOR = " ";
     private User user;
 
-    public List<TeamRoute> currentList;
-    private List<TeamMember> thisTeam;
-
-    //int arrLen = 10;//user.getRoutes().length();
+    private List<TeamRoute> currentList = null;
+    private List<TeamMember> memberList;
 
     private String[] nameArray;
     private String[] startPtArray;
@@ -46,17 +44,23 @@ public class TeamRoutesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.team_routes);
-
+        //int arrLen = 0;
         user = WWRApplication.getUser();
+        memberList = user.getTeam().getMembers(); // list of TeamMember objects
 
-        thisTeam = user.getTeam().getMembers(); // list of TeamMember objects
 
         //teamList = WWRApplication.getDatabase().getTeamRoutes(thisTeam.get(0).getEmail());
+        /*for (int i = 0; i < memberList.size(); i++ ) {
+            List<TeamRoute> tempList;
+            tempList = WWRApplication.getDatabase().getTeamRoutes(memberList.get(i).getEmail());
 
+            for (int j = 0; j < tempList.size(); j++) {
+                currentList.add(tempList.get(i));
+            }
+        }*/
 
-
-        int arrLen = teamList.size();
-
+        int arrLen = user.getRoutes().length();
+        //int arrLen = currentList.size();
         nameArray = new String[arrLen];
         startPtArray = new String[arrLen];
         stepsArray = new String[arrLen];
@@ -92,15 +96,27 @@ public class TeamRoutesActivity extends AppCompatActivity {
     public void fetchTeamRoutesData() {
         Log.d(TAG, "Fetching routes data");
 
-        //teamList = WWRApplication.getDatabase().getTeamRoutes(thisTeam.get(i).getEmail());
-
-        RouteList routes;
-        for (int i = 0; i < teamList.size(); i++ ) {
-            currentList = WWRApplication.getDatabase().getTeamRoutes(thisTeam.get(i).getEmail());
-
-        }
-
         //RouteList routesInTeam = teamList
+        for (int i = 0; i < currentList.size(); i++) {
+            Route r = currentList.get(i).getRoute();
+
+            nameArray[i] = r.getName();
+            startPtArray[i] = r.getStartingPoint();
+            stepsArray[i] = String.valueOf(r.getSteps());
+            milesArray[i] = MilesCalculator.formatMiles(r.getMiles(user.getHeight()));
+            flatHillyArray[i] = r.getFlatVsHilly();
+            loopOutBackArray[i] = r.getLoopVsOutBack();
+            streetsTrailArray[i] = r.getStreetsVsTrail();
+            evenUnevenArray[i] = r.getEvenVsUneven();
+            difficultyArray[i] = r.getDifficulty();
+            favArray[i] = r.isFavorite() ? Route.FAV : Route.NO_DATA;
+
+            if (r.getStartDate() != null) {
+                timeArray[i] = r.getDuration().truncatedTo(ChronoUnit.MINUTES).toString();
+                dateArray[i] = r.getStartDate().getMonth() + MONTH_DAY_SEPARATOR
+                        + r.getStartDate().getDayOfMonth();
+            }
+        }
     }
 
     public void fetchRoutesData(){

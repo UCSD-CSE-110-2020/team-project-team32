@@ -10,6 +10,8 @@ public class TeamRoute extends Route {
         this.creatorEmail = creatorEmail;
     }
 
+
+    public Route getRoute() { return route; }
     public void setCreatorEmail(String creatorEmail) { this.creatorEmail = creatorEmail; }
     public String getCreatorEmail() { return creatorEmail; }
 }

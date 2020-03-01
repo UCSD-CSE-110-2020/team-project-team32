@@ -8,21 +8,23 @@
 
 
     <TextView
-        android:id="@+id/homeHeader2"
+        android:id="@+id/teamRoutesHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/homeHeader"
+        android:text="@string/teamRoutesTitleButton"
         android:textColor="@android:color/black"
         android:textSize="25sp"
         android:textStyle="bold"
         android:typeface="sans"
-        tools:layout_editor_absoluteY="56dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/routesHomeButton" />
 
     <Button
         android:id="@+id/routesHomeButton"
         android:layout_width="125dp"
         android:layout_height="40dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
         android:background="@android:color/white"
         android:text="@string/backToYourRoutes"
@@ -41,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/routesHomeButton" >
+        app:layout_constraintTop_toBottomOf="@+id/teamRoutesHeader">
 
     </ListView>
 

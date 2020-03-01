@@ -52,6 +52,7 @@
 
     // Team Routes Screen
     <string name="backToYourRoutes">Your Routes</string>
+    <string name="teamRoutesTitleButton">Team Routes</string>
 
     // Walk screen
     <string name="walkHeader">Walk</string>
