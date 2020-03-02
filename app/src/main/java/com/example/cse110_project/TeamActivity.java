@@ -13,13 +13,23 @@ import android.widget.ListView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cse110_project.user_routes.Team;
 import com.example.cse110_project.user_routes.TeamMember;
+import com.example.cse110_project.user_routes.User;
+import com.example.cse110_project.user_routes.UserData;
+import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.util.TeamListAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TeamActivity extends AppCompatActivity {
     private EditText emailEditor;
     private EditText nickNameEditor;
+    private Team getTeam;
+    private List<TeamMember> members = new ArrayList<>();
+    private String[] memberNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +42,7 @@ public class TeamActivity extends AppCompatActivity {
 
         Button AddMember = findViewById(R.id.teamAddMember);
         AddMember.setOnClickListener((v -> launchAddEntry()));
+        createTeamView();
     }
 
     public AlertDialog launchAddEntry() {
@@ -70,10 +81,33 @@ public class TeamActivity extends AppCompatActivity {
         } else {
             TeamMember member = new TeamMember(nickNameEditor.getText().toString(),
                     emailEditor.getText().toString(), Color.YELLOW);
-            WWRApplication.getUser().getTeam().inviteMember(member);
+            WWRApplication.getUser().getTeam().inviteMember(this, member);
+            createTeamView();
             dialog.dismiss();
         }
 
     }
 
+    public void createTeamView() {
+        String getTeamID = UserData.retrieveTeamID(this);
+        if (getTeamID != DataConstants.NO_TEAMID_FOUND) {
+            getTeam = WWRApplication.getDatabase().getTeam(getTeamID);
+            members = getTeam.getMembers();
+            System.out.println(members);
+
+            if (members.size() != 0) {
+                int MembersSize = members.size();
+                memberNames = new String[MembersSize];
+
+                for(int i=0; i < members.size(); i++) {
+                    memberNames[i] = members.get(i).getName();
+                }
+
+                TeamListAdapter memberAdapter = new TeamListAdapter(this, memberNames, members);
+
+                ListView listMembers = findViewById(R.id.listviewIDMember);
+                listMembers.setAdapter(memberAdapter);
+            }
+        }
+    }
 }

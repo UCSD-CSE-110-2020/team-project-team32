@@ -8,12 +8,12 @@ public class TeamMember {
 
     private String name;
     private String email;
-    private int color;
+    private long color;
     private boolean status;
 
     public TeamMember() {}
 
-    public TeamMember(String name, String email,int color) {
+    public TeamMember(String name, String email,long color) {
         this.name = name;
         this.email = email;
         this.color = color;
@@ -27,9 +27,9 @@ public class TeamMember {
 
     public void setEmail(String email) { this.email = email; }
 
-    public int getColor() { return color; }
+    public long getColor() { return color; }
 
-    public void setColor(int color) { this.color = color; }
+    public void setColor(long color) { this.color = color; }
 
     public boolean getStatus() { return status; }
 

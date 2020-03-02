@@ -1,9 +1,13 @@
 package com.example.cse110_project.database;
 
 
+import android.graphics.Color;
+
+import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.TeamMember;
 import com.example.cse110_project.user_routes.TeamRoute;
+import com.example.cse110_project.user_routes.UserData;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.Team;
 import com.google.firebase.auth.FirebaseAuth;
@@ -107,14 +111,16 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
         Team team = new Team();
         team.setId(teamId);
         teamDoc.get().addOnSuccessListener(documentSnapshot -> {
-            List<TeamMember> members = documentSnapshot.toObject(List.class);
+            /*List<TeamMember> members = documentSnapshot.toObject(List.class);
             for (TeamMember member : members) {
                 team.getMembers().add(member);
-            }
+            }*/
         });
-
+        team.getMembers().add(new TeamMember("Reesha Rajen", "rrajen@ucsd.edu", -256));
+        team.getMembers().add(new TeamMember("test test","test",-256));
         return team;
     }
+
 
     @Override
     public List<TeamRoute> getTeamRoutes(String memberId) {

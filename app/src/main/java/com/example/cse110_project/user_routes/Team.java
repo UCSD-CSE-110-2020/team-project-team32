@@ -1,7 +1,10 @@
 package com.example.cse110_project.user_routes;
 
+import android.content.Context;
+
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
+import com.example.cse110_project.util.DataConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,9 +28,12 @@ public class Team {
 
     public List<TeamMember> getMembers() { return members; }
 
-    public void inviteMember(TeamMember member) {
-        if (id == null && WWRApplication.hasDatabase()) {
+    public void inviteMember(Context context, TeamMember member) {
+        String getTeamID = UserData.retrieveTeamID(context);
+        setId(getTeamID);
+        if (id == DataConstants.NO_TEAMID_FOUND && WWRApplication.hasDatabase()) {
             WWRApplication.getDatabase().createTeam(this);
+            UserData.saveTeamID(context, this.getId());
             System.out.println("Team id is " + this.getId());
         }
 

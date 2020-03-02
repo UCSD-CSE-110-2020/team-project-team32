@@ -25,6 +25,12 @@ public class UserData {
         return pref.getString(DataConstants.ROUTES_LIST_KEY, DataConstants.NO_ROUTES_FOUND);
     }
 
+    public static String retrieveTeamID(Context c) {
+        SharedPreferences pref
+                = c.getSharedPreferences(DataConstants.TEAM_ID_FILE, Context.MODE_PRIVATE);
+        return pref.getString(DataConstants.TEAM_ID_KEY, DataConstants.NO_TEAMID_FOUND);
+    }
+
     public static void saveEmail(Context c, String email) {
         SharedPreferences pref
                 = c.getSharedPreferences(DataConstants.USER_DATA_FILE, Context.MODE_PRIVATE);
@@ -40,6 +46,16 @@ public class UserData {
         editor.putInt(DataConstants.HEIGHT_KEY, height);
         editor.apply();
     }
+
+    public static void saveTeamID(Context c, String id) {
+        SharedPreferences pref
+                = c.getSharedPreferences(DataConstants.TEAM_ID_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(DataConstants.TEAM_ID_KEY, id);
+        editor.apply();
+    }
+
+
 
     public static void saveRoute(Context c, UserRoute route) {
         String routeList = retrieveRouteList(c);

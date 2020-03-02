@@ -12,13 +12,15 @@ import androidx.annotation.NonNull;
 import com.example.cse110_project.R;
 import com.example.cse110_project.user_routes.TeamMember;
 
+import java.util.List;
+
 public class TeamListAdapter extends ArrayAdapter {
     private final Activity context;
 
     private final String[] names;
-    private final TeamMember[] memberArray;
+    private final List<TeamMember> memberArray;
 
-    public TeamListAdapter(Activity context, String[] names, TeamMember[] memberArray){
+    public TeamListAdapter(Activity context, String[] names, List<TeamMember> memberArray){
         super(context, R.layout.listview_members_row, names);
         this.context = context;
         this.names = names;

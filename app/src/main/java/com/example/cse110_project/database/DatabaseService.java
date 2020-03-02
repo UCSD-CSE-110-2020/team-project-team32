@@ -1,6 +1,7 @@
 package com.example.cse110_project.database;
 
 import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.TeamMember;
 import com.example.cse110_project.user_routes.TeamRoute;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.Team;
