@@ -1,40 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="39dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:color/holo_orange_light" />
+    android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/teamRowIconImg"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        android:background="@android:color/holo_orange_light"
+        android:text="FML"
+        android:textAlignment="center"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/teamRowName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="16dp"
-        android:text="Team Member Name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="20sp"
+        android:text="FirstName MI LastName"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="17sp" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="40dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:text="TM"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

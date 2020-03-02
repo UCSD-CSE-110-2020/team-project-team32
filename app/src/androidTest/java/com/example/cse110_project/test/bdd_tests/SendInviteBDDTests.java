@@ -129,11 +129,6 @@ public class SendInviteBDDTests {
         public void updateRoute(UserRoute route) { }
 
         @Override
-        public List<Route> getRoutes() {
-            return null;
-        }
-
-        @Override
         public void removeInvite(String teamId, String memberId) { }
 
         @Override
@@ -156,13 +151,18 @@ public class SendInviteBDDTests {
         }
 
         @Override
-        public Team getTeam(String teamId) {
-            return null;
+        public void getRoutesByUser(String userId, List<TeamRoute> routes) {
+
         }
 
         @Override
-        public List<TeamRoute> getTeamRoutes(String memberId) {
-            return null;
+        public void getRoutes(List<Route> routes) {
+
+        }
+
+        @Override
+        public void getTeamMembers(Team team) {
+
         }
     }
 

@@ -2,6 +2,8 @@ package com.example.cse110_project.user_routes;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
 import com.example.cse110_project.util.DataConstants;
@@ -18,12 +20,23 @@ public class Team {
     private String id;
     private List<TeamMember> members;
 
-    public Team() {
-        members = new ArrayList<>();
+    public Team() { members = new ArrayList<>(); }
+
+    @Override @NonNull
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(id);
+        sb.append(": {\n");
+        for (TeamMember member : members) {
+            sb.append("\t");
+            sb.append(member.getEmail());
+            sb.append(",\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
 
     public String getId() { return id; }
-
     public void setId(String id) { this.id = id; }
 
     public List<TeamMember> getMembers() { return members; }
@@ -31,11 +44,6 @@ public class Team {
     public void inviteMember(Context context, TeamMember member) {
         String getTeamID = UserData.retrieveTeamID(context);
         setId(getTeamID);
-        if (id == DataConstants.NO_TEAMID_FOUND && WWRApplication.hasDatabase()) {
-            WWRApplication.getDatabase().createTeam(this);
-            UserData.saveTeamID(context, this.getId());
-            System.out.println("Team id is " + this.getId());
-        }
 
         members.add(member);
         if (WWRApplication.hasDatabase()) {
