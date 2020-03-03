@@ -108,6 +108,7 @@
     <string name="AddMemberEmailPrompt">Enter the member email (required)</string>
     <string name="sendInvite">Send Invite</string>
     <string name="InvalidInvite">Please fill all required fields</string>
+    <string name="inviteExistingMemberError">This user is already on your team</string>
     <string name="NickName">Nickname</string>
 
 

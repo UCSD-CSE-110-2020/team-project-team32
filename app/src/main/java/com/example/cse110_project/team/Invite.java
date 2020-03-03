@@ -30,20 +30,24 @@ public class Invite {
 
     public void accept() {
         WWRApplication.getDatabase().removeInvite(this);
-
         Team team = new Team();
         team.setId(teamId);
-        WWRApplication.getDatabase().getTeamMembers(team);
-
         WWRApplication.getUser().setTeam(team);
-        team.findMemberById(invitedMemberId).setStatus(TeamMember.STATUS_MEMBER);
-        WWRApplication.getDatabase().updateTeam(team);
+
+        WWRApplication.getDatabase().getTeamMembers(team).addOnSuccessListener(getResult -> {
+            team.findMemberById(invitedMemberId).setStatus(TeamMember.STATUS_MEMBER);
+            WWRApplication.getDatabase().updateTeam(team).addOnSuccessListener(updateResult ->
+                    WWRApplication.getUser().refreshTeamRoutes());
+        });
     }
 
     public void decline() {
         WWRApplication.getDatabase().removeInvite(this);
-        Team team = WWRApplication.getUser().getTeam();
-        team.removeMemberById(invitedMemberId);
-        WWRApplication.getDatabase().updateTeam(team);
+        Team team = new Team();
+        team.setId(teamId);
+        WWRApplication.getDatabase().getTeamMembers(team).addOnSuccessListener(result -> {
+            team.removeMemberById(invitedMemberId);
+            WWRApplication.getDatabase().updateTeam(team);
+        });
     }
 }

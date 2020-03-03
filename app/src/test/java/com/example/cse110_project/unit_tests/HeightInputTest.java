@@ -204,8 +204,8 @@ public class HeightInputTest {
         }
 
         @Override
-        public void updateTeam(Team team) {
-
+        public Task<?> updateTeam(Team team) {
+            return null;
         }
     }
 }

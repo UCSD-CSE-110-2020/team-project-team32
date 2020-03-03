@@ -75,8 +75,12 @@ public class TeamActivity extends AppCompatActivity {
         int emailEditorLength = emailEditor.getText().toString().length();
         int NickNameEditorLength = nickNameEditor.getText().toString().length();
 
-        if(emailEditorLength == 0 || NickNameEditorLength == 0) {
+        if (emailEditorLength == 0 || NickNameEditorLength == 0) {
             Toast.makeText(this, R.string.InvalidInvite, Toast.LENGTH_SHORT)
+                    .show();
+        } else if (WWRApplication.getUser().getTeam().findMemberById(
+                        emailEditor.getText().toString()) != null) {
+            Toast.makeText(this, R.string.inviteExistingMemberError, Toast.LENGTH_SHORT)
                     .show();
         } else {
             TeamMember member = new TeamMember(nickNameEditor.getText().toString(),

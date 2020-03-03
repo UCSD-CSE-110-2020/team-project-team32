@@ -1,22 +1,11 @@
 package com.example.cse110_project.team;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 
-import com.example.cse110_project.WWRApplication;
-import com.example.cse110_project.database.DatabaseService;
-import com.example.cse110_project.user_routes.UserData;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Team {
-    public static final String TEAM_ID_KEY = "teamId";
-    public static final String INVITER_KEY = "inviter";
-
     private String id;
     private List<TeamMember> members;
 

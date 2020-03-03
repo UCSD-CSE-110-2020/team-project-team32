@@ -21,7 +21,7 @@ public interface DatabaseService {
 
     public Task<?> createTeam(Team team);
     public void removeTeam(Team team);
-    public void updateTeam(Team team);
+    public Task<?> updateTeam(Team team);
     public Task<?> getTeamMembers(Team team);
     public void getRoutesByUser(String userId, List<TeamRoute> routes);
 }

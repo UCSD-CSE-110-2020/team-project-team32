@@ -9,9 +9,9 @@ import android.widget.ListView;
 
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
-import com.example.cse110_project.user_routes.Team;
-import com.example.cse110_project.user_routes.TeamMember;
-import com.example.cse110_project.user_routes.TeamRoute;
+import com.example.cse110_project.team.Team;
+import com.example.cse110_project.team.TeamMember;
+import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
 import com.example.cse110_project.util.RouteListAdapter;

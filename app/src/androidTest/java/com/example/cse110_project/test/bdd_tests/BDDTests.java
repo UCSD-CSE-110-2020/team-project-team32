@@ -21,11 +21,8 @@ import com.example.cse110_project.team.Team;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.UserRoute;
-<<<<<<< HEAD
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-=======
->>>>>>> feature/accept-invite
 
 import org.hamcrest.Description;
 
@@ -288,8 +285,8 @@ public class BDDTests {
         }
 
         @Override
-        public void updateTeam(Team team) {
-
+        public Task<?> updateTeam(Team team) {
+            return null;
         }
 
         @Override
@@ -303,18 +300,12 @@ public class BDDTests {
         }
 
         @Override
-<<<<<<< HEAD
         public Task<?> getTeamMembers(Team team) {
             return null;
-=======
-        public void removeInvite(Invite invite) {
-
         }
 
-        @Override
-        public void getTeamMembers(Team team) {
+        public void removeInvite(Invite invite) {
 
->>>>>>> feature/accept-invite
         }
     }
 

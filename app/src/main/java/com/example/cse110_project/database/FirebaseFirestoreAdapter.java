@@ -106,9 +106,9 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
     }
 
     @Override
-    public void updateTeam(Team team) {
-        FirebaseFirestore.getInstance().collection(teamCollectionKey).document(team.getId())
-                .set(team);
+    public Task<?> updateTeam(Team team) {
+        return FirebaseFirestore.getInstance().collection(teamCollectionKey)
+                .document(team.getId()).set(team);
     }
 
     @Override
