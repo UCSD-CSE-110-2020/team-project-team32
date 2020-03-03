@@ -36,7 +36,7 @@ public class TeamListAdapter extends ArrayAdapter {
         Log.d(TAG, "Displaying member at position " + position + " with name " + names[position]);
 
         TextView nameTextField = rowView.findViewById(R.id.teamRowName);
-        TextView initialsTextField = rowView.findViewById(R.id.teamRowIconImg);
+        TextView initialsTextField = rowView.findViewById(R.id.teamRowInitials);
 
         nameTextField.setText(names[position]);
         initialsTextField.setBackgroundColor(members.get(position).getColor());

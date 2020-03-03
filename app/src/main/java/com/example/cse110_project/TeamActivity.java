@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.TextView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,9 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cse110_project.user_routes.Team;
 import com.example.cse110_project.user_routes.TeamMember;
-import com.example.cse110_project.user_routes.User;
-import com.example.cse110_project.user_routes.UserData;
-import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.util.TeamListAdapter;
 
 import java.util.ArrayList;
@@ -108,7 +104,7 @@ public class TeamActivity extends AppCompatActivity {
             }
 
             TeamListAdapter memberAdapter = new TeamListAdapter(this, memberNames, members);
-            ListView listMembers = findViewById(R.id.listviewIDMember);
+            ListView listMembers = findViewById(R.id.teamListView);
             listMembers.setAdapter(memberAdapter);
         }
     }
