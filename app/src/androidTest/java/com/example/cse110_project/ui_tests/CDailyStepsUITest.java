@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.ui_tests;
 
 
 import android.content.Intent;
@@ -9,15 +9,20 @@ import android.view.ViewParent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.fitness.FitnessService;
 import com.example.cse110_project.fitness.FitnessServiceFactory;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,9 +31,6 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -55,7 +57,7 @@ public class CDailyStepsUITest {
     @Test
     public void cDailyStepsUITest() {
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.mockingButton), withText("DEV"),
+                Matchers.allOf(ViewMatchers.withId(R.id.mockingButton), withText("DEV"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),

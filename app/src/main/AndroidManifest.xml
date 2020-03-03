@@ -28,6 +28,7 @@
         <activity android:name=".RoutesActivity" />
         <activity android:name=".WalkActivity" />
         <activity android:name=".RouteDetailsActivity" />
+        <activity android:name=".TeamActivity" />
     </application>
 
 </manifest>

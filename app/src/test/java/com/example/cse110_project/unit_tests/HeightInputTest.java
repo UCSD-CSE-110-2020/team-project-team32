@@ -31,6 +31,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.shadows.ShadowToast;
 
 import java.util.List;
+import java.util.Map;
 
 @RunWith(AndroidJUnit4.class)
 public class HeightInputTest {
@@ -166,7 +167,32 @@ public class HeightInputTest {
         public void updateRoute(UserRoute route) { }
 
         @Override
-        public List<Route> getRoutes() {
+        public void removeInvite(String teamId, String memberId) {
+
+        }
+
+        @Override
+        public void getRoutes(List<Route> routes) {
+
+        }
+
+        @Override
+        public void getRoutesByUser(String userId, List<TeamRoute> routes) {
+
+        }
+
+        @Override
+        public void getTeamMembers(Team team) {
+
+        }
+
+        @Override
+        public void createInvite(String teamId, String memberId, Map<String, Object> content) {
+
+        }
+
+        @Override
+        public List<Map<String, Object>> getInvites(String memberId) {
             return null;
         }
 
@@ -176,11 +202,6 @@ public class HeightInputTest {
         @Override
         public void updateTeam(Team team) {
 
-        }
-
-        @Override
-        public List<TeamRoute> getTeamRoutes(String memberId) {
-            return null;
         }
     }
 }

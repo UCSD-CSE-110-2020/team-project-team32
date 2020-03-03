@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String DELAY_KEY = "DELAY_KEY";
     public static final String USER_COLLECTIONS_KEY = "user_data";
     public static final String TEAM_COLLECTIONS_KEY = "team_data";
+    public static final String INVITES_KEY = "invites";
     public static final String ROUTES_KEY = "routes";
     private static final int DEFAULT_DELAY = 5;
     private static final String TAG = "MainActivity";
@@ -64,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             if (WWRApplication.getDatabase() == null) {
                 WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
-                        TEAM_COLLECTIONS_KEY, user.getEmail(), ROUTES_KEY));
+                        TEAM_COLLECTIONS_KEY, user.getEmail(), INVITES_KEY, ROUTES_KEY));
+                WWRApplication.getUser().initTeam();
             }
         }
 
@@ -79,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button walkBtn = findViewById(R.id.startWalkButton);
         walkBtn.setOnClickListener(v -> launchWalkActivity());
+
+        Button teamBtn = findViewById(R.id.teamButton);
+        teamBtn.setOnClickListener(v -> launchTeamActivity());
     }
 
     @Override
@@ -175,6 +180,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void launchTeamActivity(){
+        Intent intent = new Intent(this, TeamActivity.class);
+        startActivity(intent);
+    }
+
 
     // Height input methods
 
@@ -210,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
         user.setEmail(emailInput);
         if (WWRApplication.getDatabase() == null) {
             WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
-                    TEAM_COLLECTIONS_KEY, user.getEmail(), ROUTES_KEY));
+                    TEAM_COLLECTIONS_KEY, user.getEmail(), INVITES_KEY, ROUTES_KEY));
         }
 
         String heightInput = heightEditor.getText().toString();
