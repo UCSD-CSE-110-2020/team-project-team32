@@ -17,11 +17,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
+import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.user_routes.TeamRoute;
+import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.UserRoute;
-import com.example.cse110_project.user_routes.Team;
+import com.example.cse110_project.team.Team;
 import com.example.cse110_project.user_routes.UserData;
+import com.google.android.gms.tasks.Task;
 import com.google.common.truth.Truth;
 
 import org.junit.Before;
@@ -167,7 +169,7 @@ public class HeightInputTest {
         public void updateRoute(UserRoute route) { }
 
         @Override
-        public void removeInvite(String teamId, String memberId) {
+        public void getInvites(String memberId, List<Invite> invites) {
 
         }
 
@@ -177,31 +179,33 @@ public class HeightInputTest {
         }
 
         @Override
+        public void removeInvite(Invite invite) {
+
+        }
+
+        @Override
+        public Task<?> getTeamMembers(Team team) { return null; }
+
         public void getRoutesByUser(String userId, List<TeamRoute> routes) {
 
         }
 
         @Override
-        public void getTeamMembers(Team team) {
+        public void addInvite(Invite invite) {
 
         }
 
         @Override
-        public void createInvite(String teamId, String memberId, Map<String, Object> content) {
+        public Task<?> createTeam(Team team) { return null; }
+
+        @Override
+        public void removeTeam(Team team) {
 
         }
 
         @Override
-        public List<Map<String, Object>> getInvites(String memberId) {
+        public Task<?> updateTeam(Team team) {
             return null;
-        }
-
-        @Override
-        public void createTeam(Team team) { }
-
-        @Override
-        public void updateTeam(Team team) {
-
         }
     }
 }

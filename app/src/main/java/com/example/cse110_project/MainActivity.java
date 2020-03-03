@@ -221,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
         if (WWRApplication.getDatabase() == null) {
             WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
                     TEAM_COLLECTIONS_KEY, user.getEmail(), INVITES_KEY, ROUTES_KEY));
+            WWRApplication.getUser().initTeam();
         }
 
         String heightInput = heightEditor.getText().toString();

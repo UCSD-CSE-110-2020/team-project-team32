@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.util.Log;
 
 import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.team.Team;
+import com.example.cse110_project.team.TeamMember;
+import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.util.MilesCalculator;
 
@@ -17,6 +20,7 @@ public class User {
     private String email;
     private Context context;
     private RouteList routes;
+    private List<TeamRoute> teamRoutes;
     private Team team;
 
     private int height;
@@ -26,7 +30,9 @@ public class User {
     public User(Context c) {
         context = c;
         routes = new RouteList(context);
+        teamRoutes = new ArrayList<>();
         team = new Team();
+
         email = UserData.retrieveEmail(context);
         height = UserData.retrieveHeight(context);
         email = UserData.retrieveEmail(context);
@@ -43,7 +49,8 @@ public class User {
                 WWRApplication.getDatabase().createTeam(team);
                 UserData.saveTeamID(context, team.getId());
             } else {
-                WWRApplication.getDatabase().getTeamMembers(team);
+                WWRApplication.getDatabase().getTeamMembers(team)
+                        .addOnSuccessListener(result -> refreshTeamRoutes());
             }
         }
 
@@ -80,12 +87,12 @@ public class User {
     }
 
     public RouteList getRoutes(){ return routes; }
+    public List<TeamRoute> getTeamRoutes() { return teamRoutes; }
 
-    public List<TeamRoute> getTeammateRoutes() {
-        List<TeamRoute> teammateRoutes = new ArrayList<>();
+    public void refreshTeamRoutes() {
+        teamRoutes.clear();
         for (TeamMember member : team.getMembers()) {
-            WWRApplication.getDatabase().getRoutesByUser(member.getEmail(), teammateRoutes);
+            WWRApplication.getDatabase().getRoutesByUser(member.getEmail(), teamRoutes);
         }
-        return teammateRoutes;
     }
 }
