@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.ui_tests;
 
 
 import android.content.Intent;
@@ -9,13 +9,16 @@ import android.view.ViewParent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.fitness.FitnessService;
 import com.example.cse110_project.fitness.FitnessServiceFactory;
-import com.example.cse110_project.user_routes.UserData;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -27,8 +30,6 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -55,7 +56,7 @@ public class BBackProgressionsUITest {
 
     @Test
     public void bBackProgressionsUITest() {
-        ViewInteraction textView = onView(withId(R.id.recentSteps));
+        ViewInteraction textView = onView(ViewMatchers.withId(R.id.recentSteps));
         textView.check(matches(withText("N/A")));
 
         ViewInteraction textView2 = onView(withId(R.id.recentMiles));
@@ -202,17 +203,6 @@ public class BBackProgressionsUITest {
                                 15),
                         isDisplayed()));
         appCompatButton13.perform(click());
-
-        ViewInteraction appCompatButton14 = onView(
-                allOf(withId(R.id.routesRoutesButton), withText("Routes"),
-                        childAtPosition(
-                                allOf(withId(R.id.coordinatorLayout),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                1),
-                        isDisplayed()));
-        appCompatButton14.perform(click());
 
         ViewInteraction appCompatButton15 = onView(
                 allOf(withId(R.id.routesNewRouteButton), withText("+"),

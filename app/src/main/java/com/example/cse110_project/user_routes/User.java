@@ -8,6 +8,8 @@ public class User {
     private String email;
     private Context context;
     private RouteList routes;
+    private Team team;
+
     private int height;
     private int fitnessSteps; // Used for steps provided by a FitnessService
     private int stepsOffset;  // Used for steps provided by in-app mocking
@@ -15,8 +17,15 @@ public class User {
     public User(Context c) {
         context = c;
         routes = new RouteList(context);
+        team = new Team();
+        email = UserData.retrieveEmail(context);
         height = UserData.retrieveHeight(context);
+        email = UserData.retrieveEmail(context);
     }
+
+    public Team getTeam() { return team; }
+
+    public void setTeam(Team team) { this.team = team; }
 
     public String getEmail() { return email; }
 

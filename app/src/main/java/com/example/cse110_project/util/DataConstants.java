@@ -36,4 +36,10 @@ public class DataConstants {
     public final static boolean BOOL_NOT_FOUND = false;
     public final static String NO_RECENT_ROUTE = "N/A";
 
+    //teamID
+    public final static String TEAM_ID_FILE = "r%d_teamid";
+    public final static String TEAM_ID_KEY = "team_id";
+    public final static String NO_TEAMID_FOUND = "";
+
+
 }

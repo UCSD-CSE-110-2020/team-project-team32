@@ -9,12 +9,12 @@
 
 
     <Button
-        android:id="@+id/routesNewRouteButton"
+        android:id="@+id/teamAddMember"
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:background="@android:color/white"
+        android:background="@android:color/holo_green_dark"
         android:text="@string/newRouteButton"
         android:textColor="@android:color/black"
         android:textSize="30sp"
@@ -27,25 +27,7 @@
 
 
     <Button
-        android:id="@+id/routesTeamButton"
-        android:layout_width="135dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_weight="0.5"
-        android:background="@android:color/white"
-        android:text="@string/routesTeamButton"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.681"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.001" />
-
-    <Button
-        android:id="@+id/routesHomeButton"
+        android:id="@+id/teamHomeButton"
         android:layout_width="135dp"
         android:layout_height="40dp"
         android:layout_marginStart="15dp"
@@ -56,21 +38,21 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/routesNewRouteButton"
+        app:layout_constraintEnd_toStartOf="@+id/listviewIDMember"
         app:layout_constraintHorizontal_bias="0.005"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.001" />
 
     <ListView
-        android:id="@+id/listviewID"
+        android:id="@+id/listviewIDMember"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/routesNewRouteButton"
+        app:layout_constraintTop_toBottomOf="@+id/teamHomeButton"
         app:layout_constraintVertical_bias="0.142" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

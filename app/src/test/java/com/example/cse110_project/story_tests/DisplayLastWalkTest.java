@@ -1,7 +1,6 @@
 package com.example.cse110_project.story_tests;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.widget.TextView;
 
 import androidx.test.rule.ActivityTestRule;
@@ -10,10 +9,9 @@ import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.util.MilesCalculator;
 import com.example.cse110_project.R;
-import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.RouteData;
 import com.example.cse110_project.user_routes.UserData;
-import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.User;
 
 import org.junit.Before;
@@ -64,7 +62,7 @@ public class DisplayLastWalkTest {
 
     @Test
     public void testDisplayWalksNoDate() {
-        Route r = new Route(10, "Name");
+        UserRoute r = new UserRoute(10, "Name");
         UserData.saveRoute(c, r);
         RouteData.saveRouteData(c, r);
 
@@ -76,12 +74,12 @@ public class DisplayLastWalkTest {
 
     @Test
     public void testDisplayWalksWithDates() {
-        Route r = new Route(10, "Name", 25, LocalTime.of(10,10),
+        UserRoute r = new UserRoute(10, "Name", 25, LocalTime.of(10,10),
                 LocalDateTime.of(1, 1, 1, 1, 1));
         user.getRoutes().createRoute(r);
-        Route r2 = new Route(15, "Name2");
+        UserRoute r2 = new UserRoute(15, "Name2");
         user.getRoutes().createRoute(r2);
-        Route r3 = new Route(100, "Name3", 50, LocalTime.of(11,10),
+        UserRoute r3 = new UserRoute(100, "Name3", 50, LocalTime.of(11,10),
                 LocalDateTime.of(2, 1, 1, 1, 1));
         user.getRoutes().createRoute(r3);
 

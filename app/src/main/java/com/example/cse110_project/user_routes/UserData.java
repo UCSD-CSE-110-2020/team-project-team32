@@ -4,7 +4,6 @@ package com.example.cse110_project.user_routes;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.util.DataConstants;
 
 public class UserData {
@@ -26,6 +25,12 @@ public class UserData {
         return pref.getString(DataConstants.ROUTES_LIST_KEY, DataConstants.NO_ROUTES_FOUND);
     }
 
+    public static String retrieveTeamID(Context c) {
+        SharedPreferences pref
+                = c.getSharedPreferences(DataConstants.TEAM_ID_FILE, Context.MODE_PRIVATE);
+        return pref.getString(DataConstants.TEAM_ID_KEY, DataConstants.NO_TEAMID_FOUND);
+    }
+
     public static void saveEmail(Context c, String email) {
         SharedPreferences pref
                 = c.getSharedPreferences(DataConstants.USER_DATA_FILE, Context.MODE_PRIVATE);
@@ -42,7 +47,17 @@ public class UserData {
         editor.apply();
     }
 
-    public static void saveRoute(Context c, Route route) {
+    public static void saveTeamID(Context c, String id) {
+        SharedPreferences pref
+                = c.getSharedPreferences(DataConstants.TEAM_ID_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(DataConstants.TEAM_ID_KEY, id);
+        editor.apply();
+    }
+
+
+
+    public static void saveRoute(Context c, UserRoute route) {
         String routeList = retrieveRouteList(c);
         String routeID = Integer.toString(route.getID());
 

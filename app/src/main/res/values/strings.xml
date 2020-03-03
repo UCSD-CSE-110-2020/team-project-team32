@@ -5,6 +5,7 @@
     // General buttons
     <string name="routesButton">Routes</string>
     <string name="homeButton">Home</string>
+    <string name="teamButton">Team</string>
     <string name="mockingButton">DEV</string>
     <string name="startWalkButton">Start Walk</string>
     <string name="stopWalkButton">Stop Walk</string>
@@ -48,6 +49,10 @@
 
     // Routes screen
     <string name="newRouteButton">+</string>
+    <string name="routesTeamButton">Team Routes</string>
+
+    // Team Routes Screen
+    <string name="backToYourRoutes">Your Routes</string>
 
     // Walk screen
     <string name="walkHeader">Walk</string>
@@ -96,6 +101,14 @@
     <string name="detailsDifficultyText">Difficulty: </string>
     <string name="detailsTerrainText">Terrain: </string>
     <string name="detailsNotes">Notes: </string>
+
+    //Add team member
+    <string name="AddMemberNickNamePrompt">Enter the member name (required)</string>
+    <string name="AddMemberEmailPrompt">Enter the member email (required)</string>
+    <string name="sendInvite">Send Invite</string>
+    <string name="InvalidInvite">Please fill all required fields</string>
+    <string name="NickName">Nickname</string>
+
 
     // ???
     <string name="large_text">
