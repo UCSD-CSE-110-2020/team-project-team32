@@ -55,8 +55,6 @@ public class UserData {
         editor.apply();
     }
 
-
-
     public static void saveRoute(Context c, UserRoute route) {
         String routeList = retrieveRouteList(c);
         String routeID = Integer.toString(route.getID());
