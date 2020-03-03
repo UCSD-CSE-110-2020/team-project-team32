@@ -40,7 +40,7 @@ public class RouteListAdapter extends ArrayAdapter {
     @Override @NonNull
     public View getView (int position, View view, ViewGroup parent) {
         user = WWRApplication.getUser();
-        LayoutInflater inflater=context.getLayoutInflater();
+        LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_routes_row, null,true);
 
         //this code gets references to objects in the listview_routes_row.xmlrow.xml file

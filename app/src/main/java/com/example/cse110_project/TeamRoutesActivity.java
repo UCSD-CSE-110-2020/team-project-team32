@@ -9,7 +9,6 @@ import android.widget.ListView;
 
 
 import com.example.cse110_project.team.TeamRoute;
-import com.example.cse110_project.util.RouteListAdapter;
 import com.example.cse110_project.util.TeamRouteAdapter;
 
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
 public class TeamRoutesActivity extends AppCompatActivity {
     private final static String TAG = "TeamRoutesActivity";
 
-    private List<TeamRoute> getAllRoutes;
+    private List<TeamRoute> teamRoutes;
     private String[] nameArray;
 
     @Override
@@ -36,26 +35,21 @@ public class TeamRoutesActivity extends AppCompatActivity {
         fetchTeamRoutesData();
 
         // Set up list view
-        TeamRouteAdapter adapter = new TeamRouteAdapter(this, nameArray, getAllRoutes);
-
+        TeamRouteAdapter adapter = new TeamRouteAdapter(this, nameArray, teamRoutes);
         ListView listView = findViewById(R.id.teamRoutesListView);
         listView.setAdapter(adapter);
     }
 
     public void fetchTeamRoutesData() {
-        Log.d(TAG, "Fetching routes data");
-        //WWRApplication.getUser().refreshTeamRoutes();
-        getAllRoutes = WWRApplication.getUser().getTeamRoutes();
-        int arrLen = getAllRoutes.size();
+        teamRoutes = WWRApplication.getUser().getTeamRoutes();
+        Log.d(TAG, "Fetching data for " + teamRoutes.size() + " routes: " + teamRoutes);
+
+        int arrLen = teamRoutes.size();
         nameArray = new String[arrLen];
-        System.out.println("THISSSS" + getAllRoutes.get(0).isFavorite() + getAllRoutes.get(1).isFavorite() + getAllRoutes.get(2).isFavorite()
-        +getAllRoutes.get(3).isFavorite());
-
-        if (getAllRoutes.size() != 0) {
-            for (int i = 0; i < getAllRoutes.size(); i++) {
-                nameArray[i] = getAllRoutes.get(i).getName();
+        if (teamRoutes.size() != 0) {
+            for (int i = 0; i < teamRoutes.size(); i++) {
+                nameArray[i] = teamRoutes.get(i).getName();
             }
-
         }
     }
 }

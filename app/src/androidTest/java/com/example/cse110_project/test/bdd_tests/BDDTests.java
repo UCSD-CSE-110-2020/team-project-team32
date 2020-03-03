@@ -19,10 +19,10 @@ import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.team.TeamMember;
-import com.example.cse110_project.team.TeamRoute;
+import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import org.hamcrest.Description;
 
@@ -261,10 +261,10 @@ public class BDDTests {
 
     private class TestDatabaseService implements DatabaseService {
         @Override
-        public void addRoute(UserRoute route) { }
+        public void addRoute(Route route) { }
 
         @Override
-        public void updateRoute(UserRoute route) { }
+        public void updateRoute(Route route) { }
 
         @Override
         public void getInvites(String memberId, List<Invite> invites) {
@@ -290,7 +290,7 @@ public class BDDTests {
         }
 
         @Override
-        public void getRoutesByUser(String userId, List<TeamRoute> routes) {
+        public void addTeammateRoutesListener(User listener, TeamMember teammate) {
 
         }
 
@@ -300,11 +300,16 @@ public class BDDTests {
         }
 
         @Override
-        public Task<?> getTeamMembers(Team team) {
+        public ListenerRegistration addTeammatesListener(Team team) {
             return null;
         }
 
         public void removeInvite(Invite invite) {
+
+        }
+
+        @Override
+        public void removeTeammatesListener(ListenerRegistration listener) {
 
         }
     }

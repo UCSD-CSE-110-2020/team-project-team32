@@ -26,6 +26,16 @@ public class TeamMember {
         return email + ": (" + name + ", " + color + ")";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof TeamMember) {
+            TeamMember tm = (TeamMember)o;
+            return tm.getName().equals(name) && tm.getEmail().equals(email) &&
+                    tm.getColor() == color;
+        }
+        return false;
+    }
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 

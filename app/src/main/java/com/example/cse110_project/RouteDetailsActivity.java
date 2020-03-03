@@ -22,7 +22,7 @@ public class RouteDetailsActivity extends AppCompatActivity {
     public final static String ROUTE_INDEX_KEY = "ROUTE_INDEX_KEY";
     private final static String TAG = "RouteDetailsActivity";
     private User user;
-    private UserRoute route;
+    private Route route;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -61,7 +61,7 @@ public class RoutesActivity extends AppCompatActivity{
         // Set up list view
         RouteListAdapter adapter = new RouteListAdapter(this, nameArray, routes);
 
-        ListView listView = findViewById(R.id.listviewID);
+        ListView listView = findViewById(R.id.routesListView);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -76,7 +76,7 @@ public class RoutesActivity extends AppCompatActivity{
         routes = user.getRoutes();
         routes.sortByName();
         for (int i = 0; i < routes.length(); i++) {
-            UserRoute r = routes.getRoute(i);
+            Route r = routes.getRoute(i);
             nameArray[i] = r.getName();
         }
     }

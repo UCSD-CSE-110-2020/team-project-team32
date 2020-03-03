@@ -1,18 +1,19 @@
 package com.example.cse110_project.database;
 
 import com.example.cse110_project.team.Invite;
+import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.team.TeamRoute;
+import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.team.Team;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.List;
-import java.util.Map;
 
 public interface DatabaseService {
-    public void addRoute(UserRoute route);
-    public void updateRoute(UserRoute route);
+    public void addRoute(Route route);
+    public void updateRoute(Route route);
     public void getRoutes(List<Route> routes);
 
     public void addInvite(Invite invite);
@@ -22,6 +23,7 @@ public interface DatabaseService {
     public Task<?> createTeam(Team team);
     public void removeTeam(Team team);
     public Task<?> updateTeam(Team team);
-    public Task<?> getTeamMembers(Team team);
-    public void getRoutesByUser(String userId, List<TeamRoute> routes, String memberName);
+    public ListenerRegistration addTeammatesListener(Team team);
+    public void removeTeammatesListener(ListenerRegistration listener);
+    public void addTeammateRoutesListener(User listener, TeamMember teammate);
 }

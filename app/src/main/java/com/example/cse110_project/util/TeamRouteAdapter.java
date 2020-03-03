@@ -20,7 +20,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class TeamRouteAdapter extends ArrayAdapter {
-
     private final Activity context;
 
     private final String[] nameArray;
@@ -39,24 +38,25 @@ public class TeamRouteAdapter extends ArrayAdapter {
 
     @Override @NonNull
     public View getView (int position, View view, ViewGroup parent) {
+        System.out.println("getting view");
         user = WWRApplication.getUser();
-        LayoutInflater inflater=context.getLayoutInflater();
+        LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_teamroutes_row, null,true);
 
         //this code gets references to objects in the listview_routes_row.xmlrow.xml file
-        TextView nameTextField = rowView.findViewById(R.id.routeRowName);
-        TextView startPtTextField = rowView.findViewById(R.id.routeRowStartingPoint);
-        TextView stepsTextField = rowView.findViewById(R.id.routeRowSteps);
-        TextView milesTextField = rowView.findViewById(R.id.routeRowMiles);
-        TextView timeTextField = rowView.findViewById(R.id.routeRowTime);
-        TextView dateTextField = rowView.findViewById(R.id.routeRowDate);
-        TextView flatHillyTextField = rowView.findViewById(R.id.routeRowFlatHilly);
-        TextView loopOutBackTextField = rowView.findViewById(R.id.routeRowLoopOutBack);
-        TextView streetsTrailTextField = rowView.findViewById(R.id.routeRowStreetsTrail);
-        TextView evenUnevenTextField = rowView.findViewById(R.id.routeRowEvenUneven);
-        TextView difficultyTextField = rowView.findViewById(R.id.routeRowDifficulty);
-        TextView favTextField = rowView.findViewById(R.id.routeRowFavorite);
-        TextView teammateInitials = rowView.findViewById(R.id.memberInitial);
+        TextView nameTextField = rowView.findViewById(R.id.teamRoutesRowName);
+        TextView startPtTextField = rowView.findViewById(R.id.teamRoutesRowStartingPoint);
+        TextView stepsTextField = rowView.findViewById(R.id.teamRoutesRowSteps);
+        TextView milesTextField = rowView.findViewById(R.id.teamRoutesRowMiles);
+        TextView timeTextField = rowView.findViewById(R.id.teamRoutesRowTime);
+        TextView dateTextField = rowView.findViewById(R.id.teamRoutesRowDate);
+        TextView flatHillyTextField = rowView.findViewById(R.id.teamRoutesRowFlatHilly);
+        TextView loopOutBackTextField = rowView.findViewById(R.id.teamRoutesRowLoopOutBack);
+        TextView streetsTrailTextField = rowView.findViewById(R.id.teamRoutesRowStreetsTrail);
+        TextView evenUnevenTextField = rowView.findViewById(R.id.teamRoutesRowEvenUneven);
+        TextView difficultyTextField = rowView.findViewById(R.id.teamRoutesRowDifficulty);
+        TextView favTextField = rowView.findViewById(R.id.teamRoutesRowFavorite);
+        TextView teammateInitials = rowView.findViewById(R.id.teamRoutesRowInitials);
 
         //this code sets the values of the objects to values from the arrays
         nameTextField.setText(routes.get(position).getRoute().getName());
@@ -68,7 +68,7 @@ public class TeamRouteAdapter extends ArrayAdapter {
         difficultyTextField.setText(routes.get(position).getRoute().getDifficulty());
         favTextField.setText(routes.get(position).getRoute().isFavorite() ? Route.FAV : Route.NO_DATA);
 
-        String[] initialsArr = routes.get(position).getMemberName().split(" ");
+        String[] initialsArr = routes.get(position).getCreator().getName().split(" ");
         StringBuilder initials = new StringBuilder();
         for (String initial : initialsArr) {
             if (initial.length() > 0) {
@@ -76,13 +76,17 @@ public class TeamRouteAdapter extends ArrayAdapter {
             }
         }
         teammateInitials.setText(initials.toString());
+        teammateInitials.setBackgroundColor(routes.get(position).getCreator().getColor());
 
         // Only fill in steps, miles, etc. if route previously walked
         if (routes.get(position).getRoute().getStartDate() != null) {
             stepsTextField.setText(String.valueOf(routes.get(position).getRoute().getSteps()));
-            milesTextField.setText(MilesCalculator.formatMiles(routes.get(position).getRoute().getMiles(user.getHeight())));
-            timeTextField.setText(routes.get(position).getRoute().getDuration().truncatedTo(ChronoUnit.MINUTES).toString());
-            dateTextField.setText(routes.get(position).getRoute().getStartDate().getMonth() + MONTH_DAY_SEPARATOR
+            milesTextField.setText(MilesCalculator.formatMiles(
+                    routes.get(position).getRoute().getMiles(user.getHeight())));
+            timeTextField.setText(routes.get(position).getRoute().getDuration()
+                    .truncatedTo(ChronoUnit.MINUTES).toString());
+            dateTextField.setText(routes.get(position).getRoute().getStartDate().getMonth()
+                    + MONTH_DAY_SEPARATOR
                     + routes.get(position).getRoute().getStartDate().getDayOfMonth());
         }
 
