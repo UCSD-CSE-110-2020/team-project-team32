@@ -2,6 +2,7 @@ package com.example.cse110_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -38,6 +39,12 @@ public class TeamRoutesActivity extends AppCompatActivity {
         TeamRouteAdapter adapter = new TeamRouteAdapter(this, nameArray, teamRoutes);
         ListView listView = findViewById(R.id.teamRoutesListView);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(this, TeamRoutesDetailsActivity.class);
+            intent.putExtra(RouteDetailsActivity.ROUTE_INDEX_KEY, position);
+            startActivity(intent);
+        });
     }
 
     public void fetchTeamRoutesData() {
