@@ -53,8 +53,8 @@ public class TeamRoutesActivity extends AppCompatActivity {
         //teamList = WWRApplication.getDatabase().getTeamRoutes(thisTeam.get(0).getEmail());
         if (memberList.size() != 0 ) {
             for (int i = 0; i < memberList.size(); i++) {
-                List<TeamRoute> tempList;
-                tempList = WWRApplication.getDatabase().getTeamRoutes(memberList.get(i).getEmail());
+                List<TeamRoute> tempList = new ArrayList<>();
+                WWRApplication.getDatabase().getRoutesByUser(memberList.get(i).getEmail(), tempList);
 
                 for (int j = 0; j < tempList.size(); j++) {
                     currentList.add(tempList.get(i));
