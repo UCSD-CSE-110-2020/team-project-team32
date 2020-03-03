@@ -1,4 +1,4 @@
-package com.example.cse110_project.user_routes;
+package com.example.cse110_project.team;
 
 import android.content.Context;
 
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
-import com.example.cse110_project.util.DataConstants;
+import com.example.cse110_project.user_routes.UserData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,21 +41,21 @@ public class Team {
 
     public List<TeamMember> getMembers() { return members; }
 
-    public void inviteMember(Context context, TeamMember member) {
-        String getTeamID = UserData.retrieveTeamID(context);
-        setId(getTeamID);
-
-        members.add(member);
-        if (WWRApplication.hasDatabase()) {
-            DatabaseService db = WWRApplication.getDatabase();
-            db.updateTeam(this);
-
-            Map<String, Object> invite = new HashMap<>();
-            invite.put(TEAM_ID_KEY, id);
-            invite.put(INVITER_KEY, WWRApplication.getUser().getEmail());
-
-            WWRApplication.getDatabase().createInvite(id, member.getEmail(), invite);
+    public TeamMember findMemberById(String memberId) {
+        for (TeamMember member : members) {
+            if (member.getEmail().equals(memberId)) {
+                return member;
+            }
         }
+        return null;
     }
 
+    public void removeMemberById(String memberId) {
+        for (int i = members.size() - 1; i >= 0; i--) {
+            if (members.get(i).getEmail().equals(memberId)) {
+                members.remove(i);
+                return;
+            }
+        }
+    }
 }

@@ -15,14 +15,17 @@ import com.example.cse110_project.R;
 import com.example.cse110_project.TeamActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
-import com.example.cse110_project.database.FirebaseFirestoreAdapter;
+import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.user_routes.Team;
-import com.example.cse110_project.user_routes.TeamMember;
-import com.example.cse110_project.user_routes.TeamRoute;
+import com.example.cse110_project.team.Team;
+import com.example.cse110_project.team.TeamMember;
+import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.UserRoute;
+<<<<<<< HEAD
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+=======
+>>>>>>> feature/accept-invite
 
 import org.hamcrest.Description;
 
@@ -54,8 +57,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class BDDTests {
-    private Map<String, Object> invite;
-    private String invitedMember;
+    private Invite invite;
     private Team team;
 
     private ActivityTestRule<MainActivity> mainActivityTestRule =
@@ -134,16 +136,15 @@ public class BDDTests {
 
     @Then("(.*) receives an invite to the user's team")
     public void inviteeReceivesInvite(String memberId) {
-        assertEquals(invite.get(Team.TEAM_ID_KEY), WWRApplication.getUser().getTeam().getId());
-        assertEquals(invite.get(Team.INVITER_KEY), WWRApplication.getUser().getEmail());
-        assertEquals(invitedMember, memberId);
+        assertEquals(invite.getTeamId(), WWRApplication.getUser().getTeam().getId());
+        assertEquals(invite.getCreatorId(), WWRApplication.getUser().getEmail());
+        assertEquals(invite.getInvitedMemberId(), memberId);
     }
 
     @Then("an error message is displayed")
     public void anErrorMessageIsDisplayed() {
         //onView(withText(teamActivityTestRule.getActivity().getResources().getString(R.string.InvalidInvite))).check(matches(isDisplayed()));
         assertNull(invite);
-        assertNull(invitedMember);
     }
 
     @Given("a main activity")
@@ -269,21 +270,22 @@ public class BDDTests {
         public void updateRoute(UserRoute route) { }
 
         @Override
-        public void removeInvite(String teamId, String memberId) { }
+        public void getInvites(String memberId, List<Invite> invites) {
 
-        @Override
-        public void createInvite(String teamId, String memberId, Map<String, Object> content) {
-            invite = content;
-            invitedMember = memberId;
         }
 
         @Override
-        public List<Map<String, Object>> getInvites(String memberId) {
-            return null;
+        public void addInvite(Invite inv) {
+            invite = inv;
         }
 
         @Override
         public Task<?> createTeam(Team team) { return null; }
+
+        @Override
+        public void removeTeam(Team team) {
+
+        }
 
         @Override
         public void updateTeam(Team team) {
@@ -301,8 +303,18 @@ public class BDDTests {
         }
 
         @Override
+<<<<<<< HEAD
         public Task<?> getTeamMembers(Team team) {
             return null;
+=======
+        public void removeInvite(Invite invite) {
+
+        }
+
+        @Override
+        public void getTeamMembers(Team team) {
+
+>>>>>>> feature/accept-invite
         }
     }
 

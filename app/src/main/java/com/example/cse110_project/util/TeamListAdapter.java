@@ -11,7 +11,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.example.cse110_project.R;
-import com.example.cse110_project.user_routes.TeamMember;
+import com.example.cse110_project.team.TeamMember;
 
 import java.util.List;
 
