@@ -21,6 +21,7 @@ import com.example.cse110_project.user_routes.Team;
 import com.example.cse110_project.user_routes.TeamMember;
 import com.example.cse110_project.user_routes.TeamRoute;
 import com.example.cse110_project.user_routes.UserRoute;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.hamcrest.Description;
@@ -282,7 +283,7 @@ public class BDDTests {
         }
 
         @Override
-        public void createTeam(Team team) { }
+        public Task<?> createTeam(Team team) { return null; }
 
         @Override
         public void updateTeam(Team team) {
@@ -300,8 +301,8 @@ public class BDDTests {
         }
 
         @Override
-        public void getTeamMembers(Team team) {
-
+        public Task<?> getTeamMembers(Team team) {
+            return null;
         }
     }
 

@@ -22,6 +22,7 @@ import com.example.cse110_project.user_routes.TeamRoute;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.Team;
 import com.example.cse110_project.user_routes.UserData;
+import com.google.android.gms.tasks.Task;
 import com.google.common.truth.Truth;
 
 import org.junit.Before;
@@ -182,9 +183,7 @@ public class HeightInputTest {
         }
 
         @Override
-        public void getTeamMembers(Team team) {
-
-        }
+        public Task<?> getTeamMembers(Team team) { return null; }
 
         @Override
         public void createInvite(String teamId, String memberId, Map<String, Object> content) {
@@ -197,7 +196,7 @@ public class HeightInputTest {
         }
 
         @Override
-        public void createTeam(Team team) { }
+        public Task<?> createTeam(Team team) { return null; }
 
         @Override
         public void updateTeam(Team team) {

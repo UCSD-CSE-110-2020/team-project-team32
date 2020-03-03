@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class UserRoute extends Route {
+    public UserRoute() { this(0, ""); }
+
     public UserRoute(int id, String name){
         setID(id);
         setName(name);
