@@ -124,13 +124,13 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
 
 
     @Override
-    public void getRoutesByUser(String userId, List<TeamRoute> routes) {
+    public void getRoutesByUser(String userId, List<TeamRoute> routes, String memberName) {
         Log.d(TAG, "Getting routes for user " + userId);
         FirebaseFirestore.getInstance().collection(userCollectionKey).document(userId)
                 .collection(routesKey).get().addOnSuccessListener(result -> {
             for (DocumentSnapshot doc : result.getDocuments()) {
                 routes.add(new TeamRoute(
-                        doc.toObject(RouteFirebaseAdapter.class).toRoute(), userId));
+                        doc.toObject(RouteFirebaseAdapter.class).toRoute(), userId, memberName));
             }
             Log.d(TAG, userId + " routes added; now at size " + routes.size());
         });

@@ -92,7 +92,7 @@ public class User {
     public void refreshTeamRoutes() {
         teamRoutes.clear();
         for (TeamMember member : team.getMembers()) {
-            WWRApplication.getDatabase().getRoutesByUser(member.getEmail(), teamRoutes);
+            WWRApplication.getDatabase().getRoutesByUser(member.getEmail(), teamRoutes, member.getName());
         }
     }
 }

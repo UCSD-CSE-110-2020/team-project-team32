@@ -11,26 +11,26 @@ import androidx.annotation.NonNull;
 
 import com.example.cse110_project.R;
 import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
-import com.example.cse110_project.user_routes.UserRoute;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class RouteListAdapter extends ArrayAdapter {
-    // to reference the Activity
+public class TeamRouteAdapter extends ArrayAdapter {
+
     private final Activity context;
 
     private final String[] nameArray;
-    private final RouteList routes;
+    private final List<TeamRoute> routes;
     private final static String MONTH_DAY_SEPARATOR = " ";
-    private User user;
+    private User user; // for now used to get height to calculate miles
 
 
-    public RouteListAdapter(Activity context, String[] nameArray, RouteList routes) {
-        super(context, R.layout.listview_routes_row, nameArray);
+    public TeamRouteAdapter(Activity context, String[] nameArray, List<TeamRoute> routes) {
+        super(context, R.layout.listview_teamroutes_row, nameArray);
 
         this.context = context;
         this.nameArray = nameArray;
@@ -41,7 +41,7 @@ public class RouteListAdapter extends ArrayAdapter {
     public View getView (int position, View view, ViewGroup parent) {
         user = WWRApplication.getUser();
         LayoutInflater inflater=context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.listview_routes_row, null,true);
+        View rowView = inflater.inflate(R.layout.listview_teamroutes_row, null,true);
 
         //this code gets references to objects in the listview_routes_row.xmlrow.xml file
         TextView nameTextField = rowView.findViewById(R.id.routeRowName);
@@ -56,24 +56,34 @@ public class RouteListAdapter extends ArrayAdapter {
         TextView evenUnevenTextField = rowView.findViewById(R.id.routeRowEvenUneven);
         TextView difficultyTextField = rowView.findViewById(R.id.routeRowDifficulty);
         TextView favTextField = rowView.findViewById(R.id.routeRowFavorite);
+        TextView teammateInitials = rowView.findViewById(R.id.memberInitial);
 
         //this code sets the values of the objects to values from the arrays
-        nameTextField.setText(routes.getRoute(position).getName());
-        startPtTextField.setText(routes.getRoute(position).getStartingPoint());
-        flatHillyTextField.setText(routes.getRoute(position).getFlatVsHilly());
-        loopOutBackTextField.setText(routes.getRoute(position).getLoopVsOutBack());
-        streetsTrailTextField.setText(routes.getRoute(position).getStreetsVsTrail());
-        evenUnevenTextField.setText(routes.getRoute(position).getEvenVsUneven());
-        difficultyTextField.setText(routes.getRoute(position).getDifficulty());
-        favTextField.setText(routes.getRoute(position).isFavorite() ? Route.FAV : Route.NO_DATA);
+        nameTextField.setText(routes.get(position).getRoute().getName());
+        startPtTextField.setText(routes.get(position).getRoute().getStartingPoint());
+        flatHillyTextField.setText(routes.get(position).getRoute().getFlatVsHilly());
+        loopOutBackTextField.setText(routes.get(position).getRoute().getLoopVsOutBack());
+        streetsTrailTextField.setText(routes.get(position).getRoute().getStreetsVsTrail());
+        evenUnevenTextField.setText(routes.get(position).getRoute().getEvenVsUneven());
+        difficultyTextField.setText(routes.get(position).getRoute().getDifficulty());
+        favTextField.setText(routes.get(position).getRoute().isFavorite() ? Route.FAV : Route.NO_DATA);
+
+        String[] initialsArr = routes.get(position).getMemberName().split(" ");
+        StringBuilder initials = new StringBuilder();
+        for (String initial : initialsArr) {
+            if (initial.length() > 0) {
+                initials.append(initial.charAt(0));
+            }
+        }
+        teammateInitials.setText(initials.toString());
 
         // Only fill in steps, miles, etc. if route previously walked
-        if (routes.getRoute(position).getStartDate() != null) {
-            stepsTextField.setText(String.valueOf(routes.getRoute(position).getSteps()));
-            milesTextField.setText(MilesCalculator.formatMiles(routes.getRoute(position).getMiles(user.getHeight())));
-            timeTextField.setText(routes.getRoute(position).getDuration().truncatedTo(ChronoUnit.MINUTES).toString());
-            dateTextField.setText(routes.getRoute(position).getStartDate().getMonth() + MONTH_DAY_SEPARATOR
-                    + routes.getRoute(position).getStartDate().getDayOfMonth());
+        if (routes.get(position).getRoute().getStartDate() != null) {
+            stepsTextField.setText(String.valueOf(routes.get(position).getRoute().getSteps()));
+            milesTextField.setText(MilesCalculator.formatMiles(routes.get(position).getRoute().getMiles(user.getHeight())));
+            timeTextField.setText(routes.get(position).getRoute().getDuration().truncatedTo(ChronoUnit.MINUTES).toString());
+            dateTextField.setText(routes.get(position).getRoute().getStartDate().getMonth() + MONTH_DAY_SEPARATOR
+                    + routes.get(position).getRoute().getStartDate().getDayOfMonth());
         }
 
         return rowView;
