@@ -12,8 +12,9 @@ import android.widget.ListView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cse110_project.user_routes.Team;
-import com.example.cse110_project.user_routes.TeamMember;
+import com.example.cse110_project.team.Invite;
+import com.example.cse110_project.team.Team;
+import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.util.TeamListAdapter;
 
 import java.util.ArrayList;
@@ -80,7 +81,11 @@ public class TeamActivity extends AppCompatActivity {
         } else {
             TeamMember member = new TeamMember(nickNameEditor.getText().toString(),
                     emailEditor.getText().toString(), Color.YELLOW);
-            WWRApplication.getUser().getTeam().inviteMember(this, member);
+            Invite invite =
+                    new Invite(member.getEmail(), WWRApplication.getUser().getTeam().getId(),
+                               WWRApplication.getUser().getEmail());
+            invite.send(member.getName(), member.getColor());
+
             createTeamView();
             dialog.dismiss();
         }
