@@ -17,13 +17,15 @@ public interface DatabaseService {
     public void getRoutes(List<Route> routes);
 
     public void addInvite(Invite invite);
-    public void removeInvite(Invite invite);
-    public void getInvites(String memberId, List<Invite> invites);
+    public void declineInvite(Invite invite);
+    public void acceptInvite(Invite invite);
 
     public Task<?> createTeam(Team team);
     public void removeTeam(Team team);
     public Task<?> updateTeam(Team team);
+
     public ListenerRegistration addTeammatesListener(Team team);
     public void removeTeammatesListener(ListenerRegistration listener);
+    public void addInvitesListener(User listener);
     public void addTeammateRoutesListener(User listener, TeamMember teammate);
 }

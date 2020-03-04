@@ -1,10 +1,12 @@
-package com.example.cse110_project;
+package com.example.cse110_project.dialogs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.example.cse110_project.MainActivity;
 
 public class LaunchDataDialog extends AppCompatActivity {
 

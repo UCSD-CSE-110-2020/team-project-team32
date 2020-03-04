@@ -21,7 +21,6 @@ import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
-import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.user_routes.UserData;
 import com.google.android.gms.tasks.Task;
@@ -174,12 +173,12 @@ public class HeightInputTest {
         }
 
         @Override
-        public void getInvites(String memberId, List<Invite> invites) {
+        public void removeTeammatesListener(ListenerRegistration listener) {
 
         }
 
         @Override
-        public void removeTeammatesListener(ListenerRegistration listener) {
+        public void addInvitesListener(User listener) {
 
         }
 
@@ -189,7 +188,12 @@ public class HeightInputTest {
         }
 
         @Override
-        public void removeInvite(Invite invite) {
+        public void declineInvite(Invite invite) {
+
+        }
+
+        @Override
+        public void acceptInvite(Invite invite) {
 
         }
 

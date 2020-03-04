@@ -13,7 +13,7 @@
         <activity android:name=".TeamRoutesActivity"></activity>
         <activity android:name=".MockingActivity" />
         <activity
-            android:name=".LaunchDataDialog"
+            android:name=".dialogs.LaunchDataDialog"
             android:theme="@style/splashTheme"></activity>
         <activity android:name=".EntryActivity">
             <intent-filter>
