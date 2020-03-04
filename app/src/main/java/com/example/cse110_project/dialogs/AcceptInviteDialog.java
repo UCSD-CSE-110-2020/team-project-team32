@@ -35,13 +35,18 @@ public class AcceptInviteDialog {
 
         this.alert = alertDialogBuilder.create();
         alert.show();
+        setUpDialogContent();
+    }
 
+    private void setUpDialogContent() {
         ((TextView)alert.findViewById(R.id.inviteText)).setText("You've been invited to join " +
                 invite.getCreatorId() + "'s team! Accept or decline?");
-
         alert.findViewById(R.id.inviteBackButton).setOnClickListener(v -> alert.dismiss());
+
         alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> acceptInvite());
+        alert.getButton(AlertDialog.BUTTON_POSITIVE).setId(R.id.acceptInviteButton);
         alert.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(v -> declineInvite());
+        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setId(R.id.declineInviteButton);
     }
 
     public void acceptInvite() {

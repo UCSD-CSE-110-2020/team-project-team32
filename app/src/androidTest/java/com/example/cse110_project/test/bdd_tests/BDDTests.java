@@ -2,12 +2,14 @@ package com.example.cse110_project.test.bdd_tests;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.BoundedMatcher;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
@@ -49,19 +51,25 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class BDDTests {
-    private Invite invite;
+    private DatabaseService db;
     private User user;
     private Team team;
-    private DatabaseService db;
+
+    private Invite invite;
+    private Team invitedTeam;
+    private TeamMember inviter;
 
     private ActivityTestRule<MainActivity> mainActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
@@ -83,6 +91,7 @@ public class BDDTests {
         team = user.getTeam();
         team.setId("ViewTeamTest");
         team.getMembers().clear();
+        user.getInvites().clear();
     }
 
     @After
@@ -165,7 +174,9 @@ public class BDDTests {
     }
 
     @Given("the user has no team members")
-    public void theUserHasNoTeamMembers() {}
+    public void theUserHasNoTeamMembers() {
+        user.getTeam().getMembers().clear();
+    }
 
     @Given("the user has team members")
     public void theUserHasTeamMembers() {
@@ -284,6 +295,72 @@ public class BDDTests {
         }
     }
 
+    @And("the user has no invites")
+    public void theUserHasNotBeenInvitedToAnyTeam() {
+        user.getInvites().clear();
+    }
+
+    @Then("the invite button is not displayed")
+    public void theInviteButtonIsNotDisplayed() {
+        onView(withId(R.id.inviteButton)).check(matches(
+                withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+    }
+
+    @And("the user has an invite")
+    public void theUserHasAnInviteToATeam() {
+        invitedTeam = new Team();
+        invitedTeam.setId("invitedTeam");
+        inviter = new TeamMember("inviter", "inviter", Color.MAGENTA);
+        invite = new Invite(user.getEmail(), invitedTeam.getId(), inviter.getEmail());
+
+        user.getInvites().add(invite);
+        invitedTeam.getMembers().add(inviter);
+        invitedTeam.getMembers().add(new TeamMember("user", user.getEmail(), Color.CYAN));
+    }
+
+    @When("the user clicks the invite button")
+    public void theUserClicksTheInviteButton() {
+        onView(withId(R.id.inviteButton))
+                .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+                .perform(click());
+    }
+
+    @And("the user clicks the accept button")
+    public void theUserClicksTheAcceptButton() {
+        onView(withId(R.id.acceptInviteButton)).perform(click());
+    }
+
+    @Then("the user is added to the team as a member")
+    public void theUserIsAddedToTheTeam() {
+        assertEquals(TeamMember.STATUS_MEMBER,
+                invitedTeam.findMemberById(user.getEmail()).getStatus());
+    }
+
+    @And("the user's invite is removed")
+    public void theUsersInviteIsRemoved() {
+        assertEquals(0, user.getInvites().size());
+    }
+
+    @And("the user's team becomes the inviting team")
+    public void theUsersTeamBecomesTheInvitingTeam() {
+        assertEquals(invitedTeam, user.getTeam());
+    }
+
+    @And("the user clicks the decline button")
+    public void theUserClicksTheDeclineButton() {
+        onView(withId(R.id.declineInviteButton)).perform(click());
+    }
+
+    @And("the user is removed from the inviting team")
+    public void theUserIsRemovedFromTheInvitingTeam() {
+        assertNull(invitedTeam.findMemberById(user.getEmail()));
+    }
+
+    @And("the user's team is empty")
+    public void theUserSTeamIsEmpty() {
+        assertEquals(0, user.getTeam().getMembers().size());
+    }
+
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
             super(TextView.class);
@@ -370,27 +447,30 @@ public class BDDTests {
 
         @Override
         public ListenerRegistration addTeammatesListener(Team team) {
+            if (invitedTeam != null && team.getId().equals(invitedTeam.getId())) {
+                team.getMembers().addAll(invitedTeam.getMembers());
+            }
             return null;
         }
 
         public void declineInvite(Invite invite) {
-
+            user.getInvites().remove(invite);
+            invitedTeam.removeMemberById(invite.getInvitedMemberId());
         }
 
         @Override
         public void acceptInvite(Invite invite) {
-
+            user.getInvites().remove(invite);
+            user.setTeam(invitedTeam);
+            team = invitedTeam;
+            invitedTeam.findMemberById(user.getEmail()).setStatus(TeamMember.STATUS_MEMBER);
         }
 
         @Override
-        public void removeTeammatesListener(ListenerRegistration listener) {
-
-        }
+        public void removeTeammatesListener(ListenerRegistration listener) { }
 
         @Override
-        public void addInvitesListener(User listener) {
-
-        }
+        public void addInvitesListener(User listener) { }
     }
 
 }
