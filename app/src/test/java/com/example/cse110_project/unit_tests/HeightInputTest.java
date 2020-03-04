@@ -167,12 +167,22 @@ public class HeightInputTest {
         public void updateRoute(UserRoute route) { }
 
         @Override
-        public List<Route> getRoutes() {
-            return null;
+        public void removeInvite(String teamId, String memberId) {
+
         }
 
         @Override
-        public void removeInvite(String teamId, String memberId) {
+        public void getRoutes(List<Route> routes) {
+
+        }
+
+        @Override
+        public void getRoutesByUser(String userId, List<TeamRoute> routes) {
+
+        }
+
+        @Override
+        public void getTeamMembers(Team team) {
 
         }
 
@@ -192,16 +202,6 @@ public class HeightInputTest {
         @Override
         public void updateTeam(Team team) {
 
-        }
-
-        @Override
-        public Team getTeam(String teamId) {
-            return null;
-        }
-
-        @Override
-        public List<TeamRoute> getTeamRoutes(String memberId) {
-            return null;
         }
     }
 }

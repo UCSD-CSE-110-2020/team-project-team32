@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.TextView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,9 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cse110_project.user_routes.Team;
 import com.example.cse110_project.user_routes.TeamMember;
-import com.example.cse110_project.user_routes.User;
-import com.example.cse110_project.user_routes.UserData;
-import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.util.TeamListAdapter;
 
 import java.util.ArrayList;
@@ -29,19 +25,22 @@ public class TeamActivity extends AppCompatActivity {
     private EditText nickNameEditor;
     private Team getTeam;
     private List<TeamMember> members = new ArrayList<>();
-    private String[] memberNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_screen);
 
         Button backButton = findViewById(R.id.teamHomeButton);
         backButton.setOnClickListener(v -> finish());
 
-        Button AddMember = findViewById(R.id.teamAddMember);
-        AddMember.setOnClickListener((v -> launchAddEntry()));
+        Button newMemberButton = findViewById(R.id.teamAddMember);
+        newMemberButton.setOnClickListener((v -> launchAddEntry()));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         createTeamView();
     }
 
@@ -85,29 +84,28 @@ public class TeamActivity extends AppCompatActivity {
             createTeamView();
             dialog.dismiss();
         }
-
     }
 
     public void createTeamView() {
-        String getTeamID = UserData.retrieveTeamID(this);
-        if (getTeamID != DataConstants.NO_TEAMID_FOUND) {
-            getTeam = WWRApplication.getDatabase().getTeam(getTeamID);
-            members = getTeam.getMembers();
-            System.out.println(members);
-
-            if (members.size() != 0) {
-                int MembersSize = members.size();
-                memberNames = new String[MembersSize];
-
-                for(int i=0; i < members.size(); i++) {
-                    memberNames[i] = members.get(i).getName();
-                }
-
-                TeamListAdapter memberAdapter = new TeamListAdapter(this, memberNames, members);
-
-                ListView listMembers = findViewById(R.id.listviewIDMember);
-                listMembers.setAdapter(memberAdapter);
+        // Retrieve team members excluding current user
+        List<TeamMember> members = new ArrayList<>(WWRApplication.getUser().getTeam().getMembers());
+        for (int i = members.size() - 1; i >= 0; i--) {
+            if (members.get(i).getEmail().equals(WWRApplication.getUser().getEmail())) {
+                members.remove(i);
             }
+        }
+
+        System.out.println("Number of members: " + members.size());
+
+        if (members.size() != 0) {
+            String[] memberNames = new String[members.size()];
+            for(int i=0; i < members.size(); i++) {
+                memberNames[i] = members.get(i).getName();
+            }
+
+            TeamListAdapter memberAdapter = new TeamListAdapter(this, memberNames, members);
+            ListView listMembers = findViewById(R.id.teamListView);
+            listMembers.setAdapter(memberAdapter);
         }
     }
 }

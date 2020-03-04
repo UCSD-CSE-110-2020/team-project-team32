@@ -12,7 +12,7 @@ import java.util.Map;
 public interface DatabaseService {
     public void addRoute(UserRoute route);
     public void updateRoute(UserRoute route);
-    public List<Route> getRoutes();
+    public void getRoutes(List<Route> routes);
 
     public void createInvite(String teamId, String memberId, Map<String, Object> content);
     public void removeInvite(String teamId, String memberId);
@@ -20,6 +20,6 @@ public interface DatabaseService {
 
     public void createTeam(Team team);
     public void updateTeam(Team team);
-    public Team getTeam(String teamId);
-    public List<TeamRoute> getTeamRoutes(String memberId);
+    public void getTeamMembers(Team team);
+    public void getRoutesByUser(String userId, List<TeamRoute> routes);
 }

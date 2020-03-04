@@ -1,13 +1,11 @@
 package com.example.cse110_project.database;
 
 
-import android.graphics.Color;
+import android.util.Log;
 
-import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.TeamMember;
 import com.example.cse110_project.user_routes.TeamRoute;
-import com.example.cse110_project.user_routes.UserData;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.Team;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 public class FirebaseFirestoreAdapter implements DatabaseService {
+    private static final String TAG = "FirebaseFirestoreAdapter";
+
     private String userCollectionKey;
     private String teamCollectionKey;
     private String invitesKey;
@@ -51,15 +51,12 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
     }
 
     @Override
-    public List<Route> getRoutes() {
-        List<Route> routes = new ArrayList<>();
+    public void getRoutes(List<Route> routes) {
         userRoutes.get().addOnSuccessListener(result -> {
             for (DocumentSnapshot doc : result.getDocuments()) {
                 routes.add(doc.toObject(UserRoute.class));
             }
         });
-
-        return routes;
     }
 
     @Override
@@ -99,40 +96,29 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
 
     @Override
     public void updateTeam(Team team) {
-        FirebaseFirestore.getInstance().collection(teamCollectionKey)
-                .document(team.getId()).set(team);
+        FirebaseFirestore.getInstance().collection(teamCollectionKey).document(team.getId())
+                .set(team);
     }
 
     @Override
-    public Team getTeam(String teamId) {
-        DocumentReference teamDoc = FirebaseFirestore.getInstance().collection(teamCollectionKey)
-                .document(teamId);
-
-        Team team = new Team();
-        team.setId(teamId);
-        teamDoc.get().addOnSuccessListener(documentSnapshot -> {
-            /*List<TeamMember> members = documentSnapshot.toObject(List.class);
-            for (TeamMember member : members) {
-                team.getMembers().add(member);
-            }*/
-        });
-        team.getMembers().add(new TeamMember("Reesha Rajen", "rrajen@ucsd.edu", -256));
-        team.getMembers().add(new TeamMember("test test","test",-256));
-        return team;
+    public void getTeamMembers(Team team) {
+        Log.d(TAG, "addSavedTeamMembers called on " + team.getId());
+        FirebaseFirestore.getInstance().collection(teamCollectionKey).document(team.getId())
+                .get().addOnSuccessListener(result -> {
+                    Team storedTeam = result.toObject(Team.class);
+                    Log.d(TAG, "Retrieved team " + storedTeam);
+                    team.getMembers().addAll(storedTeam.getMembers());
+                });
     }
 
 
     @Override
-    public List<TeamRoute> getTeamRoutes(String memberId) {
-        List<TeamRoute> routes = new ArrayList<>();
-
-        FirebaseFirestore.getInstance().collection(teamCollectionKey).document(memberId)
+    public void getRoutesByUser(String userId, List<TeamRoute> routes) {
+        FirebaseFirestore.getInstance().collection(teamCollectionKey).document(userId)
                 .collection(routesKey).get().addOnSuccessListener(result -> {
             for (DocumentSnapshot doc : result.getDocuments()) {
-                routes.add(new TeamRoute(doc.toObject(UserRoute.class), memberId));
+                routes.add(new TeamRoute(doc.toObject(UserRoute.class), userId));
             }
         });
-
-        return routes;
     }
 }
