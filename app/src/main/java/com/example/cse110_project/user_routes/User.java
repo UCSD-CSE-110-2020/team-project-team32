@@ -5,6 +5,10 @@ import android.graphics.Color;
 import android.util.Log;
 
 import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.team.Invite;
+import com.example.cse110_project.team.Team;
+import com.example.cse110_project.team.TeamMember;
+import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.util.MilesCalculator;
 
@@ -17,7 +21,10 @@ public class User {
     private String email;
     private Context context;
     private RouteList routes;
+
     private Team team;
+    private List<TeamRoute> teamRoutes;
+    private List<Invite> invites;
 
     private int height;
     private int fitnessSteps; // Used for steps provided by a FitnessService
@@ -26,7 +33,9 @@ public class User {
     public User(Context c) {
         context = c;
         routes = new RouteList(context);
+        teamRoutes = new ArrayList<>();
         team = new Team();
+
         email = UserData.retrieveEmail(context);
         height = UserData.retrieveHeight(context);
         email = UserData.retrieveEmail(context);
@@ -36,6 +45,7 @@ public class User {
         team.setId(UserData.retrieveTeamID(context));
         if (WWRApplication.hasDatabase()) {
             if (team.getId().equals(DataConstants.NO_TEAMID_FOUND)) {
+                Log.d(TAG, "Creating new team");
                 TeamMember self = new TeamMember(email, email, Color.YELLOW);
                 self.setStatus(TeamMember.STATUS_MEMBER);
                 team.getMembers().add(self);
@@ -43,7 +53,14 @@ public class User {
                 WWRApplication.getDatabase().createTeam(team);
                 UserData.saveTeamID(context, team.getId());
             } else {
-                WWRApplication.getDatabase().getTeamMembers(team);
+                Log.d(TAG, "Retrieving existing team");
+                WWRApplication.getDatabase().addTeammatesListener(team);
+                for (TeamMember teammate : team.getMembers()) {
+                    if ( ! teammate.getEmail().equals(email)) {
+                        WWRApplication.getDatabase()
+                                .addTeammateRoutesListener(this, teammate);
+                    }
+                }
             }
         }
 
@@ -80,12 +97,6 @@ public class User {
     }
 
     public RouteList getRoutes(){ return routes; }
-
-    public List<TeamRoute> getTeammateRoutes() {
-        List<TeamRoute> teammateRoutes = new ArrayList<>();
-        for (TeamMember member : team.getMembers()) {
-            WWRApplication.getDatabase().getRoutesByUser(member.getEmail(), teammateRoutes);
-        }
-        return teammateRoutes;
-    }
+    public List<TeamRoute> getTeamRoutes() { return teamRoutes; }
+    public List<Invite> getInvites() { return invites; }
 }

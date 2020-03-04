@@ -17,12 +17,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
+import com.example.cse110_project.team.Invite;
+import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.user_routes.TeamRoute;
+import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.user_routes.UserRoute;
-import com.example.cse110_project.user_routes.Team;
+import com.example.cse110_project.team.Team;
 import com.example.cse110_project.user_routes.UserData;
+import com.google.android.gms.tasks.Task;
 import com.google.common.truth.Truth;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -31,7 +35,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.shadows.ShadowToast;
 
 import java.util.List;
-import java.util.Map;
 
 @RunWith(AndroidJUnit4.class)
 public class HeightInputTest {
@@ -161,13 +164,22 @@ public class HeightInputTest {
 
     private class TestDatabaseService implements DatabaseService {
         @Override
-        public void addRoute(UserRoute route) { }
+        public void addRoute(Route route) {
+
+        }
 
         @Override
-        public void updateRoute(UserRoute route) { }
+        public void updateRoute(Route route) {
+
+        }
 
         @Override
-        public void removeInvite(String teamId, String memberId) {
+        public void getInvites(String memberId, List<Invite> invites) {
+
+        }
+
+        @Override
+        public void removeTeammatesListener(ListenerRegistration listener) {
 
         }
 
@@ -177,31 +189,34 @@ public class HeightInputTest {
         }
 
         @Override
-        public void getRoutesByUser(String userId, List<TeamRoute> routes) {
+        public void removeInvite(Invite invite) {
 
         }
 
         @Override
-        public void getTeamMembers(Team team) {
+        public ListenerRegistration addTeammatesListener(Team team) { return null; }
+
+        @Override
+        public void addTeammateRoutesListener(User listener, TeamMember teammate) {
 
         }
 
         @Override
-        public void createInvite(String teamId, String memberId, Map<String, Object> content) {
+        public void addInvite(Invite invite) {
 
         }
 
         @Override
-        public List<Map<String, Object>> getInvites(String memberId) {
+        public Task<?> createTeam(Team team) { return null; }
+
+        @Override
+        public void removeTeam(Team team) {
+
+        }
+
+        @Override
+        public Task<?> updateTeam(Team team) {
             return null;
-        }
-
-        @Override
-        public void createTeam(Team team) { }
-
-        @Override
-        public void updateTeam(Team team) {
-
         }
     }
 }

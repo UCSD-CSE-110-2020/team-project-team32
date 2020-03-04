@@ -554,7 +554,7 @@ public class DRoutesWalkDetailsUITest {
         appCompatButton26.perform(click());
 
         DataInteraction linearLayout = onData(anything())
-                .inAdapterView(allOf(withId(R.id.listviewID),
+                .inAdapterView(allOf(withId(R.id.routesListView),
                         childAtPosition(
                                 withId(R.id.coordinatorLayout),
                                 3)))
@@ -670,7 +670,7 @@ public class DRoutesWalkDetailsUITest {
         appCompatButton35.perform(scrollTo(), click());
 
         DataInteraction linearLayout2 = onData(anything())
-                .inAdapterView(allOf(withId(R.id.listviewID),
+                .inAdapterView(allOf(withId(R.id.routesListView),
                         childAtPosition(
                                 withId(R.id.coordinatorLayout),
                                 3)))
@@ -994,7 +994,7 @@ public class DRoutesWalkDetailsUITest {
         appCompatButton50.perform(click());
 
         DataInteraction linearLayout3 = onData(anything())
-                .inAdapterView(allOf(withId(R.id.listviewID),
+                .inAdapterView(allOf(withId(R.id.routesListView),
                         childAtPosition(
                                 withId(R.id.coordinatorLayout),
                                 3)))
@@ -1143,7 +1143,7 @@ public class DRoutesWalkDetailsUITest {
         textView93.check(matches(withText("Out-and-back")));
 
         DataInteraction linearLayout4 = onData(anything())
-                .inAdapterView(allOf(withId(R.id.listviewID),
+                .inAdapterView(allOf(withId(R.id.routesListView),
                         childAtPosition(
                                 withId(R.id.coordinatorLayout),
                                 3)))

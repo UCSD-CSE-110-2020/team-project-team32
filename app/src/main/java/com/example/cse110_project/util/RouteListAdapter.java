@@ -10,50 +10,37 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.RouteList;
+import com.example.cse110_project.user_routes.User;
+import com.example.cse110_project.user_routes.UserRoute;
+
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class RouteListAdapter extends ArrayAdapter {
     // to reference the Activity
     private final Activity context;
 
     private final String[] nameArray;
-    private final String[] startPtArray;
-    private final String[] stepsArray;
-    private final String[] milesArray;
-    private final String[] timeArray;
-    private final String[] dateArray;
-    private final String[] flatHillyArray;
-    private final String[] loopOutBackArray;
-    private final String[] streetsTrailArray;
-    private final String[] evenUnevenArray;
-    private final String[] difficultyArray;
-    private final String[] favArray;
+    private final RouteList routes;
+    private final static String MONTH_DAY_SEPARATOR = " ";
+    private User user;
 
-    public RouteListAdapter(Activity context, String[] nameArray, String[] startPtArray,
-                            String[] stepsArray, String[] milesArray, String[] timeArray,
-                            String[] dateArray, String[] flatHillyArray,
-                            String[] streetsTrailArray, String[] loopOutBackArray,
-                            String[] evenUnevenArray, String[] difficultyArray,
-                            String[] favArray) {
+
+    public RouteListAdapter(Activity context, String[] nameArray, RouteList routes) {
         super(context, R.layout.listview_routes_row, nameArray);
 
         this.context = context;
         this.nameArray = nameArray;
-        this.startPtArray = startPtArray;
-        this.stepsArray = stepsArray;
-        this.milesArray = milesArray;
-        this.timeArray = timeArray;
-        this.dateArray = dateArray;
-        this.flatHillyArray = flatHillyArray;
-        this.loopOutBackArray = loopOutBackArray;
-        this.streetsTrailArray = streetsTrailArray;
-        this.evenUnevenArray = evenUnevenArray;
-        this.difficultyArray = difficultyArray;
-        this.favArray = favArray;
+        this.routes = routes;
     }
 
     @Override @NonNull
     public View getView (int position, View view, ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
+        user = WWRApplication.getUser();
+        LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_routes_row, null,true);
 
         //this code gets references to objects in the listview_routes_row.xmlrow.xml file
@@ -71,21 +58,22 @@ public class RouteListAdapter extends ArrayAdapter {
         TextView favTextField = rowView.findViewById(R.id.routeRowFavorite);
 
         //this code sets the values of the objects to values from the arrays
-        nameTextField.setText(nameArray[position]);
-        startPtTextField.setText(startPtArray[position]);
-        flatHillyTextField.setText(flatHillyArray[position]);
-        loopOutBackTextField.setText(loopOutBackArray[position]);
-        streetsTrailTextField.setText(streetsTrailArray[position]);
-        evenUnevenTextField.setText(evenUnevenArray[position]);
-        difficultyTextField.setText(difficultyArray[position]);
-        favTextField.setText(favArray[position]);
+        nameTextField.setText(routes.getRoute(position).getName());
+        startPtTextField.setText(routes.getRoute(position).getStartingPoint());
+        flatHillyTextField.setText(routes.getRoute(position).getFlatVsHilly());
+        loopOutBackTextField.setText(routes.getRoute(position).getLoopVsOutBack());
+        streetsTrailTextField.setText(routes.getRoute(position).getStreetsVsTrail());
+        evenUnevenTextField.setText(routes.getRoute(position).getEvenVsUneven());
+        difficultyTextField.setText(routes.getRoute(position).getDifficulty());
+        favTextField.setText(routes.getRoute(position).isFavorite() ? Route.FAV : Route.NO_DATA);
 
         // Only fill in steps, miles, etc. if route previously walked
-        if (dateArray[position] != null) {
-            stepsTextField.setText(stepsArray[position]);
-            milesTextField.setText(milesArray[position]);
-            timeTextField.setText(timeArray[position]);
-            dateTextField.setText(dateArray[position]);
+        if (routes.getRoute(position).getStartDate() != null) {
+            stepsTextField.setText(String.valueOf(routes.getRoute(position).getSteps()));
+            milesTextField.setText(MilesCalculator.formatMiles(routes.getRoute(position).getMiles(user.getHeight())));
+            timeTextField.setText(routes.getRoute(position).getDuration().truncatedTo(ChronoUnit.MINUTES).toString());
+            dateTextField.setText(routes.getRoute(position).getStartDate().getMonth() + MONTH_DAY_SEPARATOR
+                    + routes.getRoute(position).getStartDate().getDayOfMonth());
         }
 
         return rowView;

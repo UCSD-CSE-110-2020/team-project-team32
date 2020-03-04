@@ -13,6 +13,7 @@ public class DataConstants {
     public final static String LIST_SPLIT = "\t";
 
     public final static String ROUTE_NAME_KEY = "r%d_name";
+    public final static String ROUTE_DOC_ID_KEY = "r%d_doc_id";
     public final static String ROUTE_STEPS_KEY = "r%d_steps";
     public final static String ROUTE_TIME_KEY = "r%d_time";
     public final static String ROUTE_DATE_KEY = "r%d_date";

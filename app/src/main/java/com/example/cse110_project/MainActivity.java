@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cse110_project.database.FirebaseFirestoreAdapter;
+import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.User;
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateRecentRoute() {
-        UserRoute recent = user.getRoutes().getMostRecentRoute();
+        Route recent = user.getRoutes().getMostRecentRoute();
         Log.d(TAG, "Current routes: " + user.getRoutes());
         Log.d(TAG, "Recent route: " + recent);
         String stepsDisplay;
@@ -221,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
         if (WWRApplication.getDatabase() == null) {
             WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
                     TEAM_COLLECTIONS_KEY, user.getEmail(), INVITES_KEY, ROUTES_KEY));
+            WWRApplication.getUser().initTeam();
         }
 
         String heightInput = heightEditor.getText().toString();

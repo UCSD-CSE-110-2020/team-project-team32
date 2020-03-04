@@ -17,7 +17,7 @@ import java.util.List;
 public class RouteList {
     // Stores max route id currently used
     private static int routeID = 0;
-    private List<UserRoute> routes;
+    private List<Route> routes;
     private Context context;
 
     // Used for constant-time retrieval by route id
@@ -34,7 +34,7 @@ public class RouteList {
     @Override @NonNull
     public String toString() {
         String result = "[";
-        for (UserRoute r : routes) {
+        for (Route r : routes) {
             result += "\t" + r + "\n";
         }
         return result + "]";
@@ -44,14 +44,14 @@ public class RouteList {
         return routes.size();
     }
 
-    public UserRoute getRoute(int index) {
+    public Route getRoute(int index) {
         return routes.get(index);
     }
 
-    public UserRoute getRouteByID(int routeID) { return routes.get(idToIndex.get(routeID)); }
+    public Route getRouteByID(int routeID) { return routes.get(idToIndex.get(routeID)); }
 
     // Overwrites given route's id to ensure uniqueness
-    public void createRoute(UserRoute r) {
+    public void createRoute(Route r) {
         routeID++;
         r.setID(routeID);
         routes.add(r);
@@ -68,7 +68,7 @@ public class RouteList {
     // Updates route with new walk data
     public void updateRouteData(int id, int steps, LocalTime time, LocalDateTime date) {
         // Set local values
-        UserRoute route = getRouteByID(id);
+        Route route = getRouteByID(id);
         route.setSteps(steps);
         route.setDuration(time);
         route.setStartDate(date);
@@ -91,13 +91,13 @@ public class RouteList {
     }
 
     // Returns null if no route has been walked
-    public UserRoute getMostRecentRoute() {
+    public Route getMostRecentRoute() {
         if (routes.size() == 0) {
             return null;
         }
 
-        UserRoute recent = routes.get(0);
-        for (UserRoute r : routes) {
+        Route recent = routes.get(0);
+        for (Route r : routes) {
             if ( ! recent.hasWalkData() ||
                     (r.hasWalkData() && r.getStartDate().isAfter(recent.getStartDate()))) {
                 recent = r;

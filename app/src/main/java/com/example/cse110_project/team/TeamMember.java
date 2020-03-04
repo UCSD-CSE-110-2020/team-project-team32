@@ -1,4 +1,4 @@
-package com.example.cse110_project.user_routes;
+package com.example.cse110_project.team;
 
 import android.graphics.Color;
 
@@ -24,6 +24,16 @@ public class TeamMember {
     @Override @NonNull
     public String toString() {
         return email + ": (" + name + ", " + color + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof TeamMember) {
+            TeamMember tm = (TeamMember)o;
+            return tm.getName().equals(name) && tm.getEmail().equals(email) &&
+                    tm.getColor() == color;
+        }
+        return false;
     }
 
     public String getName() { return name; }
