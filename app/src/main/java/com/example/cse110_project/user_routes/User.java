@@ -67,6 +67,7 @@ public class User {
         Log.d(TAG, "initTeam: id is " + team.getId());
     }
 
+    public Context getContext() { return context; }
     public Team getTeam() { return team; }
     public void setTeam(Team team) {
         this.team = team;
