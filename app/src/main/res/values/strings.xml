@@ -13,6 +13,8 @@
     <string name="saveButton">Save</string>
     <string name="submitButton">Submit</string>
     <string name="backButton">Back</string>
+    <string name="acceptButton">Accept</string>
+    <string name="declineButton">Decline</string>
 
     // General text
     <string name="favText">FAV</string>

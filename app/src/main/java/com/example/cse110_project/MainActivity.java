@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cse110_project.database.FirebaseFirestoreAdapter;
+import com.example.cse110_project.dialogs.AcceptInviteDialog;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.UserRoute;
@@ -190,17 +191,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public AlertDialog.Builder showAcceptInviteDialogue() {
-        LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
-        View promptView = layoutInflater.inflate(R.layout.dialog_accept_invite, null);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setPositiveButton(R.string.saveButton, null)
-                .setNegativeButton(R.string.cancelButton, null);
-        alertDialogBuilder.setView(promptView);
-
-        return alertDialogBuilder;
+    public void showAcceptInviteDialogue() {
+        Log.d(TAG, "Displaying invite dialog");
+        AcceptInviteDialog inviteDialog = new AcceptInviteDialog(this, null);
+        inviteDialog.showDialog();
     }
 
 
