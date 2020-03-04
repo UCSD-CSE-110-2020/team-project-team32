@@ -50,13 +50,14 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
         userRoutes.add(new RouteFirebaseAdapter(route))
                 .addOnSuccessListener(doc -> {
                     route.setDocID(doc.getId());
-                    userRoutes.document(doc.getId()).set(route);
+                    userRoutes.document(doc.getId()).update("docID", route.getDocID());
                     Log.d(TAG, route.getName() + " given doc id " + route.getDocID());
                 });
     }
 
     @Override
     public void updateRoute(Route route) {
+        Log.d(TAG, "Updating route " + route.getName() + " at " + route.getDocID());
         userRoutes.document(route.getDocID()).set(new RouteFirebaseAdapter(route));
     }
 
