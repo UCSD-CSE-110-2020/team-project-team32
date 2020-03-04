@@ -23,7 +23,7 @@ public class RouteFirebaseAdapter {
     private String evenVsUneven;
     private String difficulty;
     private String notes;
-    private boolean fav;
+    private boolean favorite;
 
     public RouteFirebaseAdapter() {}
 
@@ -41,7 +41,7 @@ public class RouteFirebaseAdapter {
         evenVsUneven = route.getEvenVsUneven();
         difficulty = route.getDifficulty();
         notes = route.getNotes();
-        fav = route.isFavorite();
+        favorite = route.isFavorite();
     }
 
     public Route toRoute() {
@@ -57,7 +57,7 @@ public class RouteFirebaseAdapter {
         route.setEvenVsUneven(evenVsUneven);
         route.setDifficulty(difficulty);
         route.setNotes(notes);
-        route.setFavorite(fav);
+        route.setFavorite(favorite);
 
         return route;
     }
@@ -75,5 +75,5 @@ public class RouteFirebaseAdapter {
     public String getEvenVsUneven() { return evenVsUneven; }
     public String getDifficulty() { return difficulty; }
     public String getNotes() { return notes; }
-    public boolean isFavorite() { return fav; }
+    public boolean isFavorite() { return favorite; }
 }

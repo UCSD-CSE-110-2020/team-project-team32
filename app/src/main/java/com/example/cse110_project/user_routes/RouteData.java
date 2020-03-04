@@ -15,6 +15,12 @@ public class RouteData {
                 DataConstants.STR_NOT_FOUND);
     }
 
+    public static String retrieveRouteDocID(Context c, int routeID) {
+        SharedPreferences pref = retrievePrefs(c);
+        return pref.getString(String.format(DataConstants.ROUTE_DOC_ID_KEY, routeID),
+                DataConstants.STR_NOT_FOUND);
+    }
+
     public static int retrieveRouteSteps(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getInt(String.format(DataConstants.ROUTE_STEPS_KEY, routeID),
@@ -84,6 +90,7 @@ public class RouteData {
     // Saves all data for the given route
     public static void saveRouteData(Context c, Route route) {
         saveRouteName(c, route.getID(), route.getName());
+        saveRouteDocId(c, route.getID(), route.getDocID());
 
         // Save steps/time/date only if route has been walked
         if (route.getStartDate() != null && route.getDuration() != null) {
@@ -106,6 +113,12 @@ public class RouteData {
     public static void saveRouteName(Context c, int routeID, String routeName) {
         SharedPreferences.Editor editor = retrieveEditor(c);
         editor.putString(String.format(DataConstants.ROUTE_NAME_KEY, routeID), routeName);
+        editor.apply();
+    }
+
+    public static void saveRouteDocId(Context c, int routeID, String docId) {
+        SharedPreferences.Editor editor = retrieveEditor(c);
+        editor.putString(String.format(DataConstants.ROUTE_DOC_ID_KEY, routeID), docId);
         editor.apply();
     }
 

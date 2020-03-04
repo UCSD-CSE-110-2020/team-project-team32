@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/teamRoutesRowInitials"
+            android:layout_width="30sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/holo_orange_light"
+            android:text="FML"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/routeNameHint"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/favText"
+            android:textColor="@android:color/holo_orange_light"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/teamRoutesRowSteps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="@string/noDataText"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowStepsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="@string/stepsText"
+            android:textColor="@android:color/holo_blue_bright"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowMiles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="@string/noDataText"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowMilesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="@string/milesText"
+            android:textColor="@android:color/holo_blue_bright"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="@string/noDataText"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="@string/detailsStartDateText"
+            android:textColor="@android:color/holo_blue_bright"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="@string/noDataText"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/teamRoutesRowStartingPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="@string/startingPointHint"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/teamRoutesRowFlatHilly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="@string/noDataText"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowLoopOutBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="@string/noDataText"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:id="@+id/teamRoutesRowStreetsTrail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="@string/noDataText"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowEvenUneven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="@string/noDataText"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/teamRoutesRowDifficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="@string/noDataText"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

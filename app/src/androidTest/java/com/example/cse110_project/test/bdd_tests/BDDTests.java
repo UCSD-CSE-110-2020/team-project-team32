@@ -12,24 +12,28 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
+import com.example.cse110_project.RoutesActivity;
 import com.example.cse110_project.TeamActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
 import com.example.cse110_project.team.Invite;
+import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.team.TeamMember;
-import com.example.cse110_project.team.TeamRoute;
+import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import org.hamcrest.Description;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -55,12 +59,16 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class BDDTests {
     private Invite invite;
+    private User user;
     private Team team;
+    private DatabaseService db;
 
     private ActivityTestRule<MainActivity> mainActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
-    private ActivityTestRule<TeamActivity> teamActivityTestRule = new ActivityTestRule<>(TeamActivity
-            .class);
+    private ActivityTestRule<TeamActivity> teamActivityTestRule =
+            new ActivityTestRule<>(TeamActivity.class);
+    private ActivityTestRule<RoutesActivity> routesActivityTestRule =
+            new ActivityTestRule<>(RoutesActivity.class);
 
     private Map<String, String> nameIdMap = new HashMap<>();
 
@@ -68,9 +76,11 @@ public class BDDTests {
     public void setup() {
         Intents.init();
         WWRApplication.setDatabase(new TestDatabaseService());
-        WWRApplication.getUser().setEmail("wwruser@gmail.com");
-        WWRApplication.getUser().setHeight(61);
-        team = WWRApplication.getUser().getTeam();
+        db = WWRApplication.getDatabase();
+        user = WWRApplication.getUser();
+        user.setEmail("wwruser@gmail.com");
+        user.setHeight(61);
+        team = user.getTeam();
         team.setId("ViewTeamTest");
         team.getMembers().clear();
     }
@@ -82,6 +92,9 @@ public class BDDTests {
         }
         if (teamActivityTestRule.getActivity() != null) {
             teamActivityTestRule.getActivity().finish();
+        }
+        if (routesActivityTestRule.getActivity() != null) {
+            routesActivityTestRule.getActivity().finish();
         }
         Intents.release();
     }
@@ -158,9 +171,15 @@ public class BDDTests {
     public void theUserHasTeamMembers() {
         team.getMembers().add(new TeamMember("Team 32", "email0", Color.RED));
         team.getMembers().get(0).setStatus(TeamMember.STATUS_MEMBER);
+        db.addTeammateRoutesListener(user, team.getMembers().get(0));
+
         team.getMembers().add(new TeamMember("CSE 110", "email1", Color.GREEN));
-        team.getMembers().get(0).setStatus(TeamMember.STATUS_MEMBER);
+        team.getMembers().get(1).setStatus(TeamMember.STATUS_MEMBER);
+        db.addTeammateRoutesListener(user, team.getMembers().get(1));
+
         team.getMembers().add(new TeamMember("Project Team", "email2", Color.BLUE));
+        team.getMembers().get(2).setStatus(TeamMember.STATUS_MEMBER);
+        db.addTeammateRoutesListener(user, team.getMembers().get(2));
     }
 
     @Given("the user has a pending team member")
@@ -219,6 +238,52 @@ public class BDDTests {
         onView(withId(R.id.teamHomeButton)).perform(click());
     }
 
+    @Given("a routes activity")
+    public void aRoutesActivity() {
+        System.out.println("STARTING ROUTES_ACTIVITY");
+        routesActivityTestRule.launchActivity(null);
+        assertThat(routesActivityTestRule.getActivity(), notNullValue());
+    }
+
+    @When("the user clicks the team routes button")
+    public void theUserClicksTheTeamRoutesButton() {
+        onView(withId(R.id.routesTeamButton)).perform(click());
+    }
+
+    @Then("no team routes are displayed")
+    public void noTeamRoutesAreDisplayed() {
+        onView(withId(R.id.teamRoutesRowName)).check(doesNotExist());
+    }
+
+    @And("the user returns to the routes screen")
+    public void theUserReturnsToTheRoutesScreen() {
+        onView(withId(R.id.teamRoutesBackButton)).perform(click());
+    }
+
+    @Then("team routes are displayed")
+    public void teamRoutesAreDisplayed() {
+        for (TeamMember member : team.getMembers()) {
+            onView(allOf(withId(R.id.teamRoutesRowName), withText(member.getName() + "_route")))
+                    .check(matches(isDisplayed()));
+        }
+    }
+
+    @And("the user has routes")
+    public void theUserHasRoutes() {
+        Route route0 = new UserRoute(0, "UserRoute0");
+        Route route1 = new UserRoute(0, "UserRoute1");
+        user.getRoutes().createRoute(route0);
+        user.getRoutes().createRoute(route1);
+    }
+
+    @And("the user's team members have routes")
+    public void theUsersTeamMembersHaveRoutes() {
+        for (TeamMember member : team.getMembers()) {
+            Route route = new UserRoute(0, member.getName() + "_route");
+            WWRApplication.getDatabase().addRoute(new TeamRoute(route, member));
+        }
+    }
+
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
             super(TextView.class);
@@ -260,11 +325,18 @@ public class BDDTests {
 
 
     private class TestDatabaseService implements DatabaseService {
-        @Override
-        public void addRoute(UserRoute route) { }
+        private Set<TeamMember> membersWithUserAsListener = new HashSet<>();
 
         @Override
-        public void updateRoute(UserRoute route) { }
+        public void addRoute(Route route) {
+            if (route instanceof TeamRoute &&
+                    membersWithUserAsListener.contains(((TeamRoute) route).getCreator())) {
+                user.getTeamRoutes().add((TeamRoute)route);
+            }
+        }
+
+        @Override
+        public void updateRoute(Route route) { }
 
         @Override
         public void getInvites(String memberId, List<Invite> invites) {
@@ -290,8 +362,10 @@ public class BDDTests {
         }
 
         @Override
-        public void getRoutesByUser(String userId, List<TeamRoute> routes) {
-
+        public void addTeammateRoutesListener(User listener, TeamMember teammate) {
+            if (listener == user) {
+                membersWithUserAsListener.add(teammate);
+            }
         }
 
         @Override
@@ -300,11 +374,16 @@ public class BDDTests {
         }
 
         @Override
-        public Task<?> getTeamMembers(Team team) {
+        public ListenerRegistration addTeammatesListener(Team team) {
             return null;
         }
 
         public void removeInvite(Invite invite) {
+
+        }
+
+        @Override
+        public void removeTeammatesListener(ListenerRegistration listener) {
 
         }
     }

@@ -9,6 +9,9 @@ import androidx.test.rule.ActivityTestRule;
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
 import com.example.cse110_project.RoutesActivity;
+import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.RouteList;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.util.RouteListAdapter;
 
 import org.junit.Rule;
@@ -16,6 +19,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.robolectric.RobolectricTestRunner;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -28,11 +34,16 @@ public class RouteListAdapterTest {
     @Test
     public void testGetView() {
         String[] empty = {""};
+        RouteList routes =  new RouteList(routesActivity.getActivity().getApplicationContext());
+        Route r = new UserRoute(0, "Name");
+        r.setStartingPoint("Start");
+        r.setSteps(0);
+        r.setDuration(LocalTime.of(0, 0));
+        r.setStartDate(LocalDateTime.of(1,1,1,1,1));
+        routes.createRoute(r);
 
         RouteListAdapter adapter = new RouteListAdapter(routesActivity.getActivity(),
-                new String[] {"Name"}, new String[] {"Start"}, new String[] {"0"},
-                new String[] {"0.0"},  new String[] {"00:00"}, new String[] {"00-00"}, empty,
-                empty, empty, empty,  empty, empty);
+                new String[] {"Name"}, routes);
         View v = adapter.getView(0, null, null);
 
         assertEquals("Name", ((TextView)v.findViewById(R.id.routeRowName)).getText());
@@ -40,8 +51,10 @@ public class RouteListAdapterTest {
                 ((TextView)v.findViewById(R.id.routeRowStartingPoint)).getText());
         assertEquals("0", ((TextView)v.findViewById(R.id.routeRowSteps)).getText());
         assertEquals("0.0", ((TextView)v.findViewById(R.id.routeRowMiles)).getText());
-        assertEquals("00:00", ((TextView)v.findViewById(R.id.routeRowTime)).getText());
-        assertEquals("00-00", ((TextView)v.findViewById(R.id.routeRowDate)).getText());
+        assertEquals(LocalTime.of(0,0).toString(),
+                ((TextView)v.findViewById(R.id.routeRowTime)).getText());
+        assertEquals("JANUARY 1",
+                ((TextView)v.findViewById(R.id.routeRowDate)).getText());
         assertEquals("", ((TextView)v.findViewById(R.id.routeRowLoopOutBack)).getText());
         assertEquals("", ((TextView)v.findViewById(R.id.routeRowFavorite)).getText());
         assertEquals("", ((TextView)v.findViewById(R.id.routeRowFlatHilly)).getText());
