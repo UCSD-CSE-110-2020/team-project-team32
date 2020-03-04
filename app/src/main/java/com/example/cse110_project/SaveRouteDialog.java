@@ -85,6 +85,7 @@ public class SaveRouteDialog {
         // Get xml view
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View promptView = layoutInflater.inflate(R.layout.dialog_new_route, null);
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setPositiveButton(R.string.saveButton, null)

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button teamBtn = findViewById(R.id.teamButton);
         teamBtn.setOnClickListener(v -> launchTeamActivity());
+
+        ImageButton inviteBtn = findViewById(R.id.inviteButton);
+        inviteBtn.setOnClickListener(v -> showAcceptInviteDialogue());
     }
 
     @Override
@@ -183,6 +187,19 @@ public class MainActivity extends AppCompatActivity {
     public void launchTeamActivity(){
         Intent intent = new Intent(this, TeamActivity.class);
         startActivity(intent);
+    }
+
+    public AlertDialog.Builder showAcceptInviteDialogue() {
+        LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+        View promptView = layoutInflater.inflate(R.layout.dialog_accept_invite, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setPositiveButton(R.string.saveButton, null)
+                .setNegativeButton(R.string.cancelButton, null);
+        alertDialogBuilder.setView(promptView);
+
+        return alertDialogBuilder;
     }
 
 
