@@ -339,11 +339,6 @@ public class BDDTests {
         public void updateRoute(Route route) { }
 
         @Override
-        public void getInvites(String memberId, List<Invite> invites) {
-
-        }
-
-        @Override
         public void addInvite(Invite inv) {
             invite = inv;
         }
@@ -378,12 +373,22 @@ public class BDDTests {
             return null;
         }
 
-        public void removeInvite(Invite invite) {
+        public void declineInvite(Invite invite) {
+
+        }
+
+        @Override
+        public void acceptInvite(Invite invite) {
 
         }
 
         @Override
         public void removeTeammatesListener(ListenerRegistration listener) {
+
+        }
+
+        @Override
+        public void addInvitesListener(User listener) {
 
         }
     }

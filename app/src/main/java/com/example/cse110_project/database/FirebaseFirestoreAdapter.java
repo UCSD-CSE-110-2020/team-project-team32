@@ -9,7 +9,6 @@ import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.User;
-import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.team.Team;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -79,8 +78,8 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
         invitesCollection.document(invite.getTeamId()).set(invite);
     }
 
-    @Override
-    public void removeInvite(Invite invite) {
+    // Shared helper method for declineInvite, acceptInvite
+    private void removeInvite(Invite invite) {
         CollectionReference invitesCollection = FirebaseFirestore.getInstance()
                 .collection(userCollectionKey)
                 .document(invite.getInvitedMemberId())
@@ -89,13 +88,36 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
     }
 
     @Override
-    public void getInvites(String memberId, List<Invite> invites) {
-        FirebaseFirestore.getInstance().collection(userCollectionKey).document(memberId)
-                .collection(invitesKey).get().addOnSuccessListener(result -> {
-                    for (DocumentSnapshot doc : result) {
-                        invites.add(doc.toObject(Invite.class));
-                    }
-                });
+    public void declineInvite(Invite invite) {
+        removeInvite(invite);
+
+        // Remove invited member from team
+        FirebaseFirestore.getInstance().collection(teamCollectionKey)
+                .document(invite.getTeamId()).get().addOnSuccessListener(doc -> {
+            Log.d(TAG, "declineInvite: removing declined member for invite " + invite);
+            Team team = doc.toObject(Team.class);
+            if (team != null) {
+                team.removeMemberById(invite.getInvitedMemberId());
+                updateTeam(team);
+            }
+        });
+    }
+
+    @Override
+    public void acceptInvite(Invite invite) {
+        removeInvite(invite);
+
+        // Update invited member's status
+        FirebaseFirestore.getInstance().collection(teamCollectionKey)
+                .document(invite.getTeamId()).get().addOnSuccessListener(doc -> {
+            Log.d(TAG, "acceptInvite: updating member status for invite " + invite);
+            Team team = doc.toObject(Team.class);
+            if (team != null) {
+                team.findMemberById(invite.getInvitedMemberId())
+                        .setStatus(TeamMember.STATUS_MEMBER);
+                updateTeam(team);
+            }
+        });
     }
 
     @Override
@@ -130,27 +152,12 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                         return;
                     }
 
-                    String email = WWRApplication.getUser().getEmail();
                     Team changedTeam = snapshot.toObject(Team.class);
                     Log.d(TAG, "Change retrieved in " + changedTeam);
 
                     if (changedTeam != null) {
-                        // Add new & joined members
-                        List<TeamMember> members = team.getMembers();
-                        for (TeamMember chMember : changedTeam.getMembers()) {
-                            if ( ! members.contains(chMember) &&
-                                    ! email.equals(chMember.getEmail())) {
-                                members.add(chMember);
-                                addTeammateRoutesListener(WWRApplication.getUser(), chMember);
-                            } else if ( ! email.equals(chMember.getEmail())) {
-                                // Existing member status changed
-                                TeamMember member = members.get(members.indexOf(chMember));
-                                if (member.getStatus() != chMember.getStatus()) {
-                                    member.setStatus(TeamMember.STATUS_MEMBER);
-                                    addTeammateRoutesListener(WWRApplication.getUser(), chMember);
-                                }
-                            }
-                        }
+                        team.getMembers().clear();
+                        team.getMembers().addAll(changedTeam.getMembers());
                     }
                 });
     }
@@ -158,6 +165,28 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
     @Override
     public void removeTeammatesListener(ListenerRegistration listener) {
         listener.remove();
+    }
+
+    @Override
+    public void addInvitesListener(User listener) {
+        Log.d(TAG, "Adding invites listener " + listener.getEmail());
+        FirebaseFirestore.getInstance().collection(userCollectionKey)
+                .document(listener.getEmail())
+                .collection(invitesKey)
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Listen error in addInvitesListener");
+                        return;
+                    }
+
+                    Log.d(TAG, "Change retrieved in invites for " + listener.getEmail());
+                    for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                        if (dc.getType().equals(DocumentChange.Type.ADDED)) {
+                            listener.getInvites().add(dc.getDocument().toObject(Invite.class));
+                        }
+                    }
+                    Log.d(TAG, "Updated invites is " + listener.getInvites());
+                });
     }
 
     // Code based off of
@@ -175,7 +204,6 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                     }
 
                     Log.d(TAG, "Change retrieved in teammate routes for " + teammate);
-                    System.out.println(WWRApplication.getUser().getTeamRoutes());
 
                     // Update any changed routes
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
@@ -190,7 +218,6 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                             teamRoutes.add(changedRoute);
                         }
                     }
-                    System.out.println(WWRApplication.getUser().getTeamRoutes());
                 });
     }
 }

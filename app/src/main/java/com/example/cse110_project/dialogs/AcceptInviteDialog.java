@@ -1,16 +1,19 @@
 package com.example.cse110_project.dialogs;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.Invite;
 
 public class AcceptInviteDialog {
+    private static final String TAG = AcceptInviteDialog.class.getSimpleName();
     private Invite invite;
     private Activity context;
     private AlertDialog alert;
@@ -33,18 +36,32 @@ public class AcceptInviteDialog {
         this.alert = alertDialogBuilder.create();
         alert.show();
 
+        ((TextView)alert.findViewById(R.id.inviteText)).setText("You've been invited to join " +
+                invite.getCreatorId() + "'s team! Accept or decline?");
+
         alert.findViewById(R.id.inviteBackButton).setOnClickListener(v -> alert.dismiss());
         alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> acceptInvite());
         alert.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(v -> declineInvite());
     }
 
     public void acceptInvite() {
-        System.out.println("Accepting invite");
+        Log.d(TAG, "Accepting invite " + invite);
+        invite.accept();
+
+        // Remove any additional invites
+        for (Invite inv : WWRApplication.getUser().getInvites()) {
+            if (inv != invite) {
+                WWRApplication.getDatabase().declineInvite(inv);
+            }
+        }
+        WWRApplication.getUser().getInvites().clear();
+
         alert.dismiss();
     }
 
     public void declineInvite() {
-        System.out.println("Declining invite");
+        Log.d(TAG, "Declining invite " + invite);
+        invite.decline();
         alert.dismiss();
     }
 }
