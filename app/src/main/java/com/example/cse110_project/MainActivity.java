@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
         View promptView = layoutInflater.inflate(R.layout.dialog_accept_invite, null);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context)
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
                 .setCancelable(false)
                 .setPositiveButton(R.string.saveButton, null)
                 .setNegativeButton(R.string.cancelButton, null);
