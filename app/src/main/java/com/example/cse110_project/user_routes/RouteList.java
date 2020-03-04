@@ -127,6 +127,7 @@ public class RouteList {
             }
 
             int steps = RouteData.retrieveRouteSteps(context, id);
+            String docId = RouteData.retrieveRouteDocID(context, id);
             String name = RouteData.retrieveRouteName(context, id);
             String startPt = RouteData.retrieveStartingPoint(context, id);
             String hillyVsFlat = RouteData.retrieveFlatVsHilly(context,id);
@@ -139,6 +140,7 @@ public class RouteList {
 
             UserRoute r = new UserRoute(id, name);
             r.setSteps(steps);
+            r.setDocID(docId);
             r.setStartingPoint(startPt);
             r.setFlatVsHilly(hillyVsFlat);
             r.setLoopVsOutBack(loopVsOAB);
