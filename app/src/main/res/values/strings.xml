@@ -28,8 +28,9 @@
 
     // Home screen
     <string name="homeHeader">Walk Walk Revolution</string>
-    <string name="dailyDataText">Today, you walked...</string>
-    <string name="recentWalkText">Your most recent walk was...</string>
+    <string name="homeTeamText">Team updates:</string>
+    <string name="dailyDataText">Today, you walked…</string>
+    <string name="recentWalkText">Your most recent walk was…</string>
     <string name="recentTimeText">Time:</string>
 
     // Email dialog
