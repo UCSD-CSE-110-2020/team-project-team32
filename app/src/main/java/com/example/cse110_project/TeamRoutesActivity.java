@@ -25,7 +25,7 @@ public class TeamRoutesActivity extends AppCompatActivity {
         setContentView(R.layout.team_routes);
 
         // To other activities
-        Button homeButton = findViewById(R.id.routesHomeButton);
+        Button homeButton = findViewById(R.id.teamRoutesBackButton);
         homeButton.setOnClickListener(v -> finish());
     }
 

@@ -18,10 +18,10 @@
         android:typeface="sans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/routesHomeButton" />
+        app:layout_constraintTop_toBottomOf="@+id/teamRoutesBackButton" />
 
     <Button
-        android:id="@+id/routesHomeButton"
+        android:id="@+id/teamRoutesBackButton"
         android:layout_width="125dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
