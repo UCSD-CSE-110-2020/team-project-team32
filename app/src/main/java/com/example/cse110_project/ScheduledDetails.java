@@ -16,4 +16,6 @@ public class ScheduledDetails extends AppCompatActivity {
         Button homeButton = findViewById(R.id.scheduleToHomeButton);
         homeButton.setOnClickListener(v -> finish());
     }
+
+
 }

@@ -115,7 +115,9 @@
     <string name="NickName">Nickname</string>
 
     //Scheduled Route Details
-
+    //<string name="scheduledWalkTitle">Scheduled Walk</string>
+    <string name="scheduledWalkProposed">Proposed</string>
+    <string name="scheduledWalkScheduled">Scheduled</string>
 
 
     // ???
