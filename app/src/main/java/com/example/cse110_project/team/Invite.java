@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
-import com.google.firebase.firestore.ListenerRegistration;
 
 public class Invite {
     private static final String TAG = "Invite";
@@ -40,7 +39,7 @@ public class Invite {
         team.getMembers().add(newMember);
 
         WWRApplication.getDatabase().updateTeam(team);
-        WWRApplication.getDatabase().addTeammatesListener(team);
+        WWRApplication.getDatabase().addTeamListener(team);
         WWRApplication.getDatabase().addTeammateRoutesListener(WWRApplication.getUser(), newMember);
     }
 
@@ -52,7 +51,7 @@ public class Invite {
         WWRApplication.getUser().setTeam(team);
 
         // Link team & user up to database
-        db.addTeammatesListener(team);
+        db.addTeamListener(team);
         for (TeamMember teammate : team.getMembers()) {
             db.addTeammateRoutesListener(WWRApplication.getUser(), teammate);
         }

@@ -8,6 +8,7 @@ import java.util.List;
 public class Team {
     private String id;
     private List<TeamMember> members;
+    private ScheduledWalk scheduledWalk;
 
     public Team() { members = new ArrayList<>(); }
 
@@ -51,5 +52,13 @@ public class Team {
                 return;
             }
         }
+    }
+
+    public ScheduledWalk getScheduledWalk() {
+        return scheduledWalk;
+    }
+
+    public void setScheduledWalk(ScheduledWalk walk) {
+        scheduledWalk = walk;
     }
 }
