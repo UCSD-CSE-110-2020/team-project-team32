@@ -12,7 +12,11 @@ import android.widget.TextView;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.RouteData;
+import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
+import com.example.cse110_project.user_routes.UserData;
+import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.util.MilesCalculator;
 
 import java.time.LocalDateTime;
@@ -26,6 +30,7 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity {
     private final static String TAG = "RouteDetailsActivity";
     private User user;
     private TeamRoute route;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,11 +103,13 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity {
         Log.d(TAG, "Launching walk of route " + route.getName() + " with ID " + route.getID());
         LocalDateTime prevStartDate = route.getStartDate();
 
+        int routeIndex = getIntent().getIntExtra(ROUTE_INDEX_KEY, 0);
+
         Intent intent = new Intent(this, WalkActivity.class);
         intent.putExtra(WalkActivity.SAVED_ROUTE_KEY, true);
-        intent.putExtra(WalkActivity.SAVED_ROUTE_ID_KEY, route.getID());
+        intent.putExtra(WalkActivity.SAVED_ROUTE_ID_KEY, routeIndex);
+        intent.putExtra(WalkActivity.TEAM_ROUTES_KEY, true);
         startActivity(intent);
-
         // Return to Routes screen
         finish();
     }

@@ -24,12 +24,14 @@ import java.time.LocalTime;
 public class WalkActivity extends AppCompatActivity {
     public final static String SAVED_ROUTE_KEY = "SAVED_ROUTE_KEY";
     public final static String SAVED_ROUTE_ID_KEY = "SAVED_ROUTE_ID";
+    public final static String TEAM_ROUTES_KEY = "TEAM_ROUTES_KEY";
     private final static String TAG = "WalkActivity";
 
     private User user;
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
     private boolean onSavedRoute;
+    private boolean FromTeamRouteDetails;
     private int savedRouteID;
 
     private int initialSteps;
@@ -52,6 +54,7 @@ public class WalkActivity extends AppCompatActivity {
 
         // Handle case of walking an existing route
         onSavedRoute = getIntent().getBooleanExtra(SAVED_ROUTE_KEY, false);
+        FromTeamRouteDetails =  getIntent().getBooleanExtra(TEAM_ROUTES_KEY, false);
         if (onSavedRoute) {
             savedRouteID = getIntent().getIntExtra(SAVED_ROUTE_ID_KEY, 0);
             Log.d(TAG, "Saved route ID: " + savedRouteID);
@@ -70,7 +73,13 @@ public class WalkActivity extends AppCompatActivity {
     }
 
     private void displayRouteSummary() {
-        Route route = user.getRoutes().getRouteByID(savedRouteID);
+        Route route;
+        if(FromTeamRouteDetails) {
+            route = user.getTeamRoutes().get(savedRouteID).getRoute();
+        }
+        else {
+            route = user.getRoutes().getRouteByID(savedRouteID);
+        }
         Log.d(TAG, "Displaying walk summary for route " + route);
         ((TextView)findViewById(R.id.walkRouteName)).setText(route.getName());
         ((TextView)findViewById(R.id.walkStartingPoint)).setText(route.getStartingPoint());
@@ -137,8 +146,13 @@ public class WalkActivity extends AppCompatActivity {
                     + ", date " + walkDate);
 
             if (onSavedRoute) {
-                user.getRoutes().updateRouteData(savedRouteID, walkSteps, walkTime, walkDate);
-                finish();
+                if(!FromTeamRouteDetails) {
+                    user.getRoutes().updateRouteData(savedRouteID, walkSteps, walkTime, walkDate);
+                    finish();
+                }
+                else{
+                    // need to update teammate data
+                }
             } else {
                 (new SaveRouteDialog(this, this, walkSteps, walkTime, walkDate))
                         .inputRouteDataDialog();
