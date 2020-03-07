@@ -70,6 +70,7 @@ public class RouteDetailsActivity extends AppCompatActivity {
         // Set optional features if existent
         TextView routeStartingPoint = findViewById(R.id.detailsStartingPoint);
         routeStartingPoint.setText(route.getStartingPoint());
+
         TextView routeFav = findViewById(R.id.detailsFav);
         routeFav.setText(route.isFavorite() ? Route.FAV : Route.NO_DATA);
 

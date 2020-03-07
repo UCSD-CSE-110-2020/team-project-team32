@@ -160,7 +160,7 @@
         app:layout_constraintVertical_bias="0.225" />
 
     <TextView
-        android:id="@+id/detailsNotesText"
+        android:id="@+id/schedNotesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/detailsNotes"
@@ -310,7 +310,7 @@
         app:layout_constraintVertical_bias="0.362" />
 
     <TextView
-        android:id="@+id/detailsNotesTopConstraint"
+        android:id="@+id/schedNotesTopConstraint"
         android:layout_width="76dp"
         android:layout_height="22dp"
         android:text="@string/emptyText"
@@ -323,7 +323,7 @@
         app:layout_constraintVertical_bias="0.565" />
 
     <TextView
-        android:id="@+id/detailsNotes"
+        android:id="@+id/schedNotes"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
