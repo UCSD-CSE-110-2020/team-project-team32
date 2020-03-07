@@ -8,12 +8,11 @@ import android.widget.EditText;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.R;
-import com.example.cse110_project.SaveRouteDialog;
+import com.example.cse110_project.dialogs.SaveRouteDialog;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.WalkActivity;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteData;
-import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 

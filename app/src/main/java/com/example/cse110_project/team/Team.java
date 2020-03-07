@@ -11,15 +11,20 @@ public class Team {
 
     public Team() { members = new ArrayList<>(); }
 
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Team && this.toString().equals(o.toString());
+    }
+
     @Override @NonNull
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(id);
-        sb.append(": {\n");
+        sb.append(": {");
         for (TeamMember member : members) {
-            sb.append("\t");
+            //sb.append("\n\t");
             sb.append(member.getEmail());
-            sb.append(",\n");
+            sb.append(", ");
         }
         sb.append("}");
         return sb.toString();
