@@ -446,7 +446,7 @@ public class BDDTests {
         }
 
         @Override
-        public ListenerRegistration addTeammatesListener(Team team) {
+        public ListenerRegistration addTeamListener(Team team) {
             if (invitedTeam != null && team.getId().equals(invitedTeam.getId())) {
                 team.getMembers().addAll(invitedTeam.getMembers());
             }

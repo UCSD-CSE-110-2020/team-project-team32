@@ -198,7 +198,7 @@ public class HeightInputTest {
         }
 
         @Override
-        public ListenerRegistration addTeammatesListener(Team team) { return null; }
+        public ListenerRegistration addTeamListener(Team team) { return null; }
 
         @Override
         public void addTeammateRoutesListener(User listener, TeamMember teammate) {

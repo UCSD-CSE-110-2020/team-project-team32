@@ -24,7 +24,7 @@ public interface DatabaseService {
     public void removeTeam(Team team);
     public Task<?> updateTeam(Team team);
 
-    public ListenerRegistration addTeammatesListener(Team team);
+    public ListenerRegistration addTeamListener(Team team);
     public void removeTeammatesListener(ListenerRegistration listener);
     public void addInvitesListener(User listener);
     public void addTeammateRoutesListener(User listener, TeamMember teammate);

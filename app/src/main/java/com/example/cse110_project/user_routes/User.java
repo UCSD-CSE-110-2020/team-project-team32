@@ -62,7 +62,7 @@ public class User {
                 UserData.saveTeamID(context, team.getId());
             } else {
                 Log.d(TAG, "Retrieving existing team");
-                WWRApplication.getDatabase().addTeammatesListener(team);
+                WWRApplication.getDatabase().addTeamListener(team);
                 for (TeamMember teammate : team.getMembers()) {
                     if ( ! teammate.getEmail().equals(email)) {
                         WWRApplication.getDatabase()
