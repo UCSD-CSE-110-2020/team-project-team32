@@ -16,18 +16,23 @@ public class ScheduledDetails extends AppCompatActivity {
     User user; // this user
     private Route route; // route
     private LocalDateTime date;
+    String difficulty;
+    String startingPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scheduled_details);
 
-        user = WWRApplication.getUser();
+       /* user = WWRApplication.getUser();
         user.getTeam().getScheduledWalk(); // pull our scheduled walk
 
         route = user.getTeam().getScheduledWalk().getRoute();
-
         date = user.getTeam().getScheduledWalk().getDateTime();
+        difficulty = user.getTeam().getScheduledWalk().getRoute().getDifficulty();
+        startingPoint = user.getTeam().getScheduledWalk().getRoute().getStartingPoint();
+*/
+
 
         // To other activities
         Button homeButton = findViewById(R.id.scheduleToHomeButton);

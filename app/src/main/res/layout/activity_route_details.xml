@@ -9,7 +9,7 @@
     tools:context=".RouteDetailsActivity">
 
     <TextView
-        android:id="@+id/schedNotesText"
+        android:id="@+id/detailsNotesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/detailsNotes"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.609" />
 
     <TextView
-        android:id="@+id/schedNotes"
+        android:id="@+id/detailsNotes"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -38,7 +38,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/schedNotesTopConstraint"
+        android:id="@+id/detailsNotesTopConstraint"
         android:layout_width="76dp"
         android:layout_height="22dp"
         android:text="@string/emptyText"
@@ -295,7 +295,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/scheduledHeader"
+        android:id="@+id/detailsHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/detailsHeader"
