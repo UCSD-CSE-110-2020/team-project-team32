@@ -42,13 +42,10 @@ public class ScheduledDetails extends AppCompatActivity {
         difficulty = user.getTeam().getScheduledWalk().getRoute().getDifficulty();
         startingPoint = user.getTeam().getScheduledWalk().getRoute().getStartingPoint();
         */
-        if (route == null) {
-            //displayRouteData();
-        }
+
         // To other activities
         Button homeButton = findViewById(R.id.scheduleToHomeButton);
         homeButton.setOnClickListener(v -> finish());
-
 
     }
 
