@@ -68,14 +68,7 @@ public class TeamRouteAdapter extends ArrayAdapter {
         difficultyTextField.setText(routes.get(position).getRoute().getDifficulty());
         favTextField.setText(routes.get(position).getRoute().isFavorite() ? Route.FAV : Route.NO_DATA);
 
-        String[] initialsArr = routes.get(position).getCreator().getName().split(" ");
-        StringBuilder initials = new StringBuilder();
-        for (String initial : initialsArr) {
-            if (initial.length() > 0) {
-                initials.append(initial.charAt(0));
-            }
-        }
-        teammateInitials.setText(initials.toString());
+        teammateInitials.setText(routes.get(position).getCreator().getInitials());
         teammateInitials.setBackgroundColor(routes.get(position).getCreator().getColor());
 
         // Only fill in steps, miles, etc. if route previously walked

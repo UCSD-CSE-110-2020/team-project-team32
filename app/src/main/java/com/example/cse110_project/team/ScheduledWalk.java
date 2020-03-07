@@ -8,9 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ScheduledWalk {
+    // Statuses for this scheduled walk
     public static final int PROPOSED = 0;
     public static final int SCHEDULED = 1;
     public static final int WITHDRAWN = -1;
+
+    // Statuses for member responses
     public static final int NO_RESPONSE = 0;
     public static final int ACCEPTED = 1;
     public static final int DECLINED_BAD_TIME = -1;
@@ -21,6 +24,8 @@ public class ScheduledWalk {
     private String dateTimeStr;
     private String creatorId;
     private Map<String, Integer> responses;
+
+    public ScheduledWalk() {}
 
     public ScheduledWalk(Route route, LocalDateTime dateTime, String creatorId, Team team) {
         this.status = PROPOSED;
