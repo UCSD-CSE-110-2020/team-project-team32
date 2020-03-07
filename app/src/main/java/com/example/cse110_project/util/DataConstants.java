@@ -18,9 +18,9 @@ public class DataConstants {
     public final static String ROUTE_TIME_KEY = "r%d_time";
     public final static String ROUTE_DATE_KEY = "r%d_date";
 
-    public final static String TEAM_ROUTE_STEPS_KEY = "tr%d_name";
-    public final static String TEAM_ROUTE_TIME_KEY = "tr%d_time";
-    public final static String TEAM_ROUTE_DATE_KEY = "tr%d_time";
+    public final static String TEAM_ROUTE_STEPS_KEY = "tr%s_name";
+    public final static String TEAM_ROUTE_TIME_KEY = "tr%s_time";
+    public final static String TEAM_ROUTE_DATE_KEY = "tr%s_date";
 
     // Features keys
     public final static String STARTING_POINT_KEY = "r%d_starting_point";

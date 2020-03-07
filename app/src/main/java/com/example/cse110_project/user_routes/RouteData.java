@@ -47,14 +47,16 @@ public class RouteData {
 
     public static String retrieveTeamRouteTime(Context c, String docId) {
         SharedPreferences pref = retrievePrefs(c);
-        return pref.getString(String.format(DataConstants.TEAM_ROUTE_TIME_KEY, docId),
+        String result = pref.getString(String.format(DataConstants.TEAM_ROUTE_TIME_KEY, docId),
                 DataConstants.STR_NOT_FOUND);
+        return result;
     }
 
     public static String retrieveTeamRouteDate(Context c, String docId) {
         SharedPreferences pref = retrievePrefs(c);
-        return pref.getString(String.format(DataConstants.TEAM_ROUTE_DATE_KEY, docId),
+        String result = pref.getString(String.format(DataConstants.TEAM_ROUTE_DATE_KEY, docId),
                 DataConstants.STR_NOT_FOUND);
+        return result;
     }
 
     public static String retrieveStartingPoint(Context c, int routeID) {
@@ -129,14 +131,12 @@ public class RouteData {
     }
 
     public static void saveRouteName(Context c, int routeID, String routeName) {
-        System.out.println("Saving name " + routeName + " for " + routeID);
         SharedPreferences.Editor editor = retrieveEditor(c);
         editor.putString(String.format(DataConstants.ROUTE_NAME_KEY, routeID), routeName);
         editor.apply();
     }
 
     public static void saveRouteDocId(Context c, int routeID, String docId) {
-        System.out.println("Saving docId " + docId + " for " + routeID);
         SharedPreferences.Editor editor = retrieveEditor(c);
         editor.putString(String.format(DataConstants.ROUTE_DOC_ID_KEY, routeID), docId);
         editor.apply();

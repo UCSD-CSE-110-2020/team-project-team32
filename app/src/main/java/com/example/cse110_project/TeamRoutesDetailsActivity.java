@@ -106,9 +106,8 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity {
         int routeIndex = getIntent().getIntExtra(ROUTE_INDEX_KEY, 0);
 
         Intent intent = new Intent(this, WalkActivity.class);
-        intent.putExtra(WalkActivity.SAVED_ROUTE_KEY, true);
-        intent.putExtra(WalkActivity.SAVED_ROUTE_ID_KEY, routeIndex);
         intent.putExtra(WalkActivity.TEAM_ROUTES_KEY, true);
+        intent.putExtra(WalkActivity.TEAM_ROUTE_DOC_ID_KEY, route.getDocID());
         startActivity(intent);
         // Return to Routes screen
         finish();

@@ -111,7 +111,18 @@ public class User {
     public List<TeamRoute> getTeamRoutes() { return teamRoutes; }
     public List<Invite> getInvites() { return invites; }
 
+    public TeamRoute getTeamRouteByDocId(String docId) {
+        for (TeamRoute route : teamRoutes) {
+            if (route.getDocID().equals(docId)) {
+                return route;
+            }
+        }
+        return null;
+    }
+
     public void updateTeamRoute(TeamRoute route, int steps, LocalTime time, LocalDateTime date) {
+        Log.d(TAG, "Updating team route " + route + " with docId " + route.getDocID() +
+                " to (" + steps + ", " + time + ", " + date + ")");
         String docID = route.getDocID();
 
         route.setSteps(steps);
@@ -127,17 +138,20 @@ public class User {
 
         int steps = RouteData.retrieveTeamRouteSteps(context, docId);
         if (steps != DataConstants.INT_NOT_FOUND) {
-            route.setSteps(steps);
+            System.out.println("Storing retrieved team route steps");
+            route.getRoute().setSteps(steps);
         }
 
         String time = RouteData.retrieveTeamRouteTime(context, docId);
         if ( ! DataConstants.STR_NOT_FOUND.equals(time)) {
-            route.setDuration(LocalTime.parse(time));
+            System.out.println("Storing retrieved team route time");
+            route.getRoute().setDuration(LocalTime.parse(time));
         }
 
         String date = RouteData.retrieveTeamRouteDate(context, docId);
         if ( ! DataConstants.STR_NOT_FOUND.equals(date)) {
-            route.setStartDate(LocalDateTime.parse(date));
+            System.out.println("Storing retrieved team route date");
+            route.getRoute().setStartDate(LocalDateTime.parse(date));
         }
 
         teamRoutes.add(route);
