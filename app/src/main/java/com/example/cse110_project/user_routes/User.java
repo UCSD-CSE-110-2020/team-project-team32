@@ -12,6 +12,8 @@ import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.util.MilesCalculator;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,4 +110,36 @@ public class User {
     public RouteList getRoutes(){ return routes; }
     public List<TeamRoute> getTeamRoutes() { return teamRoutes; }
     public List<Invite> getInvites() { return invites; }
+
+    public void updateTeamRoute(TeamRoute route, int steps, LocalTime time, LocalDateTime date) {
+        String docID = route.getDocID();
+
+        route.setSteps(steps);
+        RouteData.saveTeamRouteSteps(context, docID, steps);
+        route.setDuration(time);
+        RouteData.saveTeamRouteTime(context, docID, time.toString());
+        route.setStartDate(date);
+        RouteData.saveTeamRouteDate(context, docID, date.toString());
+    }
+
+    public void addTeamRoute(TeamRoute route) {
+        String docId = route.getDocID();
+
+        int steps = RouteData.retrieveTeamRouteSteps(context, docId);
+        if (steps != DataConstants.INT_NOT_FOUND) {
+            route.setSteps(steps);
+        }
+
+        String time = RouteData.retrieveTeamRouteTime(context, docId);
+        if ( ! DataConstants.STR_NOT_FOUND.equals(time)) {
+            route.setDuration(LocalTime.parse(time));
+        }
+
+        String date = RouteData.retrieveTeamRouteDate(context, docId);
+        if ( ! DataConstants.STR_NOT_FOUND.equals(date)) {
+            route.setStartDate(LocalDateTime.parse(date));
+        }
+
+        teamRoutes.add(route);
+    }
 }

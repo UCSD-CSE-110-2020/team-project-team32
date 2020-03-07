@@ -18,6 +18,10 @@ public class DataConstants {
     public final static String ROUTE_TIME_KEY = "r%d_time";
     public final static String ROUTE_DATE_KEY = "r%d_date";
 
+    public final static String TEAM_ROUTE_STEPS_KEY = "tr%d_name";
+    public final static String TEAM_ROUTE_TIME_KEY = "tr%d_time";
+    public final static String TEAM_ROUTE_DATE_KEY = "tr%d_time";
+
     // Features keys
     public final static String STARTING_POINT_KEY = "r%d_starting_point";
     public final static String FLAT_VS_HILLY_KEY = "r%d_flat_hilly";
@@ -33,7 +37,7 @@ public class DataConstants {
     public final static int NO_HEIGHT_FOUND = 0;
     public final static String NO_ROUTES_FOUND = "";
     public final static String STR_NOT_FOUND = "";
-    public final static int INT_NOT_FOUND = 0;
+    public final static int INT_NOT_FOUND = -1;
     public final static boolean BOOL_NOT_FOUND = false;
     public final static String NO_RECENT_ROUTE = "N/A";
 
