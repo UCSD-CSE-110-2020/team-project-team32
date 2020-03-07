@@ -35,13 +35,21 @@ public class User {
         routes = new RouteList(context);
         teamRoutes = new ArrayList<>();
         team = new Team();
+        invites = new ArrayList<>();
 
         email = UserData.retrieveEmail(context);
         height = UserData.retrieveHeight(context);
         email = UserData.retrieveEmail(context);
     }
 
-    public void initTeam() {
+    public void initFromDatabase() {
+        // Init invites
+        if (WWRApplication.hasDatabase()) {
+            WWRApplication.getDatabase().addInvitesListener(this);
+        }
+        Log.d(TAG, "initFromDatabase: invites is " + invites);
+
+        // Init team
         team.setId(UserData.retrieveTeamID(context));
         if (WWRApplication.hasDatabase()) {
             if (team.getId().equals(DataConstants.NO_TEAMID_FOUND)) {
@@ -64,7 +72,7 @@ public class User {
             }
         }
 
-        Log.d(TAG, "initTeam: id is " + team.getId());
+        Log.d(TAG, "initFromDatabase: teamId is " + team.getId());
     }
 
     public Context getContext() { return context; }

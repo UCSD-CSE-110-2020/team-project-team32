@@ -15,13 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cse110_project.database.FirebaseFirestoreAdapter;
+import com.example.cse110_project.dialogs.AcceptInviteDialog;
+import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.util.DataConstants;
-import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.User;
 
 import com.example.cse110_project.fitness.FitnessService;
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             if (WWRApplication.getDatabase() == null) {
                 WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
                         TEAM_COLLECTIONS_KEY, user.getEmail(), INVITES_KEY, ROUTES_KEY));
-                WWRApplication.getUser().initTeam();
+                WWRApplication.getUser().initFromDatabase();
             }
         }
 
@@ -85,11 +87,21 @@ public class MainActivity extends AppCompatActivity {
 
         Button teamBtn = findViewById(R.id.teamButton);
         teamBtn.setOnClickListener(v -> launchTeamActivity());
+
+        ImageButton inviteBtn = findViewById(R.id.inviteButton);
+        inviteBtn.setOnClickListener(v -> showAcceptInviteDialogue());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        ImageButton inviteBtn = findViewById(R.id.inviteButton);
+        if (user.getInvites().size() == 0) {
+            inviteBtn.setVisibility(View.INVISIBLE);
+        } else {
+            inviteBtn.setVisibility(View.VISIBLE);
+        }
 
         if (fitnessServiceActive) {
             int maxStepUpdates = getIntent().getIntExtra(MAX_UPDATES_KEY, Integer.MAX_VALUE);
@@ -186,6 +198,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void showAcceptInviteDialogue() {
+        if (user.getInvites().size() > 0) {
+            Log.d(TAG, "Displaying invite dialog");
+            Invite invite = user.getInvites().get(0);
+            AcceptInviteDialog inviteDialog = new AcceptInviteDialog(this, invite);
+            inviteDialog.showDialog();
+        }
+    }
+
 
     // Height input methods
 
@@ -222,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
         if (WWRApplication.getDatabase() == null) {
             WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
                     TEAM_COLLECTIONS_KEY, user.getEmail(), INVITES_KEY, ROUTES_KEY));
-            WWRApplication.getUser().initTeam();
+            WWRApplication.getUser().initFromDatabase();
         }
 
         String heightInput = heightEditor.getText().toString();

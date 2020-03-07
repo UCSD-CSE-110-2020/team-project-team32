@@ -13,6 +13,8 @@
     <string name="saveButton">Save</string>
     <string name="submitButton">Submit</string>
     <string name="backButton">Back</string>
+    <string name="acceptButton">Accept</string>
+    <string name="declineButton">Decline</string>
 
     // General text
     <string name="favText">FAV</string>
@@ -26,8 +28,9 @@
 
     // Home screen
     <string name="homeHeader">Walk Walk Revolution</string>
-    <string name="dailyDataText">Today, you walked...</string>
-    <string name="recentWalkText">Your most recent walk was...</string>
+    <string name="homeTeamText">Team updates:</string>
+    <string name="dailyDataText">Today, you walked…</string>
+    <string name="recentWalkText">Your most recent walk was…</string>
     <string name="recentTimeText">Time:</string>
 
     // Email dialog

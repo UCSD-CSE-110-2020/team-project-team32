@@ -2,6 +2,8 @@ package com.example.cse110_project.team;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -19,6 +21,11 @@ public class Invite {
         this.invitedMemberId = invitedMemberId;
         this.teamId = teamId;
         this.creatorId = creatorId;
+    }
+
+    @Override @NonNull
+    public String toString() {
+        return "[" + teamId + "]: " + creatorId + " --> " + invitedMemberId;
     }
 
     public String getInvitedMemberId() { return invitedMemberId; }
@@ -39,28 +46,19 @@ public class Invite {
 
     public void accept() {
         DatabaseService db = WWRApplication.getDatabase();
-        db.removeInvite(this);
+        db.acceptInvite(this);
         Team team = new Team();
         team.setId(teamId);
         WWRApplication.getUser().setTeam(team);
 
         // Link team & user up to database
         db.addTeammatesListener(team);
-        TeamMember member = team.findMemberById(invitedMemberId);
-        member.setStatus(TeamMember.STATUS_MEMBER);
-        db.updateTeam(team);
         for (TeamMember teammate : team.getMembers()) {
             db.addTeammateRoutesListener(WWRApplication.getUser(), teammate);
         }
     }
 
     public void decline() {
-        WWRApplication.getDatabase().removeInvite(this);
-        Team team = new Team();
-        team.setId(teamId);
-        ListenerRegistration reg = WWRApplication.getDatabase().addTeammatesListener(team);
-        team.removeMemberById(invitedMemberId);
-        WWRApplication.getDatabase().updateTeam(team);
-        WWRApplication.getDatabase().removeTeammatesListener(reg);
+        WWRApplication.getDatabase().declineInvite(this);
     }
 }
