@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
 
@@ -53,7 +52,7 @@ public class RouteDetailsActivity extends AppCompatActivity {
             Log.d(TAG, "Walk data found");
             TextView routeSteps = findViewById(R.id.detailsRouteSteps);
             routeSteps.setText(String.valueOf(route.getSteps()));
-            TextView routeMiles = findViewById(R.id.detailsRouteMiles);
+            TextView routeMiles = findViewById(R.id.schedRouteMiles);
             routeMiles.setText(MilesCalculator.formatMiles(route.getMiles(user.getHeight())));
 
             TextView routeTime = findViewById(R.id.detailsRouteTime);

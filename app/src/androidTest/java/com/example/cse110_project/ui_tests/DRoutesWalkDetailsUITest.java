@@ -567,7 +567,7 @@ public class DRoutesWalkDetailsUITest {
         ViewInteraction textView38 = onView(withId(R.id.detailsRouteSteps));
         textView38.check(matches(withText("N/A")));
 
-        ViewInteraction textView39 = onView(withId(R.id.detailsRouteMiles));
+        ViewInteraction textView39 = onView(withId(R.id.schedRouteMiles));
         textView39.check(matches(withText("N/A")));
 
         ViewInteraction textView40 = onView(withId(R.id.detailsRouteTime));
@@ -680,7 +680,7 @@ public class DRoutesWalkDetailsUITest {
         ViewInteraction textView50 = onView(withId(R.id.detailsRouteSteps));
         textView50.check(matches(withText("500")));
 
-        ViewInteraction textView51 = onView(withId(R.id.detailsRouteMiles));
+        ViewInteraction textView51 = onView(withId(R.id.schedRouteMiles));
         textView51.check(matches(withText("0.2")));
 
         ViewInteraction textView52 = onView(withId(R.id.detailsRouteTime));
@@ -1007,7 +1007,7 @@ public class DRoutesWalkDetailsUITest {
         ViewInteraction textView83 = onView(withId(R.id.detailsRouteSteps));
         textView83.check(matches(withText("0")));
 
-        ViewInteraction textView84 = onView(withId(R.id.detailsRouteMiles));
+        ViewInteraction textView84 = onView(withId(R.id.schedRouteMiles));
         textView84.check(matches(withText("0.0")));
 
         ViewInteraction textView85 = onView(withId(R.id.detailsRouteTime));
@@ -1153,7 +1153,7 @@ public class DRoutesWalkDetailsUITest {
         ViewInteraction textView94 = onView(withId(R.id.detailsRouteSteps));
         textView94.check(matches(withText("500")));
 
-        ViewInteraction textView95 = onView(withId(R.id.detailsRouteMiles));
+        ViewInteraction textView95 = onView(withId(R.id.schedRouteMiles));
         textView95.check(matches(withText("0.2")));
 
         ViewInteraction textView96 = onView(withId(R.id.detailsRouteTime));

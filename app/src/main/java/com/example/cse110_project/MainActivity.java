@@ -203,8 +203,15 @@ public class MainActivity extends AppCompatActivity {
 
     // launches to scheduled details screen
     public void launchScheduledActivity(){
-        Intent intent = new Intent(this, ScheduledDetails.class);
-        startActivity(intent);
+
+        // If scheduled walk does exist
+        if (user.getTeam().getScheduledWalk() != null) {
+            Intent intent = new Intent(this, ScheduledDetails.class);
+            startActivity(intent);
+        }
+        Toast.makeText(MainActivity.this, R.string.invalidScheduledWalkToast,
+                Toast.LENGTH_SHORT).show();
+        return;
     }
 
     public void showAcceptInviteDialogue() {
