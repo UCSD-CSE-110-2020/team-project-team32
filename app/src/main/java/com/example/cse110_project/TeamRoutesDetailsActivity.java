@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -41,12 +42,17 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity {
 
         Button startWalkButton = findViewById(R.id.detailsStartWalkButton);
         startWalkButton.setOnClickListener(v -> launchWalkActivity());
-
     }
+
     public void displayRouteData() {
         Log.d(TAG, "Displaying route data");
         TextView routeName = findViewById(R.id.detailsRouteName);
         routeName.setText(route.getName());
+
+        TextView initials = findViewById(R.id.detailsInitials);
+        initials.setText(route.getCreator().getInitials());
+        initials.setBackgroundColor(route.getCreator().getColor());
+        initials.setVisibility(View.VISIBLE);
 
         // Set steps, miles, time, date only if route has been walked
         if (route.getStartDate() != null) {
