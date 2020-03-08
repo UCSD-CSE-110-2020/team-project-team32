@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -57,7 +58,7 @@ public class RouteListAdapter extends ArrayAdapter {
         TextView streetsTrailTextField = rowView.findViewById(R.id.routeRowStreetsTrail);
         TextView evenUnevenTextField = rowView.findViewById(R.id.routeRowEvenUneven);
         TextView difficultyTextField = rowView.findViewById(R.id.routeRowDifficulty);
-        ImageButton favButtonField = rowView.findViewById(R.id.routeRowFavorite);
+        Button favButtonField = rowView.findViewById(R.id.routeRowFavorite);
 
         //this code sets the values of the objects to values from the arrays
         nameTextField.setText(routes.getRoute(position).getName());
@@ -67,15 +68,16 @@ public class RouteListAdapter extends ArrayAdapter {
         streetsTrailTextField.setText(routes.getRoute(position).getStreetsVsTrail());
         evenUnevenTextField.setText(routes.getRoute(position).getEvenVsUneven());
         difficultyTextField.setText(routes.getRoute(position).getDifficulty());
-        favButtonField.setBackgroundColor(routes.getRoute(position).isFavorite() ? Color.rgb(244,212,68) : Color.rgb(255,255,255));
+        favButtonField.setBackgroundColor(routes.getRoute(position).isFavorite() ? Color.rgb(244,212,68)
+                : Color.rgb(215,216,220));
 
         favButtonField.setOnClickListener(v -> {
             if (routes.getRoute(position).isFavorite()){
-                Color.rgb(255,255,255);
+                favButtonField.setBackgroundColor(Color.rgb(255,255,255));
                 routes.getRoute(position).setFavorite(false);
             }
             else {
-                Color.rgb(244,212,68);
+                favButtonField.setBackgroundColor(Color.rgb(244,212,68));
                 routes.getRoute(position).setFavorite(true);
             }
 
