@@ -8,6 +8,7 @@ import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.TeamRoute;
+import com.example.cse110_project.user_routes.RouteData;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.team.Team;
 import com.google.android.gms.tasks.Task;
@@ -50,6 +51,8 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                 .addOnSuccessListener(doc -> {
                     route.setDocID(doc.getId());
                     userRoutes.document(doc.getId()).update("docID", route.getDocID());
+                    RouteData.saveRouteDocId(WWRApplication.getUser().getContext(), route.getID(),
+                                             route.getDocID());
                     Log.d(TAG, route.getName() + " given doc id " + route.getDocID());
                 });
     }
@@ -142,13 +145,14 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
     }
 
     @Override
-    public ListenerRegistration addTeammatesListener(Team team) {
-        Log.d(TAG, "addTeammatesListener called on " + team.getId());
+    public ListenerRegistration addTeamListener(Team team) {
+        Log.d(TAG, "addTeamListener called on " + team.getId());
         return FirebaseFirestore.getInstance().collection(teamCollectionKey)
                 .document(team.getId())
                 .addSnapshotListener((snapshot, e) -> {
                     if (e != null) {
-                        Log.w(TAG, "Listen error in addTeammatesListener");
+                        Log.w(TAG, "Listen error in addTeamListener: " + e.getMessage());
+                        addTeamListener(team);
                         return;
                     }
 
@@ -156,10 +160,28 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                     Log.d(TAG, "Change retrieved in " + changedTeam);
 
                     if (changedTeam != null) {
-                        team.getMembers().clear();
-                        team.getMembers().addAll(changedTeam.getMembers());
+                        addNewTeammates(team, changedTeam);
+                        removeDeclinedTeammates(team, changedTeam);
+                        team.setScheduledWalk(changedTeam.getScheduledWalk());
                     }
                 });
+    }
+
+    private void addNewTeammates(Team prev, Team next) {
+        for (TeamMember member : next.getMembers()) {
+            if (prev.findMemberById(member.getEmail()) == null) {
+                prev.getMembers().add(member);
+                addTeammateRoutesListener(WWRApplication.getUser(), member);
+            }
+        }
+    }
+
+    private void removeDeclinedTeammates(Team prev, Team next) {
+        for (TeamMember member : prev.getMembers()) {
+            if (next.findMemberById(member.getEmail()) == null) {
+                prev.removeMemberById(member.getEmail());
+            }
+        }
     }
 
     @Override
@@ -175,7 +197,8 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                 .collection(invitesKey)
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
-                        Log.w(TAG, "Listen error in addInvitesListener");
+                        Log.w(TAG, "Listen error in addInvitesListener: " + e.getMessage());
+                        addInvitesListener(listener);
                         return;
                     }
 
@@ -199,7 +222,9 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                 .collection(routesKey)
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
-                        Log.w(TAG, "Listen error in addTeammateRoutesListener");
+                        Log.w(TAG, "Listen error in addTeammateRoutesListener: "
+                            + e.getMessage());
+                        addTeammateRoutesListener(listener, teammate);
                         return;
                     }
 
@@ -213,9 +238,9 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                         Log.d(TAG, "Change found in route " + changedRoute.getName() +
                                 " with docId " + changedRoute.getDocID());
 
-                        List<TeamRoute> teamRoutes = listener.getTeamRoutes();
-                        if (changedRoute.getDocID() != null && ! teamRoutes.contains(changedRoute)) {
-                            teamRoutes.add(changedRoute);
+                        if (changedRoute.getDocID() != null &&
+                                ! listener.getTeamRoutes().contains(changedRoute)) {
+                            listener.addTeamRoute(changedRoute);
                         }
                     }
                 });

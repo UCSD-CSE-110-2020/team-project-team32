@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton inviteBtn = findViewById(R.id.inviteButton);
         inviteBtn.setOnClickListener(v -> showAcceptInviteDialogue());
+
+        ImageButton toScheduledBtn = findViewById(R.id.plannedWalkButton);
+        toScheduledBtn.setOnClickListener(v -> launchScheduledActivity());
     }
 
     @Override
@@ -195,6 +198,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchTeamActivity(){
         Intent intent = new Intent(this, TeamActivity.class);
+        startActivity(intent);
+    }
+
+    // launches to scheduled details screen
+    public void launchScheduledActivity(){
+        Intent intent = new Intent(this, ScheduledDetails.class);
         startActivity(intent);
     }
 
