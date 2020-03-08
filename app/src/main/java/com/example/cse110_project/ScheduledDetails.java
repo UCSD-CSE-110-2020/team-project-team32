@@ -110,5 +110,8 @@ public class ScheduledDetails extends AppCompatActivity {
 
         TextView scheduledTime = findViewById(R.id.schedDateTime);
         scheduledTime.setText(user.getTeam().getScheduledWalk().getDateTimeStr());
+
+        TextView scheduledHeader = findViewById(R.id.schedHeader);
+        scheduledHeader.setText(user.getTeam().getScheduledWalk().getStringStatus());
     }
 }
