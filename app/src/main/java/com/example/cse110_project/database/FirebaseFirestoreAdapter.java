@@ -8,6 +8,7 @@ import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.TeamRoute;
+import com.example.cse110_project.user_routes.RouteData;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.team.Team;
 import com.google.android.gms.tasks.Task;
@@ -50,6 +51,8 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                 .addOnSuccessListener(doc -> {
                     route.setDocID(doc.getId());
                     userRoutes.document(doc.getId()).update("docID", route.getDocID());
+                    RouteData.saveRouteDocId(WWRApplication.getUser().getContext(), route.getID(),
+                                             route.getDocID());
                     Log.d(TAG, route.getName() + " given doc id " + route.getDocID());
                 });
     }
@@ -235,9 +238,9 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                         Log.d(TAG, "Change found in route " + changedRoute.getName() +
                                 " with docId " + changedRoute.getDocID());
 
-                        List<TeamRoute> teamRoutes = listener.getTeamRoutes();
-                        if (changedRoute.getDocID() != null && ! teamRoutes.contains(changedRoute)) {
-                            teamRoutes.add(changedRoute);
+                        if (changedRoute.getDocID() != null &&
+                                ! listener.getTeamRoutes().contains(changedRoute)) {
+                            listener.addTeamRoute(changedRoute);
                         }
                     }
                 });
