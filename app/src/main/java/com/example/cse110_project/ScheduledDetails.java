@@ -50,12 +50,7 @@ public class ScheduledDetails extends AppCompatActivity {
 
         route = user.getTeam().getScheduledWalk().getRoute();
 
-        //user.getTeam().getScheduledWalk(); // pull our scheduled walk
-        //route = user.getTeam().getScheduledWalk().getRoute();
-        //route = user.getRoutes().getRoute(0);
-
         displayRouteData();
-
         // To other activities
         Button homeButton = findViewById(R.id.scheduleToHomeButton);
         homeButton.setOnClickListener(v -> finish());
@@ -108,9 +103,11 @@ public class ScheduledDetails extends AppCompatActivity {
         TextView routeNotes = findViewById(R.id.schedNotes);
         routeNotes.setText(route.getNotes());
 
+        // set the proposed date
         TextView scheduledTime = findViewById(R.id.schedDateTime);
         scheduledTime.setText(user.getTeam().getScheduledWalk().getDateTimeStr());
 
+        // set the status of walk
         TextView scheduledHeader = findViewById(R.id.schedHeader);
         scheduledHeader.setText(user.getTeam().getScheduledWalk().getStringStatus());
     }
