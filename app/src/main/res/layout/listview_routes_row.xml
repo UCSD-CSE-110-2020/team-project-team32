@@ -9,31 +9,26 @@
 <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="2">
+        android:weightSum="5">
 
     <TextView
         android:id="@+id/routeRowName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="4"
         android:text="@string/routeNameHint"
         android:textSize="24sp" />
 
     <Button
         android:id="@+id/routeRowFavorite"
-        android:layout_width="wrap_content"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
         android:layout_weight="1"
         android:text="@string/favText"
         android:textColor="@android:color/black"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:textSize="20sp"
-         />
+        android:textSize="20sp" />
 
-
-</LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
