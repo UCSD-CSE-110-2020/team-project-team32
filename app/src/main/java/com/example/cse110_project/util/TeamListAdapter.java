@@ -40,15 +40,7 @@ public class TeamListAdapter extends ArrayAdapter {
 
         nameTextField.setText(names[position]);
         initialsTextField.setBackgroundColor(members.get(position).getColor());
-
-        String[] initialsArr = names[position].split(" ");
-        StringBuilder initials = new StringBuilder();
-        for (String initial : initialsArr) {
-            if (initial.length() > 0) {
-                initials.append(initial.charAt(0));
-            }
-        }
-        initialsTextField.setText(initials.toString());
+        initialsTextField.setText(members.get(position).getInitials());
 
         // Account for pending team member
         if (members.get(position).getStatus() == TeamMember.STATUS_PENDING) {

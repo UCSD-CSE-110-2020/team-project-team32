@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.cse110_project.dialogs.SaveRouteDialog;
 import com.example.cse110_project.fitness.FitnessService;
+import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
@@ -24,13 +25,19 @@ import java.time.LocalTime;
 public class WalkActivity extends AppCompatActivity {
     public final static String SAVED_ROUTE_KEY = "SAVED_ROUTE_KEY";
     public final static String SAVED_ROUTE_ID_KEY = "SAVED_ROUTE_ID";
+    public final static String TEAM_ROUTES_KEY = "TEAM_ROUTES_KEY";
+    public final static String TEAM_ROUTE_DOC_ID_KEY = "TEAM_ROUTE_DOC_ID_KEY";
     private final static String TAG = "WalkActivity";
 
     private User user;
+    private Route route;
     private FitnessService fitnessService;
     private boolean fitnessServiceActive;
+
     private boolean onSavedRoute;
+    private boolean fromTeamRouteDetails;
     private int savedRouteID;
+    private String teamRouteDocId;
 
     private int initialSteps;
     private LocalTime initialTime;
@@ -58,6 +65,13 @@ public class WalkActivity extends AppCompatActivity {
             displayRouteSummary();
         }
 
+        // Handle team route case
+        fromTeamRouteDetails = getIntent().getBooleanExtra(TEAM_ROUTES_KEY, false);
+        if (fromTeamRouteDetails) {
+            teamRouteDocId = getIntent().getStringExtra(TEAM_ROUTE_DOC_ID_KEY);
+            displayRouteSummary();
+        }
+
         Button mockingButton = findViewById(R.id.walkMockingButton);
         mockingButton.setOnClickListener(v -> launchMockingActivity());
 
@@ -70,7 +84,12 @@ public class WalkActivity extends AppCompatActivity {
     }
 
     private void displayRouteSummary() {
-        Route route = user.getRoutes().getRouteByID(savedRouteID);
+        if (fromTeamRouteDetails) {
+            route = user.getTeamRouteByDocId(teamRouteDocId);
+        } else {
+            route = user.getRoutes().getRouteByID(savedRouteID);
+        }
+
         Log.d(TAG, "Displaying walk summary for route " + route);
         ((TextView)findViewById(R.id.walkRouteName)).setText(route.getName());
         ((TextView)findViewById(R.id.walkStartingPoint)).setText(route.getStartingPoint());
@@ -136,9 +155,14 @@ public class WalkActivity extends AppCompatActivity {
             Log.d(TAG, "Saving route with steps " + walkSteps + ", time " + walkTime
                     + ", date " + walkDate);
 
-            if (onSavedRoute) {
-                user.getRoutes().updateRouteData(savedRouteID, walkSteps, walkTime, walkDate);
-                finish();
+            if (onSavedRoute || fromTeamRouteDetails) {
+                if ( ! fromTeamRouteDetails) {
+                    user.getRoutes().updateRouteData(savedRouteID, walkSteps, walkTime, walkDate);
+                    finish();
+                } else {
+                    user.updateTeamRoute((TeamRoute)route, walkSteps, walkTime, walkDate);
+                    finish();
+                }
             } else {
                 (new SaveRouteDialog(this, this, walkSteps, walkTime, walkDate))
                         .inputRouteDataDialog();
