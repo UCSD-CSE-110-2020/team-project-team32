@@ -1,10 +1,12 @@
 package com.example.cse110_project.util;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -55,7 +57,7 @@ public class TeamRouteAdapter extends ArrayAdapter {
         TextView streetsTrailTextField = rowView.findViewById(R.id.teamRoutesRowStreetsTrail);
         TextView evenUnevenTextField = rowView.findViewById(R.id.teamRoutesRowEvenUneven);
         TextView difficultyTextField = rowView.findViewById(R.id.teamRoutesRowDifficulty);
-        TextView favTextField = rowView.findViewById(R.id.teamRoutesRowFavorite);
+        Button favButtonField = rowView.findViewById(R.id.teamRoutesRowFavorite);
         TextView teammateInitials = rowView.findViewById(R.id.teamRoutesRowInitials);
 
         //this code sets the values of the objects to values from the arrays
@@ -66,10 +68,24 @@ public class TeamRouteAdapter extends ArrayAdapter {
         streetsTrailTextField.setText(routes.get(position).getRoute().getStreetsVsTrail());
         evenUnevenTextField.setText(routes.get(position).getRoute().getEvenVsUneven());
         difficultyTextField.setText(routes.get(position).getRoute().getDifficulty());
-        favTextField.setText(routes.get(position).getRoute().isFavorite() ? Route.FAV : Route.NO_DATA);
 
         teammateInitials.setText(routes.get(position).getCreator().getInitials());
         teammateInitials.setBackgroundColor(routes.get(position).getCreator().getColor());
+
+        favButtonField.setBackgroundColor(routes.get(position).isFavorite() ? Color.rgb(244,212,68)
+                : Color.rgb(215,216,220));
+
+        favButtonField.setOnClickListener(v -> {
+            if (routes.get(position).isFavorite()){
+                favButtonField.setBackgroundColor(Color.rgb(255,255,255));
+                routes.get(position).setFavorite(false);
+            }
+            else {
+                favButtonField.setBackgroundColor(Color.rgb(244,212,68));
+                routes.get(position).setFavorite(true);
+            }
+
+        });
 
         // Only fill in steps, miles, etc. if route previously walked
         if (routes.get(position).getRoute().getStartDate() != null) {

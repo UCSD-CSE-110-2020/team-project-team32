@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/holo_orange_light"
-            android:text="FML"
+            android:text="LL"
             android:textAlignment="center"
             android:textSize="24sp" />
 
@@ -28,14 +28,18 @@
             android:text="@string/routeNameHint"
             android:textSize="24sp" />
 
-        <TextView
+        <Button
             android:id="@+id/teamRoutesRowFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
             android:layout_weight="1"
             android:text="@string/favText"
-            android:textColor="@android:color/holo_orange_light"
-            android:textSize="20sp" />
+            android:textColor="@android:color/black"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textSize="20sp"
+            />
 
     </LinearLayout>
 
