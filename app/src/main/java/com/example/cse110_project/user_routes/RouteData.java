@@ -39,6 +39,26 @@ public class RouteData {
                 DataConstants.STR_NOT_FOUND);
     }
 
+    public static int retrieveTeamRouteSteps(Context c, String docId) {
+        SharedPreferences pref = retrievePrefs(c);
+        return pref.getInt(String.format(DataConstants.TEAM_ROUTE_STEPS_KEY, docId),
+                DataConstants.INT_NOT_FOUND);
+    }
+
+    public static String retrieveTeamRouteTime(Context c, String docId) {
+        SharedPreferences pref = retrievePrefs(c);
+        String result = pref.getString(String.format(DataConstants.TEAM_ROUTE_TIME_KEY, docId),
+                DataConstants.STR_NOT_FOUND);
+        return result;
+    }
+
+    public static String retrieveTeamRouteDate(Context c, String docId) {
+        SharedPreferences pref = retrievePrefs(c);
+        String result = pref.getString(String.format(DataConstants.TEAM_ROUTE_DATE_KEY, docId),
+                DataConstants.STR_NOT_FOUND);
+        return result;
+    }
+
     public static String retrieveStartingPoint(Context c, int routeID) {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getString(String.format(DataConstants.STARTING_POINT_KEY, routeID),
@@ -137,6 +157,24 @@ public class RouteData {
     public static void saveRouteDate(Context c, int routeID, String routeDate) {
         SharedPreferences.Editor editor = retrieveEditor(c);
         editor.putString(String.format(DataConstants.ROUTE_DATE_KEY, routeID), routeDate);
+        editor.apply();
+    }
+
+    public static void saveTeamRouteSteps(Context c, String docId, int routeSteps) {
+        SharedPreferences.Editor editor = retrieveEditor(c);
+        editor.putInt(String.format(DataConstants.TEAM_ROUTE_STEPS_KEY, docId), routeSteps);
+        editor.apply();
+    }
+
+    public static void saveTeamRouteTime(Context c, String docId, String routeTime) {
+        SharedPreferences.Editor editor = retrieveEditor(c);
+        editor.putString(String.format(DataConstants.TEAM_ROUTE_TIME_KEY, docId), routeTime);
+        editor.apply();
+    }
+
+    public static void saveTeamRouteDate(Context c, String docId, String routeDate) {
+        SharedPreferences.Editor editor = retrieveEditor(c);
+        editor.putString(String.format(DataConstants.TEAM_ROUTE_DATE_KEY, docId), routeDate);
         editor.apply();
     }
 

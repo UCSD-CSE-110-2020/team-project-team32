@@ -27,8 +27,6 @@ public class RoutesActivity extends AppCompatActivity{
         setContentView(R.layout.activity_routes);
         user = WWRApplication.getUser();
 
-        int arrLen = user.getRoutes().length();
-        nameArray = new String[arrLen];
 
         // To other activities
         Button homeButton = findViewById(R.id.routesHomeButton);
@@ -69,6 +67,8 @@ public class RoutesActivity extends AppCompatActivity{
     }
 
     public void fetchRoutesData(){
+        int arrLen = user.getRoutes().length();
+        nameArray = new String[arrLen];
         Log.d(TAG, "Fetching routes data");
         routes = user.getRoutes();
         routes.sortByName();
