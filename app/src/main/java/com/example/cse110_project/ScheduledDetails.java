@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
@@ -20,12 +21,16 @@ public class ScheduledDetails extends AppCompatActivity {
 
     public final static String SCHED_INDEX_KEY = "ROUTE_INDEX_KEY";
     private final static String TAG = "ScheduledDetailsActivity";
+    public final static String CREATOR_KEY = "Creator Key";
+
 
     User user; // this user
     private Route route; // route
     private LocalDateTime date;
     String difficulty;
     String startingPoint;
+    ScheduledWalk thisScheduled;
+    private boolean onCreator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +39,17 @@ public class ScheduledDetails extends AppCompatActivity {
 
         user = WWRApplication.getUser();
         user.getTeam().getScheduledWalk(); // pull our scheduled walk
+        thisScheduled = user.getTeam().getScheduledWalk();
 
-        route = user.getTeam().getScheduledWalk().getRoute();
+        onCreator = getIntent().getBooleanExtra(CREATOR_KEY, false);
+
+        /*
+        if (user.getEmail() == thisScheduled.getCreatorId()) {
+            System.out.println("hi");
+        }
+        */
+
+        //route = user.getTeam().getScheduledWalk().getRoute();
 
         /*
         date = user.getTeam().getScheduledWalk().getDateTime();

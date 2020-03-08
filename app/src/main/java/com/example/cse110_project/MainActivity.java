@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.cse110_project.database.FirebaseFirestoreAdapter;
 import com.example.cse110_project.dialogs.AcceptInviteDialog;
 import com.example.cse110_project.team.Invite;
+import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.User;
@@ -205,12 +206,23 @@ public class MainActivity extends AppCompatActivity {
     public void launchScheduledActivity(){
 
         // If scheduled walk does exist
-        if (user.getTeam().getScheduledWalk() != null) {
+        ScheduledWalk scheduledWalk = user.getTeam().getScheduledWalk();
+
+        if (scheduledWalk != null) {
             Intent intent = new Intent(this, ScheduledDetails.class);
+
+            if (user.getEmail().equals(scheduledWalk.getCreatorId())) {
+                intent.putExtra(ScheduledDetails.CREATOR_KEY, true);
+            }
+
             startActivity(intent);
         }
         Toast.makeText(MainActivity.this, R.string.invalidScheduledWalkToast,
                 Toast.LENGTH_SHORT).show();
+
+
+
+
         return;
     }
 
