@@ -95,8 +95,10 @@ public class BDDTests {
         user.setHeight(61);
         team = user.getTeam();
         team.setId("ViewTeamTest");
+
         team.getMembers().clear();
         user.getInvites().clear();
+        user.getRoutes().clear();
         user.getTeamRoutes().clear();
     }
 
@@ -416,6 +418,44 @@ public class BDDTests {
     @And("the user returns to the team routes screen")
     public void theUserReturnsToTheTeamRoutesScreen() {
         onView(withId(R.id.detailsBackButton)).perform(click());
+    }
+
+    @And("the user's route is not a favorite")
+    public void theUserSRouteIsNotAFavorite() {
+        user.getRoutes().getRoute(0).setFavorite(false);
+    }
+
+    @When("the user clicks the favorite button for a route")
+    public void theUserClicksTheFavoriteButtonForARoute() {
+        onView(withId(R.id.routeRowFavorite)).perform(click());
+    }
+
+    @Then("the route is favorited")
+    public void theRouteIsFavorited() {
+        onView(withId(R.id.routeRowFavorite))
+                .check(matches(new BackgroundColorMatcher(Route.FAV_COLOR)));
+        assertTrue(user.getRoutes().getRoute(0).isFavorite());
+        assertTrue(RouteData.retrieveFavorite(user.getContext(),
+                user.getRoutes().getRoute(0).getID()));
+    }
+
+    @And("the user's route is a favorite")
+    public void theUserSRouteIsAFavorite() {
+        user.getRoutes().getRoute(0).setFavorite(true);
+    }
+
+    @Then("the route is un-favorited")
+    public void theRouteIsUnFavorited() {
+        onView(withId(R.id.routeRowFavorite))
+                .check(matches(new BackgroundColorMatcher(Route.UNFAV_COLOR)));
+        assertFalse(user.getRoutes().getRoute(0).isFavorite());
+        assertFalse(RouteData.retrieveFavorite(user.getContext(),
+                user.getRoutes().getRoute(0).getID()));
+    }
+
+    @Given("the user has a route")
+    public void theUserHasARoute() {
+        user.getRoutes().createRoute(new UserRoute(0, "UserRoute"));
     }
 
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {

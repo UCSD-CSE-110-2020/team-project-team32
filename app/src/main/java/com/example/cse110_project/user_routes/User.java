@@ -120,6 +120,11 @@ public class User {
         return null;
     }
 
+    public void setTeamRouteFavorite(TeamRoute route, boolean favorite) {
+        route.setFavorite(favorite);
+        RouteData.saveTeamRouteFavorite(context, route.getDocID(), favorite);
+    }
+
     public void updateTeamRoute(TeamRoute route, int steps, LocalTime time, LocalDateTime date) {
         Log.d(TAG, "Updating team route " + route + " with docId " + route.getDocID() +
                 " to (" + steps + ", " + time + ", " + date + ")");
@@ -153,6 +158,9 @@ public class User {
             System.out.println("Storing retrieved team route date");
             route.getRoute().setStartDate(LocalDateTime.parse(date));
         }
+
+        route.getRoute().setFavorite(RouteData.retrieveTeamRouteFavorite(context, docId));
+        route.setFavorite(RouteData.retrieveTeamRouteFavorite(context, docId));
 
         teamRoutes.add(route);
     }

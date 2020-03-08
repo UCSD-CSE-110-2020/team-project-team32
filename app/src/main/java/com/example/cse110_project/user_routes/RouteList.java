@@ -43,12 +43,12 @@ public class RouteList {
     public int length() {
         return routes.size();
     }
-
     public Route getRoute(int index) {
         return routes.get(index);
     }
-
     public Route getRouteByID(int routeID) { return routes.get(idToIndex.get(routeID)); }
+
+    public void clear() { routes.clear(); }
 
     // Overwrites given route's id to ensure uniqueness
     public void createRoute(Route r) {

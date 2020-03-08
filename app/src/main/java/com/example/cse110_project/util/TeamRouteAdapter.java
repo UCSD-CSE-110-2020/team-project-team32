@@ -78,10 +78,10 @@ public class TeamRouteAdapter extends ArrayAdapter {
         favButtonField.setOnClickListener(v -> {
             if (routes.get(position).isFavorite()){
                 favButtonField.setBackgroundColor(Route.UNFAV_COLOR);
-                routes.get(position).setFavorite(false);
+                user.setTeamRouteFavorite(routes.get(position), false);
             } else {
                 favButtonField.setBackgroundColor(Route.FAV_COLOR);
-                routes.get(position).setFavorite(true);
+                user.setTeamRouteFavorite(routes.get(position), true);
             }
         });
 
