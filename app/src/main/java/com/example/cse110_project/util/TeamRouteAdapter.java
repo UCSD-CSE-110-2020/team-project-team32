@@ -87,9 +87,11 @@ public class TeamRouteAdapter extends ArrayAdapter {
 
         // Only fill in steps, miles, etc. if route previously walked
         if (routes.get(position).getRoute().getStartDate() != null) {
+            System.out.println("Filling data for team route at pos " + position);
             stepsTextField.setText(String.valueOf(routes.get(position).getRoute().getSteps()));
             milesTextField.setText(MilesCalculator.formatMiles(
                     routes.get(position).getRoute().getMiles(user.getHeight())));
+
             timeTextField.setText(routes.get(position).getRoute().getDuration()
                     .truncatedTo(ChronoUnit.MINUTES).toString());
             dateTextField.setText(routes.get(position).getRoute().getStartDate().getMonth()

@@ -12,6 +12,8 @@ import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.util.MilesCalculator;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,4 +110,50 @@ public class User {
     public RouteList getRoutes() { return routes; }
     public List<TeamRoute> getTeamRoutes() { return teamRoutes; }
     public List<Invite> getInvites() { return invites; }
+
+    public TeamRoute getTeamRouteByDocId(String docId) {
+        for (TeamRoute route : teamRoutes) {
+            if (route.getDocID().equals(docId)) {
+                return route;
+            }
+        }
+        return null;
+    }
+
+    public void updateTeamRoute(TeamRoute route, int steps, LocalTime time, LocalDateTime date) {
+        Log.d(TAG, "Updating team route " + route + " with docId " + route.getDocID() +
+                " to (" + steps + ", " + time + ", " + date + ")");
+        String docID = route.getDocID();
+
+        route.setSteps(steps);
+        RouteData.saveTeamRouteSteps(context, docID, steps);
+        route.setDuration(time);
+        RouteData.saveTeamRouteTime(context, docID, time.toString());
+        route.setStartDate(date);
+        RouteData.saveTeamRouteDate(context, docID, date.toString());
+    }
+
+    public void addTeamRoute(TeamRoute route) {
+        String docId = route.getDocID();
+
+        int steps = RouteData.retrieveTeamRouteSteps(context, docId);
+        if (steps != DataConstants.INT_NOT_FOUND) {
+            System.out.println("Storing retrieved team route steps");
+            route.getRoute().setSteps(steps);
+        }
+
+        String time = RouteData.retrieveTeamRouteTime(context, docId);
+        if ( ! DataConstants.STR_NOT_FOUND.equals(time)) {
+            System.out.println("Storing retrieved team route time");
+            route.getRoute().setDuration(LocalTime.parse(time));
+        }
+
+        String date = RouteData.retrieveTeamRouteDate(context, docId);
+        if ( ! DataConstants.STR_NOT_FOUND.equals(date)) {
+            System.out.println("Storing retrieved team route date");
+            route.getRoute().setStartDate(LocalDateTime.parse(date));
+        }
+
+        teamRoutes.add(route);
+    }
 }

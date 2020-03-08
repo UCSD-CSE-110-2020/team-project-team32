@@ -238,9 +238,9 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                         Log.d(TAG, "Change found in route " + changedRoute.getName() +
                                 " with docId " + changedRoute.getDocID());
 
-                        List<TeamRoute> teamRoutes = listener.getTeamRoutes();
-                        if (changedRoute.getDocID() != null && ! teamRoutes.contains(changedRoute)) {
-                            teamRoutes.add(changedRoute);
+                        if (changedRoute.getDocID() != null &&
+                                ! listener.getTeamRoutes().contains(changedRoute)) {
+                            listener.addTeamRoute(changedRoute);
                         }
                     }
                 });
