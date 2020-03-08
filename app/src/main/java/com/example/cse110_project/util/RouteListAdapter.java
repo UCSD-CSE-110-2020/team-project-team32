@@ -68,17 +68,17 @@ public class RouteListAdapter extends ArrayAdapter {
         streetsTrailTextField.setText(routes.getRoute(position).getStreetsVsTrail());
         evenUnevenTextField.setText(routes.getRoute(position).getEvenVsUneven());
         difficultyTextField.setText(routes.getRoute(position).getDifficulty());
-        favButtonField.setBackgroundColor(routes.getRoute(position).isFavorite() ? Color.rgb(244,212,68)
-                : Color.rgb(215,216,220));
+        favButtonField.setBackgroundColor(routes.getRoute(position).isFavorite() ? Route.FAV_COLOR
+                : Route.UNFAV_COLOR);
 
         favButtonField.setOnClickListener(v -> {
             if (routes.getRoute(position).isFavorite()){
-                favButtonField.setBackgroundColor(Color.rgb(255,255,255));
-                routes.getRoute(position).setFavorite(false);
+                favButtonField.setBackgroundColor(Route.UNFAV_COLOR);
+                routes.setRouteFavorite(routes.getRoute(position).getID(), false);
             }
             else {
-                favButtonField.setBackgroundColor(Color.rgb(244,212,68));
-                routes.getRoute(position).setFavorite(true);
+                favButtonField.setBackgroundColor(Route.FAV_COLOR);
+                routes.setRouteFavorite(routes.getRoute(position).getID(), true);
             }
 
         });

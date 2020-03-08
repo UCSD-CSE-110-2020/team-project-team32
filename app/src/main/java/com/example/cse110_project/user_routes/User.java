@@ -105,7 +105,7 @@ public class User {
         return MilesCalculator.calculateMiles(height, getTotalSteps());
     }
 
-    public RouteList getRoutes(){ return routes; }
+    public RouteList getRoutes() { return routes; }
     public List<TeamRoute> getTeamRoutes() { return teamRoutes; }
     public List<Invite> getInvites() { return invites; }
 }

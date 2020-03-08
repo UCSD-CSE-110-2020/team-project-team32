@@ -72,19 +72,17 @@ public class TeamRouteAdapter extends ArrayAdapter {
         teammateInitials.setText(routes.get(position).getCreator().getInitials());
         teammateInitials.setBackgroundColor(routes.get(position).getCreator().getColor());
 
-        favButtonField.setBackgroundColor(routes.get(position).isFavorite() ? Color.rgb(244,212,68)
-                : Color.rgb(215,216,220));
+        favButtonField.setBackgroundColor(routes.get(position).isFavorite() ? Route.FAV_COLOR
+                : Route.UNFAV_COLOR);
 
         favButtonField.setOnClickListener(v -> {
             if (routes.get(position).isFavorite()){
-                favButtonField.setBackgroundColor(Color.rgb(255,255,255));
+                favButtonField.setBackgroundColor(Route.UNFAV_COLOR);
                 routes.get(position).setFavorite(false);
-            }
-            else {
-                favButtonField.setBackgroundColor(Color.rgb(244,212,68));
+            } else {
+                favButtonField.setBackgroundColor(Route.FAV_COLOR);
                 routes.get(position).setFavorite(true);
             }
-
         });
 
         // Only fill in steps, miles, etc. if route previously walked

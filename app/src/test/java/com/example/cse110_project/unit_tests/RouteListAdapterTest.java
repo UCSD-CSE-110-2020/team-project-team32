@@ -33,7 +33,6 @@ public class RouteListAdapterTest {
 
     @Test
     public void testGetView() {
-        String[] empty = {""};
         RouteList routes =  new RouteList(routesActivity.getActivity().getApplicationContext());
         Route r = new UserRoute(0, "Name");
         r.setStartingPoint("Start");

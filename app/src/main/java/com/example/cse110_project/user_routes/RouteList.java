@@ -65,6 +65,12 @@ public class RouteList {
         RouteData.saveRouteData(context, r);
     }
 
+    public void setRouteFavorite(int id, boolean fav) {
+        Route route = getRouteByID(id);
+        route.setFavorite(fav);
+        RouteData.saveFavorite(context, id, fav);
+    }
+
     // Updates route with new walk data
     public void updateRouteData(int id, int steps, LocalTime time, LocalDateTime date) {
         // Set local values
