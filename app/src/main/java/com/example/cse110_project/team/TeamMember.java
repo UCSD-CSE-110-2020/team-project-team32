@@ -39,6 +39,17 @@ public class TeamMember {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
+    public String getInitials() {
+        StringBuilder initials = new StringBuilder();
+        String[] splitName = name.split(" ");
+        for (String str : splitName) {
+            if (str.length() > 0) {
+                initials.append(str.charAt(0));
+            }
+        }
+        return initials.toString();
+    }
+
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
