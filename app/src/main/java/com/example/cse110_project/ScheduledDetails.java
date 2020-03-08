@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.cse110_project.team.ScheduledWalk;
+
+import com.example.cse110_project.team.Team;
+
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
@@ -34,28 +37,24 @@ public class ScheduledDetails extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scheduled_details);
 
         user = WWRApplication.getUser();
+
         user.getTeam().getScheduledWalk(); // pull our scheduled walk
         thisScheduled = user.getTeam().getScheduledWalk();
 
         onCreator = getIntent().getBooleanExtra(CREATOR_KEY, false);
 
-        /*
-        if (user.getEmail() == thisScheduled.getCreatorId()) {
-            System.out.println("hi");
-        }
-        */
+        route = user.getTeam().getScheduledWalk().getRoute();
 
+        //user.getTeam().getScheduledWalk(); // pull our scheduled walk
         //route = user.getTeam().getScheduledWalk().getRoute();
+        //route = user.getRoutes().getRoute(0);
 
-        /*
-        date = user.getTeam().getScheduledWalk().getDateTime();
-        difficulty = user.getTeam().getScheduledWalk().getRoute().getDifficulty();
-        startingPoint = user.getTeam().getScheduledWalk().getRoute().getStartingPoint();
-        */
+        displayRouteData();
 
         // To other activities
         Button homeButton = findViewById(R.id.scheduleToHomeButton);
@@ -108,7 +107,8 @@ public class ScheduledDetails extends AppCompatActivity {
         routeStreetsTrail.setText(route.getStreetsVsTrail());
         TextView routeNotes = findViewById(R.id.schedNotes);
         routeNotes.setText(route.getNotes());
+
+        TextView scheduledTime = findViewById(R.id.schedDateTime);
+        scheduledTime.setText(user.getTeam().getScheduledWalk().getDateTimeStr());
     }
-
-
 }
