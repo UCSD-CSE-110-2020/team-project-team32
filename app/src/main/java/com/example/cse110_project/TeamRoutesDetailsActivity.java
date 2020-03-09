@@ -9,14 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.user_routes.RouteData;
-import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
-import com.example.cse110_project.user_routes.UserData;
-import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.util.MilesCalculator;
 
 import java.time.LocalDateTime;
@@ -55,7 +50,7 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity {
         routeName.setText(route.getName());
 
         TextView initials = findViewById(R.id.detailsInitials);
-        initials.setText(route.getCreator().getInitials());
+        initials.setText(route.getCreator().retrieveInitials());
         initials.setBackgroundColor(route.getCreator().getColor());
         initials.setVisibility(View.VISIBLE);
 

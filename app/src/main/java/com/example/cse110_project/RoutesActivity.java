@@ -56,8 +56,6 @@ public class RoutesActivity extends AppCompatActivity{
 
         // Set up list view
         RouteListAdapter adapter = new RouteListAdapter(this, nameArray, routes);
-
-
         ListView listView = findViewById(R.id.routesListView);
         listView.setAdapter(adapter);
 

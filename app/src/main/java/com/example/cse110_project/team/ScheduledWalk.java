@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ScheduledWalk {
+    private static final String TAG = ScheduledWalk.class.getSimpleName();
+
     // Statuses for this scheduled walk
     public static final int PROPOSED = 0;
     public static final int SCHEDULED = 1;
@@ -43,36 +45,33 @@ public class ScheduledWalk {
 
     public int getStatus() { return status; }
     public RouteFirebaseAdapter getRouteAdapter() { return routeAdapter; }
-    public Route getRoute() { return routeAdapter.toRoute(); }
+    public Route retrieveRoute() { return routeAdapter.toRoute(); }
 
     public String getDateTimeStr() { return dateTimeStr; }
-    public LocalDateTime getDateTime() { return LocalDateTime.parse(dateTimeStr); }
+    public LocalDateTime retrieveScheduledDate() { return LocalDateTime.parse(dateTimeStr); }
 
     public String getCreatorId() { return creatorId; }
     public Map<String, Integer> getResponses() { return responses; }
 
-    public void scheduleWalk() { status = SCHEDULED; }
-    public void withdrawWalk() { status = WITHDRAWN; }
+    public void schedule() { status = SCHEDULED; }
+    public void withdraw() { status = WITHDRAWN; }
 
-    public int getResponse(String memberId) { return responses.get(memberId); }
+    public int retrieveResponse(String memberId) { return responses.get(memberId); }
 
-    public void acceptWalk(String memberId) { responses.put(memberId, ACCEPTED); }
-    public void declineWalkBadTime(String memberId) {
+    public void accept(String memberId) { responses.put(memberId, ACCEPTED); }
+    public void declineBadTime(String memberId) {
         responses.put(memberId, DECLINED_BAD_TIME);
     }
-
-    public void declineWalkBadRoute(String memberId) {
+    public void declineBadRoute(String memberId) {
         responses.put(memberId, DECLINED_BAD_ROUTE);
     }
 
-    public String getStringStatus() {
+    public String retrieveStringStatus() {
         if (status == 0) {
             return "Proposed";
-        }
-        else if (status == 1) {
+        } else if (status == 1) {
             return "Scheduled";
-        }
-        else {
+        } else {
             return "Withdrawn";
         }
     }
