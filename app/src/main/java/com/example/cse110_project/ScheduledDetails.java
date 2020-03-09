@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -42,6 +43,25 @@ public class ScheduledDetails extends AppCompatActivity {
         thisScheduled = user.getTeam().getScheduledWalk();
 
         onCreator = getIntent().getBooleanExtra(CREATOR_KEY, false);
+
+        if (onCreator) {
+            View acceptButton = findViewById(R.id.buttonAcceptRoute);
+            View declineRouteButton = findViewById(R.id.buttonBadRoute);
+            View declineTimeButton = findViewById(R.id.buttonBadTime);
+
+            acceptButton.setVisibility(View.INVISIBLE);
+            declineRouteButton.setVisibility(View.INVISIBLE);
+            declineTimeButton.setVisibility(View.INVISIBLE);
+
+        } else {
+            View scheduleButton = findViewById(R.id.buttonSchedule);
+            View withdrawButton = findViewById(R.id.buttonWithdraw);
+
+            scheduleButton.setVisibility(View.INVISIBLE);
+            withdrawButton.setVisibility(View.INVISIBLE);
+        }
+
+
 
         /*
         if (user.getEmail() == thisScheduled.getCreatorId()) {
