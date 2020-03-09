@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.cse110_project.dialogs.ProposeWalkDialog;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
@@ -44,7 +45,7 @@ public class RouteDetailsActivity extends AppCompatActivity {
         startWalkButton.setOnClickListener(v -> launchWalkActivity());
 
         Button proposeWalkButton = findViewById(R.id.detailsProposeWalkButton);
-        proposeWalkButton.setOnClickListener(v -> launchProposeWalk());
+        proposeWalkButton.setOnClickListener(v -> (new ProposeWalkDialog(this)).launchProposeWalk());
     }
 
 

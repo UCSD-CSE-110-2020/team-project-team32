@@ -17,24 +17,19 @@ import java.time.LocalTime;
 
 public class ProposeWalkDialog {
 
-    private Context context;
     private User user;
     private AppCompatActivity activity;
-    private LocalDateTime date;
 
-    public ProposeWalkDialog(AppCompatActivity activity, Context context, int steps, LocalTime time,
-                           LocalDateTime date) {
+    public ProposeWalkDialog(AppCompatActivity activity) {
         user = WWRApplication.getUser();
         this.activity = activity;
-        this.context = context;
-        this.date = date;
     }
 
     public AlertDialog launchProposeWalk() {
         // Get prompts.xml view
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(activity);
         View promptView = layoutInflater.inflate(R.layout.dialog_propose_walk, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context)
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity)
                 .setCancelable(false)
                 .setPositiveButton(R.string.sendInvite, null)
                 .setNegativeButton(R.string.cancelButton, null);
