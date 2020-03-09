@@ -64,4 +64,16 @@ public class ScheduledWalk {
     public void declineWalkBadRoute(String memberId) {
         responses.put(memberId, DECLINED_BAD_ROUTE);
     }
+
+    public String getStringStatus() {
+        if (status == 0) {
+            return "Proposed";
+        }
+        else if (status == 1) {
+            return "Scheduled";
+        }
+        else {
+            return "Withdrawn";
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.cse110_project.test.bdd_tests;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -23,14 +24,18 @@ import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.team.TeamMember;
+import com.example.cse110_project.user_routes.RouteData;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.user_routes.UserRoute;
+import com.example.cse110_project.util.DataConstants;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import org.hamcrest.Description;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -90,8 +95,11 @@ public class BDDTests {
         user.setHeight(61);
         team = user.getTeam();
         team.setId("ViewTeamTest");
+
         team.getMembers().clear();
         user.getInvites().clear();
+        user.getRoutes().clear();
+        user.getTeamRoutes().clear();
     }
 
     @After
@@ -359,6 +367,95 @@ public class BDDTests {
     @And("the user's team is empty")
     public void theUserSTeamIsEmpty() {
         assertEquals(0, user.getTeam().getMembers().size());
+    }
+
+    @And("the user's team members have previously walked their routes")
+    public void theUserSTeamMembersHavePreviouslyWalkedTheirRoutes() {
+        for (TeamRoute route : user.getTeamRoutes()) {
+            route.setSteps(10);
+            route.setStartDate(LocalDateTime.of(10, 10, 10, 10, 10));
+            route.setDuration(LocalTime.of(10, 10, 10));
+        }
+    }
+
+    @And("the user has never walked a team route")
+    public void theUserHasNeverWalkedATeamRoute() {
+        for (TeamRoute route : user.getTeamRoutes()) {
+            Context context = user.getContext();
+            String docID = route.getDocID();
+            RouteData.saveTeamRouteSteps(context, docID, DataConstants.INT_NOT_FOUND);
+            RouteData.saveTeamRouteDate(context, docID, DataConstants.STR_NOT_FOUND);
+            RouteData.saveTeamRouteTime(context, docID, DataConstants.STR_NOT_FOUND);
+        }
+    }
+
+    @Then("the user's team member's walk data is displayed")
+    public void theUserSTeamMembersWalkDataIsDisplayed() {
+        onView(withId(R.id.detailsRouteSteps)).check(matches(withText(Integer.toString(10))));
+    }
+
+    @And("the user has previously walked the team routes")
+    public void theUserHasPreviouslyWalkedTheTeamRoutes() {
+        for (TeamRoute route : user.getTeamRoutes()) {
+            user.updateTeamRoute(route, 5, LocalTime.of(5, 5, 5),
+                    LocalDateTime.of(5, 5, 5, 5, 5));
+        }
+    }
+
+    @Then("the user's walk data is displayed")
+    public void theUserSWalkDataIsDisplayed() {
+        onView(withId(R.id.detailsRouteSteps)).check(matches(withText(Integer.toString(5))));
+    }
+
+    @And("the user clicks a team route")
+    public void theUserClicksATeamRoute() {
+        TeamRoute route = user.getTeamRoutes().get(0);
+        TeamMember member = route.getCreator();
+        onView(allOf(withId(R.id.teamRoutesRowName), withText(member.getName() + "_route")))
+                .perform(click());
+    }
+
+    @And("the user returns to the team routes screen")
+    public void theUserReturnsToTheTeamRoutesScreen() {
+        onView(withId(R.id.detailsBackButton)).perform(click());
+    }
+
+    @And("the user's route is not a favorite")
+    public void theUserSRouteIsNotAFavorite() {
+        user.getRoutes().getRoute(0).setFavorite(false);
+    }
+
+    @When("the user clicks the favorite button for a route")
+    public void theUserClicksTheFavoriteButtonForARoute() {
+        onView(withId(R.id.routeRowFavorite)).perform(click());
+    }
+
+    @Then("the route is favorited")
+    public void theRouteIsFavorited() {
+        onView(withId(R.id.routeRowFavorite))
+                .check(matches(new BackgroundColorMatcher(Route.FAV_COLOR)));
+        assertTrue(user.getRoutes().getRoute(0).isFavorite());
+        assertTrue(RouteData.retrieveFavorite(user.getContext(),
+                user.getRoutes().getRoute(0).getID()));
+    }
+
+    @And("the user's route is a favorite")
+    public void theUserSRouteIsAFavorite() {
+        user.getRoutes().getRoute(0).setFavorite(true);
+    }
+
+    @Then("the route is un-favorited")
+    public void theRouteIsUnFavorited() {
+        onView(withId(R.id.routeRowFavorite))
+                .check(matches(new BackgroundColorMatcher(Route.UNFAV_COLOR)));
+        assertFalse(user.getRoutes().getRoute(0).isFavorite());
+        assertFalse(RouteData.retrieveFavorite(user.getContext(),
+                user.getRoutes().getRoute(0).getID()));
+    }
+
+    @Given("the user has a route")
+    public void theUserHasARoute() {
+        user.getRoutes().createRoute(new UserRoute(0, "UserRoute"));
     }
 
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {

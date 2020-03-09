@@ -52,21 +52,25 @@ public class AcceptInviteDialog {
     public void acceptInvite() {
         Log.d(TAG, "Accepting invite " + invite);
         invite.accept();
-
-        // Remove any additional invites
-        for (Invite inv : WWRApplication.getUser().getInvites()) {
-            if (inv != invite) {
-                WWRApplication.getDatabase().declineInvite(inv);
-            }
-        }
-        WWRApplication.getUser().getInvites().clear();
-
+        clearInvites();
         alert.dismiss();
     }
 
     public void declineInvite() {
         Log.d(TAG, "Declining invite " + invite);
         invite.decline();
+        clearInvites();
         alert.dismiss();
+    }
+
+    private void clearInvites() {
+        for (Invite inv : WWRApplication.getUser().getInvites()) {
+            if (inv != invite) {
+                WWRApplication.getDatabase().declineInvite(inv);
+            }
+        }
+
+        WWRApplication.getUser().getInvites().clear();
+        context.findViewById(R.id.inviteButton).setVisibility(View.INVISIBLE);
     }
 }

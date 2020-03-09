@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.cse110_project.team.ScheduledWalk;
+
+import com.example.cse110_project.team.Team;
+
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
@@ -34,33 +38,38 @@ public class ScheduledDetails extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scheduled_details);
 
         user = WWRApplication.getUser();
+
         user.getTeam().getScheduledWalk(); // pull our scheduled walk
         thisScheduled = user.getTeam().getScheduledWalk();
 
         onCreator = getIntent().getBooleanExtra(CREATOR_KEY, false);
 
-        /*
-        if (user.getEmail() == thisScheduled.getCreatorId()) {
-            System.out.println("hi");
+        if (onCreator) {
+            View acceptButton = findViewById(R.id.buttonAcceptRoute);
+            View declineRouteButton = findViewById(R.id.buttonBadRoute);
+            View declineTimeButton = findViewById(R.id.buttonBadTime);
+
+            acceptButton.setVisibility(View.INVISIBLE);
+            declineRouteButton.setVisibility(View.INVISIBLE);
+            declineTimeButton.setVisibility(View.INVISIBLE);
+
+        } else {
+            View scheduleButton = findViewById(R.id.buttonSchedule);
+            View withdrawButton = findViewById(R.id.buttonWithdraw);
+
+            scheduleButton.setVisibility(View.INVISIBLE);
+            withdrawButton.setVisibility(View.INVISIBLE);
         }
-        */
 
-        //route = user.getTeam().getScheduledWalk().getRoute();
-
-        /*
-        date = user.getTeam().getScheduledWalk().getDateTime();
-        difficulty = user.getTeam().getScheduledWalk().getRoute().getDifficulty();
-        startingPoint = user.getTeam().getScheduledWalk().getRoute().getStartingPoint();
-        */
-
+        displayRouteData();
         // To other activities
         Button homeButton = findViewById(R.id.scheduleToHomeButton);
         homeButton.setOnClickListener(v -> finish());
-
     }
 
     public void displayRouteData() {
@@ -108,7 +117,13 @@ public class ScheduledDetails extends AppCompatActivity {
         routeStreetsTrail.setText(route.getStreetsVsTrail());
         TextView routeNotes = findViewById(R.id.schedNotes);
         routeNotes.setText(route.getNotes());
+
+        // set the proposed date
+        TextView scheduledTime = findViewById(R.id.schedDateTime);
+        scheduledTime.setText(user.getTeam().getScheduledWalk().getDateTimeStr());
+
+        // set the status of walk
+        TextView scheduledHeader = findViewById(R.id.schedHeader);
+        scheduledHeader.setText(user.getTeam().getScheduledWalk().getStringStatus());
     }
-
-
 }
