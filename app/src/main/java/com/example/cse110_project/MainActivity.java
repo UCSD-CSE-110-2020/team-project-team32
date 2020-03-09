@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         stepsDisplay = findViewById(R.id.dailySteps);
         milesDisplay = findViewById(R.id.dailyMiles);
 
+
         // Set up user & fitness service
         user = WWRApplication.getUser();
         if (user.getHeight() == DataConstants.NO_HEIGHT_FOUND || user.getEmail() == null) {
@@ -92,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton inviteBtn = findViewById(R.id.inviteButton);
         inviteBtn.setOnClickListener(v -> showAcceptInviteDialogue());
+
+        // scheduled walk stuff
 
         ImageButton toScheduledBtn = findViewById(R.id.plannedWalkButton);
         toScheduledBtn.setOnClickListener(v -> launchScheduledActivity());
@@ -205,19 +208,12 @@ public class MainActivity extends AppCompatActivity {
 
     // launches to scheduled details screen
     public void launchScheduledActivity(){
-
-
-        //scheduled details stuff
+        /*scheduled details stuff
         Route temp = user.getRoutes().getRoute(0);
-
         ScheduledWalk tempSched = new ScheduledWalk(temp, LocalDateTime.of(1,1,1,1,1),
                 user.getEmail(), user.getTeam());
-
         user.getTeam().setScheduledWalk(tempSched);
-        // end scheduled details
-
-
-
+        // end scheduled details*/
 
         // If scheduled walk does exist
         ScheduledWalk scheduledWalk = user.getTeam().getScheduledWalk();
@@ -231,12 +227,10 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(intent);
         }
-        Toast.makeText(MainActivity.this, R.string.invalidScheduledWalkToast,
-                Toast.LENGTH_SHORT).show();
-
-
-
-
+        else {
+            Toast.makeText(MainActivity.this, R.string.invalidScheduledWalkToast,
+                    Toast.LENGTH_SHORT).show();
+        }
         return;
     }
 

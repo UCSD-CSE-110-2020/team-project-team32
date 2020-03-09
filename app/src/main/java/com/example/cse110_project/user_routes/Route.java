@@ -1,5 +1,7 @@
 package com.example.cse110_project.user_routes;
 
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 
 import com.example.cse110_project.util.MilesCalculator;
@@ -8,6 +10,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public abstract class Route {
+    public final static int FAV_COLOR = Color.rgb(244,212,68);
+    public final static int UNFAV_COLOR = Color.rgb(215,216,220);
+
     public final static String EASY_D = "Easy";
     public final static String EVEN_S = "Even surface";
     public final static String NO_DATA = "";

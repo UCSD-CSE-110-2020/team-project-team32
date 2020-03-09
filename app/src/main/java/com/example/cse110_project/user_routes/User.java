@@ -107,7 +107,7 @@ public class User {
         return MilesCalculator.calculateMiles(height, getTotalSteps());
     }
 
-    public RouteList getRoutes(){ return routes; }
+    public RouteList getRoutes() { return routes; }
     public List<TeamRoute> getTeamRoutes() { return teamRoutes; }
     public List<Invite> getInvites() { return invites; }
 
@@ -118,6 +118,11 @@ public class User {
             }
         }
         return null;
+    }
+
+    public void setTeamRouteFavorite(TeamRoute route, boolean favorite) {
+        route.setFavorite(favorite);
+        RouteData.saveTeamRouteFavorite(context, route.getDocID(), favorite);
     }
 
     public void updateTeamRoute(TeamRoute route, int steps, LocalTime time, LocalDateTime date) {
@@ -153,6 +158,9 @@ public class User {
             System.out.println("Storing retrieved team route date");
             route.getRoute().setStartDate(LocalDateTime.parse(date));
         }
+
+        route.getRoute().setFavorite(RouteData.retrieveTeamRouteFavorite(context, docId));
+        route.setFavorite(RouteData.retrieveTeamRouteFavorite(context, docId));
 
         teamRoutes.add(route);
     }
