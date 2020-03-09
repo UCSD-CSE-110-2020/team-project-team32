@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.cse110_project.dialogs.ProposeWalkDialog;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
@@ -42,6 +43,9 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity {
 
         Button startWalkButton = findViewById(R.id.detailsStartWalkButton);
         startWalkButton.setOnClickListener(v -> launchWalkActivity());
+
+        Button proposeWalkButton = findViewById(R.id.detailsProposeWalkButton);
+        proposeWalkButton.setOnClickListener(v -> (new ProposeWalkDialog(this)).launchProposeWalk());
     }
 
     public void displayRouteData() {

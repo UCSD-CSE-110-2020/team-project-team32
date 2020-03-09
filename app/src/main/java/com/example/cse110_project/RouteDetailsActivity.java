@@ -59,7 +59,7 @@ public class RouteDetailsActivity extends AppCompatActivity {
             Log.d(TAG, "Walk data found");
             TextView routeSteps = findViewById(R.id.detailsRouteSteps);
             routeSteps.setText(String.valueOf(route.getSteps()));
-            TextView routeMiles = findViewById(R.id.schedRouteMiles);
+            TextView routeMiles = findViewById(R.id.detailsRouteMiles);
             routeMiles.setText(MilesCalculator.formatMiles(route.getMiles(user.getHeight())));
 
             TextView routeTime = findViewById(R.id.detailsRouteTime);
