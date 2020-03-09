@@ -46,6 +46,7 @@ public class RouteFirebaseAdapter {
 
     public Route toRoute() {
         Route route = new UserRoute(id, name);
+
         route.setDocID(docID);
         route.setSteps(steps);
         route.setStartDate(startDate == null ? null : LocalDateTime.parse(startDate));

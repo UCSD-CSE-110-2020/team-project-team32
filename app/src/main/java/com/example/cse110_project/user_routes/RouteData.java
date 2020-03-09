@@ -47,16 +47,20 @@ public class RouteData {
 
     public static String retrieveTeamRouteTime(Context c, String docId) {
         SharedPreferences pref = retrievePrefs(c);
-        String result = pref.getString(String.format(DataConstants.TEAM_ROUTE_TIME_KEY, docId),
+        return pref.getString(String.format(DataConstants.TEAM_ROUTE_TIME_KEY, docId),
                 DataConstants.STR_NOT_FOUND);
-        return result;
     }
 
     public static String retrieveTeamRouteDate(Context c, String docId) {
         SharedPreferences pref = retrievePrefs(c);
-        String result = pref.getString(String.format(DataConstants.TEAM_ROUTE_DATE_KEY, docId),
+        return pref.getString(String.format(DataConstants.TEAM_ROUTE_DATE_KEY, docId),
                 DataConstants.STR_NOT_FOUND);
-        return result;
+    }
+
+    public static boolean retrieveTeamRouteFavorite(Context c, String docId) {
+        SharedPreferences pref = retrievePrefs(c);
+        return pref.getBoolean(String.format(DataConstants.TEAM_ROUTE_FAVORITE_KEY, docId),
+                DataConstants.BOOL_NOT_FOUND);
     }
 
     public static String retrieveStartingPoint(Context c, int routeID) {
@@ -175,6 +179,12 @@ public class RouteData {
     public static void saveTeamRouteDate(Context c, String docId, String routeDate) {
         SharedPreferences.Editor editor = retrieveEditor(c);
         editor.putString(String.format(DataConstants.TEAM_ROUTE_DATE_KEY, docId), routeDate);
+        editor.apply();
+    }
+
+    public static void saveTeamRouteFavorite(Context c, String docId, boolean fav) {
+        SharedPreferences.Editor editor = retrieveEditor(c);
+        editor.putBoolean(String.format(DataConstants.TEAM_ROUTE_FAVORITE_KEY, docId), fav);
         editor.apply();
     }
 

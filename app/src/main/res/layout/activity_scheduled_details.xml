@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.023" />
 
     <TextView
-        android:id="@+id/detailsDifficulty"
+        android:id="@+id/schedDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emptyText"
@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.545" />
 
     <TextView
-        android:id="@+id/detailsLoopOutBack"
+        android:id="@+id/schedLoopOutBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emptyText"
@@ -49,7 +49,7 @@
         app:layout_constraintVertical_bias="0.424" />
 
     <TextView
-        android:id="@+id/detailsEvenUneven"
+        android:id="@+id/schedEvenUneven"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emptyText"
@@ -62,7 +62,7 @@
         app:layout_constraintVertical_bias="0.481" />
 
     <TextView
-        android:id="@+id/detailsFlatHilly"
+        android:id="@+id/schedFlatHilly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emptyText"
@@ -75,7 +75,7 @@
         app:layout_constraintVertical_bias="0.424" />
 
     <TextView
-        android:id="@+id/detailsStreetsTrail"
+        android:id="@+id/schedStreetsTrail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emptyText"
@@ -88,7 +88,7 @@
         app:layout_constraintVertical_bias="0.481" />
 
     <TextView
-        android:id="@+id/detailsStartingPoint"
+        android:id="@+id/schedStartingPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emptyText"
@@ -96,12 +96,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.064"
-        app:layout_constraintStart_toEndOf="@+id/detailsStartingPointText"
+        app:layout_constraintStart_toEndOf="@+id/schedStartingPointText"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.359" />
 
     <TextView
-        android:id="@+id/detailsStartTime"
+        android:id="@+id/schedStartTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emptyText"
@@ -115,21 +115,22 @@
 
 
     <TextView
-        android:id="@+id/scheduledHeader"
+        android:id="@+id/schedHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/scheduledWalkTitle"
+        android:text="@string/scheduledWalkScheduled"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.097" />
+        app:layout_constraintVertical_bias="0.023" />
 
     <TextView
-        android:id="@+id/detailsRouteName"
+        android:id="@+id/schedRouteName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/detailsDefaultName"
@@ -142,38 +143,10 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.206" />
+        app:layout_constraintVertical_bias="0.124" />
 
     <TextView
-        android:id="@+id/detailsNotes"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/emptyText"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toEndOf="@+id/detailsNotesText"
-        app:layout_constraintTop_toBottomOf="@+id/detailsNotesTopConstraint"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/detailsNotesTopConstraint"
-        android:layout_width="76dp"
-        android:layout_height="22dp"
-        android:text="@string/emptyText"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.161"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.643" />
-
-    <TextView
-        android:id="@+id/detailsMilesText"
+        android:id="@+id/schedMilesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/milesText"
@@ -184,10 +157,10 @@
         app:layout_constraintHorizontal_bias="0.723"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.304" />
+        app:layout_constraintVertical_bias="0.225" />
 
     <TextView
-        android:id="@+id/detailsNotesText"
+        android:id="@+id/schedNotesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/detailsNotes"
@@ -198,10 +171,10 @@
         app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.691" />
+        app:layout_constraintVertical_bias="0.613" />
 
     <TextView
-        android:id="@+id/detailsDifficultyText"
+        android:id="@+id/schedDifficultyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/detailsDifficultyText"
@@ -212,23 +185,23 @@
         app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.627" />
+        app:layout_constraintVertical_bias="0.548" />
 
     <TextView
-        android:id="@+id/detailsRouteSteps"
+        android:id="@+id/schedRouteSteps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/noDataText"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/detailsStepsText"
+        app:layout_constraintEnd_toStartOf="@+id/schedStepsText"
         app:layout_constraintHorizontal_bias="0.859"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.304" />
+        app:layout_constraintVertical_bias="0.225" />
 
     <TextView
-        android:id="@+id/detailsStepsText"
+        android:id="@+id/schedStepsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/stepsText"
@@ -239,37 +212,10 @@
         app:layout_constraintHorizontal_bias="0.293"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.304" />
+        app:layout_constraintVertical_bias="0.225" />
 
     <TextView
-        android:id="@+id/detailsStartDateText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/detailsStartDateText"
-        android:textColor="@android:color/holo_blue_light"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.376" />
-
-    <TextView
-        android:id="@+id/detailsStartDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/noDataText"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.057"
-        app:layout_constraintStart_toEndOf="@+id/detailsStartDateText"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.376" />
-
-    <TextView
-        android:id="@+id/detailsTerrainText"
+        android:id="@+id/schedTerrainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/detailsTerrainText"
@@ -280,10 +226,37 @@
         app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.507" />
+        app:layout_constraintVertical_bias="0.428" />
 
     <TextView
-        android:id="@+id/detailsRouteTime"
+        android:id="@+id/schedStartDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/detailsStartDateText"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.298" />
+
+    <TextView
+        android:id="@+id/schedStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/noDataText"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintStart_toEndOf="@+id/schedStartDateText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.298" />
+
+    <TextView
+        android:id="@+id/schedRouteTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/noDataText"
@@ -293,10 +266,10 @@
         app:layout_constraintHorizontal_bias="0.939"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.304" />
+        app:layout_constraintVertical_bias="0.225" />
 
     <TextView
-        android:id="@+id/detailsStartingPointText"
+        android:id="@+id/schedStartingPointText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/detailsStartingPointText"
@@ -307,23 +280,23 @@
         app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.441" />
+        app:layout_constraintVertical_bias="0.362" />
 
     <TextView
-        android:id="@+id/detailsRouteMiles"
+        android:id="@+id/schedRouteMiles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/noDataText"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/detailsMilesText"
+        app:layout_constraintEnd_toStartOf="@+id/schedMilesText"
         app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.304" />
+        app:layout_constraintVertical_bias="0.225" />
 
     <TextView
-        android:id="@+id/detailsFav"
+        android:id="@+id/schedFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/favText"
@@ -334,7 +307,35 @@
         app:layout_constraintHorizontal_bias="0.917"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.441" />
+        app:layout_constraintVertical_bias="0.362" />
+
+    <TextView
+        android:id="@+id/schedNotesTopConstraint"
+        android:layout_width="76dp"
+        android:layout_height="22dp"
+        android:text="@string/emptyText"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.565" />
+
+    <TextView
+        android:id="@+id/schedNotes"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/emptyText"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.047"
+        app:layout_constraintStart_toEndOf="@+id/schedNotesText"
+        app:layout_constraintTop_toBottomOf="@+id/schedNotesTopConstraint"
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <ImageButton
@@ -349,6 +350,45 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
+    <TextView
+        android:id="@+id/schedDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scheduledDate"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/schedNotes"
+        app:layout_constraintVertical_bias="0.145" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="560dp"
+        android:layout_marginEnd="208dp"
+        android:layout_marginBottom="123dp"
+        android:text="Schedule"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="214dp"
+        android:layout_marginTop="561dp"
+        android:layout_marginEnd="98dp"
+        android:layout_marginBottom="122dp"
+        android:text="Withdraw"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

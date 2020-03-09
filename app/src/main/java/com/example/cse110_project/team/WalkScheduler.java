@@ -17,6 +17,7 @@ public class WalkScheduler {
         WWRApplication.getDatabase().updateTeam(team);
     }
 
+    // withdraw Scheduled walk
     public void removeScheduledWalk(Team team) {
         team.setScheduledWalk(null);
         WWRApplication.getDatabase().updateTeam(team);

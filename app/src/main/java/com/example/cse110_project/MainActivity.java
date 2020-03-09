@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.cse110_project.database.FirebaseFirestoreAdapter;
 import com.example.cse110_project.dialogs.AcceptInviteDialog;
 import com.example.cse110_project.team.Invite;
+import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.User;
@@ -29,6 +30,7 @@ import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.fitness.FitnessService;
 import com.example.cse110_project.util.MilesCalculator;
 
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         stepsDisplay = findViewById(R.id.dailySteps);
         milesDisplay = findViewById(R.id.dailyMiles);
 
+
         // Set up user & fitness service
         user = WWRApplication.getUser();
         if (user.getHeight() == DataConstants.NO_HEIGHT_FOUND || user.getEmail() == null) {
@@ -90,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton inviteBtn = findViewById(R.id.inviteButton);
         inviteBtn.setOnClickListener(v -> showAcceptInviteDialogue());
+
+        // scheduled walk stuff
 
         ImageButton toScheduledBtn = findViewById(R.id.plannedWalkButton);
         toScheduledBtn.setOnClickListener(v -> launchScheduledActivity());
@@ -203,8 +208,31 @@ public class MainActivity extends AppCompatActivity {
 
     // launches to scheduled details screen
     public void launchScheduledActivity(){
-        Intent intent = new Intent(this, ScheduledDetails.class);
-        startActivity(intent);
+
+        /*scheduled details stuff
+        Route temp = user.getRoutes().getRoute(0);
+        ScheduledWalk tempSched = new ScheduledWalk(temp, LocalDateTime.of(1,1,1,1,1),
+                user.getEmail(), user.getTeam());
+        user.getTeam().setScheduledWalk(tempSched);
+        // end scheduled details*/
+
+        // If scheduled walk does exist
+        ScheduledWalk scheduledWalk = user.getTeam().getScheduledWalk();
+
+        if (scheduledWalk != null) {
+            Intent intent = new Intent(this, ScheduledDetails.class);
+
+            if (user.getEmail().equals(scheduledWalk.getCreatorId())) {
+                intent.putExtra(ScheduledDetails.CREATOR_KEY, true);
+            }
+
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(MainActivity.this, R.string.invalidScheduledWalkToast,
+                    Toast.LENGTH_SHORT).show();
+        }
+        return;
     }
 
     public void showAcceptInviteDialogue() {

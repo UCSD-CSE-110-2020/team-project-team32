@@ -43,12 +43,12 @@ public class RouteList {
     public int length() {
         return routes.size();
     }
-
     public Route getRoute(int index) {
         return routes.get(index);
     }
-
     public Route getRouteByID(int routeID) { return routes.get(idToIndex.get(routeID)); }
+
+    public void clear() { routes.clear(); }
 
     // Overwrites given route's id to ensure uniqueness
     public void createRoute(Route r) {
@@ -63,6 +63,12 @@ public class RouteList {
 
         UserData.saveRoute(context, r);
         RouteData.saveRouteData(context, r);
+    }
+
+    public void setRouteFavorite(int id, boolean fav) {
+        Route route = getRouteByID(id);
+        route.setFavorite(fav);
+        RouteData.saveFavorite(context, id, fav);
     }
 
     // Updates route with new walk data

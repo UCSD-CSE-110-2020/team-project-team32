@@ -33,7 +33,6 @@ public class RouteListAdapterTest {
 
     @Test
     public void testGetView() {
-        String[] empty = {""};
         RouteList routes =  new RouteList(routesActivity.getActivity().getApplicationContext());
         Route r = new UserRoute(0, "Name");
         r.setStartingPoint("Start");
@@ -56,7 +55,6 @@ public class RouteListAdapterTest {
         assertEquals("JANUARY 1",
                 ((TextView)v.findViewById(R.id.routeRowDate)).getText());
         assertEquals("", ((TextView)v.findViewById(R.id.routeRowLoopOutBack)).getText());
-        assertEquals("", ((TextView)v.findViewById(R.id.routeRowFavorite)).getText());
         assertEquals("", ((TextView)v.findViewById(R.id.routeRowFlatHilly)).getText());
         assertEquals("", ((TextView)v.findViewById(R.id.routeRowEvenUneven)).getText());
         assertEquals("", ((TextView)v.findViewById(R.id.routeRowDifficulty)).getText());
