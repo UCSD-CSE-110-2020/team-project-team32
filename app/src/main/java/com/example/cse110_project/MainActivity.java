@@ -210,10 +210,10 @@ public class MainActivity extends AppCompatActivity {
     // launches to scheduled details screen
     public void launchScheduledActivity(){
         //scheduled details stuff
-        Route temp = new UserRoute(0, "Scheduled Walk");
+        /*Route temp = new UserRoute(0, "Scheduled Walk");
         System.out.println(temp.getName());
         ScheduledWalk tempSched = new ScheduledWalk(temp, LocalDateTime.of(1,1,1,1,1),
-                user.getEmail(), user.getTeam());
+                "random email", user.getTeam());
         user.getTeam().setScheduledWalk(tempSched);
         // end scheduled details*/
 

@@ -51,6 +51,8 @@ public class ScheduledDetails extends AppCompatActivity {
             scheduleButton.setOnClickListener(v -> scheduleWalk());
             withdrawButton.setOnClickListener(v -> withdrawWalk());
 
+            scheduleButton.setVisibility(View.VISIBLE);
+            withdrawButton.setVisibility(View.VISIBLE);
             acceptButton.setVisibility(View.INVISIBLE);
             declineRouteButton.setVisibility(View.INVISIBLE);
             declineTimeButton.setVisibility(View.INVISIBLE);
@@ -61,6 +63,9 @@ public class ScheduledDetails extends AppCompatActivity {
 
             scheduleButton.setVisibility(View.INVISIBLE);
             withdrawButton.setVisibility(View.INVISIBLE);
+            acceptButton.setVisibility(View.VISIBLE);
+            declineRouteButton.setVisibility(View.VISIBLE);
+            declineTimeButton.setVisibility(View.VISIBLE);
         }
 
         displayRouteData();
