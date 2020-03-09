@@ -24,6 +24,7 @@ import com.example.cse110_project.dialogs.AcceptInviteDialog;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.User;
 
@@ -208,8 +209,9 @@ public class MainActivity extends AppCompatActivity {
 
     // launches to scheduled details screen
     public void launchScheduledActivity(){
-        /*scheduled details stuff
-        Route temp = user.getRoutes().getRoute(0);
+        //scheduled details stuff
+        Route temp = new UserRoute(0, "Scheduled Walk");
+        System.out.println(temp.getName());
         ScheduledWalk tempSched = new ScheduledWalk(temp, LocalDateTime.of(1,1,1,1,1),
                 user.getEmail(), user.getTeam());
         user.getTeam().setScheduledWalk(tempSched);
