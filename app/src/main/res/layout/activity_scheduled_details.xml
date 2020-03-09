@@ -432,5 +432,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/detailsWalkedIcon"
+        android:layout_width="54dp"
+        android:layout_height="46dp"
+        android:contentDescription="@string/routeWalked"
+        app:layout_constraintBottom_toTopOf="@+id/schedRouteTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/schedRouteName"
+        app:layout_constraintTop_toBottomOf="@+id/button_favorites"
+        app:srcCompat="@android:drawable/checkbox_on_background" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
