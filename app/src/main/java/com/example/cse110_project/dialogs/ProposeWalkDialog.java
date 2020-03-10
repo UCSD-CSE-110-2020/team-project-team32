@@ -48,12 +48,6 @@ public class ProposeWalkDialog extends DialogFragment {
         LayoutInflater layoutInflater = LayoutInflater.from(activity);
         View promptView = layoutInflater.inflate(R.layout.dialog_propose_walk, null);
 
-        //fixme
-        TextView routeName = activity.findViewById(R.id.nameOfWalkText);
-        routeName.setText(nameOfRoute);
-        System.out.print(routeName);
-        //routeName.setText(nameOfRoute);
-
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity)
                 .setCancelable(false)
                 .setPositiveButton("Propose", null)
@@ -64,6 +58,12 @@ public class ProposeWalkDialog extends DialogFragment {
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
 
+        //fixme
+        TextView routeName = alert.findViewById(R.id.nameOfWalkText);
+        System.out.println("routeName: " + routeName);
+        routeName.setText(nameOfRoute);
+        System.out.print(routeName);
+        //routeName.setText(nameOfRoute);
 
         date = promptView.findViewById(R.id.enterDateInput);
         time = promptView.findViewById(R.id.enterTimeInput);
