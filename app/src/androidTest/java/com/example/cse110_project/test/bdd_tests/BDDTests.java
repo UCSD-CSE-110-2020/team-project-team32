@@ -3,7 +3,6 @@ package com.example.cse110_project.test.bdd_tests;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +19,7 @@ import com.example.cse110_project.TeamActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
 import com.example.cse110_project.team.Invite;
+import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.Team;
@@ -66,6 +66,7 @@ import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertNotEquals;
 
 public class BDDTests {
     private DatabaseService db;
@@ -75,6 +76,8 @@ public class BDDTests {
     private Invite invite;
     private Team invitedTeam;
     private TeamMember inviter;
+    private int scheduledWalkUserStatus;
+    private int scheduledWalkStatus;
 
     private ActivityTestRule<MainActivity> mainActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
@@ -458,6 +461,92 @@ public class BDDTests {
         user.getRoutes().createRoute(new UserRoute(0, "UserRoute"));
     }
 
+    @And("the user's team has a scheduled walk")
+    public void theUserSTeamHasAScheduledWalk() {
+        team.setScheduledWalk(new ScheduledWalk(new UserRoute(0, "ScheduledWalk"),
+                LocalDateTime.of(1, 1, 1, 1, 1), user.getEmail(), team));
+    }
+
+    @And("the user is not the creator of the scheduled walk")
+    public void theUserIsNotTheCreatorOfTheScheduledWalk() {
+        team.getScheduledWalk().setCreatorId("walkScheduler@gmail.com");
+    }
+
+    @When("the user clicks the scheduled walk button")
+    public void theUserClicksTheScheduledWalkButton() {
+        onView(withId(R.id.plannedWalkButton)).perform(click());
+    }
+
+    @And("the user clicks the scheduled walk accept button")
+    public void theUserClicksTheScheduledWalkAcceptButton() {
+        assertNotEquals(team.getScheduledWalk().getCreatorId(), user.getEmail());
+        onView(withId(R.id.buttonAcceptRoute)).perform(click());
+    }
+
+    @Then("the user accepts the scheduled walk")
+    public void theUserAcceptsTheScheduledWalk() {
+        assertEquals(ScheduledWalk.ACCEPTED, scheduledWalkUserStatus);
+        assertEquals(ScheduledWalk.ACCEPTED,
+                team.getScheduledWalk().retrieveResponse(user.getEmail()));
+    }
+
+    @And("the user goes back to the home screen")
+    public void theUserGoesBackToTheHomeScreen() {
+        onView(withId(R.id.scheduleToHomeButton)).perform(click());
+    }
+
+    @And("the user is the creator of the scheduled walk")
+    public void theUserIsTheCreatorOfTheScheduledWalk() {
+        team.getScheduledWalk().setCreatorId(user.getEmail());
+    }
+
+    @And("the user clicks the schedule button")
+    public void theUserClicksTheScheduleButton() {
+        onView(withId(R.id.buttonSchedule)).perform(click());
+    }
+
+    @Then("the walk is scheduled")
+    public void theWalkIsScheduled() {
+        assertEquals(team.getScheduledWalk().getStatus(), ScheduledWalk.SCHEDULED);
+        onView(withId(R.id.schedHeader))
+                .check(matches(withText(team.getScheduledWalk().retrieveStringStatus())));
+    }
+
+    @And("the user clicks the withdraw button")
+    public void theUserClicksTheWithdrawButton() {
+        onView(withId(R.id.buttonWithdraw)).perform(click());
+    }
+
+    @Then("the walk is withdrawn")
+    public void theWalkIsWithdrawn() {
+        assertEquals(ScheduledWalk.WITHDRAWN, scheduledWalkStatus);
+        assertNull(user.getTeam().getScheduledWalk());
+    }
+
+    @And("the user clicks the scheduled walk decline \\(bad time) button")
+    public void theUserClicksTheScheduledWalkDeclineBadTimeButton() {
+        onView(withId(R.id.buttonBadTime)).perform(click());
+    }
+
+    @Then("the user declines the scheduled walk due to a bad time")
+    public void theUserDeclinesTheScheduledWalkDueToABadTime() {
+        assertEquals(ScheduledWalk.DECLINED_BAD_TIME, scheduledWalkUserStatus);
+        assertEquals(ScheduledWalk.DECLINED_BAD_TIME,
+                team.getScheduledWalk().retrieveResponse(user.getEmail()));
+    }
+
+    @And("the user clicks the scheduled walk decline \\(bad route) button")
+    public void theUserClicksTheScheduledWalkDeclineBadRouteButton() {
+        onView(withId(R.id.buttonBadRoute)).perform(click());
+    }
+
+    @Then("the user declines the scheduled walk due to a bad route")
+    public void theUserDeclinesTheScheduledWalkDueToABadRoute() {
+        assertEquals(ScheduledWalk.DECLINED_BAD_ROUTE, scheduledWalkUserStatus);
+        assertEquals(ScheduledWalk.DECLINED_BAD_ROUTE,
+                team.getScheduledWalk().retrieveResponse(user.getEmail()));
+    }
+
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
             super(TextView.class);
@@ -527,6 +616,15 @@ public class BDDTests {
 
         @Override
         public Task<?> updateTeam(Team team) {
+            if (team.getScheduledWalk() != null &&
+                    ! user.getEmail().equals(team.getScheduledWalk().getCreatorId())) {
+                scheduledWalkUserStatus = team.getScheduledWalk().retrieveResponse(user.getEmail());
+                scheduledWalkStatus = team.getScheduledWalk().getStatus();
+            } else {
+                scheduledWalkUserStatus = ScheduledWalk.NO_RESPONSE;
+                scheduledWalkStatus = ScheduledWalk.WITHDRAWN;
+            }
+
             return null;
         }
 
