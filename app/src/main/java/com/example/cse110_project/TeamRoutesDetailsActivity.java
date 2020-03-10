@@ -45,7 +45,7 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity {
         startWalkButton.setOnClickListener(v -> launchWalkActivity());
 
         Button proposeWalkButton = findViewById(R.id.detailsProposeWalkButton);
-        proposeWalkButton.setOnClickListener(v -> (new ProposeWalkDialog(this, route)).launchProposeWalk(route));
+        proposeWalkButton.setOnClickListener(v -> (new ProposeWalkDialog(this, route)).launchProposeWalk(this, route));
     }
 
     public void displayRouteData() {

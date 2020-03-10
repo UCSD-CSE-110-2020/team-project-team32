@@ -42,7 +42,7 @@ public class ProposeWalkDialog extends DialogFragment {
         this.route = route;
     }
 
-    public AlertDialog launchProposeWalk(Route route) {
+    public AlertDialog launchProposeWalk(AppCompatActivity activity, Route route) {
         String nameOfRoute = route.getName();
         //System.out.println(nameOfRoute);
         LayoutInflater layoutInflater = LayoutInflater.from(activity);
