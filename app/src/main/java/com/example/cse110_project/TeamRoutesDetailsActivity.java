@@ -73,7 +73,7 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity {
             routeStartTime.setText(route.getStartDate()
                     .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
         }
-gi
+
         ImageView walkedIcon = findViewById(R.id.detailsWalkedIcon);
         if (route.hasWalkData()) {
             walkedIcon.setVisibility(View.VISIBLE);
