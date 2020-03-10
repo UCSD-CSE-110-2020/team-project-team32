@@ -31,7 +31,7 @@
 
         <ImageView
             android:id="@+id/teamWalkedIcon"
-            android:layout_width="57dp"
+            android:layout_width="35dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/routeWalked"
             app:srcCompat="@android:drawable/checkbox_on_background" />
