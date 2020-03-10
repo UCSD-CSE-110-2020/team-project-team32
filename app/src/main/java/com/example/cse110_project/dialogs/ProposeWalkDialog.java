@@ -15,6 +15,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.cse110_project.R;
 import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.team.ScheduledWalk;
+import com.example.cse110_project.team.WalkScheduler;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
@@ -31,6 +33,8 @@ public class ProposeWalkDialog extends DialogFragment {
     private Route route; // route
     private EditText time;
     private EditText date;
+    private WalkScheduler walk;
+    private LocalDateTime createTime;
 
     public ProposeWalkDialog(AppCompatActivity activity, Route route) {
         user = WWRApplication.getUser();
@@ -65,6 +69,9 @@ public class ProposeWalkDialog extends DialogFragment {
         time = promptView.findViewById(R.id.enterTimeInput);
 
         validateTextInput();
+
+        /** Creates intended proposed walk here!!! **/
+        //walk.createScheduledWalk(route, createTime, user.getEmail(), user.getTeam());
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
         submitButton.setId(R.id.sendInviteButton);
