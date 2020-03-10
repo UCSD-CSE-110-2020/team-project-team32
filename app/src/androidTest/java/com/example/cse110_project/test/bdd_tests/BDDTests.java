@@ -495,6 +495,23 @@ public class BDDTests {
         onView(withId(R.id.scheduleToHomeButton)).perform(click());
     }
 
+    @And("the user is the creator of the scheduled walk")
+    public void theUserIsTheCreatorOfTheScheduledWalk() {
+        team.getScheduledWalk().setCreatorId(user.getEmail());
+    }
+
+    @And("the user clicks the schedule button")
+    public void theUserClicksTheScheduleButton() {
+        onView(withId(R.id.buttonSchedule)).perform(click());
+    }
+
+    @Then("the walk is scheduled")
+    public void theWalkIsScheduled() {
+        assertEquals(team.getScheduledWalk().getStatus(), ScheduledWalk.SCHEDULED);
+        onView(withId(R.id.schedHeader))
+                .check(matches(withText(team.getScheduledWalk().retrieveStringStatus())));
+    }
+
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
             super(TextView.class);
@@ -564,7 +581,8 @@ public class BDDTests {
 
         @Override
         public Task<?> updateTeam(Team team) {
-            if (team.getScheduledWalk() != null) {
+            if (team.getScheduledWalk() != null &&
+                    ! user.getEmail().equals(team.getScheduledWalk().getCreatorId())) {
                 scheduledWalkUserStatus = team.getScheduledWalk().retrieveResponse(user.getEmail());
                 scheduledWalkStatus = team.getScheduledWalk().getStatus();
             } else {
