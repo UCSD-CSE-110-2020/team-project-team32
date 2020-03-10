@@ -65,6 +65,7 @@ import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertNotEquals;
 
@@ -545,6 +546,52 @@ public class BDDTests {
         assertEquals(ScheduledWalk.DECLINED_BAD_ROUTE, scheduledWalkUserStatus);
         assertEquals(ScheduledWalk.DECLINED_BAD_ROUTE,
                 team.getScheduledWalk().retrieveResponse(user.getEmail()));
+    }
+
+    @And("the user has previously walked the route")
+    public void theUserHasPreviouslyWalkedTheRoute() {
+        Route route = user.getRoutes().getRoute(0);
+        route.setSteps(10);
+        route.setStartDate(LocalDateTime.of(1,1,1,1,1));
+        route.setDuration(LocalTime.of(0,0,0));
+    }
+
+    @Then("a previously-walked icon is displayed on the route entry")
+    public void aPreviouslyWalkedIconIsDisplayedOnTheRouteEntry() {
+        onView(withId(R.id.routeWalkedIcon)).check(matches(isDisplayed()));
+    }
+
+    @When("the user clicks the route")
+    public void theUserClicksTheRoute() {
+        onView(withId(R.id.routeRowName)).perform(click());
+    }
+
+    @Then("a previously-walked icon is displayed on the route details")
+    public void aPreviouslyWalkedIconIsDisplayedOnTheRouteDetails() {
+        onView(withId(R.id.detailsWalkedIcon)).check(matches(isDisplayed()));
+    }
+
+    @And("the user returns to the routes screen from the details screen")
+    public void theUserReturnsToTheRoutesScreenFromTheDetailsScreen() {
+        onView(withId(R.id.detailsBackButton)).perform(click());
+    }
+
+    @And("the user has never walked the route")
+    public void theUserHasNeverWalkedTheRoute() {
+        Route route = user.getRoutes().getRoute(0);
+        route.setSteps(-1);
+        route.setStartDate(null);
+        route.setDuration(null);
+    }
+
+    @Then("a previously-walked icon is not displayed on the route entry")
+    public void aPreviouslyWalkedIconIsNotDisplayedOnTheRouteEntry() {
+        onView(withId(R.id.routeWalkedIcon)).check(matches(not(isDisplayed())));
+    }
+
+    @Then("a previously-walked icon is not displayed on the route details")
+    public void aPreviouslyWalkedIconIsNotDisplayedOnTheRouteDetails() {
+        onView(withId(R.id.detailsWalkedIcon)).check(matches(not(isDisplayed())));
     }
 
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {

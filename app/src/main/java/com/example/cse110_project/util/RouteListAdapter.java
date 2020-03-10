@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,6 @@ public class RouteListAdapter extends ArrayAdapter {
     private final RouteList routes;
     private final static String MONTH_DAY_SEPARATOR = " ";
     private User user;
-
 
     public RouteListAdapter(Activity context, String[] nameArray, RouteList routes) {
         super(context, R.layout.listview_routes_row, nameArray);
@@ -59,6 +59,15 @@ public class RouteListAdapter extends ArrayAdapter {
         TextView evenUnevenTextField = rowView.findViewById(R.id.routeRowEvenUneven);
         TextView difficultyTextField = rowView.findViewById(R.id.routeRowDifficulty);
         Button favButtonField = rowView.findViewById(R.id.routeRowFavorite);
+
+        // Icon
+        ImageView walkedIcon = rowView.findViewById(R.id.routeWalkedIcon);
+
+        if (routes.getRoute(position).hasWalkData()) {
+            walkedIcon.setVisibility(View.VISIBLE);
+        } else {
+            walkedIcon.setVisibility(View.INVISIBLE);
+        }
 
         //this code sets the values of the objects to values from the arrays
         nameTextField.setText(routes.getRoute(position).getName());

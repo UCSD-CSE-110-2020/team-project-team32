@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         ImageButton inviteBtn = findViewById(R.id.inviteButton);
+
         if (user.getInvites().size() == 0) {
             inviteBtn.setVisibility(View.INVISIBLE);
         } else {

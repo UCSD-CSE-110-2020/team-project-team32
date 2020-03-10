@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cse110_project.user_routes.Route;
@@ -47,12 +49,14 @@ public class RouteDetailsActivity extends AppCompatActivity {
         TextView routeName = findViewById(R.id.detailsRouteName);
         routeName.setText(route.getName());
 
+        ImageView walkedIcon = findViewById(R.id.detailsWalkedIcon);
+
         // Set steps, miles, time, date only if route has been walked
         if (route.getStartDate() != null) {
             Log.d(TAG, "Walk data found");
             TextView routeSteps = findViewById(R.id.detailsRouteSteps);
             routeSteps.setText(String.valueOf(route.getSteps()));
-            TextView routeMiles = findViewById(R.id.schedRouteMiles);
+            TextView routeMiles = findViewById(R.id.detailsRouteMiles);
             routeMiles.setText(MilesCalculator.formatMiles(route.getMiles(user.getHeight())));
 
             TextView routeTime = findViewById(R.id.detailsRouteTime);
@@ -64,6 +68,14 @@ public class RouteDetailsActivity extends AppCompatActivity {
             TextView routeStartTime = findViewById(R.id.detailsStartTime);
             routeStartTime.setText(route.getStartDate()
                     .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+        }
+
+
+
+        if (route.hasWalkData()) {
+            walkedIcon.setVisibility(View.VISIBLE);
+        } else {
+            walkedIcon.setVisibility(View.INVISIBLE);
         }
 
         // Set optional features if existent
