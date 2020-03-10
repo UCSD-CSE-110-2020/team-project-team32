@@ -54,11 +54,14 @@
     // Routes screen
     <string name="newRouteButton">+</string>
     <string name="routesTeamButton">Team Routes</string>
+    <string name="userRoutesHeader">Your Routes</string>
 
     // Team Routes Screen
     <string name="backToYourRoutes">Your Routes</string>
     <string name="teamRoutesTitleButton">Team Routes</string>
 
+    //walked or not
+    <string name="routeWalked">Walked</string>
     // Walk screen
     <string name="walkHeader">Walk</string>
     <string name="walkDefaultName">New Route</string>

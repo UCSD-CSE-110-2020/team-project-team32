@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -13,11 +14,19 @@
 
     <TextView
         android:id="@+id/routeRowName"
-        android:layout_width="wrap_content"
+        android:layout_width="18dp"
         android:layout_height="wrap_content"
         android:layout_weight="4"
         android:text="@string/routeNameHint"
         android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/routeWalkedIcon"
+        android:layout_width="35dp"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/routeWalked"
+        app:srcCompat="@android:drawable/checkbox_on_background"
+        tools:srcCompat="@android:drawable/checkbox_on_background" />
 
     <Button
         android:id="@+id/routeRowFavorite"
@@ -164,7 +173,6 @@
             android:textSize="15sp" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>

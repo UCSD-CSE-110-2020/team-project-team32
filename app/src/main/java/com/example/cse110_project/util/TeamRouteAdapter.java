@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -72,6 +73,15 @@ public class TeamRouteAdapter extends ArrayAdapter {
 
         favButtonField.setBackgroundColor(routes.get(position).isFavorite() ? Route.FAV_COLOR
                 : Route.UNFAV_COLOR);
+
+        // Icon
+        ImageView walkedIcon = rowView.findViewById(R.id.teamWalkedIcon);
+
+        if (routes.get(position).hasWalkData()) {
+            walkedIcon.setVisibility(View.VISIBLE);
+        } else {
+            walkedIcon.setVisibility(View.INVISIBLE);
+        }
 
         favButtonField.setOnClickListener(v -> {
             if (routes.get(position).isFavorite()){
