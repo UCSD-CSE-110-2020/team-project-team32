@@ -51,6 +51,7 @@ public class ScheduledWalk {
     public LocalDateTime retrieveScheduledDate() { return LocalDateTime.parse(dateTimeStr); }
 
     public String getCreatorId() { return creatorId; }
+    public void setCreatorId(String creatorId) { this.creatorId = creatorId; }
     public Map<String, Integer> getResponses() { return responses; }
 
     public void schedule() { status = SCHEDULED; }

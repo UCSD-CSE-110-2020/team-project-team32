@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cse110_project.dialogs.ProposeWalkDialog;
@@ -75,6 +76,13 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity {
             TextView routeStartTime = findViewById(R.id.detailsStartTime);
             routeStartTime.setText(route.getStartDate()
                     .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+        }
+
+        ImageView walkedIcon = findViewById(R.id.detailsWalkedIcon);
+        if (route.hasWalkData()) {
+            walkedIcon.setVisibility(View.VISIBLE);
+        } else {
+            walkedIcon.setVisibility(View.INVISIBLE);
         }
 
         TextView routeStartingPoint = findViewById(R.id.detailsStartingPoint);
