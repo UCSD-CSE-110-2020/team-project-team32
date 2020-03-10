@@ -3,6 +3,7 @@ package com.example.cse110_project;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ public class RouteDetailsActivity extends AppCompatActivity {
     private User user;
     private Route route;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,8 @@ public class RouteDetailsActivity extends AppCompatActivity {
         startWalkButton.setOnClickListener(v -> launchWalkActivity());
 
         Button proposeWalkButton = findViewById(R.id.detailsProposeWalkButton);
-        proposeWalkButton.setOnClickListener(v -> (new ProposeWalkDialog(this)).launchProposeWalk());
+        proposeWalkButton.setOnClickListener(v -> (new ProposeWalkDialog(this, route)).launchProposeWalk(route));
+
     }
 
 
