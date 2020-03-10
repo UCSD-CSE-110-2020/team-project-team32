@@ -512,6 +512,41 @@ public class BDDTests {
                 .check(matches(withText(team.getScheduledWalk().retrieveStringStatus())));
     }
 
+    @And("the user clicks the withdraw button")
+    public void theUserClicksTheWithdrawButton() {
+        onView(withId(R.id.buttonWithdraw)).perform(click());
+    }
+
+    @Then("the walk is withdrawn")
+    public void theWalkIsWithdrawn() {
+        assertEquals(ScheduledWalk.WITHDRAWN, scheduledWalkStatus);
+        assertNull(user.getTeam().getScheduledWalk());
+    }
+
+    @And("the user clicks the scheduled walk decline \\(bad time) button")
+    public void theUserClicksTheScheduledWalkDeclineBadTimeButton() {
+        onView(withId(R.id.buttonBadTime)).perform(click());
+    }
+
+    @Then("the user declines the scheduled walk due to a bad time")
+    public void theUserDeclinesTheScheduledWalkDueToABadTime() {
+        assertEquals(ScheduledWalk.DECLINED_BAD_TIME, scheduledWalkUserStatus);
+        assertEquals(ScheduledWalk.DECLINED_BAD_TIME,
+                team.getScheduledWalk().retrieveResponse(user.getEmail()));
+    }
+
+    @And("the user clicks the scheduled walk decline \\(bad route) button")
+    public void theUserClicksTheScheduledWalkDeclineBadRouteButton() {
+        onView(withId(R.id.buttonBadRoute)).perform(click());
+    }
+
+    @Then("the user declines the scheduled walk due to a bad route")
+    public void theUserDeclinesTheScheduledWalkDueToABadRoute() {
+        assertEquals(ScheduledWalk.DECLINED_BAD_ROUTE, scheduledWalkUserStatus);
+        assertEquals(ScheduledWalk.DECLINED_BAD_ROUTE,
+                team.getScheduledWalk().retrieveResponse(user.getEmail()));
+    }
+
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
             super(TextView.class);
@@ -587,7 +622,7 @@ public class BDDTests {
                 scheduledWalkStatus = team.getScheduledWalk().getStatus();
             } else {
                 scheduledWalkUserStatus = ScheduledWalk.NO_RESPONSE;
-                scheduledWalkStatus = -10;
+                scheduledWalkStatus = ScheduledWalk.WITHDRAWN;
             }
 
             return null;
