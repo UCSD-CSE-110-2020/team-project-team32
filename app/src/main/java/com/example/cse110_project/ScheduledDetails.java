@@ -18,6 +18,7 @@ import com.example.cse110_project.util.MilesCalculator;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 
 public class ScheduledDetails extends AppCompatActivity {
 
@@ -25,6 +26,9 @@ public class ScheduledDetails extends AppCompatActivity {
     private final static String TAG = "ScheduledDetailsActivity";
     public final static String CREATOR_KEY = "Creator Key";
 
+    public static final int ACCEPTED = 1;
+    public static final int DECLINED_BAD_TIME = -1;
+    public static final int DECLINED_BAD_ROUTE = -2;
 
     User user; // this user
     private Route route; // route
@@ -121,8 +125,43 @@ public class ScheduledDetails extends AppCompatActivity {
         routeNotes.setText(route.getNotes());
 
         // set the proposed date
-        TextView scheduledTime = findViewById(R.id.schedDateTime);
-        scheduledTime.setText(user.getTeam().getScheduledWalk().getDateTimeStr());
+        TextView scheduledDate = findViewById(R.id.schedDateTime);
+        scheduledDate.setText(user.getTeam().getScheduledWalk().retrieveScheduledDate().truncatedTo(ChronoUnit.DAYS)
+                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+
+        TextView scheduledTime = findViewById(R.id.schedTIme);
+        scheduledTime.setText(user.getTeam().getScheduledWalk().retrieveScheduledDate()
+                .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+
+        // get responses
+        String acceptedUsers = "";
+        String declinedUsersBadRoute = "";
+        String declinedUsersBadTime = "";
+
+        TextView accepted = findViewById(R.id.peopleThatAccepted);
+        TextView declinedBadRoute = findViewById(R.id.peopleThatDeclinedBadRoute);
+        TextView declinedBadTime = findViewById(R.id.peopleThatDeclinedBadTime);
+
+        Map<String, Integer> responses = user.getTeam().getScheduledWalk().getResponses();
+        for (Map.Entry<String,Integer> entry : responses.entrySet()) {
+            if(entry.getValue() == ACCEPTED){
+                acceptedUsers =  acceptedUsers +
+                        user.getTeam().findMemberById(entry.getKey()).getName() + "/" ;
+            }
+            else if (entry.getValue() == DECLINED_BAD_TIME) {
+                declinedUsersBadTime =  declinedUsersBadTime +
+                        user.getTeam().findMemberById(entry.getKey()).getName() + "/" ;
+            }
+            else {
+                declinedUsersBadRoute = declinedUsersBadRoute +
+                        user.getTeam().findMemberById(entry.getKey()).getName() + "/" ;
+            }
+        }
+
+        accepted.setText(acceptedUsers);
+        declinedBadRoute.setText(declinedUsersBadRoute);
+        declinedBadTime.setText(declinedUsersBadTime);
+
 
         // set the status of walk
         TextView scheduledHeader = findViewById(R.id.schedHeader);

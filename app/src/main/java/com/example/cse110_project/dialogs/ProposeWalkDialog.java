@@ -107,7 +107,7 @@ public class ProposeWalkDialog extends DialogFragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 LocalDateTime dateTimePicked =
-                        LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(),
+                        LocalDateTime.of(date.getYear(), date.getMonth() + 1, date.getDayOfMonth(),
                                 timepicker.getHour(), timepicker.getMinute());
                 alert.dismiss();
                 WalkScheduler walk = new WalkScheduler();
