@@ -1,13 +1,10 @@
 package com.example.cse110_project.dialogs;
 
-import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -16,32 +13,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.cse110_project.R;
+import com.example.cse110_project.ScheduledDetails;
 import com.example.cse110_project.WWRApplication;
-import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.team.WalkScheduler;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.example.cse110_project.RouteDetailsActivity.ROUTE_INDEX_KEY;
-
-public class ProposeWalkDialog extends DialogFragment {
+public class ProposeWalkDialog implements DialogSubject {
+    private List<DialogObserver> observers;
 
     private DatePicker datepicker;
     private TimePicker timepicker;
     private User user;
     private AppCompatActivity activity;
     private Route route; // route
-    private LocalDateTime createTime;
+    private AlertDialog alert;
 
     public ProposeWalkDialog(AppCompatActivity activity, Route route) {
+        observers = new ArrayList<>();
         user = WWRApplication.getUser();
         this.activity = activity;
         this.route = route;
+    }
+
+    @Override
+    public void registerDialogObserver(DialogObserver obs) {
+        observers.add(obs);
     }
 
     public AlertDialog launchProposeWalk(AppCompatActivity activity, Route route) {
@@ -57,7 +58,7 @@ public class ProposeWalkDialog extends DialogFragment {
         alertDialogBuilder.setView(promptView);
 
         // Create an alert dialog
-        AlertDialog alert = alertDialogBuilder.create();
+        this.alert = alertDialogBuilder.create();
         alert.show();
 
         TextView routeName = alert.findViewById(R.id.nameOfWalkText);
@@ -67,11 +68,9 @@ public class ProposeWalkDialog extends DialogFragment {
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                alert.dismiss();
-                setTime(route, datepicker);
-            }
+        submitButton.setOnClickListener(v -> {
+            alert.dismiss();
+            setTime(route, datepicker);
         });
 
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
@@ -92,7 +91,7 @@ public class ProposeWalkDialog extends DialogFragment {
         alertDialogBuilder.setView(promptView);
 
         // Create an alert dialog
-        AlertDialog alert = alertDialogBuilder.create();
+        alert = alertDialogBuilder.create();
         alert.show();
 
         TextView routeName = alert.findViewById(R.id.nameOfWalkText);
@@ -101,19 +100,9 @@ public class ProposeWalkDialog extends DialogFragment {
         timepicker = promptView.findViewById(R.id.timePicker);
         timepicker.setIs24HourView(true);
 
-
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                LocalDateTime dateTimePicked =
-                        LocalDateTime.of(date.getYear(), date.getMonth() + 1, date.getDayOfMonth(),
-                                timepicker.getHour(), timepicker.getMinute());
-                alert.dismiss();
-                WalkScheduler walk = new WalkScheduler();
-                walk.createScheduledWalk(route, dateTimePicked, user.getEmail(), user.getTeam());
-            }
-        });
+        submitButton.setOnClickListener(v -> submitProposedWalk(date));
 
         //submitButton.setId(R.id.sendInviteButton);
 
@@ -121,5 +110,18 @@ public class ProposeWalkDialog extends DialogFragment {
         cancelButton.setOnClickListener(v -> alert.dismiss());
 
         return alert;
+    }
+
+    public void submitProposedWalk(DatePicker datePicker) {
+        LocalDateTime dateTimePicked =
+                LocalDateTime.of(datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDayOfMonth(),
+                        timepicker.getHour(), timepicker.getMinute());
+        alert.dismiss();
+        WalkScheduler walk = new WalkScheduler();
+        walk.createScheduledWalk(route, dateTimePicked, user.getEmail(), user.getTeam());
+
+        for (DialogObserver obs : observers) {
+            obs.onPositiveResultUpdate(this);
+        }
     }
 }
