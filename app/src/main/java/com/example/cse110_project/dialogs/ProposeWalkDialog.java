@@ -6,8 +6,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,20 +22,20 @@ import com.example.cse110_project.team.WalkScheduler;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Calendar;
 
 import static com.example.cse110_project.RouteDetailsActivity.ROUTE_INDEX_KEY;
 
 public class ProposeWalkDialog extends DialogFragment {
 
-    //private EditText routeName;
+    private DatePicker datepicker;
+    private TimePicker timepicker;
     private User user;
     private AppCompatActivity activity;
     private Route route; // route
-    private EditText time;
-    private EditText date;
-    private WalkScheduler walk;
     private LocalDateTime createTime;
 
     public ProposeWalkDialog(AppCompatActivity activity, Route route) {
@@ -50,7 +52,7 @@ public class ProposeWalkDialog extends DialogFragment {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity)
                 .setCancelable(false)
-                .setPositiveButton("Propose", null)
+                .setPositiveButton("set Date", null)
                 .setNegativeButton(R.string.cancelButton, null);
         alertDialogBuilder.setView(promptView);
 
@@ -58,23 +60,19 @@ public class ProposeWalkDialog extends DialogFragment {
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
 
-        //fixme
         TextView routeName = alert.findViewById(R.id.nameOfWalkText);
-        System.out.println("routeName: " + routeName);
         routeName.setText(nameOfRoute);
-        System.out.print(routeName);
-        //routeName.setText(nameOfRoute);
 
-        date = promptView.findViewById(R.id.enterDateInput);
-        time = promptView.findViewById(R.id.enterTimeInput);
-
-        validateTextInput();
-
-        /** Creates intended proposed walk here!!! **/
-        //walk.createScheduledWalk(route, createTime, user.getEmail(), user.getTeam());
+        datepicker = promptView.findViewById(R.id.datePicker);
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
-        submitButton.setId(R.id.sendInviteButton);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                alert.dismiss();
+                setTime(route, datepicker);
+            }
+        });
 
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
         cancelButton.setOnClickListener(v -> alert.dismiss());
@@ -82,24 +80,46 @@ public class ProposeWalkDialog extends DialogFragment {
         return alert;
     }
 
-    private void validateTextInput() {
-        date.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    public AlertDialog setTime(Route route, DatePicker date) {
+        String nameOfRoute = route.getName();
+        LayoutInflater layoutInflater = LayoutInflater.from(activity);
+        View promptView = layoutInflater.inflate(R.layout.propose_walk_timepicker, null);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (date.getText().toString().length() == 0) {
-                    date.setError(activity.getResources().getString(R.string.emptyRouteName));
-                    time.setError(activity.getResources().getString(R.string.emptyRouteName));
-                } else {
-                    date.setError(null);
-                    time.setError(null);
-                }
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity)
+                .setCancelable(false)
+                .setPositiveButton("set Time", null)
+                .setNegativeButton(R.string.cancelButton, null);
+        alertDialogBuilder.setView(promptView);
+
+        // Create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+
+        TextView routeName = alert.findViewById(R.id.nameOfWalkText);
+        routeName.setText(nameOfRoute);
+
+        timepicker = promptView.findViewById(R.id.timePicker);
+        timepicker.setIs24HourView(true);
+
+
+        Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                LocalDateTime dateTimePicked =
+                        LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(),
+                                timepicker.getHour(), timepicker.getMinute());
+                alert.dismiss();
+                WalkScheduler walk = new WalkScheduler();
+                walk.createScheduledWalk(route, dateTimePicked, user.getEmail(), user.getTeam());
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
         });
+
+        //submitButton.setId(R.id.sendInviteButton);
+
+        Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
+        cancelButton.setOnClickListener(v -> alert.dismiss());
+
+        return alert;
     }
 }
