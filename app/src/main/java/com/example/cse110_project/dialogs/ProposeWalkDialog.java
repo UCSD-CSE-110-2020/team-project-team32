@@ -67,6 +67,7 @@ public class ProposeWalkDialog implements DialogSubject {
         datepicker = promptView.findViewById(R.id.datePicker);
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+        submitButton.setId(R.id.proposeWalkPositiveButton);
 
         submitButton.setOnClickListener(v -> {
             alert.dismiss();
@@ -101,7 +102,7 @@ public class ProposeWalkDialog implements DialogSubject {
         timepicker.setIs24HourView(true);
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
-
+        submitButton.setId(R.id.proposeWalkPositiveButton);
         submitButton.setOnClickListener(v -> submitProposedWalk(date));
 
         //submitButton.setId(R.id.sendInviteButton);

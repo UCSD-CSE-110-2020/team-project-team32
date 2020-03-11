@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.intent.Intents;
@@ -14,10 +16,12 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
+import com.example.cse110_project.RouteDetailsActivity;
 import com.example.cse110_project.RoutesActivity;
 import com.example.cse110_project.TeamActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
+import com.example.cse110_project.database.RouteFirebaseAdapter;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.team.TeamRoute;
@@ -61,6 +65,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
@@ -86,6 +91,8 @@ public class BDDTests {
             new ActivityTestRule<>(TeamActivity.class);
     private ActivityTestRule<RoutesActivity> routesActivityTestRule =
             new ActivityTestRule<>(RoutesActivity.class);
+    private ActivityTestRule<RouteDetailsActivity> routeDetailsActivityTestRule =
+            new ActivityTestRule<>(RouteDetailsActivity.class);
 
     private Map<String, String> nameIdMap = new HashMap<>();
 
@@ -117,6 +124,9 @@ public class BDDTests {
         if (routesActivityTestRule.getActivity() != null) {
             routesActivityTestRule.getActivity().finish();
         }
+        if (routeDetailsActivityTestRule.getActivity() != null) {
+            routeDetailsActivityTestRule.getActivity().finish();
+        }
         Intents.release();
     }
 
@@ -125,16 +135,6 @@ public class BDDTests {
         System.out.println("STARTING TEAM_ACTIVITY");
         teamActivityTestRule.launchActivity(null);
         assertThat(teamActivityTestRule.getActivity(), notNullValue());
-    }
-
-    public static int getLayoutIdFromString(String resName) {
-        try {
-            Field idField = R.id.class.getDeclaredField(resName);
-            return idField.getInt(idField);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
     }
 
     @When("the user clicks the new team member button")
@@ -593,6 +593,42 @@ public class BDDTests {
     public void aPreviouslyWalkedIconIsNotDisplayedOnTheRouteDetails() {
         onView(withId(R.id.detailsWalkedIcon)).check(matches(not(isDisplayed())));
     }
+
+    @And("the user's team does not have a scheduled or proposed walk")
+    public void theUserSTeamDoesNotHaveAScheduledProposedWalk() {
+        team.setScheduledWalk(null);
+    }
+
+    @When("the user clicks the propose walk button")
+    public void theUserClicksTheProposeWalkButton() {
+        onView(withId(R.id.detailsProposeWalkButton)).perform(click());
+    }
+
+    @And("the user fills in the time and date of the proposed walk")
+    public void theUserFillsInTheTimeAndDateOfTheProposedWalk() {
+        onView(withId(R.id.proposeWalkPositiveButton)).perform(click());
+        onView(withId(R.id.proposeWalkPositiveButton)).perform(click());
+    }
+
+    @Then("the walk is proposed")
+    public void theWalkIsProposed() {
+        assertNotNull(team.getScheduledWalk());
+        assertEquals(user.getRoutes().getRoute(0),
+                team.getScheduledWalk().getRouteAdapter().toRoute());
+    }
+
+    @And("the proposed walk details are displayed")
+    public void theProposedWalkDetailsAreDisplayed() {
+        onView(withId(R.id.schedHeader)).check(matches(isDisplayed()));
+    }
+
+    @And("the user returns to the previous screen from the proposed walk screen")
+    public void theUserReturnsToThePreviousScreenFromTheProposedWalkScreen() {
+        onView(withId(R.id.scheduleToHomeButton)).perform(click());
+    }
+
+    @Then("an error message is displayed for proposed walk")
+    public void anErrorMessageIsDisplayedForProposedWalk() { }
 
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
