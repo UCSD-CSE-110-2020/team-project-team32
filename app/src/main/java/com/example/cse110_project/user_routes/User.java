@@ -58,9 +58,11 @@ public class User {
             if (team.getId().equals(DataConstants.NO_TEAMID_FOUND)) {
                 Log.d(TAG, "Creating new team");
                 Random rand = new Random();
-                int r = rand.nextInt(255);
-                int g = rand.nextInt(255);
-                int b = rand.nextInt(255);
+                int low = 1;
+                int high = 255;
+                int r = rand.nextInt(high-low)+low;
+                int g = rand.nextInt(high-low)+low;
+                int b = rand.nextInt(high-low)+low;
                 int randomColor = Color.rgb(r,g,b);
                 TeamMember self = new TeamMember(email, email, randomColor);
                 self.setStatus(TeamMember.STATUS_MEMBER);

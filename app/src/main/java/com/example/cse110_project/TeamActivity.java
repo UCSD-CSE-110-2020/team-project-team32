@@ -76,10 +76,13 @@ public class TeamActivity extends AppCompatActivity {
         int emailEditorLength = emailEditor.getText().toString().length();
         int NickNameEditorLength = nickNameEditor.getText().toString().length();
 
+
         Random rand = new Random();
-        int r = rand.nextInt(255);
-        int g = rand.nextInt(255);
-        int b = rand.nextInt(255);
+        int low = 1;
+        int high = 255;
+        int r = rand.nextInt(high-low)+low;
+        int g = rand.nextInt(high-low)+low;
+        int b = rand.nextInt(high-low)+low;
         int randomColor = Color.rgb(r,g,b);
 
 
