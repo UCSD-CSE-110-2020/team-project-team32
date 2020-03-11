@@ -210,16 +210,17 @@ public class MainActivity extends AppCompatActivity {
 
     // launches to scheduled details screen
     public void launchScheduledActivity(){
-        //scheduled details stuff
-        /*Route temp = new UserRoute(0, "Scheduled Walk");
-        System.out.println(temp.getName());
-        ScheduledWalk tempSched = new ScheduledWalk(temp, LocalDateTime.of(1,1,1,1,1),
-                "random email", user.getTeam());
-        user.getTeam().setScheduledWalk(tempSched);
-        // end scheduled details*/
-
         // If scheduled walk does exist
         ScheduledWalk scheduledWalk = user.getTeam().getScheduledWalk();
+
+        //scheduled details stuff
+        Route temp = new UserRoute(0, "Scheduled Walk");
+        temp.setDocID("tempDocId");
+        System.out.println(temp.getName());
+        scheduledWalk = new ScheduledWalk(temp, LocalDateTime.of(1,1,1,1,1),
+                "somebody", user.getTeam());
+        user.getTeam().setScheduledWalk(scheduledWalk);
+        // end scheduled details*/
 
         if (scheduledWalk != null) {
             Intent intent = new Intent(this, ScheduledDetails.class);

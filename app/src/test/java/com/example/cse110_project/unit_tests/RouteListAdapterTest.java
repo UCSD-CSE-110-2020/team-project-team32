@@ -1,23 +1,20 @@
 package com.example.cse110_project.unit_tests;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
 import com.example.cse110_project.RoutesActivity;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.UserRoute;
-import com.example.cse110_project.util.RouteListAdapter;
+import com.example.cse110_project.list_adapters.RouteListAdapter;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.robolectric.RobolectricTestRunner;
 
 import java.time.LocalDateTime;

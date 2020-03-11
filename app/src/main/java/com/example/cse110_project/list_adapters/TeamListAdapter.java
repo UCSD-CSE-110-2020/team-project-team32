@@ -1,11 +1,10 @@
-package com.example.cse110_project.util;
+package com.example.cse110_project.list_adapters;
 
 import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
 

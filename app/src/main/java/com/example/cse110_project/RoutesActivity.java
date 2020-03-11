@@ -5,15 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.cse110_project.dialogs.SaveRouteDialog;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.util.RouteListAdapter;
+import com.example.cse110_project.list_adapters.RouteListAdapter;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 

@@ -44,6 +44,14 @@ public class RouteFirebaseAdapter {
         favorite = route.isFavorite();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof RouteFirebaseAdapter &&
+                ((RouteFirebaseAdapter) o).getID() == id &&
+                ((RouteFirebaseAdapter) o).getDocID() != null &&
+                ((RouteFirebaseAdapter) o).getDocID().equals(docID);
+    }
+
     public Route toRoute() {
         Route route = new UserRoute(id, name);
 
