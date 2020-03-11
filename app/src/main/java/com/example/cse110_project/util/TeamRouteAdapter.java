@@ -78,7 +78,7 @@ public class TeamRouteAdapter extends ArrayAdapter {
         ImageView walkedIcon = rowView.findViewById(R.id.teamWalkedIcon);
 
         if (routes.get(position).hasWalkData()) {
-            walkedIcon.setVisibility(View.VISIBLE);
+                walkedIcon.setVisibility(View.VISIBLE);
         } else {
             walkedIcon.setVisibility(View.INVISIBLE);
         }
