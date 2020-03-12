@@ -44,6 +44,11 @@ public abstract class Route {
     private String notes;
     private boolean fav;
 
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Route && ((Route) o).getID() == id;
+    }
+
     // Used for logging
     @Override @NonNull
     public String toString() {
