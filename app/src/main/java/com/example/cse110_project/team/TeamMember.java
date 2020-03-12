@@ -30,8 +30,7 @@ public class TeamMember {
     public boolean equals(Object o) {
         if (o instanceof TeamMember) {
             TeamMember tm = (TeamMember)o;
-            return tm.getName().equals(name) && tm.getEmail().equals(email) &&
-                    tm.getColor() == color;
+            return tm.getEmail().equals(email);
         }
         return false;
     }

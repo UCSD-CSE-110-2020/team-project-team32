@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.team.TeamMember;
-import com.example.cse110_project.util.TeamListAdapter;
+import com.example.cse110_project.list_adapters.TeamListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
