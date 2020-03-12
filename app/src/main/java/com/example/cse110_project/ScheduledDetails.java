@@ -170,12 +170,10 @@ public class ScheduledDetails extends AppCompatActivity {
     private void searchStartingPointInMaps() {
         String searchText = route.getStartingPoint();
         if (searchText.length() > 0) {
-            // Search for restaurants nearby
-            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(searchText));
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");
+            Intent mapIntent = WWRApplication.getMapsMediator().assembleIntent(searchText);
             if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(mapIntent);
+                Log.d(TAG, "Launching Google Maps");
+                WWRApplication.getMapsMediator().launchMaps(this);
             } else {
                 Log.e(TAG, "Google Maps intent cannot be resolved");
             }

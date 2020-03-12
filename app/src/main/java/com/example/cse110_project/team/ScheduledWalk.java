@@ -46,6 +46,9 @@ public class ScheduledWalk {
     public int getStatus() { return status; }
     public RouteFirebaseAdapter getRouteAdapter() { return routeAdapter; }
     public Route retrieveRoute() { return routeAdapter.toRoute(); }
+    public void setRoute(Route route) {
+        routeAdapter = new RouteFirebaseAdapter(route);
+    }
 
     public String getDateTimeStr() { return dateTimeStr; }
     public LocalDateTime retrieveScheduledDate() { return LocalDateTime.parse(dateTimeStr); }
