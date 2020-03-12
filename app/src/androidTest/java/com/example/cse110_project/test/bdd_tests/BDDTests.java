@@ -3,6 +3,7 @@ package com.example.cse110_project.test.bdd_tests;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.example.cse110_project.database.RouteFirebaseAdapter;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.team.TeamRoute;
+import com.example.cse110_project.team.WalkScheduler;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.team.TeamMember;
@@ -85,6 +87,8 @@ public class BDDTests {
     private int scheduledWalkUserStatus;
     private int scheduledWalkStatus;
 
+    private int prevNotificationId;
+
     private ActivityTestRule<MainActivity> mainActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
     private ActivityTestRule<TeamActivity> teamActivityTestRule =
@@ -111,6 +115,8 @@ public class BDDTests {
         user.getInvites().clear();
         user.getRoutes().clear();
         user.getTeamRoutes().clear();
+
+        prevNotificationId = WWRApplication.getNotificationId();
     }
 
     @After
@@ -630,6 +636,40 @@ public class BDDTests {
     @Then("an error message is displayed for proposed walk")
     public void anErrorMessageIsDisplayedForProposedWalk() { }
 
+    @And("the user has a team member")
+    public void theUserHasATeamMember() {
+        team.getMembers().add(
+                new TeamMember("Single Team Member", "memberEmail", Color.LTGRAY));
+        team.getMembers().get(0).setStatus(TeamMember.STATUS_MEMBER);
+        db.addTeammateRoutesListener(user, team.getMembers().get(0));
+    }
+
+    @And("the user's team member has not responded to the scheduled walk")
+    public void theUserSTeamMemberHasNotRespondedToTheScheduledWalk() {
+        team.getScheduledWalk().getResponses().put(
+                team.getMembers().get(0).getEmail(), ScheduledWalk.NO_RESPONSE);
+    }
+
+    @When("the user's team member accepts the scheduled walk")
+    public void theUserSTeamMemberAcceptsTheScheduledWalk() {
+        Team memberTeam = new Team();
+        memberTeam.setId(team.getId());
+        memberTeam.getMembers().addAll(team.getMembers());
+
+        memberTeam.setScheduledWalk(new ScheduledWalk(
+                team.getScheduledWalk().getRouteAdapter().toRoute(),
+                team.getScheduledWalk().retrieveScheduledDate(),
+                team.getScheduledWalk().getCreatorId(), memberTeam));
+
+        memberTeam.getScheduledWalk().accept(team.getMembers().get(0).getEmail());
+        (new WalkScheduler()).updateScheduledWalk(memberTeam);
+    }
+
+    @Then("the user receives a notification")
+    public void theUserReceivesANotification() {
+        assertEquals(prevNotificationId + 1, WWRApplication.getNotificationId());
+    }
+
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
             super(TextView.class);
@@ -708,6 +748,7 @@ public class BDDTests {
                 scheduledWalkStatus = ScheduledWalk.WITHDRAWN;
             }
 
+            updateScheduledWalk(user.getTeam(), team);
             return null;
         }
 
@@ -749,6 +790,29 @@ public class BDDTests {
 
         @Override
         public void addInvitesListener(User listener) { }
+
+        private void updateScheduledWalk(Team prev, Team next) {
+            Log.d("bleh", "updateScheduledWalk");
+            ScheduledWalk prevWalk = prev.getScheduledWalk();
+            ScheduledWalk nextWalk = next.getScheduledWalk();
+
+            if (prevWalk == null && nextWalk != null) {
+                WWRApplication.getNotifier().notifyOnWalkProposed(nextWalk);
+
+            } else if (prevWalk != null && nextWalk == null) {
+                WWRApplication.getNotifier().notifyOnWalkWithdrawn(prevWalk);
+
+            } else if (prevWalk != null) {
+                System.out.println(prevWalk.retrieveStringStatus() + " vs " + nextWalk.retrieveStringStatus());
+                if (prevWalk.getStatus() != nextWalk.getStatus()) {
+                    WWRApplication.getNotifier().notifyOnWalkScheduled(nextWalk);
+                } else if ( ! prevWalk.getResponses().equals(nextWalk.getResponses())){
+                    WWRApplication.getNotifier().notifyOnWalkResponseChange(prevWalk, nextWalk);
+                }
+            }
+
+            prev.setScheduledWalk(nextWalk);
+        }
     }
 
 }

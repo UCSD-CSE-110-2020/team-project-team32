@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         ScheduledWalk scheduledWalk = user.getTeam().getScheduledWalk();
 
         //scheduled details stuff
-        Route temp = new UserRoute(0, "Scheduled Walk");
+        /*Route temp = new UserRoute(0, "Scheduled Walk");
         temp.setDocID("tempDocId");
         System.out.println(temp.getName());
         scheduledWalk = new ScheduledWalk(temp, LocalDateTime.of(1,1,1,1,1),
