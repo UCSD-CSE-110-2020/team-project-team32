@@ -1,4 +1,4 @@
-package com.example.cse110_project.util;
+package com.example.cse110_project.list_adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -16,11 +16,12 @@ import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
+import com.example.cse110_project.util.MilesCalculator;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class TeamRouteAdapter extends ArrayAdapter {
+public class TeamRouteListAdapter extends ArrayAdapter {
     private final Activity context;
 
     private final String[] nameArray;
@@ -29,7 +30,7 @@ public class TeamRouteAdapter extends ArrayAdapter {
     private User user; // for now used to get height to calculate miles
 
 
-    public TeamRouteAdapter(Activity context, String[] nameArray, List<TeamRoute> routes) {
+    public TeamRouteListAdapter(Activity context, String[] nameArray, List<TeamRoute> routes) {
         super(context, R.layout.listview_teamroutes_row, nameArray);
 
         this.context = context;

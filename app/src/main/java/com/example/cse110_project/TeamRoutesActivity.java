@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 
 import com.example.cse110_project.team.TeamRoute;
-import com.example.cse110_project.util.TeamRouteAdapter;
+import com.example.cse110_project.list_adapters.TeamRouteListAdapter;
 
 import java.util.List;
 
@@ -38,7 +36,7 @@ public class TeamRoutesActivity extends AppCompatActivity {
         fetchTeamRoutesData();
 
         // Set up list view
-        TeamRouteAdapter adapter = new TeamRouteAdapter(this, nameArray, teamRoutes);
+        TeamRouteListAdapter adapter = new TeamRouteListAdapter(this, nameArray, teamRoutes);
         ListView listView = findViewById(R.id.teamRoutesListView);
         listView.setAdapter(adapter);
 

@@ -162,6 +162,7 @@ public class ScheduledDetails extends AppCompatActivity {
     }
 
     public void scheduleWalk() {
+        scheduledWalk = user.getTeam().getScheduledWalk();
         Log.d(TAG, "Scheduling walk");
         scheduledWalk.schedule();
         TextView scheduledHeader = findViewById(R.id.schedHeader);
@@ -170,28 +171,35 @@ public class ScheduledDetails extends AppCompatActivity {
     }
 
     public void withdrawWalk() {
+        scheduledWalk = user.getTeam().getScheduledWalk();
         Log.d(TAG, "Withdrawing walk");
         scheduledWalk.withdraw();
         user.getTeam().setScheduledWalk(null);
-        (new WalkScheduler()).updateScheduledWalk(user.getTeam());
+        (new WalkScheduler()).removeScheduledWalk(user.getTeam());
         finish();
     }
 
     public void acceptWalk() {
-        Log.d(TAG, "Accepting walk");
+        scheduledWalk = user.getTeam().getScheduledWalk();
         scheduledWalk.accept(user.getEmail());
+        Log.d(TAG, "Accepting walk: "
+                + scheduledWalk.getResponses().get(user.getEmail()));
         (new WalkScheduler()).updateScheduledWalk(user.getTeam());
     }
 
     public void declineWalkBadTime() {
-        Log.d(TAG, "Declining walk (bad time)");
+        scheduledWalk = user.getTeam().getScheduledWalk();
         scheduledWalk.declineBadTime(user.getEmail());
+        Log.d(TAG, "Declining walk (bad time): "
+                + scheduledWalk.getResponses().get(user.getEmail()));
         (new WalkScheduler()).updateScheduledWalk(user.getTeam());
     }
 
     public void declineWalkBadRoute() {
-        Log.d(TAG, "Declining walk (bad route)");
+        scheduledWalk = user.getTeam().getScheduledWalk();
         scheduledWalk.declineBadRoute(user.getEmail());
+        Log.d(TAG, "Declining walk (bad route): "
+                + scheduledWalk.getResponses().get(user.getEmail()));
         (new WalkScheduler()).updateScheduledWalk(user.getTeam());
     }
 
