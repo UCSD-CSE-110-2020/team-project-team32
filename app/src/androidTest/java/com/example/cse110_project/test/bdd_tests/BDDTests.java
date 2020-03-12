@@ -695,6 +695,42 @@ public class BDDTests {
         (new WalkScheduler()).updateScheduledWalk(memberTeam);
     }
 
+    @And("the user's team members have accepted the walk")
+    public void theUserSTeamMembersHaveAcceptedTheWalk() {
+        for (TeamMember member : team.getMembers()) {
+            team.getScheduledWalk().accept(member.getEmail());
+        }
+    }
+
+    @Then("the user's team members' statuses are displayed as accepted")
+    public void theUserSTeamMembersStatusesAreDisplayedAsAccepted() {
+        StringBuilder sb = new StringBuilder();
+        for (String memberId : team.getScheduledWalk().getResponses().keySet()) {
+            if ( ! memberId.equals(team.getScheduledWalk().getCreatorId())) {
+                sb.append(team.findMemberById(memberId).retrieveInitials());
+                sb.append(", ");
+            }
+        }
+
+        onView(withId(R.id.peopleThatAccepted)).check(matches(withText(sb.toString())));
+    }
+
+    @And("the user's team members have not responded to the walk")
+    public void theUserSTeamMembersHaveNotRespondedToTheWalk() { }
+
+    @Then("the user's team members' statuses are displayed as \"no response\"")
+    public void theUserSTeamMembersStatusesAreDisplayedAsNoResponse() {
+        StringBuilder sb = new StringBuilder();
+        for (String memberId : team.getScheduledWalk().getResponses().keySet()) {
+            if ( ! memberId.equals(team.getScheduledWalk().getCreatorId())) {
+                sb.append(team.findMemberById(memberId).retrieveInitials());
+                sb.append(", ");
+            }
+        }
+
+        onView(withId(R.id.peopleWithNoResponse)).check(matches(withText(sb.toString())));
+    }
+
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
             super(TextView.class);

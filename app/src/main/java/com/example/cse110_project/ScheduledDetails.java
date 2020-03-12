@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.cse110_project.team.ScheduledWalk;
 
+import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.WalkScheduler;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
@@ -218,18 +219,18 @@ public class ScheduledDetails extends AppCompatActivity {
 
         Map<String, Integer> responses = user.getTeam().getScheduledWalk().getResponses();
         for (Map.Entry<String,Integer> entry : responses.entrySet()) {
-            String initials = user.getTeam().findMemberById(entry.getKey()).retrieveInitials();
-            if(entry.getValue() == ACCEPTED){
-                acceptedUsers =  acceptedUsers + initials + "/" ;
-            }
-            else if (entry.getValue() == DECLINED_BAD_TIME) {
-                declinedUsersBadTime =  declinedUsersBadTime + initials + "/" ;
-            }
-            else if (entry.getValue() == DECLINED_BAD_ROUTE) {
-                declinedUsersBadRoute = declinedUsersBadRoute + initials+ "/" ;
-            }
-            else {
-                NoResponseUsers = NoResponseUsers + initials + "/" ;
+            TeamMember member = user.getTeam().findMemberById(entry.getKey());
+            if (member != null) {
+                String initials = member.retrieveInitials();
+                if (entry.getValue() == ACCEPTED) {
+                    acceptedUsers = acceptedUsers + initials + ", ";
+                } else if (entry.getValue() == DECLINED_BAD_TIME) {
+                    declinedUsersBadTime = declinedUsersBadTime + initials + ", ";
+                } else if (entry.getValue() == DECLINED_BAD_ROUTE) {
+                    declinedUsersBadRoute = declinedUsersBadRoute + initials + ", ";
+                } else {
+                    NoResponseUsers = NoResponseUsers + initials + ", ";
+                }
             }
         }
 
