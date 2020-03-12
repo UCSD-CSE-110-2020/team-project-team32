@@ -670,6 +670,31 @@ public class BDDTests {
         assertEquals(prevNotificationId + 1, WWRApplication.getNotificationId());
     }
 
+    @And("the user's team member is the creator of the scheduled walk")
+    public void theUserSTeamMemberIsTheCreatorOfTheScheduledWalk() {
+        team.getScheduledWalk().setCreatorId(team.getMembers().get(0).getEmail());
+        team.getScheduledWalk().getResponses().put(user.getEmail(), ScheduledWalk.NO_RESPONSE);
+    }
+
+    @And("the team walk has not yet been scheduled")
+    public void theTeamWalkHasNotYetBeenScheduled() {}
+
+    @When("the user's team member schedules the walk")
+    public void theUserSTeamMemberSchedulesTheWalk() {
+        Team memberTeam = new Team();
+        memberTeam.setId(team.getId());
+        memberTeam.getMembers().addAll(team.getMembers());
+        memberTeam.getMembers().add(new TeamMember(user.getEmail(), user.getEmail(), Color.WHITE));
+
+        memberTeam.setScheduledWalk(new ScheduledWalk(
+                team.getScheduledWalk().getRouteAdapter().toRoute(),
+                team.getScheduledWalk().retrieveScheduledDate(),
+                team.getScheduledWalk().getCreatorId(), memberTeam));
+
+        memberTeam.getScheduledWalk().schedule();
+        (new WalkScheduler()).updateScheduledWalk(memberTeam);
+    }
+
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
             super(TextView.class);
@@ -792,7 +817,6 @@ public class BDDTests {
         public void addInvitesListener(User listener) { }
 
         private void updateScheduledWalk(Team prev, Team next) {
-            Log.d("bleh", "updateScheduledWalk");
             ScheduledWalk prevWalk = prev.getScheduledWalk();
             ScheduledWalk nextWalk = next.getScheduledWalk();
 
