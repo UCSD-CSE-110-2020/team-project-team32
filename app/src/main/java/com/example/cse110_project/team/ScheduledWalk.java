@@ -1,5 +1,7 @@
 package com.example.cse110_project.team;
 
+import android.util.Log;
+
 import com.example.cse110_project.database.RouteFirebaseAdapter;
 import com.example.cse110_project.user_routes.Route;
 
@@ -43,6 +45,28 @@ public class ScheduledWalk {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        boolean equals = o instanceof ScheduledWalk &&
+                ((ScheduledWalk) o).getCreatorId().equals(creatorId) &&
+                ((ScheduledWalk) o).getRouteAdapter().equals(routeAdapter) &&
+                ((ScheduledWalk) o).getDateTimeStr().equals(dateTimeStr) &&
+                ((ScheduledWalk) o).getStatus() == status &&
+                ((ScheduledWalk) o).getResponses().size() == responses.size();
+        if ( ! equals) {
+            return false;
+        }
+
+        for (String member : responses.keySet()) {
+            Integer oResp = ((ScheduledWalk) o).getResponses().get(member);
+            if (oResp == null || ! oResp.equals(responses.get(member))) {
+                equals = false;
+            }
+        }
+
+        return equals;
+    }
+
     public int getStatus() { return status; }
     public RouteFirebaseAdapter getRouteAdapter() { return routeAdapter; }
     public Route retrieveRoute() { return routeAdapter.toRoute(); }
@@ -62,12 +86,17 @@ public class ScheduledWalk {
 
     public int retrieveResponse(String memberId) { return responses.get(memberId); }
 
-    public void accept(String memberId) { responses.put(memberId, ACCEPTED); }
+    public void accept(String memberId) {
+        responses.put(memberId, ACCEPTED);
+        Log.d(TAG, "Accepted walk: " + (ACCEPTED == responses.get(memberId)));
+    }
     public void declineBadTime(String memberId) {
         responses.put(memberId, DECLINED_BAD_TIME);
+        Log.d(TAG, "Declined for bad time: " + (DECLINED_BAD_TIME == responses.get(memberId)));
     }
     public void declineBadRoute(String memberId) {
         responses.put(memberId, DECLINED_BAD_ROUTE);
+        Log.d(TAG, "Declined for bad route: " + (DECLINED_BAD_ROUTE == responses.get(memberId)));
     }
 
     public String retrieveStringStatus() {
@@ -77,6 +106,18 @@ public class ScheduledWalk {
             return "Scheduled";
         } else {
             return "Withdrawn";
+        }
+    }
+
+    public String parseIntResponse(int resp) {
+        if (resp == ACCEPTED) {
+            return "Accepted";
+        } else if (resp == DECLINED_BAD_ROUTE) {
+            return "Declined (not a good route for me)";
+        } else if (resp == DECLINED_BAD_TIME) {
+            return "Declined (not a good time for me)";
+        } else {
+            return "No response";
         }
     }
 }

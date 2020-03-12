@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.example.cse110_project.database.RouteFirebaseAdapter;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.team.TeamRoute;
+import com.example.cse110_project.team.WalkScheduler;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.team.TeamMember;
@@ -89,6 +91,7 @@ public class BDDTests {
     private int scheduledWalkStatus;
 
     private boolean mapsLaunched;
+    private int prevNotificationId;
 
     private ActivityTestRule<MainActivity> mainActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
@@ -118,6 +121,8 @@ public class BDDTests {
         user.getInvites().clear();
         user.getRoutes().clear();
         user.getTeamRoutes().clear();
+
+        prevNotificationId = WWRApplication.getNotificationId();
     }
 
     @After
@@ -654,6 +659,101 @@ public class BDDTests {
         team.getScheduledWalk().setRoute(route);
     }
 
+    @And("the user has a team member")
+    public void theUserHasATeamMember() {
+        team.getMembers().add(
+                new TeamMember("Single Team Member", "memberEmail", Color.LTGRAY));
+        team.getMembers().get(0).setStatus(TeamMember.STATUS_MEMBER);
+        db.addTeammateRoutesListener(user, team.getMembers().get(0));
+    }
+
+    @And("the user's team member has not responded to the scheduled walk")
+    public void theUserSTeamMemberHasNotRespondedToTheScheduledWalk() {
+        team.getScheduledWalk().getResponses().put(
+                team.getMembers().get(0).getEmail(), ScheduledWalk.NO_RESPONSE);
+    }
+
+    @When("the user's team member accepts the scheduled walk")
+    public void theUserSTeamMemberAcceptsTheScheduledWalk() {
+        Team memberTeam = new Team();
+        memberTeam.setId(team.getId());
+        memberTeam.getMembers().addAll(team.getMembers());
+
+        memberTeam.setScheduledWalk(new ScheduledWalk(
+                team.getScheduledWalk().getRouteAdapter().toRoute(),
+                team.getScheduledWalk().retrieveScheduledDate(),
+                team.getScheduledWalk().getCreatorId(), memberTeam));
+
+        memberTeam.getScheduledWalk().accept(team.getMembers().get(0).getEmail());
+        (new WalkScheduler()).updateScheduledWalk(memberTeam);
+    }
+
+    @Then("the user receives a notification")
+    public void theUserReceivesANotification() {
+        assertEquals(prevNotificationId + 1, WWRApplication.getNotificationId());
+    }
+
+    @And("the user's team member is the creator of the scheduled walk")
+    public void theUserSTeamMemberIsTheCreatorOfTheScheduledWalk() {
+        team.getScheduledWalk().setCreatorId(team.getMembers().get(0).getEmail());
+        team.getScheduledWalk().getResponses().put(user.getEmail(), ScheduledWalk.NO_RESPONSE);
+    }
+
+    @And("the team walk has not yet been scheduled")
+    public void theTeamWalkHasNotYetBeenScheduled() {}
+
+    @When("the user's team member schedules the walk")
+    public void theUserSTeamMemberSchedulesTheWalk() {
+        Team memberTeam = new Team();
+        memberTeam.setId(team.getId());
+        memberTeam.getMembers().addAll(team.getMembers());
+        memberTeam.getMembers().add(new TeamMember(user.getEmail(), user.getEmail(), Color.WHITE));
+
+        memberTeam.setScheduledWalk(new ScheduledWalk(
+                team.getScheduledWalk().getRouteAdapter().toRoute(),
+                team.getScheduledWalk().retrieveScheduledDate(),
+                team.getScheduledWalk().getCreatorId(), memberTeam));
+
+        memberTeam.getScheduledWalk().schedule();
+        (new WalkScheduler()).updateScheduledWalk(memberTeam);
+    }
+
+    @And("the user's team members have accepted the walk")
+    public void theUserSTeamMembersHaveAcceptedTheWalk() {
+        for (TeamMember member : team.getMembers()) {
+            team.getScheduledWalk().accept(member.getEmail());
+        }
+    }
+
+    @Then("the user's team members' statuses are displayed as accepted")
+    public void theUserSTeamMembersStatusesAreDisplayedAsAccepted() {
+        StringBuilder sb = new StringBuilder();
+        for (String memberId : team.getScheduledWalk().getResponses().keySet()) {
+            if ( ! memberId.equals(team.getScheduledWalk().getCreatorId())) {
+                sb.append(team.findMemberById(memberId).retrieveInitials());
+                sb.append(", ");
+            }
+        }
+
+        onView(withId(R.id.peopleThatAccepted)).check(matches(withText(sb.toString())));
+    }
+
+    @And("the user's team members have not responded to the walk")
+    public void theUserSTeamMembersHaveNotRespondedToTheWalk() { }
+
+    @Then("the user's team members' statuses are displayed as \"no response\"")
+    public void theUserSTeamMembersStatusesAreDisplayedAsNoResponse() {
+        StringBuilder sb = new StringBuilder();
+        for (String memberId : team.getScheduledWalk().getResponses().keySet()) {
+            if ( ! memberId.equals(team.getScheduledWalk().getCreatorId())) {
+                sb.append(team.findMemberById(memberId).retrieveInitials());
+                sb.append(", ");
+            }
+        }
+
+        onView(withId(R.id.peopleWithNoResponse)).check(matches(withText(sb.toString())));
+    }
+
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
             super(TextView.class);
@@ -739,6 +839,7 @@ public class BDDTests {
                 scheduledWalkStatus = ScheduledWalk.WITHDRAWN;
             }
 
+            updateScheduledWalk(user.getTeam(), team);
             return null;
         }
 
@@ -780,6 +881,28 @@ public class BDDTests {
 
         @Override
         public void addInvitesListener(User listener) { }
+
+        private void updateScheduledWalk(Team prev, Team next) {
+            ScheduledWalk prevWalk = prev.getScheduledWalk();
+            ScheduledWalk nextWalk = next.getScheduledWalk();
+
+            if (prevWalk == null && nextWalk != null) {
+                WWRApplication.getNotifier().notifyOnWalkProposed(nextWalk);
+
+            } else if (prevWalk != null && nextWalk == null) {
+                WWRApplication.getNotifier().notifyOnWalkWithdrawn(prevWalk);
+
+            } else if (prevWalk != null) {
+                System.out.println(prevWalk.retrieveStringStatus() + " vs " + nextWalk.retrieveStringStatus());
+                if (prevWalk.getStatus() != nextWalk.getStatus()) {
+                    WWRApplication.getNotifier().notifyOnWalkScheduled(nextWalk);
+                } else if ( ! prevWalk.getResponses().equals(nextWalk.getResponses())){
+                    WWRApplication.getNotifier().notifyOnWalkResponseChange(prevWalk, nextWalk);
+                }
+            }
+
+            prev.setScheduledWalk(nextWalk);
+        }
     }
 
 }

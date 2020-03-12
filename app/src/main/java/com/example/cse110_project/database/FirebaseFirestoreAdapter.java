@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.Invite;
+import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.TeamRoute;
@@ -140,8 +141,12 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
 
     @Override
     public Task<?> updateTeam(Team team) {
-        return FirebaseFirestore.getInstance().collection(teamCollectionKey)
+        Task<?> task = FirebaseFirestore.getInstance().collection(teamCollectionKey)
                 .document(team.getId()).set(team);
+        task.addOnSuccessListener(r -> System.out.println("uT: Success"))
+                .addOnFailureListener(r -> System.out.println("uT: Failure"))
+                .addOnCanceledListener(() -> System.out.println("uT: Canceled"));
+        return task;
     }
 
     @Override
@@ -162,9 +167,38 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                     if (changedTeam != null) {
                         addNewTeammates(team, changedTeam);
                         removeDeclinedTeammates(team, changedTeam);
-                        team.setScheduledWalk(changedTeam.getScheduledWalk());
+                        updateScheduledWalk(team, changedTeam);
                     }
                 });
+    }
+
+    private void updateScheduledWalk(Team prev, Team next) {
+        ScheduledWalk prevWalk = prev.getScheduledWalk();
+        ScheduledWalk nextWalk = next.getScheduledWalk();
+
+        if (prevWalk == null && nextWalk != null) {
+            WWRApplication.getNotifier().notifyOnWalkProposed(nextWalk);
+
+        } else if (prevWalk != null && nextWalk == null) {
+            WWRApplication.getNotifier().notifyOnWalkWithdrawn(prevWalk);
+
+        } else if (prevWalk != null) {
+            if (prevWalk.getStatus() != nextWalk.getStatus()) {
+                WWRApplication.getNotifier().notifyOnWalkScheduled(nextWalk);
+            } else if ( ! prevWalk.getResponses().equals(nextWalk.getResponses())){
+                WWRApplication.getNotifier().notifyOnWalkResponseChange(prevWalk, nextWalk);
+            }
+        }
+
+        prev.setScheduledWalk(nextWalk);
+        for (TeamMember member : prev.getMembers()) {
+            if (prev.getScheduledWalk() != null &&
+                    ! member.getEmail().equals(nextWalk.getCreatorId()) &&
+                    ! prev.getScheduledWalk().getResponses().containsKey(member.getEmail())) {
+                prev.getScheduledWalk().getResponses()
+                        .put(member.getEmail(), ScheduledWalk.NO_RESPONSE);
+            }
+        }
     }
 
     private void addNewTeammates(Team prev, Team next) {

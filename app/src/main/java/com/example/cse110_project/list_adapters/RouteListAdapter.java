@@ -1,4 +1,4 @@
-package com.example.cse110_project.util;
+package com.example.cse110_project.list_adapters;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -19,6 +19,7 @@ import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.user_routes.UserRoute;
+import com.example.cse110_project.util.MilesCalculator;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;

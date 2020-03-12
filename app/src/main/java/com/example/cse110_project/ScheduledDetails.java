@@ -12,14 +12,17 @@ import android.widget.TextView;
 
 import com.example.cse110_project.team.ScheduledWalk;
 
+import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.WalkScheduler;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 
 public class ScheduledDetails extends AppCompatActivity {
 
@@ -27,6 +30,9 @@ public class ScheduledDetails extends AppCompatActivity {
     private final static String TAG = "ScheduledDetailsActivity";
     public final static String CREATOR_KEY = "Creator Key";
 
+    public static final int ACCEPTED = 1;
+    public static final int DECLINED_BAD_TIME = -1;
+    public static final int DECLINED_BAD_ROUTE = -2;
 
     User user; // this user
     private Route route; // route
@@ -59,9 +65,27 @@ public class ScheduledDetails extends AppCompatActivity {
             declineRouteButton.setVisibility(View.INVISIBLE);
             declineTimeButton.setVisibility(View.INVISIBLE);
         } else {
-            acceptButton.setOnClickListener(v -> acceptWalk());
-            declineRouteButton.setOnClickListener(v -> declineWalkBadRoute());
-            declineTimeButton.setOnClickListener(v -> declineWalkBadTime());
+
+            acceptButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    acceptWalk();
+                    updateUserResponses();
+                }
+            });
+
+            declineRouteButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    declineWalkBadRoute();
+                    updateUserResponses();
+                }
+            });
+
+            declineTimeButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    declineWalkBadTime();
+                    updateUserResponses();
+                }
+            });
 
             scheduleButton.setVisibility(View.INVISIBLE);
             withdrawButton.setVisibility(View.INVISIBLE);
@@ -124,8 +148,17 @@ public class ScheduledDetails extends AppCompatActivity {
         routeNotes.setText(route.getNotes());
 
         // set the proposed date
-        TextView scheduledTime = findViewById(R.id.schedDateTime);
-        scheduledTime.setText(user.getTeam().getScheduledWalk().getDateTimeStr());
+        TextView scheduledDate = findViewById(R.id.schedDateTime);
+        scheduledDate.setText(user.getTeam().getScheduledWalk().retrieveScheduledDate().truncatedTo(ChronoUnit.DAYS)
+                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+
+        TextView scheduledTime = findViewById(R.id.schedTIme);
+        scheduledTime.setText(user.getTeam().getScheduledWalk().retrieveScheduledDate()
+                .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+
+        // get responses
+        updateUserResponses();
+
 
         // set the status of walk
         TextView scheduledHeader = findViewById(R.id.schedHeader);
@@ -133,6 +166,7 @@ public class ScheduledDetails extends AppCompatActivity {
     }
 
     public void scheduleWalk() {
+        scheduledWalk = user.getTeam().getScheduledWalk();
         Log.d(TAG, "Scheduling walk");
         scheduledWalk.schedule();
         TextView scheduledHeader = findViewById(R.id.schedHeader);
@@ -141,30 +175,38 @@ public class ScheduledDetails extends AppCompatActivity {
     }
 
     public void withdrawWalk() {
+        scheduledWalk = user.getTeam().getScheduledWalk();
         Log.d(TAG, "Withdrawing walk");
         scheduledWalk.withdraw();
         user.getTeam().setScheduledWalk(null);
-        (new WalkScheduler()).updateScheduledWalk(user.getTeam());
+        (new WalkScheduler()).removeScheduledWalk(user.getTeam());
         finish();
     }
 
     public void acceptWalk() {
-        Log.d(TAG, "Accepting walk");
+        scheduledWalk = user.getTeam().getScheduledWalk();
         scheduledWalk.accept(user.getEmail());
+        Log.d(TAG, "Accepting walk: "
+                + scheduledWalk.getResponses().get(user.getEmail()));
         (new WalkScheduler()).updateScheduledWalk(user.getTeam());
     }
 
     public void declineWalkBadTime() {
-        Log.d(TAG, "Declining walk (bad time)");
+        scheduledWalk = user.getTeam().getScheduledWalk();
         scheduledWalk.declineBadTime(user.getEmail());
+        Log.d(TAG, "Declining walk (bad time): "
+                + scheduledWalk.getResponses().get(user.getEmail()));
         (new WalkScheduler()).updateScheduledWalk(user.getTeam());
     }
 
     public void declineWalkBadRoute() {
-        Log.d(TAG, "Declining walk (bad route)");
+        scheduledWalk = user.getTeam().getScheduledWalk();
         scheduledWalk.declineBadRoute(user.getEmail());
+        Log.d(TAG, "Declining walk (bad route): "
+                + scheduledWalk.getResponses().get(user.getEmail()));
         (new WalkScheduler()).updateScheduledWalk(user.getTeam());
     }
+
 
     // https://developers.google.com/maps/documentation/urls/android-intents#search_for_a_location
     private void searchStartingPointInMaps() {
@@ -178,5 +220,41 @@ public class ScheduledDetails extends AppCompatActivity {
                 Log.e(TAG, "Google Maps intent cannot be resolved");
             }
         }
+    }
+
+    public void updateUserResponses() {
+        // get responses
+        String acceptedUsers = "";
+        String declinedUsersBadRoute = "";
+        String declinedUsersBadTime = "";
+        String NoResponseUsers = "";
+
+        TextView accepted = findViewById(R.id.peopleThatAccepted);
+        TextView declinedBadRoute = findViewById(R.id.peopleThatDeclinedBadRoute);
+        TextView declinedBadTime = findViewById(R.id.peopleThatDeclinedBadTime);
+        TextView NoResponse = findViewById(R.id.peopleWithNoResponse);
+
+
+        Map<String, Integer> responses = user.getTeam().getScheduledWalk().getResponses();
+        for (Map.Entry<String,Integer> entry : responses.entrySet()) {
+            TeamMember member = user.getTeam().findMemberById(entry.getKey());
+            if (member != null) {
+                String initials = member.retrieveInitials();
+                if (entry.getValue() == ACCEPTED) {
+                    acceptedUsers = acceptedUsers + initials + ", ";
+                } else if (entry.getValue() == DECLINED_BAD_TIME) {
+                    declinedUsersBadTime = declinedUsersBadTime + initials + ", ";
+                } else if (entry.getValue() == DECLINED_BAD_ROUTE) {
+                    declinedUsersBadRoute = declinedUsersBadRoute + initials + ", ";
+                } else {
+                    NoResponseUsers = NoResponseUsers + initials + ", ";
+                }
+            }
+        }
+
+        accepted.setText(acceptedUsers);
+        declinedBadRoute.setText(declinedUsersBadRoute);
+        declinedBadTime.setText(declinedUsersBadTime);
+        NoResponse.setText(NoResponseUsers);
     }
 }
