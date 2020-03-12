@@ -39,6 +39,7 @@ import java.util.List;
 public class HeightInputTest {
     private ActivityScenario<MainActivity> scenario;
     private EditText setHeight;
+    private EditText setEmail;
     private androidx.appcompat.app.AlertDialog dialog;
     private Button clickOk;
     private String invalidHeightToast;
@@ -55,9 +56,12 @@ public class HeightInputTest {
         WWRApplication.setDatabase(new TestDatabaseService());
         scenario = scenarioRule.getScenario();
         scenario.onActivity(mainActivity -> {
+
              dialog = mainActivity.showInputDialog();
              setHeight = dialog.findViewById(R.id.heightInput);
              clickOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+             setEmail = dialog.findViewById(R.id.emailInput);
+             setEmail.setText("beeboop@gmail.com");
 
              invalidHeightToast = mainActivity.getResources().getString(
                      R.string.invalidHeightToast);
@@ -67,8 +71,8 @@ public class HeightInputTest {
                      R.string.invalidHeightError);
              nonpositiveHeightError = mainActivity.getResources().getString(
                      R.string.nonPositiveHeightError);
-        });
 
+        });
     }
 
     @Test
