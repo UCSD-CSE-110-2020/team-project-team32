@@ -39,7 +39,7 @@ public class TeamMember {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getInitials() {
+    public String retrieveInitials() {
         StringBuilder initials = new StringBuilder();
         String[] splitName = name.split(" ");
         for (String str : splitName) {

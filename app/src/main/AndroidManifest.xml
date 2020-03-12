@@ -21,7 +21,6 @@
         <activity android:name=".EntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,7 +31,6 @@
         <activity android:name=".WalkActivity" />
         <activity android:name=".RouteDetailsActivity" />
         <activity android:name=".TeamActivity" />
-        <activity android:name=".TeamRoutesDetailsActivity" />
     </application>
 
 </manifest>

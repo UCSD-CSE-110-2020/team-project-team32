@@ -1,13 +1,21 @@
 package com.example.cse110_project;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.cse110_project.dialogs.DialogObserver;
+import com.example.cse110_project.dialogs.DialogSubject;
+import com.example.cse110_project.dialogs.ProposeWalkDialog;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
@@ -17,11 +25,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 
-public class RouteDetailsActivity extends AppCompatActivity {
+public class RouteDetailsActivity extends AppCompatActivity implements DialogObserver {
     public final static String ROUTE_INDEX_KEY = "ROUTE_INDEX_KEY";
     private final static String TAG = "RouteDetailsActivity";
     private User user;
     private Route route;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +48,9 @@ public class RouteDetailsActivity extends AppCompatActivity {
 
         Button startWalkButton = findViewById(R.id.detailsStartWalkButton);
         startWalkButton.setOnClickListener(v -> launchWalkActivity());
+
+        Button proposeWalkButton = findViewById(R.id.detailsProposeWalkButton);
+        proposeWalkButton.setOnClickListener(v -> launchProposeWalkDialog());
     }
 
 
@@ -47,12 +59,14 @@ public class RouteDetailsActivity extends AppCompatActivity {
         TextView routeName = findViewById(R.id.detailsRouteName);
         routeName.setText(route.getName());
 
+        ImageView walkedIcon = findViewById(R.id.detailsWalkedIcon);
+
         // Set steps, miles, time, date only if route has been walked
         if (route.getStartDate() != null) {
             Log.d(TAG, "Walk data found");
             TextView routeSteps = findViewById(R.id.detailsRouteSteps);
             routeSteps.setText(String.valueOf(route.getSteps()));
-            TextView routeMiles = findViewById(R.id.schedRouteMiles);
+            TextView routeMiles = findViewById(R.id.detailsRouteMiles);
             routeMiles.setText(MilesCalculator.formatMiles(route.getMiles(user.getHeight())));
 
             TextView routeTime = findViewById(R.id.detailsRouteTime);
@@ -64,6 +78,14 @@ public class RouteDetailsActivity extends AppCompatActivity {
             TextView routeStartTime = findViewById(R.id.detailsStartTime);
             routeStartTime.setText(route.getStartDate()
                     .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+        }
+
+
+
+        if (route.hasWalkData()) {
+            walkedIcon.setVisibility(View.VISIBLE);
+        } else {
+            walkedIcon.setVisibility(View.INVISIBLE);
         }
 
         // Set optional features if existent
@@ -103,4 +125,26 @@ public class RouteDetailsActivity extends AppCompatActivity {
         finish();
     }
 
+    public void launchProposeWalkDialog() {
+        if (user.getTeam().getScheduledWalk() != null) {
+            Log.d(TAG, "Cannot create a second scheduled walk");
+            Toast.makeText(this, "Your team already has a scheduled walk",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            ProposeWalkDialog dialog = new ProposeWalkDialog(this, route);
+            dialog.registerDialogObserver(this);
+            dialog.launchProposeWalk(this, route);
+        }
+    }
+
+    @Override
+    public void onPositiveResultUpdate(DialogSubject subject) {
+        Toast.makeText(this, "Successfully scheduled walk", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, ScheduledDetails.class);
+        intent.putExtra(ScheduledDetails.CREATOR_KEY, true);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onNegativeResultUpdate(DialogSubject subject) { }
 }

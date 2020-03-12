@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
 
@@ -40,7 +41,7 @@ public class TeamListAdapter extends ArrayAdapter {
 
         nameTextField.setText(names[position]);
         initialsTextField.setBackgroundColor(members.get(position).getColor());
-        initialsTextField.setText(members.get(position).getInitials());
+        initialsTextField.setText(members.get(position).retrieveInitials());
 
         // Account for pending team member
         if (members.get(position).getStatus() == TeamMember.STATUS_PENDING) {

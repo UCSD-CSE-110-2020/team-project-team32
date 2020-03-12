@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         ImageButton inviteBtn = findViewById(R.id.inviteButton);
+
         if (user.getInvites().size() == 0) {
             inviteBtn.setVisibility(View.INVISIBLE);
         } else {
@@ -209,13 +210,12 @@ public class MainActivity extends AppCompatActivity {
 
     // launches to scheduled details screen
     public void launchScheduledActivity(){
-
         //scheduled details stuff
         /*Route temp = new UserRoute(0, "ScheduledWalk");
         temp.setStartingPoint("Scheduled Starting Point");
         user.getRoutes().createRoute(temp);
         ScheduledWalk tempSched = new ScheduledWalk(temp, LocalDateTime.of(1,1,1,1,1),
-                user.getEmail(), user.getTeam());
+                "random email", user.getTeam());
         user.getTeam().setScheduledWalk(tempSched);
         // end scheduled details*/
 

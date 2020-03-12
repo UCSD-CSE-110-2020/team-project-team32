@@ -367,21 +367,19 @@
         app:layout_constraintVertical_bias="0.145" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonBadRoute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="560dp"
-        android:layout_marginEnd="208dp"
-        android:layout_marginBottom="123dp"
-        android:text="Schedule"
+        android:text="Bad Route"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.814"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.868" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonWithdraw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="214dp"
@@ -391,8 +389,62 @@
         android:text="Withdraw"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/buttonSchedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="560dp"
+        android:layout_marginEnd="208dp"
+        android:layout_marginBottom="123dp"
+        android:text="Schedule"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/buttonBadTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bad Time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.866" />
+
+    <Button
+        android:id="@+id/buttonAcceptRoute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accept"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.866" />
+
+    <ImageView
+        android:id="@+id/detailsWalkedIcon"
+        android:layout_width="54dp"
+        android:layout_height="46dp"
+        android:contentDescription="@string/routeWalked"
+        app:layout_constraintBottom_toTopOf="@+id/schedRouteTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/schedRouteName"
+        app:layout_constraintTop_toBottomOf="@+id/button_favorites"
+        app:srcCompat="@android:drawable/checkbox_on_background" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

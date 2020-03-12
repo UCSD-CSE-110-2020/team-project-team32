@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.cse110_project.dialogs.SaveRouteDialog;
@@ -33,6 +35,7 @@ public class RoutesActivity extends AppCompatActivity{
         Button homeButton = findViewById(R.id.routesHomeButton);
         homeButton.setOnClickListener(v -> finish());
 
+
         // To team routes page
         Button teamButton = findViewById(R.id.routesTeamButton);
         teamButton.setOnClickListener(v -> launchTeamRoutesActivity());
@@ -56,8 +59,6 @@ public class RoutesActivity extends AppCompatActivity{
 
         // Set up list view
         RouteListAdapter adapter = new RouteListAdapter(this, nameArray, routes);
-
-
         ListView listView = findViewById(R.id.routesListView);
         listView.setAdapter(adapter);
 
@@ -66,6 +67,7 @@ public class RoutesActivity extends AppCompatActivity{
             intent.putExtra(RouteDetailsActivity.ROUTE_INDEX_KEY, position);
             startActivity(intent);
         });
+
     }
 
     public void fetchRoutesData(){

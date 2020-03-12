@@ -1,12 +1,12 @@
 package com.example.cse110_project.util;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,7 +15,6 @@ import com.example.cse110_project.R;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.temporal.ChronoUnit;
@@ -69,11 +68,20 @@ public class TeamRouteAdapter extends ArrayAdapter {
         evenUnevenTextField.setText(routes.get(position).getRoute().getEvenVsUneven());
         difficultyTextField.setText(routes.get(position).getRoute().getDifficulty());
 
-        teammateInitials.setText(routes.get(position).getCreator().getInitials());
+        teammateInitials.setText(routes.get(position).getCreator().retrieveInitials());
         teammateInitials.setBackgroundColor(routes.get(position).getCreator().getColor());
 
         favButtonField.setBackgroundColor(routes.get(position).isFavorite() ? Route.FAV_COLOR
                 : Route.UNFAV_COLOR);
+
+        // Icon
+        ImageView walkedIcon = rowView.findViewById(R.id.teamWalkedIcon);
+
+        if (routes.get(position).hasWalkData()) {
+            walkedIcon.setVisibility(View.VISIBLE);
+        } else {
+            walkedIcon.setVisibility(View.INVISIBLE);
+        }
 
         favButtonField.setOnClickListener(v -> {
             if (routes.get(position).isFavorite()){

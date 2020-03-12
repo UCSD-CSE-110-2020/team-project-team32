@@ -3,9 +3,10 @@ package com.example.cse110_project.test.bdd_tests;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.intent.Intents;
@@ -15,11 +16,14 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.MainActivity;
 import com.example.cse110_project.R;
+import com.example.cse110_project.RouteDetailsActivity;
 import com.example.cse110_project.RoutesActivity;
 import com.example.cse110_project.TeamActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
+import com.example.cse110_project.database.RouteFirebaseAdapter;
 import com.example.cse110_project.team.Invite;
+import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.Team;
@@ -61,11 +65,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertNotEquals;
 
 public class BDDTests {
     private DatabaseService db;
@@ -75,6 +82,8 @@ public class BDDTests {
     private Invite invite;
     private Team invitedTeam;
     private TeamMember inviter;
+    private int scheduledWalkUserStatus;
+    private int scheduledWalkStatus;
 
     private ActivityTestRule<MainActivity> mainActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
@@ -82,6 +91,8 @@ public class BDDTests {
             new ActivityTestRule<>(TeamActivity.class);
     private ActivityTestRule<RoutesActivity> routesActivityTestRule =
             new ActivityTestRule<>(RoutesActivity.class);
+    private ActivityTestRule<RouteDetailsActivity> routeDetailsActivityTestRule =
+            new ActivityTestRule<>(RouteDetailsActivity.class);
 
     private Map<String, String> nameIdMap = new HashMap<>();
 
@@ -113,6 +124,9 @@ public class BDDTests {
         if (routesActivityTestRule.getActivity() != null) {
             routesActivityTestRule.getActivity().finish();
         }
+        if (routeDetailsActivityTestRule.getActivity() != null) {
+            routeDetailsActivityTestRule.getActivity().finish();
+        }
         Intents.release();
     }
 
@@ -121,16 +135,6 @@ public class BDDTests {
         System.out.println("STARTING TEAM_ACTIVITY");
         teamActivityTestRule.launchActivity(null);
         assertThat(teamActivityTestRule.getActivity(), notNullValue());
-    }
-
-    public static int getLayoutIdFromString(String resName) {
-        try {
-            Field idField = R.id.class.getDeclaredField(resName);
-            return idField.getInt(idField);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
     }
 
     @When("the user clicks the new team member button")
@@ -458,6 +462,174 @@ public class BDDTests {
         user.getRoutes().createRoute(new UserRoute(0, "UserRoute"));
     }
 
+    @And("the user's team has a scheduled walk")
+    public void theUserSTeamHasAScheduledWalk() {
+        team.setScheduledWalk(new ScheduledWalk(new UserRoute(0, "ScheduledWalk"),
+                LocalDateTime.of(1, 1, 1, 1, 1), user.getEmail(), team));
+    }
+
+    @And("the user is not the creator of the scheduled walk")
+    public void theUserIsNotTheCreatorOfTheScheduledWalk() {
+        team.getScheduledWalk().setCreatorId("walkScheduler@gmail.com");
+    }
+
+    @When("the user clicks the scheduled walk button")
+    public void theUserClicksTheScheduledWalkButton() {
+        onView(withId(R.id.plannedWalkButton)).perform(click());
+    }
+
+    @And("the user clicks the scheduled walk accept button")
+    public void theUserClicksTheScheduledWalkAcceptButton() {
+        assertNotEquals(team.getScheduledWalk().getCreatorId(), user.getEmail());
+        onView(withId(R.id.buttonAcceptRoute)).perform(click());
+    }
+
+    @Then("the user accepts the scheduled walk")
+    public void theUserAcceptsTheScheduledWalk() {
+        assertEquals(ScheduledWalk.ACCEPTED, scheduledWalkUserStatus);
+        assertEquals(ScheduledWalk.ACCEPTED,
+                team.getScheduledWalk().retrieveResponse(user.getEmail()));
+    }
+
+    @And("the user goes back to the home screen")
+    public void theUserGoesBackToTheHomeScreen() {
+        onView(withId(R.id.scheduleToHomeButton)).perform(click());
+    }
+
+    @And("the user is the creator of the scheduled walk")
+    public void theUserIsTheCreatorOfTheScheduledWalk() {
+        team.getScheduledWalk().setCreatorId(user.getEmail());
+    }
+
+    @And("the user clicks the schedule button")
+    public void theUserClicksTheScheduleButton() {
+        onView(withId(R.id.buttonSchedule)).perform(click());
+    }
+
+    @Then("the walk is scheduled")
+    public void theWalkIsScheduled() {
+        assertEquals(team.getScheduledWalk().getStatus(), ScheduledWalk.SCHEDULED);
+        onView(withId(R.id.schedHeader))
+                .check(matches(withText(team.getScheduledWalk().retrieveStringStatus())));
+    }
+
+    @And("the user clicks the withdraw button")
+    public void theUserClicksTheWithdrawButton() {
+        onView(withId(R.id.buttonWithdraw)).perform(click());
+    }
+
+    @Then("the walk is withdrawn")
+    public void theWalkIsWithdrawn() {
+        assertEquals(ScheduledWalk.WITHDRAWN, scheduledWalkStatus);
+        assertNull(user.getTeam().getScheduledWalk());
+    }
+
+    @And("the user clicks the scheduled walk decline \\(bad time) button")
+    public void theUserClicksTheScheduledWalkDeclineBadTimeButton() {
+        onView(withId(R.id.buttonBadTime)).perform(click());
+    }
+
+    @Then("the user declines the scheduled walk due to a bad time")
+    public void theUserDeclinesTheScheduledWalkDueToABadTime() {
+        assertEquals(ScheduledWalk.DECLINED_BAD_TIME, scheduledWalkUserStatus);
+        assertEquals(ScheduledWalk.DECLINED_BAD_TIME,
+                team.getScheduledWalk().retrieveResponse(user.getEmail()));
+    }
+
+    @And("the user clicks the scheduled walk decline \\(bad route) button")
+    public void theUserClicksTheScheduledWalkDeclineBadRouteButton() {
+        onView(withId(R.id.buttonBadRoute)).perform(click());
+    }
+
+    @Then("the user declines the scheduled walk due to a bad route")
+    public void theUserDeclinesTheScheduledWalkDueToABadRoute() {
+        assertEquals(ScheduledWalk.DECLINED_BAD_ROUTE, scheduledWalkUserStatus);
+        assertEquals(ScheduledWalk.DECLINED_BAD_ROUTE,
+                team.getScheduledWalk().retrieveResponse(user.getEmail()));
+    }
+
+    @And("the user has previously walked the route")
+    public void theUserHasPreviouslyWalkedTheRoute() {
+        Route route = user.getRoutes().getRoute(0);
+        route.setSteps(10);
+        route.setStartDate(LocalDateTime.of(1,1,1,1,1));
+        route.setDuration(LocalTime.of(0,0,0));
+    }
+
+    @Then("a previously-walked icon is displayed on the route entry")
+    public void aPreviouslyWalkedIconIsDisplayedOnTheRouteEntry() {
+        onView(withId(R.id.routeWalkedIcon)).check(matches(isDisplayed()));
+    }
+
+    @When("the user clicks the route")
+    public void theUserClicksTheRoute() {
+        onView(withId(R.id.routeRowName)).perform(click());
+    }
+
+    @Then("a previously-walked icon is displayed on the route details")
+    public void aPreviouslyWalkedIconIsDisplayedOnTheRouteDetails() {
+        onView(withId(R.id.detailsWalkedIcon)).check(matches(isDisplayed()));
+    }
+
+    @And("the user returns to the routes screen from the details screen")
+    public void theUserReturnsToTheRoutesScreenFromTheDetailsScreen() {
+        onView(withId(R.id.detailsBackButton)).perform(click());
+    }
+
+    @And("the user has never walked the route")
+    public void theUserHasNeverWalkedTheRoute() {
+        Route route = user.getRoutes().getRoute(0);
+        route.setSteps(-1);
+        route.setStartDate(null);
+        route.setDuration(null);
+    }
+
+    @Then("a previously-walked icon is not displayed on the route entry")
+    public void aPreviouslyWalkedIconIsNotDisplayedOnTheRouteEntry() {
+        onView(withId(R.id.routeWalkedIcon)).check(matches(not(isDisplayed())));
+    }
+
+    @Then("a previously-walked icon is not displayed on the route details")
+    public void aPreviouslyWalkedIconIsNotDisplayedOnTheRouteDetails() {
+        onView(withId(R.id.detailsWalkedIcon)).check(matches(not(isDisplayed())));
+    }
+
+    @And("the user's team does not have a scheduled or proposed walk")
+    public void theUserSTeamDoesNotHaveAScheduledProposedWalk() {
+        team.setScheduledWalk(null);
+    }
+
+    @When("the user clicks the propose walk button")
+    public void theUserClicksTheProposeWalkButton() {
+        onView(withId(R.id.detailsProposeWalkButton)).perform(click());
+    }
+
+    @And("the user fills in the time and date of the proposed walk")
+    public void theUserFillsInTheTimeAndDateOfTheProposedWalk() {
+        onView(withId(R.id.proposeWalkPositiveButton)).perform(click());
+        onView(withId(R.id.proposeWalkPositiveButton)).perform(click());
+    }
+
+    @Then("the walk is proposed")
+    public void theWalkIsProposed() {
+        assertNotNull(team.getScheduledWalk());
+        assertEquals(user.getRoutes().getRoute(0),
+                team.getScheduledWalk().getRouteAdapter().toRoute());
+    }
+
+    @And("the proposed walk details are displayed")
+    public void theProposedWalkDetailsAreDisplayed() {
+        onView(withId(R.id.schedHeader)).check(matches(isDisplayed()));
+    }
+
+    @And("the user returns to the previous screen from the proposed walk screen")
+    public void theUserReturnsToThePreviousScreenFromTheProposedWalkScreen() {
+        onView(withId(R.id.scheduleToHomeButton)).perform(click());
+    }
+
+    @Then("an error message is displayed for proposed walk")
+    public void anErrorMessageIsDisplayedForProposedWalk() { }
+
     private class PendingTeamMemberNameMatcher extends BoundedMatcher<View, TextView> {
         public PendingTeamMemberNameMatcher() {
             super(TextView.class);
@@ -527,6 +699,15 @@ public class BDDTests {
 
         @Override
         public Task<?> updateTeam(Team team) {
+            if (team.getScheduledWalk() != null &&
+                    ! user.getEmail().equals(team.getScheduledWalk().getCreatorId())) {
+                scheduledWalkUserStatus = team.getScheduledWalk().retrieveResponse(user.getEmail());
+                scheduledWalkStatus = team.getScheduledWalk().getStatus();
+            } else {
+                scheduledWalkUserStatus = ScheduledWalk.NO_RESPONSE;
+                scheduledWalkStatus = ScheduledWalk.WITHDRAWN;
+            }
+
             return null;
         }
 
