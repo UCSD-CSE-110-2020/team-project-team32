@@ -2,6 +2,8 @@ package com.example.cse110_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -123,8 +125,9 @@ public class ScheduledDetails extends AppCompatActivity {
         }
 
         // Set optional features if existent
-        TextView routeStartingPoint = findViewById(R.id.schedStartingPoint);
+        Button routeStartingPoint = findViewById(R.id.schedStartingPoint);
         routeStartingPoint.setText(route.getStartingPoint());
+        routeStartingPoint.setOnClickListener(v -> searchStartingPointInMaps());
 
         TextView routeFav = findViewById(R.id.schedFav);
         routeFav.setText(route.isFavorite() ? Route.FAV : Route.NO_DATA);
@@ -202,6 +205,21 @@ public class ScheduledDetails extends AppCompatActivity {
         Log.d(TAG, "Declining walk (bad route): "
                 + scheduledWalk.getResponses().get(user.getEmail()));
         (new WalkScheduler()).updateScheduledWalk(user.getTeam());
+    }
+
+
+    // https://developers.google.com/maps/documentation/urls/android-intents#search_for_a_location
+    private void searchStartingPointInMaps() {
+        String searchText = route.getStartingPoint();
+        if (searchText.length() > 0) {
+            Intent mapIntent = WWRApplication.getMapsMediator().assembleIntent(searchText);
+            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                Log.d(TAG, "Launching Google Maps");
+                WWRApplication.getMapsMediator().launchMaps(this);
+            } else {
+                Log.e(TAG, "Google Maps intent cannot be resolved");
+            }
+        }
     }
 
     public void updateUserResponses() {

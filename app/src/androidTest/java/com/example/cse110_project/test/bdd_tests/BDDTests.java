@@ -1,6 +1,8 @@
 package com.example.cse110_project.test.bdd_tests;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -34,6 +36,7 @@ import com.example.cse110_project.user_routes.RouteData;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.util.DataConstants;
+import com.example.cse110_project.util.MapsMediator;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -87,6 +90,7 @@ public class BDDTests {
     private int scheduledWalkUserStatus;
     private int scheduledWalkStatus;
 
+    private boolean mapsLaunched;
     private int prevNotificationId;
 
     private ActivityTestRule<MainActivity> mainActivityTestRule =
@@ -103,7 +107,9 @@ public class BDDTests {
     @Before
     public void setup() {
         Intents.init();
+        WWRApplication.setMapsMediator(new TestMapsMediator());
         WWRApplication.setDatabase(new TestDatabaseService());
+
         db = WWRApplication.getDatabase();
         user = WWRApplication.getUser();
         user.setEmail("wwruser@gmail.com");
@@ -636,6 +642,23 @@ public class BDDTests {
     @Then("an error message is displayed for proposed walk")
     public void anErrorMessageIsDisplayedForProposedWalk() { }
 
+    @And("the user clicks the starting point")
+    public void theUserClicksTheStartingPoint() {
+        onView(withId(R.id.schedStartingPoint)).perform(click());
+    }
+
+    @Then("Google Maps is launched with the starting point as the search query")
+    public void googleMapsIsLaunchedWithTheStartingPointAsTheSearchQuery() {
+        assertTrue(mapsLaunched);
+    }
+
+    @And("the scheduled walk has a starting point")
+    public void theScheduledWalkHasAStartingPoint() {
+        Route route = team.getScheduledWalk().retrieveRoute();
+        route.setStartingPoint("Start Here");
+        team.getScheduledWalk().setRoute(route);
+    }
+
     @And("the user has a team member")
     public void theUserHasATeamMember() {
         team.getMembers().add(
@@ -767,6 +790,13 @@ public class BDDTests {
         @Override
         public void describeTo(Description description) {
             description.appendText("Icon does not match expected member");
+        }
+    }
+
+    private class TestMapsMediator extends MapsMediator {
+        @Override
+        public void launchMaps(Activity activity) {
+            mapsLaunched = true;
         }
     }
 

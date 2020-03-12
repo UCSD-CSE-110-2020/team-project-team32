@@ -11,6 +11,7 @@ import com.example.cse110_project.database.DatabaseService;
 import com.example.cse110_project.fitness.FitnessService;
 import com.example.cse110_project.fitness.FitnessServiceFactory;
 import com.example.cse110_project.user_routes.User;
+import com.example.cse110_project.util.MapsMediator;
 import com.example.cse110_project.util.Notifier;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public class WWRApplication extends Application {
     private static User user;
     private static FitnessService fitnessService;
     private static DatabaseService database;
+    private static MapsMediator mapsMediator;
 
     private static Notifier notifier;
     private static int notificationId;
@@ -33,6 +35,8 @@ public class WWRApplication extends Application {
     public void onCreate() {
         super.onCreate();
         user = new User(getApplicationContext());
+        mapsMediator = new MapsMediator();
+
         notifier = new Notifier(getApplicationContext());
         notificationId = 0;
         time = null;
@@ -75,11 +79,13 @@ public class WWRApplication extends Application {
 
     public static boolean hasFitnessService() { return fitnessService != null; }
     public static FitnessService getFitnessService() { return fitnessService; }
-
     public static void setUpFitnessService(String key, AppCompatActivity activity) {
         fitnessService = FitnessServiceFactory.create(key, activity);
         fitnessService.setup();
     }
+
+    public static MapsMediator getMapsMediator() { return mapsMediator; }
+    public static void setMapsMediator(MapsMediator med) { mapsMediator = med; }
 
     // Date-time methods
 
