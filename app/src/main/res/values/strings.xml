@@ -128,6 +128,7 @@
     <string name="WithdrawWalkText">Withdraw</string>
     <string name="declinedTextBadTime">Bad Time: </string>
     <string name="declinedTextBadRoute">Bad Route: </string>
+    <string name="noResponse">No Response: </string>
 
     // ???
     <string name="large_text">

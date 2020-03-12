@@ -15,6 +15,7 @@ import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
@@ -61,9 +62,27 @@ public class ScheduledDetails extends AppCompatActivity {
             declineRouteButton.setVisibility(View.INVISIBLE);
             declineTimeButton.setVisibility(View.INVISIBLE);
         } else {
-            acceptButton.setOnClickListener(v -> acceptWalk());
-            declineRouteButton.setOnClickListener(v -> declineWalkBadRoute());
-            declineTimeButton.setOnClickListener(v -> declineWalkBadTime());
+
+            acceptButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    acceptWalk();
+                    updateUserResponses();
+                }
+            });
+
+            declineRouteButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    declineWalkBadRoute();
+                    updateUserResponses();
+                }
+            });
+
+            declineTimeButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    declineWalkBadTime();
+                    updateUserResponses();
+                }
+            });
 
             scheduleButton.setVisibility(View.INVISIBLE);
             withdrawButton.setVisibility(View.INVISIBLE);
@@ -134,33 +153,7 @@ public class ScheduledDetails extends AppCompatActivity {
                 .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
 
         // get responses
-        String acceptedUsers = "";
-        String declinedUsersBadRoute = "";
-        String declinedUsersBadTime = "";
-
-        TextView accepted = findViewById(R.id.peopleThatAccepted);
-        TextView declinedBadRoute = findViewById(R.id.peopleThatDeclinedBadRoute);
-        TextView declinedBadTime = findViewById(R.id.peopleThatDeclinedBadTime);
-
-        Map<String, Integer> responses = user.getTeam().getScheduledWalk().getResponses();
-        for (Map.Entry<String,Integer> entry : responses.entrySet()) {
-            if(entry.getValue() == ACCEPTED){
-                acceptedUsers =  acceptedUsers +
-                        user.getTeam().findMemberById(entry.getKey()).getName() + "/" ;
-            }
-            else if (entry.getValue() == DECLINED_BAD_TIME) {
-                declinedUsersBadTime =  declinedUsersBadTime +
-                        user.getTeam().findMemberById(entry.getKey()).getName() + "/" ;
-            }
-            else {
-                declinedUsersBadRoute = declinedUsersBadRoute +
-                        user.getTeam().findMemberById(entry.getKey()).getName() + "/" ;
-            }
-        }
-
-        accepted.setText(acceptedUsers);
-        declinedBadRoute.setText(declinedUsersBadRoute);
-        declinedBadTime.setText(declinedUsersBadTime);
+        updateUserResponses();
 
 
         // set the status of walk
@@ -200,5 +193,41 @@ public class ScheduledDetails extends AppCompatActivity {
         Log.d(TAG, "Declining walk (bad route)");
         scheduledWalk.declineBadRoute(user.getEmail());
         (new WalkScheduler()).updateScheduledWalk(user.getTeam());
+    }
+
+    public void updateUserResponses() {
+        // get responses
+        String acceptedUsers = "";
+        String declinedUsersBadRoute = "";
+        String declinedUsersBadTime = "";
+        String NoResponseUsers = "";
+
+        TextView accepted = findViewById(R.id.peopleThatAccepted);
+        TextView declinedBadRoute = findViewById(R.id.peopleThatDeclinedBadRoute);
+        TextView declinedBadTime = findViewById(R.id.peopleThatDeclinedBadTime);
+        TextView NoResponse = findViewById(R.id.peopleWithNoResponse);
+
+
+        Map<String, Integer> responses = user.getTeam().getScheduledWalk().getResponses();
+        for (Map.Entry<String,Integer> entry : responses.entrySet()) {
+            String initials = user.getTeam().findMemberById(entry.getKey()).retrieveInitials();
+            if(entry.getValue() == ACCEPTED){
+                acceptedUsers =  acceptedUsers + initials + "/" ;
+            }
+            else if (entry.getValue() == DECLINED_BAD_TIME) {
+                declinedUsersBadTime =  declinedUsersBadTime + initials + "/" ;
+            }
+            else if (entry.getValue() == DECLINED_BAD_ROUTE) {
+                declinedUsersBadRoute = declinedUsersBadRoute + initials+ "/" ;
+            }
+            else {
+                NoResponseUsers = NoResponseUsers + initials + "/" ;
+            }
+        }
+
+        accepted.setText(acceptedUsers);
+        declinedBadRoute.setText(declinedUsersBadRoute);
+        declinedBadTime.setText(declinedUsersBadTime);
+        NoResponse.setText(NoResponseUsers);
     }
 }

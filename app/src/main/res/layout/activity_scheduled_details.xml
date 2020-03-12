@@ -7,6 +7,33 @@
     tools:context=".ScheduledDetails">
 
     <TextView
+        android:id="@+id/peopleWithNoResponse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/noDataText"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.038"
+        app:layout_constraintStart_toEndOf="@+id/noResponseText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.835" />
+
+    <TextView
+        android:id="@+id/noResponseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/noResponse"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.835" />
+
+    <TextView
         android:id="@+id/schedTIme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,10 +54,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintHorizontal_bias="0.038"
         app:layout_constraintStart_toEndOf="@+id/declinedBadRouteText"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.835" />
+        app:layout_constraintVertical_bias="0.796" />
 
     <TextView
         android:id="@+id/peopleThatDeclinedBadTime"
@@ -40,10 +67,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintHorizontal_bias="0.063"
         app:layout_constraintStart_toEndOf="@+id/declinedBadTimeText"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.774" />
+        app:layout_constraintVertical_bias="0.758" />
 
     <TextView
         android:id="@+id/declinedBadRouteText"
@@ -57,7 +84,7 @@
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.835" />
+        app:layout_constraintVertical_bias="0.796" />
 
     <TextView
         android:id="@+id/declinedBadTimeText"
@@ -71,7 +98,7 @@
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.774" />
+        app:layout_constraintVertical_bias="0.758" />
 
     <Button
         android:id="@+id/buttonWithdraw"
@@ -106,7 +133,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toEndOf="@+id/acceptedText"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.72" />
