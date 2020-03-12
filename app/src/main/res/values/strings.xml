@@ -122,8 +122,13 @@
     <string name="scheduledWalkProposed">Proposed</string>
     <string name="scheduledWalkScheduled">Scheduled</string>
     <string name="scheduledDate">Scheduled: date/time</string>
-
-
+    <string name="schedDateTimeText">Scheduled on: </string>
+    <string name="acceptedText">accepted : </string>
+    <string name="ScheduleWalkText">Schedule</string>
+    <string name="WithdrawWalkText">Withdraw</string>
+    <string name="declinedTextBadTime">Bad Time: </string>
+    <string name="declinedTextBadRoute">Bad Route: </string>
+    <string name="noResponse">No Response: </string>
 
     // ???
     <string name="large_text">

@@ -183,7 +183,6 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
             WWRApplication.getNotifier().notifyOnWalkWithdrawn(prevWalk);
 
         } else if (prevWalk != null) {
-            System.out.println(prevWalk.retrieveStringStatus() + " vs " + nextWalk.retrieveStringStatus());
             if (prevWalk.getStatus() != nextWalk.getStatus()) {
                 WWRApplication.getNotifier().notifyOnWalkScheduled(nextWalk);
             } else if ( ! prevWalk.getResponses().equals(nextWalk.getResponses())){
@@ -192,6 +191,14 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
         }
 
         prev.setScheduledWalk(nextWalk);
+        for (TeamMember member : prev.getMembers()) {
+            if (prev.getScheduledWalk() != null &&
+                    ! member.getEmail().equals(nextWalk.getCreatorId()) &&
+                    ! prev.getScheduledWalk().getResponses().containsKey(member.getEmail())) {
+                prev.getScheduledWalk().getResponses()
+                        .put(member.getEmail(), ScheduledWalk.NO_RESPONSE);
+            }
+        }
     }
 
     private void addNewTeammates(Team prev, Team next) {
