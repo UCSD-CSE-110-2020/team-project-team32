@@ -36,6 +36,7 @@
     // Email dialog
     <string name="emailPrompt">Please enter your preferred Gmail address</string>
     <string name="emailHint">Gmail address</string>
+    <string name="invalidEmail">Invalid email. Please try again</string>
 
     // Height dialog
     <string name="heightHintDialog">Height</string>

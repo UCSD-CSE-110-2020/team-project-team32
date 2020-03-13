@@ -1,11 +1,17 @@
 package com.example.cse110_project.team;
 
 
+import android.content.Context;
+
+import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.user_routes.Route;
+import com.example.cse110_project.user_routes.RouteData;
+import com.example.cse110_project.util.DataConstants;
 
 public class TeamRoute extends Route {
     private Route route;
     private TeamMember creator;
+
 
     public TeamRoute(Route route, TeamMember creator) {
         setID(route.getID());
@@ -33,5 +39,12 @@ public class TeamRoute extends Route {
     }
 
     public Route getRoute() { return route; }
+
+    @Override
+    public boolean hasWalkData() {
+        Context c = WWRApplication.getUser().getContext();
+        return RouteData.retrieveTeamRouteSteps(c, this.getDocID()) != DataConstants.INT_NOT_FOUND;
+    }
+
     public TeamMember getCreator() { return creator; }
 }

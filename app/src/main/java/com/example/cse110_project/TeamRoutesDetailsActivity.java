@@ -94,6 +94,8 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity implements Dial
         }
 
         ImageView walkedIcon = findViewById(R.id.detailsWalkedIcon);
+        user.getRoutes().getRouteByID(route.getID());
+
         if (route.hasWalkData()) {
             walkedIcon.setVisibility(View.VISIBLE);
         } else {

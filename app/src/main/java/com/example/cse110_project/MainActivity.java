@@ -268,14 +268,26 @@ public class MainActivity extends AppCompatActivity {
 
     // Validate submitted height input
     public void onDialogClickValidate(DialogInterface dialogToDismiss) {
+
+        // email input
         String emailInput = emailEditor.getText().toString();
-        user.setEmail(emailInput);
+
+        if (emailInput.contains("@gmail.com") || emailInput.contains("@ucsd.edu")) {
+            user.setEmail(emailInput);
+        }
+        else {
+            Toast.makeText(MainActivity.this, R.string.invalidEmail,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (WWRApplication.getDatabase() == null) {
             WWRApplication.setDatabase(new FirebaseFirestoreAdapter(USER_COLLECTIONS_KEY,
                     TEAM_COLLECTIONS_KEY, user.getEmail(), INVITES_KEY, ROUTES_KEY));
             WWRApplication.getUser().initFromDatabase();
         }
 
+        // height input
         String heightInput = heightEditor.getText().toString();
         int input;
 
