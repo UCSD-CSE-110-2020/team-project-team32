@@ -8,7 +8,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.example.cse110_project.EntryActivity;
+import com.example.cse110_project.activities.EntryActivity;
 import com.example.cse110_project.R;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.ScheduledWalk;

@@ -1,4 +1,4 @@
-package com.example.cse110_project.dialogs;
+package com.example.cse110_project.activities.dialogs;
 
 import android.view.LayoutInflater;
 import android.view.View;

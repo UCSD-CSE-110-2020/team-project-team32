@@ -14,7 +14,7 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.activities.MainActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
 import com.example.cse110_project.team.Invite;
@@ -23,17 +23,13 @@ import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.user_routes.UserData;
-import com.google.android.gms.tasks.Task;
 import com.google.common.truth.Truth;
-import com.google.firebase.firestore.ListenerRegistration;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.shadows.ShadowToast;
-
-import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class HeightInputTest {
@@ -177,17 +173,7 @@ public class HeightInputTest {
         }
 
         @Override
-        public void removeTeammatesListener(ListenerRegistration listener) {
-
-        }
-
-        @Override
         public void addInvitesListener(User listener) {
-
-        }
-
-        @Override
-        public void getRoutes(List<Route> routes) {
 
         }
 
@@ -202,7 +188,7 @@ public class HeightInputTest {
         }
 
         @Override
-        public ListenerRegistration addTeamListener(Team team) { return null; }
+        public void addTeamListener(Team team) { return null; }
 
         @Override
         public void addTeammateRoutesListener(User listener, TeamMember teammate) {
@@ -215,15 +201,10 @@ public class HeightInputTest {
         }
 
         @Override
-        public Task<?> createTeam(Team team) { return null; }
+        public void createTeam(Team team) { return null; }
 
         @Override
-        public void removeTeam(Team team) {
-
-        }
-
-        @Override
-        public Task<?> updateTeam(Team team) {
+        public void updateTeam(Team team) {
             return null;
         }
     }

@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,9 +8,11 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.cse110_project.dialogs.SaveRouteDialog;
+import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.activities.dialogs.SaveRouteDialog;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.list_adapters.RouteListAdapter;
+import com.example.cse110_project.activities.listview_adapters.RouteListAdapter;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
 

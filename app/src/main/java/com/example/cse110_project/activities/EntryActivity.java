@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.cse110_project.fitness.FitnessService;
+import com.example.cse110_project.R;
 import com.example.cse110_project.fitness.FitnessServiceFactory;
 import com.example.cse110_project.fitness.GoogleFitAdapter;
 

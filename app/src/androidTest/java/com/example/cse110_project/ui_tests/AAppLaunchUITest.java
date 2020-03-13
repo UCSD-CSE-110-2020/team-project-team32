@@ -14,7 +14,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.activities.MainActivity;
 import com.example.cse110_project.R;
 import com.example.cse110_project.fitness.FitnessService;
 import com.example.cse110_project.fitness.FitnessServiceFactory;

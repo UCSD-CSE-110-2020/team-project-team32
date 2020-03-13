@@ -22,6 +22,11 @@ public class Invite {
         this.creatorId = creatorId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Invite && o.toString().equals(this.toString());
+    }
+
     @Override @NonNull
     public String toString() {
         return "[" + teamId + "]: " + creatorId + " --> " + invitedMemberId;

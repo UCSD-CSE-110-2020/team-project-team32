@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,8 +19,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.FirebaseFirestoreAdapter;
-import com.example.cse110_project.dialogs.AcceptInviteDialog;
+import com.example.cse110_project.activities.dialogs.AcceptInviteDialog;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.user_routes.Route;

@@ -1,4 +1,4 @@
-package com.example.cse110_project.dialogs;
+package com.example.cse110_project.activities.dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,7 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cse110_project.R;
-import com.example.cse110_project.RoutesActivity;
+import com.example.cse110_project.activities.RoutesActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.UserRoute;

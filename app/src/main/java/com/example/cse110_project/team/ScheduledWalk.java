@@ -2,7 +2,7 @@ package com.example.cse110_project.team;
 
 import android.util.Log;
 
-import com.example.cse110_project.database.RouteFirebaseAdapter;
+import com.example.cse110_project.user_routes.RouteFirebaseAdapter;
 import com.example.cse110_project.user_routes.Route;
 
 import java.time.LocalDateTime;

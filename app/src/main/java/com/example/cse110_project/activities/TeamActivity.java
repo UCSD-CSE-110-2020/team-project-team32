@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,10 +12,12 @@ import android.widget.ListView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.team.TeamMember;
-import com.example.cse110_project.list_adapters.TeamListAdapter;
+import com.example.cse110_project.activities.listview_adapters.TeamListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalTime;

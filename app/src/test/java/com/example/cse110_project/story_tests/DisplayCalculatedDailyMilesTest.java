@@ -1,15 +1,12 @@
 package com.example.cse110_project.story_tests;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.widget.TextView;
 
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.activities.MainActivity;
 import com.example.cse110_project.R;
 import com.example.cse110_project.WWRApplication;
-import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.User;
 
 import org.junit.Before;

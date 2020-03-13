@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.ListView;
 
 
+import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.TeamRoute;
-import com.example.cse110_project.list_adapters.TeamRouteListAdapter;
+import com.example.cse110_project.activities.listview_adapters.TeamRouteListAdapter;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class TeamRoutesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.team_routes);
+        setContentView(R.layout.activity_team_routes);
 
         // To other activities
         Button homeButton = findViewById(R.id.teamRoutesBackButton);

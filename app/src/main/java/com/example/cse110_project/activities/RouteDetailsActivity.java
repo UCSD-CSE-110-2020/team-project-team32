@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cse110_project.dialogs.DialogObserver;
-import com.example.cse110_project.dialogs.DialogSubject;
-import com.example.cse110_project.dialogs.ProposeWalkDialog;
+import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.activities.dialogs.DialogObserver;
+import com.example.cse110_project.activities.dialogs.DialogSubject;
+import com.example.cse110_project.activities.dialogs.ProposeWalkDialog;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.util.MilesCalculator;

@@ -1,4 +1,4 @@
-package com.example.cse110_project;
+package com.example.cse110_project.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.cse110_project.dialogs.SaveRouteDialog;
+import com.example.cse110_project.R;
+import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.activities.dialogs.SaveRouteDialog;
 import com.example.cse110_project.fitness.FitnessService;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.Route;

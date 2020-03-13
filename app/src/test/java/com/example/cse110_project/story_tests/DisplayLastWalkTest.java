@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.activities.MainActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.util.MilesCalculator;
 import com.example.cse110_project.R;

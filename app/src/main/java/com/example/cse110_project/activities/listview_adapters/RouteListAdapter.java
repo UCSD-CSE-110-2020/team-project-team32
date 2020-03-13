@@ -1,13 +1,11 @@
-package com.example.cse110_project.list_adapters;
+package com.example.cse110_project.activities.listview_adapters;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,11 +16,9 @@ import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.User;
-import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.util.MilesCalculator;
 
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 public class RouteListAdapter extends ArrayAdapter {
     // to reference the Activity

@@ -1,4 +1,4 @@
-package com.example.cse110_project.list_adapters;
+package com.example.cse110_project.activities.listview_adapters;
 
 import android.app.Activity;
 import android.util.Log;

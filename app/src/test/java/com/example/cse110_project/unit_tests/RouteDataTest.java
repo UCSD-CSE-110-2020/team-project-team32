@@ -3,7 +3,7 @@ package com.example.cse110_project.unit_tests;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.activities.MainActivity;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
