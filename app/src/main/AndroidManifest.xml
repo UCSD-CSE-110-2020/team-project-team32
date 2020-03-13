@@ -11,8 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".TeamRoutesDetailsActivity"></activity>
-        <activity android:name=".ScheduledDetails"></activity>
+        <activity android:name=".TeamRouteDetailsActivity"></activity>
+        <activity android:name=".ScheduledWalkDetailsActivity"></activity>
         <activity android:name=".TeamRoutesActivity" />
         <activity android:name=".MockingActivity" />
         <activity

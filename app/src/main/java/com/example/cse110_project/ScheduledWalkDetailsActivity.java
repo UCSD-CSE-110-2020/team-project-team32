@@ -24,8 +24,7 @@ import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
-public class ScheduledDetails extends AppCompatActivity {
-
+public class ScheduledWalkDetailsActivity extends AppCompatActivity {
     public final static String SCHED_INDEX_KEY = "ROUTE_INDEX_KEY";
     private final static String TAG = "ScheduledDetailsActivity";
     public final static String CREATOR_KEY = "Creator Key";

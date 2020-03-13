@@ -24,14 +24,12 @@ import com.example.cse110_project.dialogs.AcceptInviteDialog;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.user_routes.Route;
-import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.util.DataConstants;
 import com.example.cse110_project.user_routes.User;
 
 import com.example.cse110_project.fitness.FitnessService;
 import com.example.cse110_project.util.MilesCalculator;
 
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -214,9 +212,9 @@ public class MainActivity extends AppCompatActivity {
         ScheduledWalk scheduledWalk = user.getTeam().getScheduledWalk();
 
         if (scheduledWalk != null) {
-            Intent intent = new Intent(this, ScheduledDetails.class);
+            Intent intent = new Intent(this, ScheduledWalkDetailsActivity.class);
             if (user.getEmail().equals(scheduledWalk.getCreatorId())) {
-                intent.putExtra(ScheduledDetails.CREATOR_KEY, true);
+                intent.putExtra(ScheduledWalkDetailsActivity.CREATOR_KEY, true);
             }
 
             startActivity(intent);

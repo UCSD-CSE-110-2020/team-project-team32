@@ -1,9 +1,7 @@
 package com.example.cse110_project;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -140,8 +138,8 @@ public class RouteDetailsActivity extends AppCompatActivity implements DialogObs
     @Override
     public void onPositiveResultUpdate(DialogSubject subject) {
         Toast.makeText(this, "Successfully scheduled walk", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, ScheduledDetails.class);
-        intent.putExtra(ScheduledDetails.CREATOR_KEY, true);
+        Intent intent = new Intent(this, ScheduledWalkDetailsActivity.class);
+        intent.putExtra(ScheduledWalkDetailsActivity.CREATOR_KEY, true);
         startActivity(intent);
     }
 

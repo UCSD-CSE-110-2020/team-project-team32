@@ -1,6 +1,5 @@
 package com.example.cse110_project.dialogs;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -10,10 +9,8 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import com.example.cse110_project.R;
-import com.example.cse110_project.ScheduledDetails;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.WalkScheduler;
 import com.example.cse110_project.user_routes.Route;

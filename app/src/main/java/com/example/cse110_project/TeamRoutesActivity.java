@@ -41,7 +41,7 @@ public class TeamRoutesActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(this, TeamRoutesDetailsActivity.class);
+            Intent intent = new Intent(this, TeamRouteDetailsActivity.class);
             intent.putExtra(RouteDetailsActivity.ROUTE_INDEX_KEY, position);
             startActivity(intent);
         });

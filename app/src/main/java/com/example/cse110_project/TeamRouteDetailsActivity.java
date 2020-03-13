@@ -25,7 +25,7 @@ import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 
 
-public class TeamRoutesDetailsActivity extends AppCompatActivity implements DialogObserver {
+public class TeamRouteDetailsActivity extends AppCompatActivity implements DialogObserver {
     public final static String ROUTE_INDEX_KEY = "ROUTE_INDEX_KEY";
     private final static String TAG = "RouteDetailsActivity";
     private User user;
@@ -139,8 +139,8 @@ public class TeamRoutesDetailsActivity extends AppCompatActivity implements Dial
     @Override
     public void onPositiveResultUpdate(DialogSubject subject) {
         Toast.makeText(this, "Successfully scheduled walk", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, ScheduledDetails.class);
-        intent.putExtra(ScheduledDetails.CREATOR_KEY, true);
+        Intent intent = new Intent(this, ScheduledWalkDetailsActivity.class);
+        intent.putExtra(ScheduledWalkDetailsActivity.CREATOR_KEY, true);
         startActivity(intent);
     }
 

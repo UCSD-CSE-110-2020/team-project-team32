@@ -10,7 +10,6 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.cse110_project.EntryActivity;
 import com.example.cse110_project.R;
-import com.example.cse110_project.ScheduledDetails;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.ScheduledWalk;
 
