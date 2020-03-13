@@ -1,7 +1,6 @@
 package com.example.cse110_project.user_routes;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 
 import com.example.cse110_project.WWRApplication;
@@ -9,16 +8,14 @@ import com.example.cse110_project.local_data.TeamData;
 import com.example.cse110_project.local_data.UserData;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.Team;
-import com.example.cse110_project.team.TeamMember;
+import com.example.cse110_project.team.TeamMediator;
 import com.example.cse110_project.team.TeamRoute;
-import com.example.cse110_project.local_data.DataConstants;
 import com.example.cse110_project.util.MilesCalculator;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class User {
     private static final String TAG = "User";

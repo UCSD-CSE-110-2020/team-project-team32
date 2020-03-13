@@ -26,7 +26,7 @@ public class Notifier {
     }
 
     public void notifyOnWalkProposed(ScheduledWalk walk) {
-        if (walkChangeKnown(walk)) {
+        if ( ! walkChangeKnown(walk)) {
             Log.d(TAG, "Notifying of proposed walk");
             String title = walk.getCreatorId() + " proposed a walk";
             String content = walk.retrieveRoute().getName() + " at " + walk.getDateTimeStr();
@@ -35,7 +35,7 @@ public class Notifier {
     }
 
     public void notifyOnWalkScheduled(ScheduledWalk walk) {
-        if (walkChangeKnown(walk)) {
+        if ( ! walkChangeKnown(walk)) {
             Log.d(TAG, "Notifying of scheduled walk");
             String title = walk.getCreatorId() + " scheduled a walk";
             String content = walk.retrieveRoute().getName() + " at " + walk.getDateTimeStr();
@@ -44,7 +44,7 @@ public class Notifier {
     }
 
     public void notifyOnWalkWithdrawn(ScheduledWalk walk) {
-        if (walkChangeKnown(walk)) {
+        if ( ! walkChangeKnown(walk)) {
             Log.d(TAG, "Notifying of withdrawn walk");
             String title = walk.getCreatorId() + " withdrew a walk";
             String content = walk.retrieveRoute().getName() + " at " + walk.getDateTimeStr();
@@ -54,9 +54,11 @@ public class Notifier {
 
     private boolean walkChangeKnown(ScheduledWalk walk) {
         Context context = WWRApplication.getUser().getContext();
-        return walk.getCreatorId().equals(WWRApplication.getUser().getEmail()) ||
+        boolean result = walk.getCreatorId().equals(WWRApplication.getUser().getEmail()) ||
                 (TeamData.retrieveTeamWalkDocId(context).equals(walk.getRouteAdapter().getDocID())
                         && TeamData.retrieveTeamWalkStatus(context) == walk.getStatus());
+        Log.d(TAG, "walkChangeKnown: " + result);
+        return result;
     }
 
     public void notifyOnWalkResponseChange(ScheduledWalk prevWalk, ScheduledWalk nextWalk) {

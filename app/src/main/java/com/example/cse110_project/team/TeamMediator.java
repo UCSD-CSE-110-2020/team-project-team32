@@ -1,17 +1,14 @@
-package com.example.cse110_project.user_routes;
+package com.example.cse110_project.team;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 
-import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
 import com.example.cse110_project.local_data.DataConstants;
 import com.example.cse110_project.local_data.TeamData;
 import com.example.cse110_project.local_data.UserData;
-import com.example.cse110_project.team.Team;
-import com.example.cse110_project.team.TeamMember;
-import com.example.cse110_project.team.TeamRoute;
+import com.example.cse110_project.user_routes.User;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -31,6 +28,7 @@ public class TeamMediator {
     }
 
     public Team getTeam() {
+        sortTeamMembersByName();
         return team;
     }
 
@@ -73,6 +71,7 @@ public class TeamMediator {
     }
 
     public List<TeamRoute> getTeamRoutes() {
+        sortTeamRouteByName();
         return teamRoutes;
     }
 
@@ -124,5 +123,15 @@ public class TeamMediator {
         route.setFavorite(TeamData.retrieveTeamRouteFavorite(context, docId));
 
         teamRoutes.add(route);
+    }
+
+    private void sortTeamMembersByName() {
+        team.getMembers().sort((t1, t2) ->
+                t1.getName().compareToIgnoreCase(t2.getName()));
+    }
+
+    private void sortTeamRouteByName() {
+        teamRoutes.sort((r1, r2) ->
+                r1.getRoute().getName().compareToIgnoreCase(r2.getRoute().getName()));
     }
 }
