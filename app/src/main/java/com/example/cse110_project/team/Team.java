@@ -2,6 +2,9 @@ package com.example.cse110_project.team;
 
 import androidx.annotation.NonNull;
 
+import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.local_data.TeamData;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,8 +60,12 @@ public class Team {
     public ScheduledWalk getScheduledWalk() {
         return scheduledWalk;
     }
-
     public void setScheduledWalk(ScheduledWalk walk) {
         scheduledWalk = walk;
+        if (walk != null) {
+            TeamData.saveTeamWalkDocId(WWRApplication.getUser().getContext(),
+                    walk.getRouteAdapter().getDocID());
+            TeamData.saveTeamWalkStatus(WWRApplication.getUser().getContext(), walk.getStatus());
+        }
     }
 }

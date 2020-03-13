@@ -5,11 +5,10 @@ import android.util.Log;
 
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.Invite;
-import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.TeamRoute;
-import com.example.cse110_project.user_routes.RouteData;
+import com.example.cse110_project.local_data.RouteData;
 import com.example.cse110_project.user_routes.RouteFirebaseAdapter;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.team.Team;

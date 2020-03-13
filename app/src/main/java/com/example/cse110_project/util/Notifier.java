@@ -11,6 +11,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.cse110_project.activities.EntryActivity;
 import com.example.cse110_project.R;
 import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.local_data.TeamData;
 import com.example.cse110_project.team.ScheduledWalk;
 
 import java.util.Map;
@@ -25,24 +26,37 @@ public class Notifier {
     }
 
     public void notifyOnWalkProposed(ScheduledWalk walk) {
-        Log.d(TAG, "Notifying of proposed walk");
-        String title = walk.getCreatorId() + " proposed a walk";
-        String content = walk.retrieveRoute().getName() + " at " + walk.getDateTimeStr();
-        launchNotification(title, content);
+        if (walkChangeKnown(walk)) {
+            Log.d(TAG, "Notifying of proposed walk");
+            String title = walk.getCreatorId() + " proposed a walk";
+            String content = walk.retrieveRoute().getName() + " at " + walk.getDateTimeStr();
+            launchNotification(title, content);
+        }
     }
 
     public void notifyOnWalkScheduled(ScheduledWalk walk) {
-        Log.d(TAG, "Notifying of scheduled walk");
-        String title = walk.getCreatorId() + " scheduled a walk";
-        String content = walk.retrieveRoute().getName() + " at " + walk.getDateTimeStr();
-        launchNotification(title, content);
+        if (walkChangeKnown(walk)) {
+            Log.d(TAG, "Notifying of scheduled walk");
+            String title = walk.getCreatorId() + " scheduled a walk";
+            String content = walk.retrieveRoute().getName() + " at " + walk.getDateTimeStr();
+            launchNotification(title, content);
+        }
     }
 
     public void notifyOnWalkWithdrawn(ScheduledWalk walk) {
-        Log.d(TAG, "Notifying of withdrawn walk");
-        String title = walk.getCreatorId() + " withdrew a walk";
-        String content = walk.retrieveRoute().getName() + " at " + walk.getDateTimeStr();
-        launchNotification(title, content);
+        if (walkChangeKnown(walk)) {
+            Log.d(TAG, "Notifying of withdrawn walk");
+            String title = walk.getCreatorId() + " withdrew a walk";
+            String content = walk.retrieveRoute().getName() + " at " + walk.getDateTimeStr();
+            launchNotification(title, content);
+        }
+    }
+
+    private boolean walkChangeKnown(ScheduledWalk walk) {
+        Context context = WWRApplication.getUser().getContext();
+        return walk.getCreatorId().equals(WWRApplication.getUser().getEmail()) ||
+                (TeamData.retrieveTeamWalkDocId(context).equals(walk.getRouteAdapter().getDocID())
+                        && TeamData.retrieveTeamWalkStatus(context) == walk.getStatus());
     }
 
     public void notifyOnWalkResponseChange(ScheduledWalk prevWalk, ScheduledWalk nextWalk) {
@@ -77,7 +91,8 @@ public class Notifier {
         WWRApplication.incrementNotificationId();
     }
 
-    private Map.Entry<String, Integer> parseResponseChange(ScheduledWalk prevWalk, ScheduledWalk nextWalk) {
+    private Map.Entry<String, Integer> parseResponseChange(ScheduledWalk prevWalk,
+                                                           ScheduledWalk nextWalk) {
         for (Map.Entry<String, Integer> entry : nextWalk.getResponses().entrySet()) {
             if (entry.getValue() != null &&
                     ! entry.getValue().equals(prevWalk.getResponses().get(entry.getKey()))) {

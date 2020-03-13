@@ -1,4 +1,4 @@
-package com.example.cse110_project.util;
+package com.example.cse110_project.local_data;
 
 /*
  * Defines constants used to save/retrieve data stored in SharedPreferences
@@ -19,7 +19,9 @@ public class DataConstants {
     public final static String ROUTE_TIME_KEY = "r%d_time";
     public final static String ROUTE_DATE_KEY = "r%d_date";
 
-    // Team route keys
+    // Team keys
+    public final static String TEAM_WALK_DOC_ID_KEY = "team_walk_doc_id";
+    public final static String TEAM_WALK_STATUS_KEY = "team_walk_status";
     public final static String TEAM_ROUTE_STEPS_KEY = "tr%s_name";
     public final static String TEAM_ROUTE_TIME_KEY = "tr%s_time";
     public final static String TEAM_ROUTE_DATE_KEY = "tr%s_date";
@@ -40,7 +42,7 @@ public class DataConstants {
     public final static int NO_HEIGHT_FOUND = 0;
     public final static String NO_ROUTES_FOUND = "";
     public final static String STR_NOT_FOUND = "";
-    public final static int INT_NOT_FOUND = -1;
+    public final static int INT_NOT_FOUND = Integer.MIN_VALUE;
     public final static boolean BOOL_NOT_FOUND = false;
     public final static String NO_RECENT_ROUTE = "N/A";
 

@@ -1,10 +1,11 @@
 
-package com.example.cse110_project.user_routes;
+package com.example.cse110_project.local_data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.cse110_project.util.DataConstants;
+import com.example.cse110_project.local_data.DataConstants;
+import com.example.cse110_project.user_routes.Route;
 
 public class UserData {
     public static String retrieveEmail(Context c) {

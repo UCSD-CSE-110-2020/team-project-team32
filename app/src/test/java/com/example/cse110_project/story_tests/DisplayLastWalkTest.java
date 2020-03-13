@@ -9,8 +9,8 @@ import com.example.cse110_project.activities.MainActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.util.MilesCalculator;
 import com.example.cse110_project.R;
-import com.example.cse110_project.user_routes.RouteData;
-import com.example.cse110_project.user_routes.UserData;
+import com.example.cse110_project.local_data.RouteData;
+import com.example.cse110_project.local_data.UserData;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.user_routes.User;
 

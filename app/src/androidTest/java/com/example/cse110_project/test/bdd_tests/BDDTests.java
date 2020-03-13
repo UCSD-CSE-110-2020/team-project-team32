@@ -28,10 +28,11 @@ import com.example.cse110_project.team.WalkScheduler;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.team.TeamMember;
-import com.example.cse110_project.user_routes.RouteData;
+import com.example.cse110_project.local_data.RouteData;
+import com.example.cse110_project.local_data.TeamData;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.user_routes.UserRoute;
-import com.example.cse110_project.util.DataConstants;
+import com.example.cse110_project.local_data.DataConstants;
 import com.example.cse110_project.util.MapsIntentBuilder;
 
 import org.hamcrest.Description;
@@ -391,9 +392,9 @@ public class BDDTests {
         for (TeamRoute route : user.getTeamRoutes()) {
             Context context = user.getContext();
             String docID = route.getDocID();
-            RouteData.saveTeamRouteSteps(context, docID, DataConstants.INT_NOT_FOUND);
-            RouteData.saveTeamRouteDate(context, docID, DataConstants.STR_NOT_FOUND);
-            RouteData.saveTeamRouteTime(context, docID, DataConstants.STR_NOT_FOUND);
+            TeamData.saveTeamRouteSteps(context, docID, DataConstants.INT_NOT_FOUND);
+            TeamData.saveTeamRouteDate(context, docID, DataConstants.STR_NOT_FOUND);
+            TeamData.saveTeamRouteTime(context, docID, DataConstants.STR_NOT_FOUND);
         }
     }
 

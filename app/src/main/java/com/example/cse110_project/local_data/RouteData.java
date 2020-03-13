@@ -1,9 +1,10 @@
-package com.example.cse110_project.user_routes;
+package com.example.cse110_project.local_data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.cse110_project.util.DataConstants;
+import com.example.cse110_project.local_data.DataConstants;
+import com.example.cse110_project.user_routes.Route;
 
 /*
  * Contains methods for storing & retrieving data on specific routes to/from SharedPreferences.
@@ -37,30 +38,6 @@ public class RouteData {
         SharedPreferences pref = retrievePrefs(c);
         return pref.getString(String.format(DataConstants.ROUTE_DATE_KEY, routeID),
                 DataConstants.STR_NOT_FOUND);
-    }
-
-    public static int retrieveTeamRouteSteps(Context c, String docId) {
-        SharedPreferences pref = retrievePrefs(c);
-        return pref.getInt(String.format(DataConstants.TEAM_ROUTE_STEPS_KEY, docId),
-                DataConstants.INT_NOT_FOUND);
-    }
-
-    public static String retrieveTeamRouteTime(Context c, String docId) {
-        SharedPreferences pref = retrievePrefs(c);
-        return pref.getString(String.format(DataConstants.TEAM_ROUTE_TIME_KEY, docId),
-                DataConstants.STR_NOT_FOUND);
-    }
-
-    public static String retrieveTeamRouteDate(Context c, String docId) {
-        SharedPreferences pref = retrievePrefs(c);
-        return pref.getString(String.format(DataConstants.TEAM_ROUTE_DATE_KEY, docId),
-                DataConstants.STR_NOT_FOUND);
-    }
-
-    public static boolean retrieveTeamRouteFavorite(Context c, String docId) {
-        SharedPreferences pref = retrievePrefs(c);
-        return pref.getBoolean(String.format(DataConstants.TEAM_ROUTE_FAVORITE_KEY, docId),
-                DataConstants.BOOL_NOT_FOUND);
     }
 
     public static String retrieveStartingPoint(Context c, int routeID) {
@@ -164,30 +141,6 @@ public class RouteData {
         editor.apply();
     }
 
-    public static void saveTeamRouteSteps(Context c, String docId, int routeSteps) {
-        SharedPreferences.Editor editor = retrieveEditor(c);
-        editor.putInt(String.format(DataConstants.TEAM_ROUTE_STEPS_KEY, docId), routeSteps);
-        editor.apply();
-    }
-
-    public static void saveTeamRouteTime(Context c, String docId, String routeTime) {
-        SharedPreferences.Editor editor = retrieveEditor(c);
-        editor.putString(String.format(DataConstants.TEAM_ROUTE_TIME_KEY, docId), routeTime);
-        editor.apply();
-    }
-
-    public static void saveTeamRouteDate(Context c, String docId, String routeDate) {
-        SharedPreferences.Editor editor = retrieveEditor(c);
-        editor.putString(String.format(DataConstants.TEAM_ROUTE_DATE_KEY, docId), routeDate);
-        editor.apply();
-    }
-
-    public static void saveTeamRouteFavorite(Context c, String docId, boolean fav) {
-        SharedPreferences.Editor editor = retrieveEditor(c);
-        editor.putBoolean(String.format(DataConstants.TEAM_ROUTE_FAVORITE_KEY, docId), fav);
-        editor.apply();
-    }
-
     public static void saveStartingPoint(Context c, int routeID, String data) {
         SharedPreferences.Editor editor = retrieveEditor(c);
         editor.putString(String.format(DataConstants.STARTING_POINT_KEY, routeID), data);
@@ -236,11 +189,11 @@ public class RouteData {
         editor.apply();
     }
 
-    private static SharedPreferences retrievePrefs(Context c) {
+    protected static SharedPreferences retrievePrefs(Context c) {
         return c.getSharedPreferences(DataConstants.ROUTES_DATA_FILE, Context.MODE_PRIVATE);
     }
 
-    private static SharedPreferences.Editor retrieveEditor(Context c) {
+    protected static SharedPreferences.Editor retrieveEditor(Context c) {
         return retrievePrefs(c).edit();
     }
 }

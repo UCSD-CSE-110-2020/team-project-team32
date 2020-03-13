@@ -67,7 +67,8 @@ public class DatabaseListener implements DatabaseServiceObserver {
 
         List<TeamRoute> userTeamRoutes = user.getTeamRoutes();
         for (TeamRoute route : teamRoutes) {
-            if ( ! route.getCreator().getEmail().equals(user.getEmail()) &&
+            if (route.getRoute().getDocID() != null &&
+                    ! route.getCreator().getEmail().equals(user.getEmail()) &&
                     ! userTeamRoutes.contains(route)) {
                 userTeamRoutes.add(route);
             }
