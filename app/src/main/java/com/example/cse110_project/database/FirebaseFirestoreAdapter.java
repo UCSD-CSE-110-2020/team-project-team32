@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FirebaseFirestoreAdapter implements DatabaseService {
-    private static final String TAG = "FirebaseFirestoreAdapter";
+    private static final String TAG = FirebaseFirestoreAdapter.class.getSimpleName();
 
     private List<DatabaseServiceObserver> observers;
     private String invitesKey;
@@ -90,14 +90,11 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
     @Override
     public void declineInvite(Invite invite) {
         removeInvite(invite);
-
-        // Remove invited member from team
-       teamCollection.document(invite.getTeamId()).get().addOnSuccessListener(doc -> {
+        teamCollection.document(invite.getTeamId()).get().addOnSuccessListener(doc -> {
             Log.d(TAG, "declineInvite: removing declined member for invite " + invite);
             Team team = doc.toObject(Team.class);
-            if (team != null) {
-                team.removeMemberById(invite.getInvitedMemberId());
-                updateTeam(team);
+            for (DatabaseServiceObserver obs : observers) {
+                obs.updateOnInviteDeclined(this, invite, team);
             }
         });
     }
@@ -105,15 +102,11 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
     @Override
     public void acceptInvite(Invite invite) {
         removeInvite(invite);
-
-        // Update invited member's status
         teamCollection.document(invite.getTeamId()).get().addOnSuccessListener(doc -> {
             Log.d(TAG, "acceptInvite: updating member status for invite " + invite);
             Team team = doc.toObject(Team.class);
-            if (team != null) {
-                team.findMemberById(invite.getInvitedMemberId())
-                        .setStatus(TeamMember.STATUS_MEMBER);
-                updateTeam(team);
+            for (DatabaseServiceObserver obs : observers) {
+                obs.updateOnInviteAccepted(this, invite, team);
             }
         });
     }

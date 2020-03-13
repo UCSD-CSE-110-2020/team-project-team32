@@ -7,7 +7,10 @@ import com.example.cse110_project.team.TeamRoute;
 import java.util.List;
 
 public interface DatabaseServiceObserver {
-    public void updateOnTeamChange(DatabaseService db, Team team);
-    public void updateOnInvitesChange(DatabaseService db, List<Invite> invite);
-    public void updateOnTeamRoutesChange(DatabaseService db, List<TeamRoute> teamRoutes);
+    void updateOnTeamChange(DatabaseService db, Team team);
+    void updateOnTeamRoutesChange(DatabaseService db, List<TeamRoute> teamRoutes);
+
+    void updateOnInvitesChange(DatabaseService db, List<Invite> invite);
+    void updateOnInviteAccepted(DatabaseService db, Invite invite, Team invitedTeam);
+    void updateOnInviteDeclined(DatabaseService db, Invite invite, Team invitedTeam);
 }

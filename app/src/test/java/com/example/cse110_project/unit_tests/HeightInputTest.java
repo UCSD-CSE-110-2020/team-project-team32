@@ -17,6 +17,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.cse110_project.activities.MainActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
+import com.example.cse110_project.database.DatabaseServiceObserver;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.user_routes.Route;
@@ -188,7 +189,7 @@ public class HeightInputTest {
         }
 
         @Override
-        public void addTeamListener(Team team) { return null; }
+        public void addTeamListener(Team team) { }
 
         @Override
         public void addTeammateRoutesListener(User listener, TeamMember teammate) {
@@ -201,11 +202,14 @@ public class HeightInputTest {
         }
 
         @Override
-        public void createTeam(Team team) { return null; }
+        public void createTeam(Team team) { }
 
         @Override
-        public void updateTeam(Team team) {
-            return null;
+        public void updateTeam(Team team) { }
+
+        @Override
+        public void register(DatabaseServiceObserver obs) {
+
         }
     }
 }

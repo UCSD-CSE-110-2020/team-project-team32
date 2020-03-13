@@ -1,10 +1,8 @@
-package com.example.cse110_project.database.data_mediators;
+package com.example.cse110_project.database;
 
 import android.util.Log;
 
 import com.example.cse110_project.WWRApplication;
-import com.example.cse110_project.database.DatabaseServiceObserver;
-import com.example.cse110_project.database.DatabaseService;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.team.Team;
@@ -39,6 +37,28 @@ public class DatabaseListener implements DatabaseServiceObserver {
     }
 
     @Override
+    public void updateOnInviteAccepted(DatabaseService db, Invite invite, Team invitedTeam) {
+        if (invitedTeam == null || invite == null) {
+            Log.e(TAG, "No accepted invite data found");
+            return;
+        }
+
+        invitedTeam.findMemberById(invite.getInvitedMemberId()).setStatus(TeamMember.STATUS_MEMBER);
+        db.updateTeam(invitedTeam);
+    }
+
+    @Override
+    public void updateOnInviteDeclined(DatabaseService db, Invite invite, Team invitedTeam) {
+        if (invitedTeam == null || invite == null) {
+            Log.e(TAG, "No declined invite data found");
+            return;
+        }
+
+        invitedTeam.removeMemberById(invite.getInvitedMemberId());
+        db.updateTeam(invitedTeam);
+    }
+
+    @Override
     public void updateOnTeamRoutesChange(DatabaseService db, List<TeamRoute> teamRoutes) {
         if (teamRoutes == null) {
             Log.e(TAG, "Team routes data not found");
@@ -47,7 +67,8 @@ public class DatabaseListener implements DatabaseServiceObserver {
 
         List<TeamRoute> userTeamRoutes = user.getTeamRoutes();
         for (TeamRoute route : teamRoutes) {
-            if ( ! userTeamRoutes.contains(route)) {
+            if ( ! route.getCreator().getEmail().equals(user.getEmail()) &&
+                    ! userTeamRoutes.contains(route)) {
                 userTeamRoutes.add(route);
             }
         }

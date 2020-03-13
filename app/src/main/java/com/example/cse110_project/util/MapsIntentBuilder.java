@@ -6,7 +6,7 @@ import android.net.Uri;
 
 import com.example.cse110_project.WWRApplication;
 
-public class MapsMediator {
+public class MapsIntentBuilder {
     private Intent mapIntent;
 
     public Intent assembleIntent(String searchText) {

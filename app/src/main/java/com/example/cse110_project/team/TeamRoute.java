@@ -35,7 +35,8 @@ public class TeamRoute extends Route {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof TeamRoute && ((TeamRoute)o).getDocID().equals(getDocID());
+        return o instanceof TeamRoute && ((TeamRoute)o).getDocID() != null &&
+        ((TeamRoute) o).getDocID().equals(getDocID());
     }
 
     public Route getRoute() { return route; }

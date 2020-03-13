@@ -211,10 +211,10 @@ public class ScheduledWalkDetailsActivity extends AppCompatActivity {
     private void searchStartingPointInMaps() {
         String searchText = route.getStartingPoint();
         if (searchText.length() > 0) {
-            Intent mapIntent = WWRApplication.getMapsMediator().assembleIntent(searchText);
+            Intent mapIntent = WWRApplication.getMapsIntentBuilder().assembleIntent(searchText);
             if (mapIntent.resolveActivity(getPackageManager()) != null) {
                 Log.d(TAG, "Launching Google Maps");
-                WWRApplication.getMapsMediator().launchMaps(this);
+                WWRApplication.getMapsIntentBuilder().launchMaps(this);
             } else {
                 Log.e(TAG, "Google Maps intent cannot be resolved");
             }

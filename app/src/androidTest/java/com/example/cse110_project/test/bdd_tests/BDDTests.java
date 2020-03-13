@@ -20,6 +20,7 @@ import com.example.cse110_project.activities.RoutesActivity;
 import com.example.cse110_project.activities.TeamActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
+import com.example.cse110_project.database.DatabaseServiceObserver;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.team.TeamRoute;
@@ -31,7 +32,7 @@ import com.example.cse110_project.user_routes.RouteData;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.user_routes.UserRoute;
 import com.example.cse110_project.util.DataConstants;
-import com.example.cse110_project.util.MapsMediator;
+import com.example.cse110_project.util.MapsIntentBuilder;
 
 import org.hamcrest.Description;
 
@@ -98,7 +99,7 @@ public class BDDTests {
     @Before
     public void setup() {
         Intents.init();
-        WWRApplication.setMapsMediator(new TestMapsMediator());
+        WWRApplication.setMapsIntentBuilder(new TestMapsIntentBuilder());
         WWRApplication.setDatabase(new TestDatabaseService());
 
         db = WWRApplication.getDatabase();
@@ -784,7 +785,7 @@ public class BDDTests {
         }
     }
 
-    private class TestMapsMediator extends MapsMediator {
+    private class TestMapsIntentBuilder extends MapsIntentBuilder {
         @Override
         public void launchMaps(Activity activity) {
             mapsLaunched = true;
@@ -812,7 +813,7 @@ public class BDDTests {
         }
 
         @Override
-        public void createTeam(Team team) { return null; }
+        public void createTeam(Team team) { }
 
         @Override
         public void updateTeam(Team team) {
@@ -826,7 +827,6 @@ public class BDDTests {
             }
 
             updateScheduledWalk(user.getTeam(), team);
-            return null;
         }
 
         @Override
@@ -841,7 +841,6 @@ public class BDDTests {
             if (invitedTeam != null && team.getId().equals(invitedTeam.getId())) {
                 team.getMembers().addAll(invitedTeam.getMembers());
             }
-            return null;
         }
 
         public void declineInvite(Invite invite) {
@@ -880,6 +879,11 @@ public class BDDTests {
             }
 
             prev.setScheduledWalk(nextWalk);
+        }
+
+        @Override
+        public void register(DatabaseServiceObserver obs) {
+
         }
     }
 

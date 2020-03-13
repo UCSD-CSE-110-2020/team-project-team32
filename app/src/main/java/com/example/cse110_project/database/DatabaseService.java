@@ -7,17 +7,17 @@ import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.team.Team;
 
 public interface DatabaseService extends DatabaseSubject{
-    public void addRoute(Route route);
-    public void updateRoute(Route route);
+    void addRoute(Route route);
+    void updateRoute(Route route);
 
-    public void addInvite(Invite invite);
-    public void declineInvite(Invite invite);
-    public void acceptInvite(Invite invite);
+    void addInvite(Invite invite);
+    void declineInvite(Invite invite);
+    void acceptInvite(Invite invite);
 
-    public void createTeam(Team team);
-    public void updateTeam(Team team);
+    void createTeam(Team team);
+    void updateTeam(Team team);
 
-    public void addTeamListener(Team team);
-    public void addInvitesListener(User listener);
-    public void addTeammateRoutesListener(User listener, TeamMember teammate);
+    void addTeamListener(Team team);
+    void addInvitesListener(User listener);
+    void addTeammateRoutesListener(User listener, TeamMember teammate);
 }
