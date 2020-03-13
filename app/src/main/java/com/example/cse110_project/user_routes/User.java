@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class User {
     private static final String TAG = "User";
@@ -56,7 +57,14 @@ public class User {
         if (WWRApplication.hasDatabase()) {
             if (team.getId().equals(DataConstants.NO_TEAMID_FOUND)) {
                 Log.d(TAG, "Creating new team");
-                TeamMember self = new TeamMember(email, email, Color.YELLOW);
+                Random rand = new Random();
+                int low = 1;
+                int high = 255;
+                int r = rand.nextInt(high-low)+low;
+                int g = rand.nextInt(high-low)+low;
+                int b = rand.nextInt(high-low)+low;
+                int randomColor = Color.rgb(r,g,b);
+                TeamMember self = new TeamMember(email, email, randomColor);
                 self.setStatus(TeamMember.STATUS_MEMBER);
                 team.getMembers().add(self);
 

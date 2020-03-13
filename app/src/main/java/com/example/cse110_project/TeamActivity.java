@@ -19,6 +19,7 @@ import com.example.cse110_project.list_adapters.TeamListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class TeamActivity extends AppCompatActivity {
@@ -75,6 +76,16 @@ public class TeamActivity extends AppCompatActivity {
         int emailEditorLength = emailEditor.getText().toString().length();
         int NickNameEditorLength = nickNameEditor.getText().toString().length();
 
+
+        Random rand = new Random();
+        int low = 1;
+        int high = 255;
+        int r = rand.nextInt(high-low)+low;
+        int g = rand.nextInt(high-low)+low;
+        int b = rand.nextInt(high-low)+low;
+        int randomColor = Color.rgb(r,g,b);
+
+
         if (emailEditorLength == 0 || NickNameEditorLength == 0) {
             Toast.makeText(this, R.string.InvalidInvite, Toast.LENGTH_SHORT)
                     .show();
@@ -84,7 +95,7 @@ public class TeamActivity extends AppCompatActivity {
                     .show();
         } else {
             TeamMember member = new TeamMember(nickNameEditor.getText().toString(),
-                    emailEditor.getText().toString(), Color.YELLOW);
+                    emailEditor.getText().toString(), randomColor);
             Invite invite =
                     new Invite(member.getEmail(), WWRApplication.getUser().getTeam().getId(),
                                WWRApplication.getUser().getEmail());
