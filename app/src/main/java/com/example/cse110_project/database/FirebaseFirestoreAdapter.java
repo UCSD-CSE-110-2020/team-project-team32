@@ -203,8 +203,17 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
 
     private void addNewTeammates(Team prev, Team next) {
         for (TeamMember member : next.getMembers()) {
-            if (prev.findMemberById(member.getEmail()) == null) {
+            TeamMember prevMember = prev.findMemberById(member.getEmail());
+            if (prevMember == null) {
                 prev.getMembers().add(member);
+                Log.d(TAG, "Adding new teammate with status " + member.getStatus());
+                if (member.getStatus() == TeamMember.STATUS_MEMBER) {
+                    addTeammateRoutesListener(WWRApplication.getUser(), member);
+                }
+
+            } else if (prevMember.getStatus() == TeamMember.STATUS_PENDING &&
+                    member.getStatus() == TeamMember.STATUS_MEMBER) {
+                prevMember.setStatus(TeamMember.STATUS_MEMBER);
                 addTeammateRoutesListener(WWRApplication.getUser(), member);
             }
         }

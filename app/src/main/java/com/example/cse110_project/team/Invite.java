@@ -40,7 +40,6 @@ public class Invite {
 
         WWRApplication.getDatabase().updateTeam(team);
         WWRApplication.getDatabase().addTeamListener(team);
-        WWRApplication.getDatabase().addTeammateRoutesListener(WWRApplication.getUser(), newMember);
     }
 
     public void accept() {
