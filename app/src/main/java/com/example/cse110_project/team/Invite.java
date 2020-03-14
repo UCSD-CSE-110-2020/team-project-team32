@@ -22,6 +22,11 @@ public class Invite {
         this.creatorId = creatorId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Invite && o.toString().equals(this.toString());
+    }
+
     @Override @NonNull
     public String toString() {
         return "[" + teamId + "]: " + creatorId + " --> " + invitedMemberId;
@@ -40,7 +45,6 @@ public class Invite {
 
         WWRApplication.getDatabase().updateTeam(team);
         WWRApplication.getDatabase().addTeamListener(team);
-        WWRApplication.getDatabase().addTeammateRoutesListener(WWRApplication.getUser(), newMember);
     }
 
     public void accept() {

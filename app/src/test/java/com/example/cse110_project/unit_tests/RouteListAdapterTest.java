@@ -6,11 +6,11 @@ import android.widget.TextView;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.cse110_project.R;
-import com.example.cse110_project.RoutesActivity;
+import com.example.cse110_project.activities.RoutesActivity;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.RouteList;
 import com.example.cse110_project.user_routes.UserRoute;
-import com.example.cse110_project.list_adapters.RouteListAdapter;
+import com.example.cse110_project.activities.listview_adapters.RouteListAdapter;
 
 import org.junit.Rule;
 import org.junit.Test;

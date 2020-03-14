@@ -6,7 +6,9 @@ import android.util.SparseIntArray;
 import androidx.annotation.NonNull;
 
 import com.example.cse110_project.WWRApplication;
-import com.example.cse110_project.util.DataConstants;
+import com.example.cse110_project.local_data.DataConstants;
+import com.example.cse110_project.local_data.RouteData;
+import com.example.cse110_project.local_data.UserData;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

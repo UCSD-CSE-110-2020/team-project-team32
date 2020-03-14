@@ -5,11 +5,11 @@ import android.util.Log;
 
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.team.Invite;
-import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.TeamRoute;
-import com.example.cse110_project.user_routes.RouteData;
+import com.example.cse110_project.local_data.RouteData;
+import com.example.cse110_project.user_routes.RouteFirebaseAdapter;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.team.Team;
 import com.google.android.gms.tasks.Task;
@@ -17,32 +17,38 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ListenerRegistration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FirebaseFirestoreAdapter implements DatabaseService {
-    private static final String TAG = "FirebaseFirestoreAdapter";
+    private static final String TAG = FirebaseFirestoreAdapter.class.getSimpleName();
 
-    private String userCollectionKey;
-    private String teamCollectionKey;
+    private List<DatabaseServiceObserver> observers;
     private String invitesKey;
     private String routesKey;
 
+    private CollectionReference userCollection;
+    private CollectionReference teamCollection;
     private CollectionReference userRoutes;
 
     public FirebaseFirestoreAdapter(String userCollectionKey, String teamCollectionKey,
                                     String userId, String invitesKey, String routesKey) {
-        this.userCollectionKey = userCollectionKey;
-        this.teamCollectionKey = teamCollectionKey;
+        observers = new ArrayList<>();
         this.invitesKey = invitesKey;
         this.routesKey = routesKey;
 
-        userRoutes = FirebaseFirestore.getInstance().collection(userCollectionKey)
-                .document(userId).collection(routesKey);
+        userCollection = FirebaseFirestore.getInstance().collection(userCollectionKey);
+        teamCollection = FirebaseFirestore.getInstance().collection(teamCollectionKey);
+        userRoutes = userCollection.document(userId).collection(routesKey);
+
         FirebaseAuth.getInstance().signInAnonymously();
+    }
+
+    @Override
+    public void register(DatabaseServiceObserver obs) {
+        observers.add(obs);
     }
 
     @Override
@@ -65,18 +71,8 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
     }
 
     @Override
-    public void getRoutes(List<Route> routes) {
-        userRoutes.get().addOnSuccessListener(result -> {
-            for (DocumentSnapshot doc : result.getDocuments()) {
-                routes.add(doc.toObject(RouteFirebaseAdapter.class).toRoute());
-            }
-        });
-    }
-
-    @Override
     public void addInvite(Invite invite) {
-        CollectionReference invitesCollection = FirebaseFirestore.getInstance()
-                .collection(userCollectionKey)
+        CollectionReference invitesCollection = userCollection
                 .document(invite.getInvitedMemberId())
                 .collection(invitesKey);
         invitesCollection.document(invite.getTeamId()).set(invite);
@@ -84,8 +80,7 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
 
     // Shared helper method for declineInvite, acceptInvite
     private void removeInvite(Invite invite) {
-        CollectionReference invitesCollection = FirebaseFirestore.getInstance()
-                .collection(userCollectionKey)
+        CollectionReference invitesCollection = userCollection
                 .document(invite.getInvitedMemberId())
                 .collection(invitesKey);
         invitesCollection.document(invite.getTeamId()).delete();
@@ -94,15 +89,11 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
     @Override
     public void declineInvite(Invite invite) {
         removeInvite(invite);
-
-        // Remove invited member from team
-        FirebaseFirestore.getInstance().collection(teamCollectionKey)
-                .document(invite.getTeamId()).get().addOnSuccessListener(doc -> {
+        teamCollection.document(invite.getTeamId()).get().addOnSuccessListener(doc -> {
             Log.d(TAG, "declineInvite: removing declined member for invite " + invite);
             Team team = doc.toObject(Team.class);
-            if (team != null) {
-                team.removeMemberById(invite.getInvitedMemberId());
-                updateTeam(team);
+            for (DatabaseServiceObserver obs : observers) {
+                obs.updateOnInviteDeclined(this, invite, team);
             }
         });
     }
@@ -110,125 +101,53 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
     @Override
     public void acceptInvite(Invite invite) {
         removeInvite(invite);
-
-        // Update invited member's status
-        FirebaseFirestore.getInstance().collection(teamCollectionKey)
-                .document(invite.getTeamId()).get().addOnSuccessListener(doc -> {
+        teamCollection.document(invite.getTeamId()).get().addOnSuccessListener(doc -> {
             Log.d(TAG, "acceptInvite: updating member status for invite " + invite);
             Team team = doc.toObject(Team.class);
-            if (team != null) {
-                team.findMemberById(invite.getInvitedMemberId())
-                        .setStatus(TeamMember.STATUS_MEMBER);
-                updateTeam(team);
+            for (DatabaseServiceObserver obs : observers) {
+                obs.updateOnInviteAccepted(this, invite, team);
             }
         });
     }
 
     @Override
-    public Task<?> createTeam(Team team) {
+    public void createTeam(Team team) {
         Log.d(TAG, "Creating team " + team);
-        DocumentReference userTeam =
-                FirebaseFirestore.getInstance().collection(teamCollectionKey).document();
+        DocumentReference userTeam = teamCollection.document();
         team.setId(userTeam.getId());
-        return userTeam.set(team);
+        userTeam.set(team);
     }
 
     @Override
-    public void removeTeam(Team team) {
-        FirebaseFirestore.getInstance().collection(teamCollectionKey).document(team.getId())
-                .delete();
+    public void updateTeam(Team team) {
+        Task<?> task = teamCollection.document(team.getId()).set(team);
+        task.addOnSuccessListener(r -> Log.d(TAG, "updateTeam: Success"))
+                .addOnFailureListener(r -> Log.d(TAG, "updateTeam: Failure"))
+                .addOnCanceledListener(() -> Log.d(TAG, "updateTeam: Canceled"));
     }
 
     @Override
-    public Task<?> updateTeam(Team team) {
-        Task<?> task = FirebaseFirestore.getInstance().collection(teamCollectionKey)
-                .document(team.getId()).set(team);
-        task.addOnSuccessListener(r -> System.out.println("uT: Success"))
-                .addOnFailureListener(r -> System.out.println("uT: Failure"))
-                .addOnCanceledListener(() -> System.out.println("uT: Canceled"));
-        return task;
-    }
-
-    @Override
-    public ListenerRegistration addTeamListener(Team team) {
+    public void addTeamListener(Team team) {
         Log.d(TAG, "addTeamListener called on " + team.getId());
-        return FirebaseFirestore.getInstance().collection(teamCollectionKey)
-                .document(team.getId())
-                .addSnapshotListener((snapshot, e) -> {
-                    if (e != null) {
-                        Log.w(TAG, "Listen error in addTeamListener: " + e.getMessage());
-                        addTeamListener(team);
-                        return;
-                    }
+        teamCollection.document(team.getId()).addSnapshotListener((snapshot, e) -> {
+                if (e != null) {
+                    Log.w(TAG, "Listen error in addTeamListener: " + e.getMessage());
+                    addTeamListener(team);
+                    return;
+                }
 
-                    Team changedTeam = snapshot.toObject(Team.class);
-                    Log.d(TAG, "Change retrieved in " + changedTeam);
-
-                    if (changedTeam != null) {
-                        addNewTeammates(team, changedTeam);
-                        removeDeclinedTeammates(team, changedTeam);
-                        updateScheduledWalk(team, changedTeam);
-                    }
-                });
-    }
-
-    private void updateScheduledWalk(Team prev, Team next) {
-        ScheduledWalk prevWalk = prev.getScheduledWalk();
-        ScheduledWalk nextWalk = next.getScheduledWalk();
-
-        if (prevWalk == null && nextWalk != null) {
-            WWRApplication.getNotifier().notifyOnWalkProposed(nextWalk);
-
-        } else if (prevWalk != null && nextWalk == null) {
-            WWRApplication.getNotifier().notifyOnWalkWithdrawn(prevWalk);
-
-        } else if (prevWalk != null) {
-            if (prevWalk.getStatus() != nextWalk.getStatus()) {
-                WWRApplication.getNotifier().notifyOnWalkScheduled(nextWalk);
-            } else if ( ! prevWalk.getResponses().equals(nextWalk.getResponses())){
-                WWRApplication.getNotifier().notifyOnWalkResponseChange(prevWalk, nextWalk);
-            }
-        }
-
-        prev.setScheduledWalk(nextWalk);
-        for (TeamMember member : prev.getMembers()) {
-            if (prev.getScheduledWalk() != null &&
-                    ! member.getEmail().equals(nextWalk.getCreatorId()) &&
-                    ! prev.getScheduledWalk().getResponses().containsKey(member.getEmail())) {
-                prev.getScheduledWalk().getResponses()
-                        .put(member.getEmail(), ScheduledWalk.NO_RESPONSE);
-            }
-        }
-    }
-
-    private void addNewTeammates(Team prev, Team next) {
-        for (TeamMember member : next.getMembers()) {
-            if (prev.findMemberById(member.getEmail()) == null) {
-                prev.getMembers().add(member);
-                addTeammateRoutesListener(WWRApplication.getUser(), member);
-            }
-        }
-    }
-
-    private void removeDeclinedTeammates(Team prev, Team next) {
-        for (TeamMember member : prev.getMembers()) {
-            if (next.findMemberById(member.getEmail()) == null) {
-                prev.removeMemberById(member.getEmail());
-            }
-        }
-    }
-
-    @Override
-    public void removeTeammatesListener(ListenerRegistration listener) {
-        listener.remove();
+                Team changedTeam = snapshot.toObject(Team.class);
+                Log.d(TAG, "Change retrieved in " + changedTeam);
+                for (DatabaseServiceObserver obs : observers) {
+                    obs.updateOnTeamChange(this, changedTeam);
+                }
+        });
     }
 
     @Override
     public void addInvitesListener(User listener) {
         Log.d(TAG, "Adding invites listener " + listener.getEmail());
-        FirebaseFirestore.getInstance().collection(userCollectionKey)
-                .document(listener.getEmail())
-                .collection(invitesKey)
+        userCollection.document(listener.getEmail()).collection(invitesKey)
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.w(TAG, "Listen error in addInvitesListener: " + e.getMessage());
@@ -237,23 +156,26 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                     }
 
                     Log.d(TAG, "Change retrieved in invites for " + listener.getEmail());
+                    List<Invite> changedInvites = new ArrayList<>();
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
                         if (dc.getType().equals(DocumentChange.Type.ADDED)) {
-                            listener.getInvites().add(dc.getDocument().toObject(Invite.class));
+                            changedInvites.add(dc.getDocument().toObject(Invite.class));
                         }
+                    }
+
+                    for (DatabaseServiceObserver obs : observers) {
+                        obs.updateOnInvitesChange(this, changedInvites);
                     }
                     Log.d(TAG, "Updated invites is " + listener.getInvites());
                 });
     }
 
-    // Code based off of
+
     // https://firebase.google.com/docs/firestore/query-data/listen#view_changes_between_snapshots
     @Override
     public void addTeammateRoutesListener(User listener, TeamMember teammate) {
         Log.d(TAG, "Adding routes listener " + listener.getEmail() + " to member " + teammate);
-        FirebaseFirestore.getInstance().collection(userCollectionKey)
-                .document(teammate.getEmail())
-                .collection(routesKey)
+        userCollection.document(teammate.getEmail()).collection(routesKey)
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.w(TAG, "Listen error in addTeammateRoutesListener: "
@@ -263,19 +185,18 @@ public class FirebaseFirestoreAdapter implements DatabaseService {
                     }
 
                     Log.d(TAG, "Change retrieved in teammate routes for " + teammate);
-
-                    // Update any changed routes
+                    List<TeamRoute> changedRoutes = new ArrayList<>();
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
                         TeamRoute changedRoute = new TeamRoute(
                                 dc.getDocument().toObject(RouteFirebaseAdapter.class).toRoute(),
                                 teammate);
+                        changedRoutes.add(changedRoute);
                         Log.d(TAG, "Change found in route " + changedRoute.getName() +
                                 " with docId " + changedRoute.getDocID());
+                    }
 
-                        if (changedRoute.getDocID() != null &&
-                                ! listener.getTeamRoutes().contains(changedRoute)) {
-                            listener.addTeamRoute(changedRoute);
-                        }
+                    for (DatabaseServiceObserver obs : observers) {
+                        obs.updateOnTeamRoutesChange(this, changedRoutes);
                     }
                 });
     }

@@ -14,18 +14,17 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.activities.MainActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
+import com.example.cse110_project.database.DatabaseServiceObserver;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.team.Team;
-import com.example.cse110_project.user_routes.UserData;
-import com.google.android.gms.tasks.Task;
+import com.example.cse110_project.local_data.UserData;
 import com.google.common.truth.Truth;
-import com.google.firebase.firestore.ListenerRegistration;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -33,12 +32,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.shadows.ShadowToast;
 
-import java.util.List;
-
 @RunWith(AndroidJUnit4.class)
 public class HeightInputTest {
     private ActivityScenario<MainActivity> scenario;
     private EditText setHeight;
+    private EditText setEmail;
     private androidx.appcompat.app.AlertDialog dialog;
     private Button clickOk;
     private String invalidHeightToast;
@@ -55,9 +53,12 @@ public class HeightInputTest {
         WWRApplication.setDatabase(new TestDatabaseService());
         scenario = scenarioRule.getScenario();
         scenario.onActivity(mainActivity -> {
+
              dialog = mainActivity.showInputDialog();
              setHeight = dialog.findViewById(R.id.heightInput);
              clickOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+             setEmail = dialog.findViewById(R.id.emailInput);
+             setEmail.setText("beeboop@gmail.com");
 
              invalidHeightToast = mainActivity.getResources().getString(
                      R.string.invalidHeightToast);
@@ -67,8 +68,8 @@ public class HeightInputTest {
                      R.string.invalidHeightError);
              nonpositiveHeightError = mainActivity.getResources().getString(
                      R.string.nonPositiveHeightError);
-        });
 
+        });
     }
 
     @Test
@@ -173,17 +174,7 @@ public class HeightInputTest {
         }
 
         @Override
-        public void removeTeammatesListener(ListenerRegistration listener) {
-
-        }
-
-        @Override
         public void addInvitesListener(User listener) {
-
-        }
-
-        @Override
-        public void getRoutes(List<Route> routes) {
 
         }
 
@@ -198,7 +189,7 @@ public class HeightInputTest {
         }
 
         @Override
-        public ListenerRegistration addTeamListener(Team team) { return null; }
+        public void addTeamListener(Team team) { }
 
         @Override
         public void addTeammateRoutesListener(User listener, TeamMember teammate) {
@@ -211,16 +202,14 @@ public class HeightInputTest {
         }
 
         @Override
-        public Task<?> createTeam(Team team) { return null; }
+        public void createTeam(Team team) { }
 
         @Override
-        public void removeTeam(Team team) {
-
-        }
+        public void updateTeam(Team team) { }
 
         @Override
-        public Task<?> updateTeam(Team team) {
-            return null;
+        public void register(DatabaseServiceObserver obs) {
+
         }
     }
 }

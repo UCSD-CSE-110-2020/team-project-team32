@@ -7,11 +7,12 @@ import android.os.Build;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cse110_project.database.DatabaseListener;
 import com.example.cse110_project.database.DatabaseService;
 import com.example.cse110_project.fitness.FitnessService;
 import com.example.cse110_project.fitness.FitnessServiceFactory;
 import com.example.cse110_project.user_routes.User;
-import com.example.cse110_project.util.MapsMediator;
+import com.example.cse110_project.util.MapsIntentBuilder;
 import com.example.cse110_project.util.Notifier;
 
 import java.time.LocalDateTime;
@@ -20,14 +21,17 @@ import java.time.LocalTime;
 public class WWRApplication extends Application {
     public static final String CHANNEL_ID = "WWR_NOTIFICATION_CHANNEL";
     private static User user;
+    private static MapsIntentBuilder mapsIntentBuilder;
     private static FitnessService fitnessService;
-    private static DatabaseService database;
-    private static MapsMediator mapsMediator;
 
+    private static DatabaseService database;
+    private static DatabaseListener dbListener;
+
+    // Used to launch push  notifications
     private static Notifier notifier;
     private static int notificationId;
 
-    // Track current "system" time (mockable)
+    // Track current "system" time
     private static LocalTime time;
     private static LocalDateTime date;
 
@@ -35,7 +39,7 @@ public class WWRApplication extends Application {
     public void onCreate() {
         super.onCreate();
         user = new User(getApplicationContext());
-        mapsMediator = new MapsMediator();
+        mapsIntentBuilder = new MapsIntentBuilder();
 
         notifier = new Notifier(getApplicationContext());
         notificationId = 0;
@@ -45,6 +49,7 @@ public class WWRApplication extends Application {
         createNotificationChannel();
     }
 
+    // Creates the notification channel needed to push notifications from the app
     // https://developer.android.com/training/notify-user/build-notification
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -62,20 +67,11 @@ public class WWRApplication extends Application {
         }
     }
 
-    public static int getNotificationId() {
-        return notificationId;
-    }
-
-    public static void incrementNotificationId() {
-        notificationId++;
-    }
-
     public static User getUser() { return user; }
     public static Notifier getNotifier() { return notifier; }
 
-    public static boolean hasDatabase() { return database != null; }
-    public static DatabaseService getDatabase() { return database; }
-    public static void setDatabase(DatabaseService dbService) { database = dbService; }
+    public static int getNotificationId() { return notificationId; }
+    public static void incrementNotificationId() { notificationId++; }
 
     public static boolean hasFitnessService() { return fitnessService != null; }
     public static FitnessService getFitnessService() { return fitnessService; }
@@ -84,25 +80,26 @@ public class WWRApplication extends Application {
         fitnessService.setup();
     }
 
-    public static MapsMediator getMapsMediator() { return mapsMediator; }
-    public static void setMapsMediator(MapsMediator med) { mapsMediator = med; }
+    public static MapsIntentBuilder getMapsIntentBuilder() { return mapsIntentBuilder; }
+    public static void setMapsIntentBuilder(MapsIntentBuilder med) { mapsIntentBuilder = med; }
+
+    public static boolean hasDatabase() { return database != null; }
+    public static DatabaseService getDatabase() { return database; }
+    public static void setDatabase(DatabaseService dbService) {
+        database = dbService;
+        dbListener = new DatabaseListener(user, database);
+    }
+
+    public static DatabaseListener getDatabaseListener() { return dbListener; }
 
     // Date-time methods
 
     public static LocalTime getTime() {
-        if (time == null) {
-            return LocalTime.now();
-        } else {
-            return time;
-        }
+        return time == null ? LocalTime.now() : time;
     }
 
     public static LocalDateTime getDate() {
-        if (date == null) {
-            return LocalDateTime.now();
-        } else {
-            return date;
-        }
+        return date == null ? LocalDateTime.now() : date;
     }
 
     public static void setTime(LocalTime t) { time = t; }
