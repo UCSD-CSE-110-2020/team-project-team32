@@ -62,10 +62,5 @@ public class Team {
     }
     public void setScheduledWalk(ScheduledWalk walk) {
         scheduledWalk = walk;
-        if (walk != null) {
-            TeamData.saveTeamWalkDocId(WWRApplication.getUser().getContext(),
-                    walk.getRouteAdapter().getDocID());
-            TeamData.saveTeamWalkStatus(WWRApplication.getUser().getContext(), walk.getStatus());
-        }
     }
 }

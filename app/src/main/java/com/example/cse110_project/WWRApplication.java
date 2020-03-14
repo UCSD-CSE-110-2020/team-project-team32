@@ -90,6 +90,8 @@ public class WWRApplication extends Application {
         dbListener = new DatabaseListener(user, database);
     }
 
+    public static DatabaseListener getDatabaseListener() { return dbListener; }
+
     // Date-time methods
 
     public static LocalTime getTime() {

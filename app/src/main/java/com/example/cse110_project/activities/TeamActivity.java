@@ -67,14 +67,14 @@ public class TeamActivity extends AppCompatActivity {
 
         Button submitButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
         submitButton.setId(R.id.sendInviteButton);
-        submitButton.setOnClickListener(v -> ValidateOnSendInvite(alert));
+        submitButton.setOnClickListener(v -> validateOnSendInvite(alert));
 
         Button cancelButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
         cancelButton.setOnClickListener(v -> alert.dismiss());
         return alert;
     }
 
-    public void ValidateOnSendInvite(AlertDialog dialog) {
+    public void validateOnSendInvite(AlertDialog dialog) {
         int emailEditorLength = emailEditor.getText().toString().length();
         int NickNameEditorLength = nickNameEditor.getText().toString().length();
 
@@ -82,15 +82,19 @@ public class TeamActivity extends AppCompatActivity {
         Random rand = new Random();
         int low = 1;
         int high = 255;
-        int r = rand.nextInt(high-low)+low;
-        int g = rand.nextInt(high-low)+low;
-        int b = rand.nextInt(high-low)+low;
-        int randomColor = Color.rgb(r,g,b);
+        int r = rand.nextInt(high - low) + low;
+        int g = rand.nextInt(high - low) + low;
+        int b = rand.nextInt(high - low) + low;
+        int randomColor = Color.rgb(r, g, b);
 
+        // Validate email input
+        String emailInput = emailEditor.getText().toString();
 
         if (emailEditorLength == 0 || NickNameEditorLength == 0) {
             Toast.makeText(this, R.string.InvalidInvite, Toast.LENGTH_SHORT)
                     .show();
+        } else if ( ! (emailInput.contains("@gmail.com") || emailInput.contains("@ucsd.edu"))) {
+            Toast.makeText(this, R.string.invalidEmail, Toast.LENGTH_SHORT).show();
         } else if (WWRApplication.getUser().getTeam().findMemberById(
                         emailEditor.getText().toString()) != null) {
             Toast.makeText(this, R.string.inviteExistingMemberError, Toast.LENGTH_SHORT)

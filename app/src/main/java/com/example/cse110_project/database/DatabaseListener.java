@@ -3,6 +3,8 @@ package com.example.cse110_project.database;
 import android.util.Log;
 
 import com.example.cse110_project.WWRApplication;
+import com.example.cse110_project.local_data.DataConstants;
+import com.example.cse110_project.local_data.TeamData;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.team.Team;
@@ -117,25 +119,34 @@ public class DatabaseListener implements DatabaseServiceObserver {
     }
 
     private void updateScheduledWalk(Team team) {
+        Log.d(TAG, "Updating scheduled walk for team " + team);
         Team userTeam = user.getTeam();
         ScheduledWalk prevWalk = userTeam.getScheduledWalk();
         ScheduledWalk nextWalk = team.getScheduledWalk();
 
+        // Handle different types of changes
         if (prevWalk == null && nextWalk != null) {
+            Log.d(TAG, "Walk proposed: " + nextWalk);
             WWRApplication.getNotifier().notifyOnWalkProposed(nextWalk);
 
         } else if (prevWalk != null && nextWalk == null) {
+            Log.d(TAG, "Walk withdrawn: " + prevWalk);
             WWRApplication.getNotifier().notifyOnWalkWithdrawn(prevWalk);
 
         } else if (prevWalk != null) {
             if (prevWalk.getStatus() != nextWalk.getStatus()) {
+                Log.d(TAG, "Walk scheduled: " + prevWalk);
                 WWRApplication.getNotifier().notifyOnWalkScheduled(nextWalk);
             } else if ( ! prevWalk.getResponses().equals(nextWalk.getResponses())){
+                Log.d(TAG, "Walk responses changed: " + prevWalk);
                 WWRApplication.getNotifier().notifyOnWalkResponseChange(prevWalk, nextWalk);
             }
         }
 
         userTeam.setScheduledWalk(nextWalk);
+        saveScheduledWalkData(nextWalk);
+
+        // Update responses
         for (TeamMember member : userTeam.getMembers()) {
             if (userTeam.getScheduledWalk() != null &&
                     ! member.getEmail().equals(nextWalk.getCreatorId()) &&
@@ -144,5 +155,15 @@ public class DatabaseListener implements DatabaseServiceObserver {
                         .put(member.getEmail(), ScheduledWalk.NO_RESPONSE);
             }
         }
+    }
+
+    private void saveScheduledWalkData(ScheduledWalk walk) {
+        Log.d(TAG, "Updating saved scheduled walk data: " + walk);
+        String docId = walk == null ? DataConstants.STR_NOT_FOUND :
+                walk.getRouteAdapter().getDocID();
+        int status = walk == null ? DataConstants.INT_NOT_FOUND : walk.getStatus();
+
+        TeamData.saveTeamWalkDocId(WWRApplication.getUser().getContext(), docId);
+        TeamData.saveTeamWalkStatus(WWRApplication.getUser().getContext(), status);
     }
 }

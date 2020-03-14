@@ -228,6 +228,13 @@ public class ScheduledWalkDetailsActivity extends AppCompatActivity {
         String declinedUsersBadTime = "";
         String NoResponseUsers = "";
 
+        TeamMember creator = user.getTeam().findMemberById(scheduledWalk.getCreatorId());
+        if (creator != null) {
+            acceptedUsers +=
+                    user.getTeam().findMemberById(scheduledWalk.getCreatorId()).retrieveInitials() +
+                            ", ";
+        }
+
         TextView accepted = findViewById(R.id.peopleThatAccepted);
         TextView declinedBadRoute = findViewById(R.id.peopleThatDeclinedBadRoute);
         TextView declinedBadTime = findViewById(R.id.peopleThatDeclinedBadTime);

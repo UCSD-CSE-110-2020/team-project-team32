@@ -99,6 +99,14 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton toScheduledBtn = findViewById(R.id.plannedWalkButton);
         toScheduledBtn.setOnClickListener(v -> launchScheduledActivity());
+
+        // mocking button
+        findViewById(R.id.homeTeamMockingButton).setOnClickListener(v -> launchTeamMockingActivity());
+    }
+
+    private void launchTeamMockingActivity() {
+        Intent intent = new Intent(this, TeamMockingActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -268,14 +276,11 @@ public class MainActivity extends AppCompatActivity {
 
     // Validate submitted height input
     public void onDialogClickValidate(DialogInterface dialogToDismiss) {
-
-        // email input
+        // Validate email input
         String emailInput = emailEditor.getText().toString();
-
         if (emailInput.contains("@gmail.com") || emailInput.contains("@ucsd.edu")) {
             user.setEmail(emailInput);
-        }
-        else {
+        } else {
             Toast.makeText(MainActivity.this, R.string.invalidEmail,
                     Toast.LENGTH_SHORT).show();
             return;

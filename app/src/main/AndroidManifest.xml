@@ -10,9 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".activities.TeamRouteDetailsActivity"></activity>
-        <activity android:name=".activities.ScheduledWalkDetailsActivity"></activity>
+        <activity android:name=".activities.TeamMockingActivity"></activity>
+        <activity android:name=".activities.TeamRouteDetailsActivity" />
+        <activity android:name=".activities.ScheduledWalkDetailsActivity" />
         <activity android:name=".activities.TeamRoutesActivity" />
         <activity android:name=".activities.MockingActivity" />
         <activity
@@ -21,6 +21,7 @@
         <activity android:name=".activities.EntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

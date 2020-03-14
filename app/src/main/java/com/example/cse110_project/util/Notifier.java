@@ -44,7 +44,7 @@ public class Notifier {
     }
 
     public void notifyOnWalkWithdrawn(ScheduledWalk walk) {
-        if ( ! walkChangeKnown(walk)) {
+        if ( ! walk.getCreatorId().equals(WWRApplication.getUser().getEmail())) {
             Log.d(TAG, "Notifying of withdrawn walk");
             String title = walk.getCreatorId() + " withdrew a walk";
             String content = walk.retrieveRoute().getName() + " at " + walk.getDateTimeStr();
