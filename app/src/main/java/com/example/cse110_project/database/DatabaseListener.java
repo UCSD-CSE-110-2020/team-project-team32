@@ -1,5 +1,6 @@
 package com.example.cse110_project.database;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.cse110_project.WWRApplication;
@@ -12,6 +13,8 @@ import com.example.cse110_project.team.TeamMember;
 import com.example.cse110_project.team.TeamRoute;
 import com.example.cse110_project.user_routes.User;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class DatabaseListener implements DatabaseServiceObserver {
@@ -73,6 +76,16 @@ public class DatabaseListener implements DatabaseServiceObserver {
                     ! route.getCreator().getEmail().equals(user.getEmail()) &&
                     ! userTeamRoutes.contains(route)) {
                 userTeamRoutes.add(route);
+                Context c = WWRApplication.getUser().getContext();
+                String docId = route.getDocID();
+                route.setFavorite(TeamData.retrieveTeamRouteFavorite(c, docId));
+
+                if (route.hasWalkData()) {
+                    route.setSteps(TeamData.retrieveTeamRouteSteps(c, docId));
+                    route.setDuration(LocalTime.parse(TeamData.retrieveTeamRouteTime(c, docId)));
+                    route.setStartDate(LocalDateTime.parse(
+                            TeamData.retrieveTeamRouteDate(c, docId)));
+                }
             }
         }
     }

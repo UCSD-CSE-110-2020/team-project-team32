@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cse110_project.R;
 import com.example.cse110_project.WWRApplication;
@@ -63,25 +64,25 @@ public class ScheduledWalkDetailsActivity extends AppCompatActivity {
             acceptButton.setVisibility(View.INVISIBLE);
             declineRouteButton.setVisibility(View.INVISIBLE);
             declineTimeButton.setVisibility(View.INVISIBLE);
+
         } else {
-
-            acceptButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    acceptWalk();
+            acceptButton.setOnClickListener(v -> {
+                acceptWalk();
+                if (scheduledWalk != null) {
                     updateUserResponses();
                 }
             });
 
-            declineRouteButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    declineWalkBadRoute();
+            declineRouteButton.setOnClickListener(v -> {
+                declineWalkBadRoute();
+                if (scheduledWalk != null) {
                     updateUserResponses();
                 }
             });
 
-            declineTimeButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    declineWalkBadTime();
+            declineTimeButton.setOnClickListener(v -> {
+                declineWalkBadTime();
+                if (scheduledWalk != null) {
                     updateUserResponses();
                 }
             });
@@ -184,26 +185,44 @@ public class ScheduledWalkDetailsActivity extends AppCompatActivity {
 
     public void acceptWalk() {
         scheduledWalk = user.getTeam().getScheduledWalk();
-        scheduledWalk.accept(user.getEmail());
-        Log.d(TAG, "Accepting walk: "
-                + scheduledWalk.getResponses().get(user.getEmail()));
-        (new WalkScheduler()).updateScheduledWalk(user.getTeam());
+        if (scheduledWalk == null) {
+            Toast.makeText(this, "This walk has been withdrawn.", Toast.LENGTH_SHORT).show();
+            finish();
+
+        } else {
+            scheduledWalk.accept(user.getEmail());
+            Log.d(TAG, "Accepting walk: "
+                    + scheduledWalk.getResponses().get(user.getEmail()));
+            (new WalkScheduler()).updateScheduledWalk(user.getTeam());
+        }
     }
 
     public void declineWalkBadTime() {
         scheduledWalk = user.getTeam().getScheduledWalk();
-        scheduledWalk.declineBadTime(user.getEmail());
-        Log.d(TAG, "Declining walk (bad time): "
-                + scheduledWalk.getResponses().get(user.getEmail()));
-        (new WalkScheduler()).updateScheduledWalk(user.getTeam());
+        if (scheduledWalk == null) {
+            Toast.makeText(this, "This walk has been withdrawn.", Toast.LENGTH_SHORT).show();
+            finish();
+
+        } else {
+            scheduledWalk.declineBadTime(user.getEmail());
+            Log.d(TAG, "Declining walk (bad time): "
+                    + scheduledWalk.getResponses().get(user.getEmail()));
+            (new WalkScheduler()).updateScheduledWalk(user.getTeam());
+        }
     }
 
     public void declineWalkBadRoute() {
         scheduledWalk = user.getTeam().getScheduledWalk();
-        scheduledWalk.declineBadRoute(user.getEmail());
-        Log.d(TAG, "Declining walk (bad route): "
-                + scheduledWalk.getResponses().get(user.getEmail()));
-        (new WalkScheduler()).updateScheduledWalk(user.getTeam());
+        if (scheduledWalk == null) {
+            Toast.makeText(this, "This walk has been withdrawn.", Toast.LENGTH_SHORT).show();
+            finish();
+
+        } else {
+            scheduledWalk.declineBadRoute(user.getEmail());
+            Log.d(TAG, "Declining walk (bad route): "
+                    + scheduledWalk.getResponses().get(user.getEmail()));
+            (new WalkScheduler()).updateScheduledWalk(user.getTeam());
+        }
     }
 
 
