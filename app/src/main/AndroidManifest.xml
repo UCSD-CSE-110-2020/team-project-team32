@@ -10,27 +10,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".TeamRoutesDetailsActivity"></activity>
-        <activity android:name=".ScheduledDetails"></activity>
-        <activity android:name=".TeamRoutesActivity" />
-        <activity android:name=".MockingActivity" />
+        <activity android:name=".activities.TeamMockingActivity"></activity>
+        <activity android:name=".activities.TeamRouteDetailsActivity" />
+        <activity android:name=".activities.ScheduledWalkDetailsActivity" />
+        <activity android:name=".activities.TeamRoutesActivity" />
+        <activity android:name=".activities.MockingActivity" />
         <activity
-            android:name=".dialogs.LaunchDataDialog"
+            android:name=".activities.dialogs.LaunchDataDialog"
             android:theme="@style/splashTheme" />
-        <activity android:name=".EntryActivity">
+        <activity android:name=".activities.EntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:launchMode="standard" />
-        <activity android:name=".RoutesActivity" />
-        <activity android:name=".WalkActivity" />
-        <activity android:name=".RouteDetailsActivity" />
-        <activity android:name=".TeamActivity" />
+        <activity android:name=".activities.RoutesActivity" />
+        <activity android:name=".activities.WalkActivity" />
+        <activity android:name=".activities.RouteDetailsActivity" />
+        <activity android:name=".activities.TeamActivity" />
     </application>
 
 </manifest>

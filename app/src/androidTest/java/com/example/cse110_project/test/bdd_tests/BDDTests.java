@@ -2,14 +2,10 @@ package com.example.cse110_project.test.bdd_tests;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.intent.Intents;
@@ -17,14 +13,14 @@ import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.activities.MainActivity;
 import com.example.cse110_project.R;
-import com.example.cse110_project.RouteDetailsActivity;
-import com.example.cse110_project.RoutesActivity;
-import com.example.cse110_project.TeamActivity;
+import com.example.cse110_project.activities.RouteDetailsActivity;
+import com.example.cse110_project.activities.RoutesActivity;
+import com.example.cse110_project.activities.TeamActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.database.DatabaseService;
-import com.example.cse110_project.database.RouteFirebaseAdapter;
+import com.example.cse110_project.database.DatabaseServiceObserver;
 import com.example.cse110_project.team.Invite;
 import com.example.cse110_project.team.ScheduledWalk;
 import com.example.cse110_project.team.TeamRoute;
@@ -32,22 +28,19 @@ import com.example.cse110_project.team.WalkScheduler;
 import com.example.cse110_project.user_routes.Route;
 import com.example.cse110_project.team.Team;
 import com.example.cse110_project.team.TeamMember;
-import com.example.cse110_project.user_routes.RouteData;
+import com.example.cse110_project.local_data.RouteData;
+import com.example.cse110_project.local_data.TeamData;
 import com.example.cse110_project.user_routes.User;
 import com.example.cse110_project.user_routes.UserRoute;
-import com.example.cse110_project.util.DataConstants;
-import com.example.cse110_project.util.MapsMediator;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.ListenerRegistration;
+import com.example.cse110_project.local_data.DataConstants;
+import com.example.cse110_project.util.MapsIntentBuilder;
 
 import org.hamcrest.Description;
 
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -107,7 +100,7 @@ public class BDDTests {
     @Before
     public void setup() {
         Intents.init();
-        WWRApplication.setMapsMediator(new TestMapsMediator());
+        WWRApplication.setMapsIntentBuilder(new TestMapsIntentBuilder());
         WWRApplication.setDatabase(new TestDatabaseService());
 
         db = WWRApplication.getDatabase();
@@ -399,9 +392,9 @@ public class BDDTests {
         for (TeamRoute route : user.getTeamRoutes()) {
             Context context = user.getContext();
             String docID = route.getDocID();
-            RouteData.saveTeamRouteSteps(context, docID, DataConstants.INT_NOT_FOUND);
-            RouteData.saveTeamRouteDate(context, docID, DataConstants.STR_NOT_FOUND);
-            RouteData.saveTeamRouteTime(context, docID, DataConstants.STR_NOT_FOUND);
+            TeamData.saveTeamRouteSteps(context, docID, DataConstants.INT_NOT_FOUND);
+            TeamData.saveTeamRouteDate(context, docID, DataConstants.STR_NOT_FOUND);
+            TeamData.saveTeamRouteTime(context, docID, DataConstants.STR_NOT_FOUND);
         }
     }
 
@@ -793,7 +786,7 @@ public class BDDTests {
         }
     }
 
-    private class TestMapsMediator extends MapsMediator {
+    private class TestMapsIntentBuilder extends MapsIntentBuilder {
         @Override
         public void launchMaps(Activity activity) {
             mapsLaunched = true;
@@ -821,15 +814,10 @@ public class BDDTests {
         }
 
         @Override
-        public Task<?> createTeam(Team team) { return null; }
+        public void createTeam(Team team) { }
 
         @Override
-        public void removeTeam(Team team) {
-
-        }
-
-        @Override
-        public Task<?> updateTeam(Team team) {
+        public void updateTeam(Team team) {
             if (team.getScheduledWalk() != null &&
                     ! user.getEmail().equals(team.getScheduledWalk().getCreatorId())) {
                 scheduledWalkUserStatus = team.getScheduledWalk().retrieveResponse(user.getEmail());
@@ -840,7 +828,6 @@ public class BDDTests {
             }
 
             updateScheduledWalk(user.getTeam(), team);
-            return null;
         }
 
         @Override
@@ -851,16 +838,10 @@ public class BDDTests {
         }
 
         @Override
-        public void getRoutes(List<Route> routes) {
-
-        }
-
-        @Override
-        public ListenerRegistration addTeamListener(Team team) {
+        public void addTeamListener(Team team) {
             if (invitedTeam != null && team.getId().equals(invitedTeam.getId())) {
                 team.getMembers().addAll(invitedTeam.getMembers());
             }
-            return null;
         }
 
         public void declineInvite(Invite invite) {
@@ -875,9 +856,6 @@ public class BDDTests {
             team = invitedTeam;
             invitedTeam.findMemberById(user.getEmail()).setStatus(TeamMember.STATUS_MEMBER);
         }
-
-        @Override
-        public void removeTeammatesListener(ListenerRegistration listener) { }
 
         @Override
         public void addInvitesListener(User listener) { }
@@ -902,6 +880,11 @@ public class BDDTests {
             }
 
             prev.setScheduledWalk(nextWalk);
+        }
+
+        @Override
+        public void register(DatabaseServiceObserver obs) {
+
         }
     }
 

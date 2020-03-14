@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 
-import com.example.cse110_project.MainActivity;
+import com.example.cse110_project.activities.MainActivity;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.user_routes.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

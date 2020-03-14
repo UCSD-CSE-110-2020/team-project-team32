@@ -5,7 +5,7 @@ import android.widget.EditText;
 
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.cse110_project.MockingActivity;
+import com.example.cse110_project.activities.MockingActivity;
 import com.example.cse110_project.R;
 import com.example.cse110_project.WWRApplication;
 import com.example.cse110_project.user_routes.User;
